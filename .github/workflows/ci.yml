@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  typescript:
+    name: registry codegen · typecheck · build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      # The drift gate: generated artifacts must match the registry YAML.
+      # A measure edited without regenerating fails here, not in review.
+      - name: registry drift check
+        run: pnpm gen:check
+
+      - run: pnpm typecheck
+      - run: pnpm --filter @basin/web build
+
+  python:
+    name: ingest tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pytest
+      - name: ingest tests (real captured payloads, no mocks)
+        run: python -m pytest
+        working-directory: packages/ingest

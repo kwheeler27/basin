@@ -41,3 +41,8 @@ data/
 # python build artifacts
 *.egg-info/
 .pytest_cache/
+
+# next
+.next/
+next-env.d.ts
+.vercel
