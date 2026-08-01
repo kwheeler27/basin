@@ -1,0 +1,39 @@
+# secrets — this repo is PUBLIC
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# node
+node_modules/
+.next/
+out/
+dist/
+.turbo/
+.vercel/
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+
+# dagster / dbt
+.dagster_home/
+transform/target/
+transform/dbt_packages/
+transform/logs/
+
+# data — raw snapshots live in R2, not git
+data/
+*.duckdb
+
+# os / editor
+.DS_Store
+.idea/
+*.log
