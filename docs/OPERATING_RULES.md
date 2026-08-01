@@ -48,20 +48,31 @@ As of 2026-07-31: no ROD issued, no seven-state consensus, Arizona publicly call
 | 2 | 1,025 – 1,050 ft | −400,000 AF | −17,000 AF | 0 |
 | 3 | below 1,025 ft | −480,000 AF | −20,000 AF | 0 |
 
-### Combined 2007 IG + 2019 DCP + Minute 323 — ⚠️ **confidence: MEDIUM. DO NOT ENCODE AS-IS.**
+### Combined 2007 IG + 2019 DCP + Minute 323 — ✅ **confidence: HIGH. PRIMARY-VERIFIED 2026-08-01 (gate G1 closed).**
 
-| Band | Arizona | Nevada | California | Mexico | LB + Mexico |
-|---|---|---|---|---|---|
-| Tier 0 · 1,075–1,090 | — | — | — | ~30–41 kaf | ~30–41 kaf |
-| Tier 1 · 1,050–1,075 | ~512,000 | ~21,000 | 0 | ~80,000 | ~613 kaf |
-| Tier 2a · 1,045–1,050 | ~592,000 | ~25,000 | 0 | ~104,000 | ~721 kaf |
-| Tier 2b · 1,040–1,045 | ~640,000 *(est.)* | ~25–27,000 *(est.)* | 200,000 | ~146,000 | ~1,013 kaf |
-| Tier 2c · 1,035–1,040 | *(unconfirmed)* | *(est.)* | 250,000 | ~154,000 | ~1,071 kaf |
-| Tier 3 · below 1,025 | ~720,000 | ~30,000 *(est.)* | 350,000 | ~275,000 | **~1,375,000** |
+Every cell traces to a primary document: 2007 ROD §XI.G.2.D (pp. 36–37); LB DCP Exhibit 1 ("LBOps") §III.B–C — whose own Table 1 (p. 5) publishes the IG+DCP combined columns verbatim; Minute 323 §III.A (p. 4) and §IV first/second tables (p. 7), read directly from the IBWC scanned original.
 
-> **This is risk R-1 and it is a STEP-0 blocking gate.** Figures were assembled from an AMWUA/CAP-derived summary, the Colorado River Commission of Nevada's official table, and an ADWR/AZWater FAQ. They only partially agree, and the Nevada table's own rows did not arithmetically reconcile as parsed. Tier 3 totals are the most reliable; **Tier 2b/2c granular numbers are not verified.**
->
-> **Verify line-by-line against the primary DCP Record of Decision or the Federal Register notice before encoding.** A transparent twin cannot afford to get shortage volumes wrong — this is the number most likely to be screenshotted and checked.
+All figures kaf. DCP contributions apply from ≤1,090 ft; IG shortages from ≤1,075 ft.
+
+| Projected Jan 1 Mead elevation | AZ (IG+DCP) | NV (IG+DCP) | CA (DCP) | **US LB total** | MX §III.A reduction | MX §IV savings | **MX total** | **Grand total** |
+|---|---|---|---|---|---|---|---|---|
+| ≤1,090 & >1,075 | 0+192 = **192** | 0+8 = **8** | 0 | **200** | 0 | 41 | **41** | **241** |
+| ≤1,075 & ≥1,050 | 320+192 = **512** | 13+8 = **21** | 0 | **533** | 50 | 30 | **80** | **613** |
+| <1,050 & >1,045 | 400+192 = **592** | 17+8 = **25** | 0 | **617** | 70 | 34 | **104** | **721** |
+| ≤1,045 & >1,040 | 400+240 = **640** | 17+10 = **27** | **200** | **867** | 70 | 76 | **146** | **1,013** |
+| ≤1,040 & >1,035 | 400+240 = **640** | 17+10 = **27** | **250** | **917** | 70 | 84 | **154** | **1,071** |
+| ≤1,035 & >1,030 | 400+240 = **640** | 17+10 = **27** | **300** | **967** | 70 | 92 | **162** | **1,129** |
+| ≤1,030 & >1,025 | 400+240 = **640** | 17+10 = **27** | **350** | **1,017** | 70 | 101 | **171** | **1,188** |
+| ≤1,025 | 480+240 = **720** | 20+10 = **30** | **350** | **1,100** | 125 | 150 | **275** | **1,375** |
+
+**Why secondary sources appeared to disagree:** they silently summed two legally distinct Mexico mechanisms. Minute 323 §III.A imposes **unrecoverable delivery reductions** (50/70/125 kaf); §IV adds **recoverable water savings** (41/30/34/76/84/92/101/150 kaf) that Mexico can recover when the August 24-Month Study projects Mead ≥ 1,110 ft on Jan 1. The model must keep them separate — different `accounting_concept`, different recovery dynamics. Cross-check from the Minute itself: it restates the US IG reductions as 333/417/500 kaf = exactly AZ+NV (320+13 / 400+17 / 480+20). ✓
+
+**Rules-engine encoding notes (from primary text):**
+- **Trigger:** the projected January 1 Mead elevation from the **August** 24-Month Study, most-probable inflows (ROD §XI.F.1 p. 29; LBOps §III.A p. 2; Minute 323 §II.B/III.B).
+- **Interval semantics differ by instrument** — encode each instrument's own wording, do not normalize: §IV bands are open-below ("at or below X **and above** Y"); §III.A's first band is closed-both ("at or below 1,075 **and at or above** 1,050"). Measure-zero in practice; encoded faithfully anyway.
+- **Mexico's Water Reserve mechanics** (Minute 323 §V.E, p. 9): creation ≤250 kaf/yr through 2026-12-31; delivery from reserve ≤200 kaf/yr; unavailable below 1,025 ft; **3% evaporation deduction annually on Dec 31** (waived when Mead < 1,025 on Jan 1); total annual scheduled delivery to Mexico capped at **1.7 MAF**.
+- **Sunset (primary wording):** IG terminates **December 31, 2025 "(through preparation of the 2026 AOP)"** (ROD §8.C p. 58) — i.e., it governs operations through 2026 but no future AOPs; DCP contributions run through the same date (LBOps §III.B, §V.C); certain ICS accounting provisions persist to 2036/2057. Minute 323 runs through **2026-12-31**.
+- One residual gap, immaterial to the model: the full LB DCP Agreement (Attachment B) parent document was confirmed and cached but not exhaustively read; all numeric content comes from its operative Exhibit 1.
 
 **Current status:** CY2026 is a **Tier 1 shortage**, declared from the August 2025 24-Month Study on a projected 2026-01-01 Mead elevation of **1,055.88 ft**. *(Confidence: high — Reclamation news release 5211.)*
 

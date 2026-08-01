@@ -38,9 +38,15 @@ Live queries 2026-08-01:
 
 **Protocol findings:** no auth required. Empty-result queries return `[]` (valid JSON) rather than an error — the ingest client must distinguish "no data" from "bad station id" via the stations endpoint, not by response shape. Unit is inches → registry conversion to canonical mm required.
 
-## G1 — Mead DCP tier verification: ⏳ PENDING
+## G1 — Mead DCP tier verification: ✅ PASS (2026-08-01)
 
-Delegated to primary-source verification (2007 IG ROD, LB DCP Agreement exhibits, Minute 323 text). Until it lands: **no Mead shortage-branch code beyond the 2007 IG base tiers.** Everything else proceeds.
+Verified against primary documents end to end: 2007 ROD (§XI.G.2.D shortage volumes; §XI.F.1 trigger definition), LB DCP Exhibit 1/LBOps (§III.B contributions; its own Table 1 p. 5 publishes the combined IG+DCP columns), and **Minute 323 read directly** — the 25 MB IBWC scan was downloaded and its pages rendered locally (pure image PDF, no text layer): §III.A Mexico reductions (50/70/125 kaf) on p. 4, §IV U.S. and Mexico savings tables on p. 7, Water Reserve mechanics on p. 9.
+
+**Root cause of the secondary-source conflicts:** conflation of Minute 323's two distinct Mexico mechanisms — §III.A unrecoverable delivery reductions vs. §IV recoverable savings. Summed, they reproduce every "inconsistent" secondary figure exactly (80 = 50+30, 104 = 70+34, 146 = 70+76, 275 = 125+150).
+
+**Consequences:** the Mead shortage branch is UNBLOCKED with the full 8-band table (see `OPERATING_RULES.md` §2, now HIGH confidence, arithmetic shown per cell). The rules engine must encode III.A and IV as separate rule types with separate recovery dynamics, honor each instrument's own interval wording, and use the August 24-Month Study projected Jan 1 elevation as the trigger variable. Sunset wording corrected from primary text: IG/DCP terminate 2025-12-31 "(through preparation of the 2026 AOP)" — governing operations through 2026; Minute 323 through 2026-12-31.
+
+Local primary-source cache: `scratchpad/g1/Min323.pdf` (sha-fingerprinted in tooling); agent-fetched ROD and LBOps PDFs in the session tool-results directory.
 
 ## G2 — 24-Month Study archive & parseability: ⏳ PENDING
 
