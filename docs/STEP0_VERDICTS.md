@@ -48,6 +48,29 @@ Verified against primary documents end to end: 2007 ROD (§XI.G.2.D shortage vol
 
 Local primary-source cache: `scratchpad/g1/Min323.pdf` (sha-fingerprinted in tooling); agent-fetched ROD and LBOps PDFs in the session tool-results directory.
 
-## G2 — 24-Month Study archive & parseability: ⏳ PENDING
+## G2 — 24-Month Study archive & parseability: ✅ PASS WITH CAVEATS (2026-08-01)
 
-Delegated: archive enumeration plus proven text extraction on sample PDFs (current, ~2020, oldest). Until it lands: backtest harness can be built against a fixture interface, but no commitment to backtest sample size.
+**Archive:** 2010–present (16 years), complete monthly — verified by URL probing (`2009/JAN09.pdf` 404, `2010/JAN10.pdf` 200; all 12 months of 2011 return 200). Pattern: `usbr.gov/lc/region/g4000/24mo/{YYYY}/{MON}{YY}.pdf`, with `_MIN`/`_MAX` variants confirmed quarterly-only (Jan/Apr/Aug/Oct). **~190 monthly studies available — a real backtest sample.** RISE has no machine-readable 24MS output (the model is registered as `model-name` id 88, but no structured projection rows are retrievable; RISE's search/filter params largely don't filter).
+
+**Extraction: proven, not asserted.** Real rows pulled from the current study (Jul 2026: Powell 3522.28 ft / 5,389 KAF — matches our G3 RISE values ✓), from 2015-01, and from the oldest (2010-01). Prior agent failures were WebFetch tooling (markdown conversion), not the documents — `curl` + a real PDF text extractor works.
+
+**Caveats that shape the parser:**
+1. **Four producer-toolchain eras**; extraction quality tracks the PDF `Producer` metadata, not the year (2023 even reverted toolchains for one month). **Branch on Producer, not year.**
+2. **2016–2020 (Acrobat Distiller/PScript5) is garbled** — footer text interleaves with tables, separators destroyed. Fully recoverable: elevations are always `\d{4}\.\d{2}` (verified: regex returns exactly the expected 36 values), with row→month alignment reconstructed positionally from the fixed 36-row cadence (Jan of year−1 through Dec of year+1).
+3. **~10% of spot-checked archive files are corrupt** (`invalid file trailer`: 2012/JAN12, 2015/JUN15) — pipeline needs skip/flag fallback, never hard failure. Backtest sample-size reporting must count actual parsed studies.
+4. Download via `curl` with a browser UA; never WebFetch.
+
+**Consequence:** the backtest is real at meaningful scale (~170+ parseable vintages expected). Sample PDFs and extraction dumps cached in `scratchpad/g2/`.
+
+---
+
+## Summary: all four gates resolved
+
+| Gate | Verdict | Effect |
+|---|---|---|
+| G1 | ✅ PASS | Full 8-band shortage table primary-verified; shortage branch unblocked |
+| G2 | ✅ PASS w/ caveats | Backtest viable, 2010–present; era-branching parser required |
+| G3 | ✅ PASS | RISE verified live; revision behavior observed; current values corrected |
+| G4 | ✅/⚠️ | AWDB works; Natural Flow stale at Sept 2024, accepted with vintage labeling |
+
+No scope changes required. Phase 1 proceeds as specified.

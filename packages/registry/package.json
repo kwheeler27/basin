@@ -1,0 +1,19 @@
+{
+  "name": "@basin/registry",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "gen": "tsx codegen/generate.ts",
+    "gen:check": "tsx codegen/generate.ts --check",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "yaml": "^2.6.0"
+  }
+}
