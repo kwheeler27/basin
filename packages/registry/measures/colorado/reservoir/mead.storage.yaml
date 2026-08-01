@@ -1,0 +1,58 @@
+id: colorado.reservoir.mead.storage
+label: Lake Mead storage
+description: >
+  Volume of water held in Lake Mead, derived by Reclamation from measured pool
+  elevation via the area-capacity table.
+
+quantity_kind: Volume
+canonical_unit: acre_foot
+measurement_class: observed
+accounting_concept: storage
+temporal_semantics: instantaneous
+grain: P1D
+calendar: water_year
+spatial_ref: { type: reservoir, id: usbr.lake_mead }
+
+provenance:
+  agency: USBR
+  system: RISE
+  catalog_record: 4370
+  catalog_item: 6124
+  endpoint: https://data.usbr.gov/rise/api/result?itemId=6124
+  retrieved_via: http_json
+  license: public_domain_us_gov
+  citation: >
+    U.S. Bureau of Reclamation, Reclamation Information Sharing Environment
+    (RISE), Lake Mead storage, catalog item 6124. Accessed {access_date}.
+
+ingest:
+  adapter: rise
+  params: { item_id: 6124 }
+
+revision_policy:
+  status: provisional
+  detect_via: updateDate
+  note: >
+    Revisions observed in practice: on 2026-08-01 the prior week's daily values
+    all carried fresh updateDate stamps. Poll a trailing window, not just the
+    latest day.
+
+freshness:
+  expected_cadence: P1D
+  sla_hours: 36
+
+uncertainty: none_published
+
+caveats:
+  - >
+    Storage is derived from elevation via an area-capacity table that is
+    periodically re-surveyed; sedimentation shifts the curve over decades, so
+    deep-historical storage values are not strictly comparable to modern ones.
+
+not_comparable_with:
+  - measure: colorado.upper_basin.consumptive_use
+    reason: "Stock vs. flux. Same unit, different kind of quantity."
+  - measure: colorado.state.arizona.allocation
+    reason: >
+      Allocation is a legal entitlement, not a measurement. Meaningful only as
+      "use vs. entitlement" — never as a sum or a shared total.

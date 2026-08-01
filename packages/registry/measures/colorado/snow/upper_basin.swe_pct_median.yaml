@@ -1,0 +1,66 @@
+id: colorado.snow.upper_basin.swe_pct_median
+label: Upper Basin snowpack — percent of median SWE
+description: >
+  Snow water equivalent across Upper Colorado Basin SNOTEL stations as a
+  percent of the 1991–2020 median for the date. COMPUTED BY US from
+  station-level AWDB data plus HUC membership — NRCS publishes this only as a
+  map product, not an API. Methodology replicates NRCS practice; deviations
+  are documented in the computation module and surfaced here.
+
+quantity_kind: Dimensionless
+canonical_unit: percent
+measurement_class: estimated
+accounting_concept: snowpack
+temporal_semantics: instantaneous
+grain: P1D
+calendar: water_year
+spatial_ref: { type: basin, id: colorado.upper_basin }
+
+provenance:
+  agency: USDA-NRCS (stations); Basin (aggregation)
+  system: AWDB REST + basin computation
+  endpoint: https://wcc.sc.egov.usda.gov/awdbRestApi/services/v1/data
+  retrieved_via: computed
+  license: public_domain_us_gov
+  citation: >
+    Computed from USDA NRCS AWDB SNOTEL station data (snow water equivalent,
+    element WTEQ) aggregated over Upper Colorado Basin HUCs against 1991–2020
+    station medians. Basin project computation. Accessed {access_date}.
+
+ingest:
+  adapter: computed
+  depends_on:
+    - colorado.snow.stations.swe
+  params:
+    reference_period: "1991-2020"
+    huc_prefixes: ["14"]
+    min_record_years: 20
+
+revision_policy:
+  status: provisional
+  detect_via: recompute
+  note: Recomputed whenever underlying station data revises.
+
+freshness:
+  expected_cadence: P1D
+  sla_hours: 48
+
+uncertainty: method_range
+
+caveats:
+  - >
+    This is OUR aggregation, not the NRCS number. Reconciliation against the
+    NRCS map product is a standing asset check with a stated tolerance;
+    divergence beyond tolerance fails the pipeline, not silently ships.
+  - >
+    Percent-of-median is undefined when the median approaches zero (early
+    autumn, mid-summer); the computation returns null outside the snow season
+    rather than an unstable ratio. Missing is not zero.
+  - SNOTEL coverage begins in the late 1970s; the network densified over time.
+
+not_comparable_with:
+  - measure: colorado.reservoir.powell.inflow_unregulated
+    reason: >
+      Snowpack percent does not map linearly to runoff volume — runoff
+      efficiency varies with temperature, soil moisture, and dust; that
+      relationship is exactly what the hydrology model estimates.

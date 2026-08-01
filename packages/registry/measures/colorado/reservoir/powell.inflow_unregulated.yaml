@@ -1,0 +1,56 @@
+id: colorado.reservoir.powell.inflow_unregulated
+label: Lake Powell unregulated inflow
+description: >
+  Inflow to Lake Powell adjusted by Reclamation to remove the effects of
+  upstream reservoir operations (Flaming Gorge, Blue Mesa, Navajo). The
+  standard measure of what the Upper Basin actually produced, and the target
+  variable of CBRFC seasonal forecasts.
+
+quantity_kind: Volume
+canonical_unit: acre_foot
+measurement_class: estimated
+accounting_concept: flow
+temporal_semantics: interval_total
+grain: P1D
+calendar: water_year
+spatial_ref: { type: reservoir, id: usbr.lake_powell }
+
+provenance:
+  agency: USBR
+  system: RISE
+  catalog_record: 2362
+  catalog_item: 4301
+  endpoint: https://data.usbr.gov/rise/api/result?itemId=4301
+  retrieved_via: http_json
+  license: public_domain_us_gov
+  citation: >
+    U.S. Bureau of Reclamation, RISE, Lake Powell unregulated inflow,
+    catalog item 4301. Accessed {access_date}.
+
+ingest:
+  adapter: rise
+  params: { item_id: 4301 }
+
+revision_policy:
+  status: provisional
+  detect_via: updateDate
+  note: Derived quantity; revised when upstream operations data is revised.
+
+freshness:
+  expected_cadence: P1D
+  sla_hours: 48
+
+uncertainty: none_published
+
+caveats:
+  - >
+    "Unregulated" is a computed abstraction, not a gauge reading — it removes
+    upstream reservoir effects but not upstream consumptive use. It is NOT
+    natural flow. Item id 4301 assumed from catalog research; verify item
+    4288 vs 4301 (regulated vs unregulated, af) on first ingest.
+
+not_comparable_with:
+  - measure: colorado.gauge.lees_ferry.discharge_natural
+    reason: >
+      Unregulated inflow removes reservoir operations only; naturalized flow
+      also adds back upstream consumptive use. Different abstractions.

@@ -1,0 +1,47 @@
+id: colorado.reservoir.mead.release_total
+label: Hoover Dam total release
+description: >
+  Total daily release volume from Hoover Dam — Lake Mead outflow toward the
+  lower river reaches, downstream diversions, and ultimately Mexico.
+
+quantity_kind: Volume
+canonical_unit: acre_foot
+measurement_class: observed
+accounting_concept: flow
+temporal_semantics: interval_total
+grain: P1D
+calendar: water_year
+spatial_ref: { type: reservoir, id: usbr.lake_mead }
+
+provenance:
+  agency: USBR
+  system: RISE
+  catalog_record: 4370
+  catalog_item: 6122
+  endpoint: https://data.usbr.gov/rise/api/result?itemId=6122
+  retrieved_via: http_json
+  license: public_domain_us_gov
+  citation: >
+    U.S. Bureau of Reclamation, RISE, Hoover Dam total release (acre-feet),
+    catalog item 6122. Accessed {access_date}.
+
+ingest:
+  adapter: rise
+  params: { item_id: 6122 }
+
+revision_policy:
+  status: provisional
+  detect_via: updateDate
+
+freshness:
+  expected_cadence: P1D
+  sla_hours: 36
+
+uncertainty: none_published
+
+caveats:
+  - >
+    RISE's Mead record has no inflow or evaporation items; Mead inflow must be
+    derived (Powell release + intervening gains) and evaporation estimated —
+    both as separate measures with measurement_class reflecting the derivation.
+  - "Independent downstream cross-check: USGS 09421500 (below Hoover Dam)."

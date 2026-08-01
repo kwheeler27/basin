@@ -1,0 +1,59 @@
+id: colorado.gauge.lees_ferry.discharge
+label: Colorado River at Lees Ferry — discharge
+description: >
+  Daily mean discharge at USGS gauge 09380000, the Colorado River Compact
+  point dividing the Upper and Lower Basins. Continuous daily record since
+  1921-10-01. Also serves as the real-time downstream cross-check on Glen
+  Canyon Dam releases.
+
+quantity_kind: VolumeFlowRate
+canonical_unit: cubic_foot_per_second
+measurement_class: observed
+accounting_concept: flow
+temporal_semantics: interval_mean
+grain: P1D
+calendar: water_year
+spatial_ref: { type: gauge, id: usgs.09380000 }
+
+provenance:
+  agency: USGS
+  system: Water Data OGC API
+  site_id: "09380000"
+  endpoint: https://api.waterdata.usgs.gov/ogcapi/v0/collections/daily/items?monitoring_location_id=USGS-09380000&parameter_code=00060
+  retrieved_via: http_json
+  license: public_domain_us_gov
+  citation: >
+    U.S. Geological Survey, National Water Information System via Water Data
+    OGC API, site 09380000 Colorado River at Lees Ferry, AZ, parameter 00060.
+    Accessed {access_date}.
+
+ingest:
+  adapter: usgs_ogc
+  params: { monitoring_location_id: "USGS-09380000", parameter_code: "00060" }
+
+revision_policy:
+  status: mixed
+  detect_via: approval_status
+  note: >
+    Recent data is provisional (approval_status), finalized on USGS's review
+    cycle (~6 months after water-year end). Ingest must carry approval_status
+    through to quality_flag.
+
+freshness:
+  expected_cadence: P1D
+  sla_hours: 48
+
+uncertainty: none_published
+
+caveats:
+  - Daily mean of a fluctuating hydropower-driven flow; sub-daily swings are large.
+  - >
+    Never use legacy waterservices.usgs.gov (decommissioning) or discontinued
+    site 09379910 for this reach.
+
+not_comparable_with:
+  - measure: colorado.reservoir.powell.release_total
+    reason: >
+      Interval-mean rate (cfs) vs. interval-total volume (AF/day), measured
+      ~15 miles apart with Paria River inflow between. Convertible only with
+      explicit rate→volume conversion and reach caveats.

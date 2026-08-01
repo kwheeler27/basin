@@ -1,0 +1,57 @@
+id: colorado.reservoir.powell.release_total
+label: Glen Canyon Dam total release
+description: >
+  Total daily release volume from Glen Canyon Dam (powerplant plus bypass and
+  spillway), i.e. Lake Powell outflow to the Grand Canyon reach and, ultimately,
+  Lake Mead.
+
+quantity_kind: Volume
+canonical_unit: acre_foot
+measurement_class: observed
+accounting_concept: flow
+temporal_semantics: interval_total
+grain: P1D
+calendar: water_year
+spatial_ref: { type: reservoir, id: usbr.lake_powell }
+
+provenance:
+  agency: USBR
+  system: RISE
+  catalog_record: 2362
+  catalog_item: 4354
+  endpoint: https://data.usbr.gov/rise/api/result?itemId=4354
+  retrieved_via: http_json
+  license: public_domain_us_gov
+  citation: >
+    U.S. Bureau of Reclamation, RISE, Glen Canyon Dam total release (acre-feet),
+    catalog item 4354. Accessed {access_date}.
+
+ingest:
+  adapter: rise
+  params: { item_id: 4354 }
+
+revision_policy:
+  status: provisional
+  detect_via: updateDate
+
+freshness:
+  expected_cadence: P1D
+  sla_hours: 36
+
+uncertainty: none_published
+
+caveats:
+  - >
+    Annual release volumes are set by tier rules but revisable mid-year:
+    WY2026 was reduced from 7.48 to 6.00 MAF in April 2026 under SEIS ROD §6.E.
+  - >
+    No active USGS gauge exists immediately below the dam (09379910 was
+    discontinued 2004-08-02); Lees Ferry (09380000), ~15 miles downstream, is
+    the independent observational cross-check.
+
+not_comparable_with:
+  - measure: colorado.gauge.lees_ferry.discharge
+    reason: >
+      Related but not identical: Lees Ferry is ~15 miles downstream with
+      intervening Paria River inflow and reach effects, and is an interval-mean
+      rate (cfs) rather than an interval-total volume.
