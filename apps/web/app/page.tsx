@@ -1,224 +1,156 @@
-import { ReservoirCard } from "@/components/ReservoirCard";
-import { RulesToday } from "@/components/RulesToday";
+import Link from "next/link";
+import { SystemChain } from "@/components/SystemChain";
+import { MEAD, POWELL, RULEBOOK } from "@/lib/reservoirs";
+import { fetchSeries } from "@/lib/rise";
+import { acreFeet, formatDate, percent } from "@/lib/format";
 import {
-  COMBINED_CAPACITY_ACRE_FEET,
-  MEAD,
-  MODERN_ANNUAL_FLOW_ACRE_FEET,
-  MODERN_FLOW_BASIS,
-  POWELL,
-  RULEBOOK,
-} from "@/lib/reservoirs";
-import { fetchSeries, REVALIDATE_SECONDS } from "@/lib/rise";
-import {
-  acreFeet,
-  formatDate,
-  formatTimestamp,
-  percent,
-  signed,
-  volumeAnchors,
-} from "@/lib/format";
+  CROPS,
+  RICHTER,
+  SUPPLY,
+  TOTAL_APPORTIONED,
+  TEMPERATURE_SENSITIVITY,
+} from "@/lib/system";
 
 export const revalidate = 3600;
 
-export default async function Today() {
-  // Four independent series, fetched concurrently.
-  const [powellElev, powellStor, meadElev, meadStor] = await Promise.all([
-    fetchSeries(POWELL.riseElevationItem),
+export default async function Overview() {
+  const [powellStor, meadStor] = await Promise.all([
     fetchSeries(POWELL.riseStorageItem),
-    fetchSeries(MEAD.riseElevationItem),
     fetchSeries(MEAD.riseStorageItem),
   ]);
 
-  const combinedNow =
+  const stored =
     powellStor.latest && meadStor.latest
       ? powellStor.latest.value + meadStor.latest.value
       : null;
-  const combinedYearAgo =
-    powellStor.yearAgo && meadStor.yearAgo
-      ? powellStor.yearAgo.value + meadStor.yearAgo.value
-      : null;
-  const combinedPct =
-    combinedNow !== null
-      ? (combinedNow / COMBINED_CAPACITY_ACRE_FEET) * 100
-      : null;
-  const deltaPct =
-    combinedNow !== null && combinedYearAgo !== null
-      ? ((combinedNow - combinedYearAgo) / COMBINED_CAPACITY_ACRE_FEET) * 100
-      : null;
-
-  const emptyAf =
-    combinedNow !== null ? COMBINED_CAPACITY_ACRE_FEET - combinedNow : null;
-
-  const asOf = powellStor.latest?.date ?? meadStor.latest?.date ?? null;
+  const capacity = POWELL.capacityAcreFeet + MEAD.capacityAcreFeet;
+  const asOf = powellStor.latest?.date ?? null;
 
   return (
-    <main className="shell">
-      <header className="masthead">
-        <span className="wordmark">Basin</span>
-        <span className="basin-name">Colorado River</span>
-        <span className="tagline">
-          A reduced-form digital twin. Independent of, and not equivalent to,
-          Reclamation&rsquo;s CRSS models.
-        </span>
-      </header>
-
+    <main>
       <div className="rulebook">
         <span>⚠</span>
         <div>
           <strong>Operating rules in force:</strong> {RULEBOOK.label} — expires{" "}
           {formatDate(RULEBOOK.expires)}.{" "}
-          <span className="muted">
-            {RULEBOOK.successorStatus} Current status: {RULEBOOK.currentTier}.{" "}
-            {RULEBOOK.tierBasis}
-          </span>
+          <span className="muted">{RULEBOOK.successorStatus}</span>
         </div>
       </div>
 
-      <section className="hero">
-        <div className="hero-top">
-          <div>
-            <p className="question">How much water is in the system today?</p>
-            {combinedNow !== null && combinedPct !== null ? (
-              <>
-                <div className="bignum">
-                  {percent(combinedPct, 1)}
-                  <small>of combined capacity</small>
-                </div>
-                <div className="subline">
-                  {acreFeet(combinedNow)} of{" "}
-                  {acreFeet(COMBINED_CAPACITY_ACRE_FEET)} in Lakes Powell and Mead
-                  {deltaPct !== null && (
-                    <>
-                      {" · "}
-                      <span className={deltaPct < 0 ? "down" : "up"}>
-                        {signed(deltaPct, (n) => `${n.toFixed(1)} pts`)} in one year
-                      </span>
-                    </>
-                  )}
-                </div>
-              </>
-            ) : (
-              <p className="err">
-                Live storage unavailable. Showing no value rather than a stale one.
-              </p>
-            )}
+      <h1 className="page-title">
+        The Colorado River is committed to delivering more water than it produces.
+      </h1>
+      <p className="page-lede">
+        Roughly 40 million people and 5 million irrigated acres depend on it.
+        This is where the water comes from, where it goes, and how big the gap
+        between those two has become.
+      </p>
+
+      <SystemChain storedNow={stored} />
+
+      <h2 className="section-title">The three numbers that explain it</h2>
+      <div className="triad">
+        <div className="triad-item">
+          <div className="triad-num">
+            {acreFeet(TOTAL_APPORTIONED)}
+            <span className="chip chip-administrative">legal</span>
           </div>
+          <div className="triad-label">Promised on paper</div>
+          <p>
+            7.5 MAF to the Upper Basin, 7.5 to the Lower Basin, 1.5 to Mexico by
+            treaty. These are entitlements, not measurements — and they were
+            written when the river was assumed to carry{" "}
+            {acreFeet(SUPPLY.compactAssumption.acreFeet)} a year.
+          </p>
         </div>
+        <div className="triad-item">
+          <div className="triad-num">
+            {acreFeet(SUPPLY.modernMean.acreFeet)}
+            <span className="chip chip-estimated">estimated</span>
+          </div>
+          <div className="triad-label">What actually arrives</div>
+          <p>
+            The modern average. Tree rings put the long-term mean near{" "}
+            {acreFeet(SUPPLY.reconstructedMean.acreFeet)} — meaning the Compact&rsquo;s
+            founding number was never normal. Warming has since cut flow by
+            about {TEMPERATURE_SENSITIVITY.percentPerDegreeC}% per °C.
+          </p>
+        </div>
+        <div className="triad-item">
+          <div className="triad-num">
+            {stored !== null ? acreFeet(stored) : "—"}
+            <span className="chip chip-observed">observed</span>
+          </div>
+          <div className="triad-label">What&rsquo;s left in storage</div>
+          <p>
+            Lakes Powell and Mead combined
+            {stored !== null && (
+              <>
+                {" "}
+                — {percent((stored / capacity) * 100, 0)} of capacity, roughly
+                one year of the river&rsquo;s modern flow
+              </>
+            )}
+            . The buffer that has absorbed the difference for two decades.
+          </p>
+        </div>
+      </div>
 
-        {combinedPct !== null && combinedNow !== null && (
-          <>
-            <div className="capbar">
-              <div
-                className="capbar-fill"
-                style={{ width: `${Math.max(0, Math.min(100, combinedPct))}%` }}
-              />
-              <div className="capbar-label">
-                {emptyAf !== null && `${acreFeet(emptyAf)} of unused capacity`}
+      <h2 className="section-title">Where the water actually goes</h2>
+      <div className="split">
+        <div>
+          <div className="sector-bars">
+            {RICHTER.sectors.map((s) => (
+              <div key={s.id} className="sector-row">
+                <div className="sector-label">
+                  {s.label}
+                  <span className="sector-pct">{s.percent}%</span>
+                </div>
+                <div className="sector-track">
+                  <div
+                    className={`sector-fill ${s.id.split(".")[1]}`}
+                    style={{ width: `${s.percent}%` }}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="anchors">
-              <span className="anchor" style={{ borderColor: "var(--water)" }}>
-                what&rsquo;s actually stored
-              </span>
-              {volumeAnchors(combinedNow).map((a) => (
-                <span className="anchor" key={a.label}>
-                  <b>{a.value}</b> {a.label}
-                  {a.approximate && " (approx.)"}
-                </span>
-              ))}
-            </div>
-            <p
-              className="subline"
-              style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--border)" }}
-            >
-              That is roughly{" "}
-              <strong>
-                {(combinedNow / MODERN_ANNUAL_FLOW_ACRE_FEET).toFixed(2)}×
-              </strong>{" "}
-              the river&rsquo;s modern annual flow — the two largest reservoirs in
-              the United States together hold about{" "}
-              {combinedNow / MODERN_ANNUAL_FLOW_ACRE_FEET < 1.15 &&
-              combinedNow / MODERN_ANNUAL_FLOW_ACRE_FEET > 0.85
-                ? "one year"
-                : `${(combinedNow / MODERN_ANNUAL_FLOW_ACRE_FEET).toFixed(1)} years`}{" "}
-              of what the river now produces.{" "}
-              <span style={{ color: "var(--faint)" }}>
-                Flow reference {MODERN_FLOW_BASIS}; approximate, and not yet
-                verified against Reclamation&rsquo;s naturalized-flow dataset.
-              </span>
-            </p>
-          </>
-        )}
-      </section>
-
-      <div className="grid">
-        <ReservoirCard
-          reservoir={POWELL}
-          elevation={powellElev}
-          storage={powellStor}
-        />
-        <ReservoirCard reservoir={MEAD} elevation={meadElev} storage={meadStor} />
+            ))}
+          </div>
+          <p className="prov" style={{ borderTop: "none" }}>
+            {RICHTER.source} · {RICHTER.period} · total{" "}
+            {acreFeet(RICHTER.totalAcreFeet)}. This is a{" "}
+            <strong>different accounting universe</strong> from the balance
+            above: it includes natural riparian vegetation, which Compact
+            accounting excludes. The two totals are not comparable.
+          </p>
+        </div>
+        <div className="note">
+          <p>
+            <strong>Agriculture is {RICHTER.sectors[0]!.percent}% of it</strong>{" "}
+            — and cattle-feed crops are {CROPS.cattleFeedShareOfAgriculture}% of
+            that. Alfalfa alone consumes about{" "}
+            {acreFeet(CROPS.alfalfaAcreFeet)} a year, roughly{" "}
+            {CROPS.alfalfaShareOfBasin}% of all water consumed in the basin. In
+            the Upper Basin, {CROPS.upperBasinAgToCattleFeed}% of irrigation
+            water grows feed for livestock.
+          </p>
+          <p>
+            That is not an indictment. Alfalfa persists because it is
+            high-yielding, nutrient-dense, perennial, nitrogen-fixing,
+            marketable, and well suited to livestock systems. But it means the
+            water question is largely an agriculture question, and{" "}
+            <Link href="/demand">every city in the basin combined</Link> is
+            under a fifth of consumption.
+          </p>
+        </div>
       </div>
 
-      {powellElev.latest && meadElev.latest && (
-        <RulesToday
-          powellElevation={powellElev.latest.value}
-          meadElevation={meadElev.latest.value}
-        />
-      )}
-
-      <h2 className="section-title">What this is, and what it isn&rsquo;t</h2>
-      <div className="note">
-        <p>
-          Every number above is <strong>observed</strong> — measured pool
-          elevation from Reclamation&rsquo;s RISE system, with storage derived
-          from elevation via each reservoir&rsquo;s area-capacity table. Nothing
-          here is modeled or forecast yet.
-        </p>
-        <p>
-          <strong>All of it is provisional.</strong> Reclamation revises recent
-          values without announcement — on 2026-08-01 the entire prior week of
-          daily readings carried fresh revision stamps. Operating figures move
-          too: Lake Powell&rsquo;s water-year 2026 release was set at 7.48 MAF in
-          August 2025 and revised down to 6.00 MAF in April 2026.
-        </p>
-        <p>
-          The rules panel above is the first piece of the model: the operating
-          rulebook encoded as versioned data, verified line by line against the
-          2007 Record of Decision, the 2019 DCP agreement, and Minute 323. Each
-          instrument&rsquo;s elevation bands are encoded exactly as written, and
-          the combined table is <em>derived</em> — which is how we found that
-          the instruments genuinely disagree at precisely 1,050 ft, something no
-          published summary table captures.
-        </p>
-        <p>
-          Still to come: the water-balance flow from snowpack through releases,
-          a mass-balance model driving these rules forward in time, one what-if
-          slider, and a public backtest against Reclamation&rsquo;s published
-          24-Month Study projections.
-        </p>
+      <div className="chain-caveat" style={{ marginTop: 26 }}>
+        {asOf && <>Reservoir storage as of {formatDate(asOf)}, provisional. </>}
+        Supply, demand, and sector figures come from periodic federal reports
+        and peer-reviewed studies, each dated and cited on the{" "}
+        <Link href="/supply">Supply</Link> and{" "}
+        <Link href="/demand">Demand</Link> pages.
       </div>
-
-      <footer>
-        <div>
-          Source: U.S. Bureau of Reclamation,{" "}
-          <a href="https://data.usbr.gov/">
-            Reclamation Information Sharing Environment (RISE)
-          </a>{" "}
-          — Lake Powell catalog record 2362, Lake Mead record 4370. Public-domain
-          U.S. government data.
-        </div>
-        <div>
-          {asOf && <>Data as of {formatDate(asOf)}. </>}
-          Page rendered {formatTimestamp(new Date().toISOString())}; revalidates
-          every {REVALIDATE_SECONDS / 60} minutes.
-        </div>
-        <div>
-          Definitions, units, provenance and caveats come from the measure
-          registry (<code>packages/registry</code>). Source at{" "}
-          <a href="https://github.com/kwheeler27/basin">github.com/kwheeler27/basin</a>.
-        </div>
-      </footer>
     </main>
   );
 }
