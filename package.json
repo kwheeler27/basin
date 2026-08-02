@@ -3,11 +3,14 @@
   "private": true,
   "version": "0.1.0",
   "packageManager": "pnpm@11.18.0",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "gen": "pnpm --filter @basin/registry gen",
     "gen:check": "pnpm --filter @basin/registry gen:check",
     "typecheck": "pnpm -r --if-present typecheck",
-    "test": "pnpm -r --if-present test"
+    "test": "pnpm -r --if-present test",
+    "verify:rules": "pnpm --filter @basin/contracts verify:rules"
   }
 }

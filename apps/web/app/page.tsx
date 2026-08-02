@@ -1,4 +1,5 @@
 import { ReservoirCard } from "@/components/ReservoirCard";
+import { RulesToday } from "@/components/RulesToday";
 import {
   COMBINED_CAPACITY_ACRE_FEET,
   MEAD,
@@ -159,6 +160,13 @@ export default async function Today() {
         <ReservoirCard reservoir={MEAD} elevation={meadElev} storage={meadStor} />
       </div>
 
+      {powellElev.latest && meadElev.latest && (
+        <RulesToday
+          powellElevation={powellElev.latest.value}
+          meadElevation={meadElev.latest.value}
+        />
+      )}
+
       <h2 className="section-title">What this is, and what it isn&rsquo;t</h2>
       <div className="note">
         <p>
@@ -175,10 +183,19 @@ export default async function Today() {
           August 2025 and revised down to 6.00 MAF in April 2026.
         </p>
         <p>
+          The rules panel above is the first piece of the model: the operating
+          rulebook encoded as versioned data, verified line by line against the
+          2007 Record of Decision, the 2019 DCP agreement, and Minute 323. Each
+          instrument&rsquo;s elevation bands are encoded exactly as written, and
+          the combined table is <em>derived</em> — which is how we found that
+          the instruments genuinely disagree at precisely 1,050 ft, something no
+          published summary table captures.
+        </p>
+        <p>
           Still to come: the water-balance flow from snowpack through releases,
-          a mass-balance model with the operating rules encoded, one what-if
-          slider, and a public backtest of that model against Reclamation&rsquo;s
-          published 24-Month Study projections.
+          a mass-balance model driving these rules forward in time, one what-if
+          slider, and a public backtest against Reclamation&rsquo;s published
+          24-Month Study projections.
         </p>
       </div>
 

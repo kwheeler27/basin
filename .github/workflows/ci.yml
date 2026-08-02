@@ -26,6 +26,11 @@ jobs:
         run: pnpm gen:check
 
       - run: pnpm typecheck
+
+      # Drift guard: the TS rulebook evaluator must reproduce every
+      # determination computed by the Python engine.
+      - name: rules engine parity (TS vs Python)
+        run: pnpm verify:rules
       - run: pnpm --filter @basin/web build
 
   python:
@@ -40,3 +45,7 @@ jobs:
       - name: ingest tests (real captured payloads, no mocks)
         run: python -m pytest
         working-directory: packages/ingest
+
+      - name: model tests (rules engine)
+        run: python -m pytest
+        working-directory: packages/model
