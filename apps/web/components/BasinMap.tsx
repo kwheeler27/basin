@@ -34,12 +34,31 @@ import {
 } from "@/lib/mapdata";
 import { acreFeet, percent } from "@/lib/format";
 
-type LayerKey = "water" | "people" | "agriculture";
+type LayerKey = "water" | "people" | "agriculture" | "counties";
+
+type CountyMetric = "ir" | "ps" | "ind" | "te";
+
+const METRICS: Record<CountyMetric, { label: string; cls: string; what: string }> = {
+  ir: { label: "Irrigation", cls: "m-ir", what: "irrigation withdrawals" },
+  ps: { label: "Public supply", cls: "m-ps", what: "public-supply withdrawals (homes, businesses, most commercial use)" },
+  ind: { label: "Industrial", cls: "m-ind", what: "self-supplied industrial withdrawals" },
+  te: { label: "Thermoelectric", cls: "m-te", what: "power-plant cooling withdrawals" },
+};
+
+interface CountyRow {
+  fips: string; name: string; st: string;
+  lon: number; lat: number;
+  pop: number | null; ps: number | null; ir: number | null;
+  ind: number | null; te: number | null;
+}
+
+const AF_PER_MGD_YEAR = 1121; // 1 MGD sustained ≈ 1,121 acre-feet/year
 
 const LAYER_LABELS: Record<LayerKey, string> = {
   water: "Water & storage",
   people: "People served",
   agriculture: "Irrigated agriculture",
+  counties: "County water use ’15",
 };
 
 const fmtPeople = (n: number) =>
@@ -91,7 +110,21 @@ export function BasinMap({
     water: true,
     people: true,
     agriculture: true,
+    counties: false,
   });
+  const [metric, setMetric] = useState<CountyMetric>("ir");
+  const [countyData, setCountyData] = useState<{
+    citation: string;
+    counties: CountyRow[];
+  } | null>(null);
+  useEffect(() => {
+    // Lazy-load county data the first time the layer is switched on.
+    if (layers.counties && !countyData) {
+      fetch("/geo/county_wateruse.json")
+        .then((r) => r.json())
+        .then(setCountyData);
+    }
+  }, [layers.counties, countyData]);
   const toggleLayer = (key: LayerKey) =>
     setLayers((l) => ({ ...l, [key]: !l[key] }));
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -355,6 +388,7 @@ export function BasinMap({
             const rNow = live ? rOf(live.af) : 0;
             const pct = live ? (live.af / r.capacityAf) * 100 : null;
             const labelBelow = rCap < 9; // small reservoirs: label under the ring
+            const showLabel = rCap >= 7 || k >= 2.2; // semantic zoom: small names appear when zoomed
             return (
               <g
                 key={r.id}
@@ -378,16 +412,50 @@ export function BasinMap({
                 <circle cx={x} cy={y} r={Math.max(rCap, 12)} fill="transparent" />
                 <circle cx={x} cy={y} r={rCap} className="map-res-capacity" style={{ strokeWidth: 1.2 * inv }} />
                 {live && <circle cx={x} cy={y} r={rNow} className="map-res-storage" />}
-                <text
-                  x={x}
-                  y={labelBelow ? y + rCap + 11 * inv : y - rCap - 5 * inv}
-                  className="map-label res"
-                  style={{ fontSize: 11 * inv }}
-                >
-                  {r.name}
-                  {pct !== null ? ` · ${percent(pct, 0)}` : ""}
-                </text>
+                {showLabel && (
+                  <text
+                    x={x}
+                    y={labelBelow ? y + rCap + 11 * inv : y - rCap - 5 * inv}
+                    className="map-label res"
+                    style={{ fontSize: 11 * inv }}
+                  >
+                    {r.name}
+                    {pct !== null ? ` · ${percent(pct, 0)}` : ""}
+                  </text>
+                )}
               </g>
+            );
+          })}
+
+          {/* County water use — USGS 2015, all sources */}
+          {layers.counties && countyData && countyData.counties.map((c) => {
+            const v = c[metric];
+            if (v === null || v <= 0.05) return null;
+            const [x, y] = project(c.lon, c.lat);
+            const r = Math.max(0.9, 0.62 * Math.sqrt(v));
+            const afy = v * AF_PER_MGD_YEAR;
+            return (
+              <circle
+                key={c.fips}
+                cx={x}
+                cy={y}
+                r={r}
+                className={`map-county ${METRICS[metric].cls}`}
+                style={{ strokeWidth: 0.9 * inv }}
+                onMouseMove={(e) =>
+                  showTip(
+                    e,
+                    `${c.name} County, ${c.st}`,
+                    [
+                      `${METRICS[metric].label}: ${v.toLocaleString()} MGD ≈ ${acreFeet(afy)}/yr`,
+                      `All water sources — not only the Colorado River. Note where this sits relative to the basin boundary.`,
+                      "USGS 2015 county water-use census (Dieter et al. 2018). Withdrawals, not consumptive use.",
+                    ],
+                    "estimated",
+                  )
+                }
+                onMouseLeave={hideTip}
+              />
             );
           })}
 
@@ -520,6 +588,21 @@ export function BasinMap({
         ))}
       </div>
 
+      {layers.counties && (
+        <div className="map-metrics" role="radiogroup" aria-label="County metric">
+          {(Object.keys(METRICS) as CountyMetric[]).map((m) => (
+            <button
+              key={m}
+              className={`metric-pill ${METRICS[m].cls}${metric === m ? " on" : ""}`}
+              aria-pressed={metric === m}
+              onClick={() => setMetric(m)}
+            >
+              {METRICS[m].label}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="map-controls">
         <button onClick={() => zoomBy(1.6)} aria-label="Zoom in">+</button>
         <button onClick={() => zoomBy(1 / 1.6)} aria-label="Zoom out">−</button>
@@ -540,6 +623,11 @@ export function BasinMap({
         )}
         {layers.agriculture && (
           <span className="lg-item"><i className="lg-ag" /> irrigated agriculture</span>
+        )}
+        {layers.counties && (
+          <span className="lg-item">
+            <i className={`lg-county ${METRICS[metric].cls}`} /> county {METRICS[metric].what} — all sources, USGS 2015
+          </span>
         )}
       </div>
 
