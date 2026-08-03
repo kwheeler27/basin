@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BasinMap } from "@/components/BasinMap";
 import { SystemChain } from "@/components/SystemChain";
 import { MEAD, POWELL, RULEBOOK } from "@/lib/reservoirs";
+import { MAP_RESERVOIRS } from "@/lib/mapdata";
 import { fetchSeries } from "@/lib/rise";
 import { acreFeet, formatDate, percent } from "@/lib/format";
 import {
@@ -15,10 +16,20 @@ import {
 export const revalidate = 3600;
 
 export default async function Overview() {
-  const [powellStor, meadStor] = await Promise.all([
-    fetchSeries(POWELL.riseStorageItem),
-    fetchSeries(MEAD.riseStorageItem),
-  ]);
+  // Live storage for every reservoir with a RISE item (11 of 13; Roosevelt
+  // and Dillon have non-federal operators and no live feed).
+  const withItems = MAP_RESERVOIRS.filter((r) => r.riseStorageItem);
+  const series = await Promise.all(
+    withItems.map((r) => fetchSeries(r.riseStorageItem!, 45)),
+  );
+  const liveStorage: Record<string, { af: number; asOf: string } | undefined> =
+    {};
+  withItems.forEach((r, i) => {
+    const latest = series[i]!.latest;
+    if (latest) liveStorage[r.id] = { af: latest.value, asOf: latest.date };
+  });
+  const powellStor = series[withItems.findIndex((r) => r.id === "powell")]!;
+  const meadStor = series[withItems.findIndex((r) => r.id === "mead")]!;
 
   const stored =
     powellStor.latest && meadStor.latest
@@ -49,16 +60,7 @@ export default async function Overview() {
         its story and its source.
       </p>
 
-      <BasinMap
-        storage={{
-          powell: powellStor.latest
-            ? { af: powellStor.latest.value, asOf: powellStor.latest.date }
-            : undefined,
-          mead: meadStor.latest
-            ? { af: meadStor.latest.value, asOf: meadStor.latest.date }
-            : undefined,
-        }}
-      />
+      <BasinMap storage={liveStorage} />
       <p className="chain-caveat">
         Rivers are real Natural Earth centerlines; aqueduct paths are schematic
         runs between real endpoints. Reservoir storage is live from Reclamation

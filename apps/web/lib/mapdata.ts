@@ -22,6 +22,8 @@ export interface MapReservoir {
   readonly capacityAf: number;
   /** RISE item for live storage, when wired. */
   readonly riseStorageItem?: number;
+  /** Why no live feed exists (non-Reclamation operators). */
+  readonly noLiveReason?: string;
   readonly note?: string;
 }
 
@@ -50,6 +52,7 @@ export const MAP_RESERVOIRS: readonly MapReservoir[] = [
     lon: -109.53,
     lat: 41.11,
     capacityAf: 3_749_000,
+    riseStorageItem: 337,
     note: "Green River. Upstream regulation for Powell.",
   },
   {
@@ -58,6 +61,7 @@ export const MAP_RESERVOIRS: readonly MapReservoir[] = [
     lon: -107.61,
     lat: 36.8,
     capacityAf: 1_696_000,
+    riseStorageItem: 613,
     note: "San Juan River.",
   },
   {
@@ -66,6 +70,7 @@ export const MAP_RESERVOIRS: readonly MapReservoir[] = [
     lon: -107.34,
     lat: 38.45,
     capacityAf: 829_500,
+    riseStorageItem: 76,
     note: "Gunnison River, Colorado.",
   },
   {
@@ -74,6 +79,7 @@ export const MAP_RESERVOIRS: readonly MapReservoir[] = [
     lon: -114.6,
     lat: 35.4,
     capacityAf: 1_810_000,
+    riseStorageItem: 6134,
     note: "Davis Dam — re-regulates Hoover releases and delivers to downstream diverters.",
   },
   {
@@ -82,6 +88,7 @@ export const MAP_RESERVOIRS: readonly MapReservoir[] = [
     lon: -114.35,
     lat: 34.45,
     capacityAf: 648_000,
+    riseStorageItem: 6129,
     note: "Parker Dam — the intake pool for BOTH the CAP and the Colorado River Aqueduct.",
   },
   {
@@ -90,6 +97,7 @@ export const MAP_RESERVOIRS: readonly MapReservoir[] = [
     lon: -111.16,
     lat: 33.67,
     capacityAf: 1_600_000,
+    noLiveReason: "Operated by Salt River Project, not Reclamation — no federal live feed.",
     note: "Salt River Project — the Gila/Salt system that Phoenix blends with CAP water.",
   },
   {
@@ -98,6 +106,7 @@ export const MAP_RESERVOIRS: readonly MapReservoir[] = [
     lon: -111.13,
     lat: 40.17,
     capacityAf: 1_100_000,
+    riseStorageItem: 779,
     note: "Central Utah Project — stores Colorado basin water bound for the Wasatch Front.",
   },
   {
@@ -106,6 +115,7 @@ export const MAP_RESERVOIRS: readonly MapReservoir[] = [
     lon: -110.06,
     lat: 42.03,
     capacityAf: 345_000,
+    riseStorageItem: 347,
     note: "Green River headwaters, Wyoming.",
   },
   {
@@ -114,6 +124,7 @@ export const MAP_RESERVOIRS: readonly MapReservoir[] = [
     lon: -105.85,
     lat: 40.15,
     capacityAf: 540_000,
+    riseStorageItem: 383,
     note: "Colorado-Big Thompson collection pool — where Front Range transbasin water starts.",
   },
   {
@@ -122,6 +133,7 @@ export const MAP_RESERVOIRS: readonly MapReservoir[] = [
     lon: -108.55,
     lat: 37.58,
     capacityAf: 381_000,
+    riseStorageItem: 569,
     note: "Dolores Project, southwest Colorado.",
   },
   {
@@ -130,6 +142,7 @@ export const MAP_RESERVOIRS: readonly MapReservoir[] = [
     lon: -106.06,
     lat: 39.62,
     capacityAf: 257_000,
+    noLiveReason: "Denver Water reservoir — publishes readings as PDFs only, no API.",
     note: "Denver Water's largest reservoir — feeds the Roberts Tunnel under the Divide.",
   },
 ];

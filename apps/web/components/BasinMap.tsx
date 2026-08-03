@@ -399,7 +399,7 @@ export function BasinMap({
                     [
                       live
                         ? `${acreFeet(live.af)} in storage — ${percent(pct!, 1)} of ${acreFeet(r.capacityAf)} capacity`
-                        : `Capacity ${acreFeet(r.capacityAf)} — live storage not yet wired`,
+                        : `Capacity ${acreFeet(r.capacityAf)}. ${r.noLiveReason ?? "Live storage not yet wired."}`,
                       ...(live ? [`Observed via Reclamation RISE, ${live.asOf} (provisional)`] : []),
                       ...(r.note ? [r.note] : []),
                     ],
