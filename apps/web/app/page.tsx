@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BasinMap } from "@/components/BasinMap";
 import { SystemChain } from "@/components/SystemChain";
 import { MEAD, POWELL, RULEBOOK } from "@/lib/reservoirs";
 import { fetchSeries } from "@/lib/rise";
@@ -41,9 +42,27 @@ export default async function Overview() {
         The Colorado River is committed to delivering more water than it produces.
       </h1>
       <p className="page-lede">
-        Roughly 40 million people and 5 million irrigated acres depend on it.
-        This is where the water comes from, where it goes, and how big the gap
-        between those two has become.
+        Roughly 40 million people and 5 million irrigated acres depend on it —
+        and the map shows <em>where</em>. Purple circles are people served
+        (sized by population); green diamonds are irrigated agriculture and
+        what it grows. Toggle layers, drag to pan, zoom in, hover anything for
+        its story and its source.
+      </p>
+
+      <BasinMap
+        storage={{
+          powell: powellStor.latest
+            ? { af: powellStor.latest.value, asOf: powellStor.latest.date }
+            : undefined,
+          mead: meadStor.latest
+            ? { af: meadStor.latest.value, asOf: meadStor.latest.date }
+            : undefined,
+        }}
+      />
+      <p className="chain-caveat">
+        Rivers are real Natural Earth centerlines; aqueduct paths are schematic
+        runs between real endpoints. Reservoir storage is live from Reclamation
+        RISE, provisional.
       </p>
 
       <SystemChain storedNow={stored} />
