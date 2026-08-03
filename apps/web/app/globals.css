@@ -822,3 +822,19 @@ td.mono { font-family: var(--mono); font-size: 11px; }
   .lg-people { background: color-mix(in srgb, #9678cf 36%, transparent); border-color: #9678cf; }
   .lg-ag { background: color-mix(in srgb, #2e9d85 44%, transparent); border-color: #2e9d85; }
 }
+
+/* ------------------------------------------------------ watershed boundary */
+
+.map-basin {
+  stroke: #2b7fb8;
+  stroke-width: 1.1;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1 0;
+}
+.map-basin.huc14 { fill: color-mix(in srgb, #2b7fb8 10%, transparent); }
+.map-basin.huc15 { fill: color-mix(in srgb, #0c8f6b 8%, transparent); }
+@media (prefers-color-scheme: dark) {
+  .map-basin { stroke: #4a90c2; }
+  .map-basin.huc14 { fill: color-mix(in srgb, #4a90c2 13%, transparent); }
+  .map-basin.huc15 { fill: color-mix(in srgb, #2e9d85 11%, transparent); }
+}

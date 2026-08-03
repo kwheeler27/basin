@@ -19,7 +19,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { geoConicConformal, geoPath } from "d3-geo";
+import { geoArea, geoConicConformal, geoPath } from "d3-geo";
 import { feature } from "topojson-client";
 import { select } from "d3-selection";
 import { zoom, zoomIdentity, type ZoomBehavior } from "d3-zoom";
@@ -75,6 +75,7 @@ interface Tip {
 interface GeoData {
   states: GeoJSON.FeatureCollection;
   rivers: GeoJSON.FeatureCollection;
+  boundary: GeoJSON.FeatureCollection;
 }
 
 export function BasinMap({
@@ -103,7 +104,8 @@ export function BasinMap({
     Promise.all([
       fetch("/geo/states-10m.json").then((r) => r.json()),
       fetch("/geo/basin_rivers.geojson").then((r) => r.json()),
-    ]).then(([topo, rivers]: [unknown, GeoJSON.FeatureCollection]) => {
+      fetch("/geo/basin_boundary.geojson").then((r) => r.json()),
+    ]).then(([topo, rivers, boundary]: [unknown, GeoJSON.FeatureCollection, GeoJSON.FeatureCollection]) => {
       if (!alive) return;
       // us-atlas TopoJSON; typed loosely to avoid a types-only dependency.
       const t = topo as Parameters<typeof feature>[0] & {
@@ -113,7 +115,18 @@ export function BasinMap({
         t,
         t.objects.states,
       ) as unknown as GeoJSON.FeatureCollection;
-      setGeo({ states, rivers });
+      // d3-geo polygons are spherical: a ring wound the "wrong" way means
+      // "everything on Earth except this area". USGS ArcGIS output winds
+      // opposite to d3's convention, so rewind any feature whose computed
+      // area exceeds a hemisphere.
+      for (const f of boundary.features) {
+        if (geoArea(f) > 2 * Math.PI && f.geometry.type === "Polygon") {
+          (f.geometry as GeoJSON.Polygon).coordinates.forEach((ring) =>
+            ring.reverse(),
+          );
+        }
+      }
+      setGeo({ states, rivers, boundary });
     });
     return () => {
       alive = false;
@@ -223,6 +236,25 @@ export function BasinMap({
                 key={fips}
                 d={path(f) ?? undefined}
                 className={`map-state${inBasin ? " basin" : ""}`}
+              />
+            );
+          })}
+
+          {/* Watershed boundary — the basin itself, USGS WBD HUC-2 */}
+          {geo.boundary.features.map((f) => {
+            const props = f.properties as { huc2?: string; name?: string };
+            return (
+              <path
+                key={props.huc2}
+                d={path(f) ?? undefined}
+                className={`map-basin huc${props.huc2}`}
+                onMouseMove={(e) =>
+                  showTip(e, props.name ?? "Colorado River Basin", [
+                    "USGS Watershed Boundary Dataset (HUC-2) — the land that actually drains to the river.",
+                    "Note how little it overlaps the cities it supplies: most of the demand lies outside the basin.",
+                  ])
+                }
+                onMouseLeave={hideTip}
               />
             );
           })}
