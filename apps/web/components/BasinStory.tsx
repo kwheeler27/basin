@@ -27,7 +27,8 @@ import {
   MAP_POPULATION,
   MAP_RESERVOIRS,
 } from "@/lib/mapdata";
-import { acreFeet, percent } from "@/lib/format";
+import { acreFeet, percent, HOUSEHOLD_ACRE_FEET_PER_YEAR } from "@/lib/format";
+import { DetailSheet, type SheetData } from "./DetailSheet";
 
 const W = 960;
 const H = 640;
@@ -64,13 +65,13 @@ const STEPS: readonly { id: StepId; kicker: string; hed: string; body: string }[
     id: "farms",
     kicker: "Farms",
     hed: "But people are the sideshow — farms use most of the water.",
-    body: "County irrigation withdrawals, from the USGS census. Imperial Valley alone takes more than Nevada and Utah's cities combined; with Yuma it grows most of America's winter vegetables. Note the Central Valley cluster — huge, and outside the basin: different river, same story.",
+    body: "County irrigation withdrawals, from the 2015 USGS census — the last time anyone counted county by county. Tap any circle for plain-language detail. Imperial Valley alone takes more than Nevada and Utah's cities combined; with Yuma it grows most of America's winter vegetables. Note the Central Valley cluster — huge, and outside the basin: different river, same story.",
   },
   {
     id: "explore",
     kicker: "Explore",
     hed: "Now look around.",
-    body: "Pan, zoom, and switch layers — one at a time, so the map always says one thing. Hover anything for its source.",
+    body: "Pan, zoom, and switch layers — one at a time, so the map always says one thing. Tap anything for what it means, how it compares, and where the number comes from.",
   },
 ];
 
@@ -101,6 +102,15 @@ interface GeoData {
   states: GeoJSON.FeatureCollection;
   rivers: GeoJSON.FeatureCollection;
   boundary: GeoJSON.FeatureCollection;
+  countyLines: GeoJSON.FeatureCollection;
+}
+
+/** Households supplied for a year by a given volume — the standard anchor. */
+function households(af: number): string {
+  const n = af / HOUSEHOLD_ACRE_FEET_PER_YEAR;
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)} million households for a year`;
+  if (n >= 1_000) return `${Math.round(n / 1000).toLocaleString()},000 households for a year`;
+  return `${Math.round(n).toLocaleString()} households for a year`;
 }
 
 const AF_PER_MGD_YEAR = 1121;
@@ -119,6 +129,7 @@ export function BasinStory({
   const [pinned, setPinned] = useState(false);
   const [exploreLayer, setExploreLayer] = useState<ExploreLayer>("storage");
   const [tip, setTip] = useState<Tip | null>(null);
+  const [sheet, setSheet] = useState<SheetData | null>(null);
   const [k, setK] = useState(1);
   const [narrow, setNarrow] = useState(false);
   useEffect(() => {
@@ -147,12 +158,14 @@ export function BasinStory({
       fetch("/geo/basin_rivers.geojson").then((r) => r.json()),
       fetch("/geo/basin_boundary.geojson").then((r) => r.json()),
       fetch("/geo/county_wateruse.json").then((r) => r.json()),
+      fetch("/geo/basin_counties.geojson").then((r) => r.json()),
     ]).then(
-      ([topo, rivers, boundary, wu]: [
+      ([topo, rivers, boundary, wu, countyLines]: [
         unknown,
         GeoJSON.FeatureCollection,
         GeoJSON.FeatureCollection,
         { counties: CountyRow[] },
+        GeoJSON.FeatureCollection,
       ]) => {
         if (!alive) return;
         const t = topo as Parameters<typeof feature>[0] & {
@@ -165,7 +178,7 @@ export function BasinStory({
             (f.geometry as GeoJSON.Polygon).coordinates.forEach((r) => r.reverse());
           }
         }
-        setGeo({ states, rivers, boundary });
+        setGeo({ states, rivers, boundary, countyLines });
         setCounties(wu.counties);
       },
     );
@@ -307,6 +320,15 @@ export function BasinStory({
   // Mobile: the basin is portrait-shaped — crop to it for the intro steps so
   // the map fills the screen; zoom out to full extent exactly when the story
   // leaves the basin (deliveries/people/farms/explore need LA and Denver).
+// Irrigation rank per county, for the comparison zone of the tap sheet.
+  const irRank = useMemo(() => {
+    if (!counties) return new Map<string, number>();
+    const sorted = [...counties]
+      .filter((c) => c.ir !== null)
+      .sort((a, b) => (b.ir ?? 0) - (a.ir ?? 0));
+    return new Map(sorted.map((c, i) => [c.fips, i + 1]));
+  }, [counties]);
+
   // Mobile: ONE constant portrait frame — the stage must never resize
   // mid-scroll (the frame jumping between portrait and landscape was the
   // reported awkwardness). Instead the CAMERA PANS at constant scale:
@@ -335,6 +357,7 @@ export function BasinStory({
 
   const flowsActive = hero === "flows";
 
+
   return (
     <div className={`story${pinned ? " pinned" : ""}`}>
       <div className="story-sticky" ref={stickyRef}>
@@ -358,6 +381,20 @@ export function BasinStory({
                 />
               );
             })}
+
+            {/* county boundaries — ground detail for the farms step & zoomed explore */}
+            <g
+              style={{ opacity: hero === "farms" ? 0.7 : exploring && k >= 2 ? 0.55 : 0 }}
+              className="fade"
+            >
+              {geo.countyLines.features.map((f) => (
+                <path
+                  key={(f.properties as { fips: string }).fips}
+                  d={path(f) ?? undefined}
+                  className="st-countyline"
+                />
+              ))}
+            </g>
 
             {/* watershed — hero of step 0, quiet ground afterwards */}
             <g style={{ opacity: opacity.boundary }} className="fade">
@@ -424,6 +461,29 @@ export function BasinStory({
                 return (
                   <g
                     key={r.id}
+                    className="tappable"
+                    onClick={() =>
+                      setSheet({
+                        kicker: "Reservoir",
+                        title: r.name,
+                        fact: live
+                          ? `Holding ${acreFeet(live.af)} today — ${percent((live.af / r.capacityAf) * 100, 0)} of its ${acreFeet(r.capacityAf)} capacity. That water would supply ${households(live.af)}.`
+                          : `Capacity ${acreFeet(r.capacityAf)}. ${r.noLiveReason ?? "Live storage not yet wired."}`,
+                        detail: r.note,
+                        chips: ["storage_capacity", "acre_foot", "provisional"],
+                        compare: [
+                          `#${[...MAP_RESERVOIRS].sort((a, b) => b.capacityAf - a.capacityAf).findIndex((x) => x.id === r.id) + 1} of ${MAP_RESERVOIRS.length} mapped reservoirs by capacity`,
+                          ...(live && (r.id === "powell" || r.id === "mead")
+                            ? ["One of the two savings reservoirs — the rest are small regulating pools."]
+                            : []),
+                        ],
+                        source: live
+                          ? `Bureau of Reclamation RISE, ${live.asOf}`
+                          : "Bureau of Reclamation (capacity); operator data unavailable",
+                        clock: "live",
+                        clockLabel: live ? "LIVE · updated daily" : "REFERENCE",
+                      })
+                    }
                     onMouseMove={(e) =>
                       showTip(e, r.name, [
                         live
@@ -467,7 +527,21 @@ export function BasinStory({
                     key={c.id}
                     d={d}
                     pathLength={1}
-                    className={`st-canal${flowsActive ? " drawn" : ""}`}
+                    className={`st-canal tappable${flowsActive ? " drawn" : ""}`}
+                    onClick={() =>
+                      setSheet({
+                        kicker: "Delivery path",
+                        title: c.name,
+                        fact: c.approxAfPerYear
+                          ? `Carries about ${acreFeet(c.approxAfPerYear)} a year — ${households(c.approxAfPerYear)}.`
+                          : "No sourced annual volume — shown for its role, not its size.",
+                        detail: `${c.role}. The drawn path is schematic between real endpoints.`,
+                        chips: ["aqueduct", "acre_foot", "consumptive_use"],
+                        source: c.volumeSource ?? "Role documented; volume unsourced",
+                        clock: "annual",
+                        clockLabel: "REPORTED AVERAGE",
+                      })
+                    }
                     style={{ strokeWidth: wLine * inv }}
                     onMouseMove={(e) =>
                       showTip(e, c.name, [
@@ -537,6 +611,19 @@ export function BasinStory({
                 return (
                   <g
                     key={p.id}
+                    className="tappable"
+                    onClick={() =>
+                      setSheet({
+                        kicker: "People served",
+                        title: p.name,
+                        fact: `About ${(p.people / 1e6).toFixed(1).replace(/\.0$/, "")} million people — roughly ${Math.round((p.people / 40_000_000) * 100)}% of everyone who depends on the river.`,
+                        detail: p.note,
+                        chips: ["service_population", "watershed"],
+                        source: `${p.source} (approximate)`,
+                        clock: "annual",
+                        clockLabel: "ANNUAL ESTIMATE",
+                      })
+                    }
                     onMouseMove={(e) =>
                       showTip(e, p.name, [
                         `≈ ${(p.people / 1e6).toFixed(1).replace(/\.0$/, "")} million people — ${p.source} (approx.)`,
@@ -569,8 +656,25 @@ export function BasinStory({
                     cx={x}
                     cy={y}
                     r={Math.max(1, 0.58 * Math.sqrt(v))}
-                    className="st-farm"
+                    className="st-farm tappable"
                     style={{ strokeWidth: 0.8 * inv }}
+                    onClick={() => {
+                      const afy = v * AF_PER_MGD_YEAR;
+                      setSheet({
+                        kicker: "County irrigation",
+                        title: `${c.name} County, ${c.st}`,
+                        fact: `Farms here withdrew about ${acreFeet(afy)} a year — enough water for ${households(afy)}.`,
+                        detail:
+                          "Withdrawals from all water sources, not only the Colorado River — and more than crops actually consume, since some returns to rivers and aquifers.",
+                        chips: ["mgd", "irrigation_withdrawal", "withdrawal", "consumptive_use", "census_2015"],
+                        compare: [
+                          `#${irRank.get(c.fips) ?? "—"} of ${irRank.size} counties in the seven basin states`,
+                        ],
+                        source: "USGS county water-use census (Dieter et al. 2018)",
+                        clock: "census",
+                        clockLabel: "2015 CENSUS · last full county count",
+                      });
+                    }}
                     onMouseMove={(e) =>
                       showTip(e, `${c.name} County, ${c.st}`, [
                         `Irrigation: ${v.toLocaleString()} MGD ≈ ${acreFeet(v * AF_PER_MGD_YEAR)}/yr`,
@@ -654,6 +758,7 @@ export function BasinStory({
             ))}
           </div>
         )}
+        <DetailSheet data={sheet} onClose={() => setSheet(null)} />
       </div>
 
       {/* scrolling cards */}
