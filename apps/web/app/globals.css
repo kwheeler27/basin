@@ -1029,7 +1029,7 @@ td.mono { font-family: var(--mono); font-size: 11px; }
   .story-cards { z-index: 1; }      /* under the stage */
   .story-card {
     max-width: none;
-    margin: 26svh 10px;
+    margin: 18svh 10px;
     padding: 13px 15px;
     opacity: .8;
   }

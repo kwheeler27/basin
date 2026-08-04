@@ -307,10 +307,16 @@ export function BasinStory({
   // Mobile: the basin is portrait-shaped — crop to it for the intro steps so
   // the map fills the screen; zoom out to full extent exactly when the story
   // leaves the basin (deliveries/people/farms/explore need LA and Denver).
-  const CROP = "215 15 585 625";
-  const FULL = `0 0 ${W} ${H}`;
-  const viewBox =
-    narrow && (hero === "basin" || hero === "storage") ? CROP : FULL;
+  // Crop rects carry ~15u of padding past the drawn canvas so the basin
+  // never touches the container edge (it was being sliced by the rounded
+  // corner). Deliveries keeps the tall crop: aqueducts exit toward edge
+  // labels. People/farms need the wide view (LA's circle, Central Valley).
+  const CROP = "215 10 585 645";
+  const FULL = `0 -8 ${W} ${H + 16}`;
+  const cropped =
+    narrow && !exploring &&
+    (hero === "basin" || hero === "storage" || hero === "flows");
+  const viewBox = cropped ? CROP : FULL;
 
   if (!geo || !counties) {
     return (
@@ -405,7 +411,8 @@ export function BasinStory({
                 const rCap = rOf(r.capacityAf);
                 const pct = live ? (live.af / r.capacityAf) * 100 : null;
                 const major = r.id === "powell" || r.id === "mead";
-                const showLabel = (major || (exploring && (rCap >= 7 || k >= 2.2))) && (!narrow || major || exploring);
+                const storageIsHero = hero === "storage";
+                const showLabel = storageIsHero && (major || (exploring && (rCap >= 7 || k >= 2.2))) && (!narrow || major || exploring);
                 return (
                   <g
                     key={r.id}
@@ -468,7 +475,7 @@ export function BasinStory({
                 );
               })}
               {/* destination labels, flows step only */}
-              {flowsActive &&
+              {flowsActive && !cropped &&
                 [
                   ["Los Angeles", -118.24, 34.15],
                   ["Phoenix", -112.07, 33.28],
@@ -482,6 +489,25 @@ export function BasinStory({
                     </text>
                   );
                 })}
+              {flowsActive && cropped && (
+                <>
+                  {/* paths exit the tall crop; edge labels name where they go */}
+                  <text x={228} y={project(-118.24, 33.95)[1]} className="st-label canal" style={{ fontSize: 10.5 * ts, textAnchor: "start" }}>
+                    ← Los Angeles
+                  </text>
+                  <text x={786} y={project(-104.9, 39.95)[1]} className="st-label canal" style={{ fontSize: 10.5 * ts, textAnchor: "end" }}>
+                    Denver →
+                  </text>
+                  {(() => {
+                    const [x, y] = project(-112.07, 33.28);
+                    return <text x={x} y={y} className="st-label canal" style={{ fontSize: 10.5 * ts }}>Phoenix</text>;
+                  })()}
+                  {(() => {
+                    const [x, y] = project(-115.25, 32.2);
+                    return <text x={x} y={y} className="st-label canal" style={{ fontSize: 10.5 * ts }}>Mexico</text>;
+                  })()}
+                </>
+              )}
             </g>
 
             {/* people — one violet circle system */}
