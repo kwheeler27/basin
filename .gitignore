@@ -46,3 +46,4 @@ data/
 .next/
 next-env.d.ts
 .vercel
+.qa/

@@ -19,6 +19,7 @@
 - **Revisions are new rows** (`revision_of`), never in-place updates. Three time columns stay distinct: `valid_time`, `publication_time`, `ingested_at`.
 - **Missing data renders as a gap, never as zero.** Every displayed number carries source, as-of timestamp, unit, and accounting concept.
 - **Never use `waterservices.usgs.gov`** (being decommissioned) — only `api.waterdata.usgs.gov/ogcapi/v0/`. USGS site 09379910 is discontinued since 2004; use 09380000 (Lees Ferry) + RISE.
+- **Desktop and mobile ship together and are verified together.** Any change to the story map requires `pnpm qa:map` (screenshots every step at BOTH viewports + a tap-through smoke test) before deploying — eyeballing only one viewport is how they drift.
 - The dev machine has **8GB RAM**: no watch-mode runners, no long-lived dev servers unless asked; tests run single-run (`pytest`, `vitest run`).
 
 ## Commands

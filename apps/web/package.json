@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "qa:map": "node scripts/map-qa.mjs"
   },
   "dependencies": {
     "@basin/contracts": "workspace:*",
@@ -26,6 +27,7 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@types/topojson-client": "^3.1.5",
+    "playwright": "1.56.1",
     "typescript": "^5.6.0"
   }
 }
