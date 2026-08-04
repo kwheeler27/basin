@@ -79,7 +79,15 @@ const STEP_INDEX: Record<StepId, number> = Object.fromEntries(
   STEP_IDS.map((s, i) => [s, i]),
 ) as Record<StepId, number>;
 
-type ExploreLayer = "storage" | "flows" | "people" | "farms";
+type ExploreLayer = "storage" | "flows" | "people" | "cities" | "farms";
+
+interface CityRow {
+  n: string;
+  st: string;
+  p: number;
+  lat: number;
+  lon: number;
+}
 
 interface CountyRow {
   fips: string;
@@ -125,6 +133,7 @@ export function BasinStory({
 }) {
   const [geo, setGeo] = useState<GeoData | null>(null);
   const [counties, setCounties] = useState<CountyRow[] | null>(null);
+  const [cities, setCities] = useState<CityRow[] | null>(null);
   const [stepIdx, setStepIdx] = useState(0);
   const [pinned, setPinned] = useState(false);
   const [exploreLayer, setExploreLayer] = useState<ExploreLayer>("storage");
@@ -159,13 +168,15 @@ export function BasinStory({
       fetch("/geo/basin_boundary.geojson").then((r) => r.json()),
       fetch("/geo/county_wateruse.json").then((r) => r.json()),
       fetch("/geo/basin_counties.geojson").then((r) => r.json()),
+      fetch("/geo/cities_10k.json").then((r) => r.json()),
     ]).then(
-      ([topo, rivers, boundary, wu, countyLines]: [
+      ([topo, rivers, boundary, wu, countyLines, cityData]: [
         unknown,
         GeoJSON.FeatureCollection,
         GeoJSON.FeatureCollection,
         { counties: CountyRow[] },
         GeoJSON.FeatureCollection,
+        { places: CityRow[] },
       ]) => {
         if (!alive) return;
         const t = topo as Parameters<typeof feature>[0] & {
@@ -180,6 +191,7 @@ export function BasinStory({
         }
         setGeo({ states, rivers, boundary, countyLines });
         setCounties(wu.counties);
+        setCities(cityData.places);
       },
     );
     return () => {
@@ -309,6 +321,7 @@ export function BasinStory({
     flows: hero === "flows" ? 1 : 0,
     people: hero === "people" ? 1 : 0,
     farms: hero === "farms" ? 1 : 0,
+    cities: exploring && exploreLayer === "cities" ? 1 : 0,
     leesFerry: step === "basin" || exploring ? 1 : 0,
   };
 
@@ -320,7 +333,21 @@ export function BasinStory({
   // Mobile: the basin is portrait-shaped — crop to it for the intro steps so
   // the map fills the screen; zoom out to full extent exactly when the story
   // leaves the basin (deliveries/people/farms/explore need LA and Denver).
-// Irrigation rank per county, for the comparison zone of the tap sheet.
+// City rank within its state (cities arrive sorted by population desc).
+  const cityRank = useMemo(() => {
+    const perState = new Map<string, number>();
+    const out = new Map<string, number>();
+    if (cities) {
+      for (const c of cities) {
+        const r = (perState.get(c.st) ?? 0) + 1;
+        perState.set(c.st, r);
+        out.set(`${c.n}|${c.st}`, r);
+      }
+    }
+    return out;
+  }, [cities]);
+
+  // Irrigation rank per county, for the comparison zone of the tap sheet.
   const irRank = useMemo(() => {
     if (!counties) return new Map<string, number>();
     const sorted = [...counties]
@@ -347,7 +374,7 @@ export function BasinStory({
         ? 215 // window [0,585]: Central Valley + Imperial in
         : 0;
 
-  if (!geo || !counties) {
+  if (!geo || !counties || !cities) {
     return (
       <div className="story-loading" style={{ aspectRatio: `${W}/${H}` }}>
         Loading basin geometry…
@@ -706,6 +733,55 @@ export function BasinStory({
                 </>
               )}
             </g>
+
+            {/* cities — explore only: every incorporated place >= 10k */}
+            <g style={{ opacity: opacity.cities }} className="fade">
+              {opacity.cities > 0 && cities.map((c) => {
+                const ck = `${c.n}|${c.st}`;
+                const [x, y] = project(c.lon, c.lat);
+                if (x < 8 || x > W - 8 || y < 8 || y > H - 8) return null;
+                const r = Math.max(0.8, 0.6 * Math.sqrt(c.p / 10_000));
+                const label =
+                  c.p >= 250_000 || (k >= 2.4 && c.p >= 60_000) || k >= 4.5;
+                return (
+                  <g
+                    key={ck}
+                    className="tappable"
+                    onClick={() =>
+                      setSheet({
+                        kicker: "City",
+                        title: `${c.n}, ${c.st}`,
+                        fact: `${c.p.toLocaleString()} people (July 2024 estimate).`,
+                        detail:
+                          "Incorporated places only — unincorporated communities (like the Las Vegas Strip's Paradise, NV) aren't counted here.",
+                        chips: ["watershed"],
+                        compare: [
+                          `#${cityRank.get(ck) ?? "—"} largest incorporated city in ${c.st} (of those over 10,000)`,
+                        ],
+                        source:
+                          "US Census Bureau, city population totals 2020–2024 (SUB-EST2024); TIGERweb centroids",
+                        clock: "annual",
+                        clockLabel: "JULY 2024 ESTIMATE",
+                      })
+                    }
+                    onMouseMove={(e) =>
+                      showTip(e, `${c.n}, ${c.st}`, [
+                        `${c.p.toLocaleString()} people (2024 est.)`,
+                      ])
+                    }
+                    onMouseLeave={hideTip}
+                  >
+                    <circle cx={x} cy={y} r={Math.max(r, 5)} fill="transparent" />
+                    <circle cx={x} cy={y} r={r} className="st-city" style={{ strokeWidth: 0.7 * inv }} />
+                    {label && (
+                      <text x={x} y={y - r - 3 * inv} className="st-label ink-city" style={{ fontSize: 9.5 * ts }}>
+                        {c.n}
+                      </text>
+                    )}
+                  </g>
+                );
+              })}
+            </g>
           </g>
         </g>
         </svg>
@@ -719,6 +795,7 @@ export function BasinStory({
                   ["storage", "Storage"],
                   ["flows", "Deliveries"],
                   ["people", "People"],
+                  ["cities", "Cities"],
                   ["farms", "Irrigation"],
                 ] as const
               ).map(([key, label]) => (
