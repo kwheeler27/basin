@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BasinMap } from "@/components/BasinMap";
+import { BasinStory } from "@/components/BasinStory";
 import { SystemChain } from "@/components/SystemChain";
 import { MEAD, POWELL, RULEBOOK } from "@/lib/reservoirs";
 import { MAP_RESERVOIRS } from "@/lib/mapdata";
@@ -53,18 +53,16 @@ export default async function Overview() {
         The Colorado River is committed to delivering more water than it produces.
       </h1>
       <p className="page-lede">
-        Roughly 40 million people and 5 million irrigated acres depend on it —
-        and the map shows <em>where</em>. Purple circles are people served
-        (sized by population); green diamonds are irrigated agriculture and
-        what it grows. Toggle layers, drag to pan, zoom in, hover anything for
-        its story and its source.
+        Roughly 40 million people and 5 million irrigated acres depend on it.
+        Scroll — the map tells the story one layer at a time, then opens up
+        for you to explore.
       </p>
 
-      <BasinMap storage={liveStorage} />
+      <BasinStory storage={liveStorage} />
       <p className="chain-caveat">
-        Rivers are real Natural Earth centerlines; aqueduct paths are schematic
-        runs between real endpoints. Reservoir storage is live from Reclamation
-        RISE, provisional.
+        Rivers and the watershed are real geometry (Natural Earth, USGS);
+        delivery paths are schematic between real endpoints. Reservoir storage
+        is live from Reclamation RISE, provisional.
       </p>
 
       <SystemChain storedNow={stored} />

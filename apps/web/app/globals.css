@@ -878,3 +878,195 @@ td.mono { font-family: var(--mono); font-size: 11px; }
 .lg-county.m-ps { background: color-mix(in srgb, #7b5ea7 52%, transparent); }
 .lg-county.m-ind { background: color-mix(in srgb, #b4560f 52%, transparent); }
 .lg-county.m-te { background: color-mix(in srgb, #5d6b66 55%, transparent); }
+
+/* ============================================================ story map
+   NYT register: near-white ground, one saturated hue per step, ink text,
+   still at rest. See docs/MAP_DESIGN.md. */
+
+.story { position: relative; margin: 22px 0 8px; }
+.story-sticky {
+  position: sticky; top: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.story-sticky svg { display: block; width: 100%; height: auto; }
+.story-sticky svg.explorable { cursor: grab; }
+.story-sticky svg.explorable:active { cursor: grabbing; }
+.story-loading {
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--faint); font-size: 13px; background: var(--surface);
+}
+
+/* one-shot transitions; still at rest */
+.fade { transition: opacity 700ms ease; }
+@media (prefers-reduced-motion: reduce) { .fade { transition: none; } }
+
+/* ground */
+.st-state {
+  fill: var(--surface);
+  stroke: var(--border);
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+}
+.st-state.basin { fill: color-mix(in srgb, var(--surface-2) 45%, var(--surface)); }
+
+.st-watershed {
+  fill: color-mix(in srgb, #2b7fb8 8%, transparent);
+  stroke: color-mix(in srgb, #2b7fb8 55%, var(--surface));
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  transition: fill 700ms ease, stroke 700ms ease;
+}
+.st-watershed.hero {
+  fill: color-mix(in srgb, #2b7fb8 16%, transparent);
+  stroke: #2b7fb8;
+}
+
+.st-river {
+  fill: none;
+  stroke: #2b7fb8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* marks — one glyph system per layer */
+.st-cap {
+  fill: none;
+  stroke: color-mix(in srgb, var(--muted) 70%, transparent);
+  stroke-dasharray: 3 3;
+}
+.st-store { fill: color-mix(in srgb, #2b7fb8 82%, transparent); }
+.st-ink { fill: var(--text); }
+
+.st-canal {
+  fill: none;
+  stroke: #b4560f;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;   /* hidden until drawn */
+}
+.st-canal.drawn {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1100ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .st-canal.drawn { transition: none; }
+}
+
+.st-people {
+  fill: color-mix(in srgb, #7b5ea7 30%, transparent);
+  stroke: #7b5ea7;
+}
+.st-farm {
+  fill: color-mix(in srgb, #0c8f6b 45%, transparent);
+  stroke: var(--surface);
+}
+
+/* labels: halo, ink or layer hue */
+.st-label {
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  font-weight: 600;
+  text-anchor: middle;
+  pointer-events: none;
+}
+.st-label.ink { fill: var(--text); text-anchor: start; font-weight: 500; }
+.st-label.water { fill: color-mix(in srgb, #2b7fb8 80%, var(--text)); }
+.st-label.canal { fill: #b4560f; }
+.st-label.people { fill: #7b5ea7; }
+.st-label.farm { fill: #0c8f6b; text-anchor: start; }
+
+@media (prefers-color-scheme: dark) {
+  .st-watershed { fill: color-mix(in srgb, #4a90c2 10%, transparent); stroke: color-mix(in srgb, #4a90c2 55%, var(--surface)); }
+  .st-watershed.hero { fill: color-mix(in srgb, #4a90c2 18%, transparent); stroke: #4a90c2; }
+  .st-river { stroke: #4a90c2; }
+  .st-store { fill: color-mix(in srgb, #4a90c2 84%, transparent); }
+  .st-canal { stroke: #c9773a; }
+  .st-people { fill: color-mix(in srgb, #9678cf 32%, transparent); stroke: #9678cf; }
+  .st-farm { fill: color-mix(in srgb, #2e9d85 48%, transparent); }
+  .st-label.water { fill: color-mix(in srgb, #4a90c2 80%, var(--text)); }
+  .st-label.canal { fill: #c9773a; }
+  .st-label.people { fill: #9678cf; }
+  .st-label.farm { fill: #2e9d85; }
+}
+
+/* scrolling cards */
+.story-cards { position: relative; z-index: 2; pointer-events: none; }
+.story-card {
+  pointer-events: auto;
+  max-width: 340px;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.08);
+  padding: 16px 18px;
+  margin: 55vh 0 55vh 14px;
+  opacity: .55;
+  transition: opacity 400ms ease;
+}
+.story-card.active { opacity: 1; }
+.story-card:first-child { margin-top: 4vh; }
+.story-card:last-child { margin-bottom: 8vh; }
+.story-kicker {
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: .09em;
+  color: var(--faint); font-weight: 700;
+}
+.story-card h3 { margin: 6px 0 8px; font-size: 17.5px; line-height: 1.35; }
+.story-card p { margin: 0; font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+
+/* pinned QA mode: no scroll cards */
+.story.pinned .story-cards { display: none; }
+
+/* explore controls */
+.story-layerbar {
+  position: absolute; top: 12px; left: 12px;
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.story-radio {
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  color: var(--faint);
+  border-radius: 999px;
+  padding: 5px 13px;
+  font-size: 12.5px; font-weight: 600; cursor: pointer;
+}
+.story-radio.on { color: var(--text); }
+.story-radio.on.storage { border-color: #2b7fb8; box-shadow: inset 0 0 0 1px #2b7fb8; }
+.story-radio.on.flows { border-color: #b4560f; box-shadow: inset 0 0 0 1px #b4560f; }
+.story-radio.on.people { border-color: #7b5ea7; box-shadow: inset 0 0 0 1px #7b5ea7; }
+.story-radio.on.farms { border-color: #0c8f6b; box-shadow: inset 0 0 0 1px #0c8f6b; }
+
+.story-zoom {
+  position: absolute; top: 12px; right: 12px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.story-zoom button {
+  width: 32px; height: 32px; border-radius: 7px;
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--text); font-size: 16px; cursor: pointer;
+}
+
+.story-dots {
+  position: absolute; right: 14px; bottom: 12px;
+  display: flex; gap: 5px;
+}
+.story-dots i {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border); transition: background 300ms;
+}
+.story-dots i.on { background: var(--text); }
+
+.story-tip {
+  position: absolute; z-index: 5; max-width: 270px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 12px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.14);
+  pointer-events: none; font-size: 12px; line-height: 1.5;
+}
+.story-tip strong { display: block; margin-bottom: 3px; font-size: 12.5px; }
+.story-tip div { color: var(--muted); margin-top: 2px; }
