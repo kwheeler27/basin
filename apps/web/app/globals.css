@@ -1015,20 +1015,31 @@ td.mono { font-family: var(--mono); font-size: 11px; }
 .story-card:first-child { margin-top: 4svh; }
 .story-card:last-child { margin-bottom: 8svh; }
 
-/* mobile is a redesign, not a reflow (docs/MAP_DESIGN.md #19) */
+/* mobile is a redesign, not a reflow (docs/MAP_DESIGN.md #19).
+   The map is an opaque pinned stage; cards scroll in the space below it and
+   slide UNDER it — never over it. Intro steps use a portrait crop so the map
+   actually fills the phone. */
 @media (max-width: 720px) {
-  .story-sticky { top: 0; border-radius: 0 0 var(--radius) var(--radius); }
+  .story-sticky {
+    top: 0;
+    z-index: 3;                     /* above the cards: they pass beneath */
+    border-radius: 0 0 var(--radius) var(--radius);
+    box-shadow: 0 8px 20px rgba(0,0,0,.10);
+  }
+  .story-cards { z-index: 1; }      /* under the stage */
   .story-card {
     max-width: none;
-    margin: 42svh 10px 42svh;
+    margin: 26svh 10px;
     padding: 13px 15px;
+    opacity: .8;
   }
-  .story-card:first-child { margin-top: 10svh; }
+  .story-card:first-child { margin-top: 5svh; }
+  .story-card:last-child { margin-bottom: 30svh; }
   .story-card h3 { font-size: 15.5px; }
   .story-card p { font-size: 12.5px; }
   .story-layerbar { top: 8px; left: 8px; gap: 4px; }
   .story-radio { padding: 4px 10px; font-size: 11.5px; }
-  .story-zoom { display: none; }       /* pinch-zoom exists; buttons crowd a phone */
+  .story-zoom { display: none; }    /* pinch-zoom exists; buttons crowd a phone */
   .story-dots { right: 10px; bottom: 8px; }
   .story-tip { max-width: 210px; font-size: 11px; }
 }

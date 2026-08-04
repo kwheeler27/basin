@@ -304,6 +304,14 @@ export function BasinStory({
   // Mobile type scale: SVG-unit text renders ~2.5x smaller at phone width.
   const ts = (narrow ? 1.9 : 1) * inv;
 
+  // Mobile: the basin is portrait-shaped — crop to it for the intro steps so
+  // the map fills the screen; zoom out to full extent exactly when the story
+  // leaves the basin (deliveries/people/farms/explore need LA and Denver).
+  const CROP = "215 15 585 625";
+  const FULL = `0 0 ${W} ${H}`;
+  const viewBox =
+    narrow && (hero === "basin" || hero === "storage") ? CROP : FULL;
+
   if (!geo || !counties) {
     return (
       <div className="story-loading" style={{ aspectRatio: `${W}/${H}` }}>
@@ -319,7 +327,7 @@ export function BasinStory({
       <div className="story-sticky" ref={stickyRef}>
         <svg
           ref={svgRef}
-          viewBox={`0 0 ${W} ${H}`}
+          viewBox={viewBox}
           role="img"
           aria-label="Map of the Colorado River system, revealed in steps: watershed, reservoirs, deliveries, people, and irrigation"
           className={exploring ? "explorable" : undefined}
