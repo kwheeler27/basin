@@ -902,7 +902,10 @@ td.mono { font-family: var(--mono); font-size: 11px; }
 
 /* one-shot transitions; still at rest */
 .fade { transition: opacity 700ms ease; }
-@media (prefers-reduced-motion: reduce) { .fade { transition: none; } }
+.pan-layer { transition: transform 700ms ease; }
+@media (prefers-reduced-motion: reduce) {
+  .fade, .pan-layer { transition: none; }
+}
 
 /* ground */
 .st-state {

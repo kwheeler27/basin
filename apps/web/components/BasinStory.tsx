@@ -307,16 +307,23 @@ export function BasinStory({
   // Mobile: the basin is portrait-shaped — crop to it for the intro steps so
   // the map fills the screen; zoom out to full extent exactly when the story
   // leaves the basin (deliveries/people/farms/explore need LA and Denver).
-  // Crop rects carry ~15u of padding past the drawn canvas so the basin
-  // never touches the container edge (it was being sliced by the rounded
-  // corner). Deliveries keeps the tall crop: aqueducts exit toward edge
-  // labels. People/farms need the wide view (LA's circle, Central Valley).
+  // Mobile: ONE constant portrait frame — the stage must never resize
+  // mid-scroll (the frame jumping between portrait and landscape was the
+  // reported awkwardness). Instead the CAMERA PANS at constant scale:
+  // people/farms shift the window west so LA and the Central Valley slide
+  // in while the basin slides right. Same scale = pure translation =
+  // smoothly animatable. What pans out of frame gets an edge label.
   const CROP = "215 10 585 645";
   const FULL = `0 -8 ${W} ${H + 16}`;
-  const cropped =
-    narrow && !exploring &&
-    (hero === "basin" || hero === "storage" || hero === "flows");
-  const viewBox = cropped ? CROP : FULL;
+  const viewBox = narrow ? CROP : FULL;
+  const cropped = narrow; // flows/people label variants keyed to the frame
+  const panX = !narrow
+    ? 0
+    : hero === "people"
+      ? 145 // window [70,655]: SoCal circle in; Denver/ABQ exit east
+      : hero === "farms"
+        ? 215 // window [0,585]: Central Valley + Imperial in
+        : 0;
 
   if (!geo || !counties) {
     return (
@@ -339,6 +346,7 @@ export function BasinStory({
           className={exploring ? "explorable" : undefined}
         >
           <g ref={gRef}>
+          <g className="pan-layer" style={{ transform: `translateX(${panX}px)` }}>
             {/* ground: states, near-white */}
             {geo.states.features.map((f) => {
               const fips = String(f.id).padStart(2, "0");
@@ -396,7 +404,7 @@ export function BasinStory({
                   <>
                     <circle cx={x} cy={y} r={3 * inv} className="st-ink" />
                     <text x={x + 8 * inv} y={y + 3.5 * inv} className="st-label ink" style={{ fontSize: 10.5 * ts }}>
-                      Lees Ferry — where the river is measured
+                      {narrow ? "Lees Ferry" : "Lees Ferry — where the river is measured"}
                     </text>
                   </>
                 );
@@ -512,6 +520,16 @@ export function BasinStory({
 
             {/* people — one violet circle system */}
             <g style={{ opacity: opacity.people }} className="fade">
+              {narrow && hero === "people" && (
+                <text
+                  x={786 - panX} /* inside the pan layer: counter-offset to stay at the frame edge */
+                  y={project(-104.9, 39.95)[1]}
+                  className="st-label people"
+                  style={{ fontSize: 10 * ts, textAnchor: "end" }}
+                >
+                  Denver · 2.5M →
+                </text>
+              )}
               {MAP_POPULATION.map((p) => {
                 const [x, y] = project(p.lon, p.lat);
                 const r = 3.2 * Math.sqrt(p.people / 1_000_000);
@@ -585,6 +603,7 @@ export function BasinStory({
               )}
             </g>
           </g>
+        </g>
         </svg>
 
         {/* explore controls */}
