@@ -120,6 +120,14 @@ export function BasinStory({
   const [exploreLayer, setExploreLayer] = useState<ExploreLayer>("storage");
   const [tip, setTip] = useState<Tip | null>(null);
   const [k, setK] = useState(1);
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 720px)");
+    const sync = () => setNarrow(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const gRef = useRef<SVGGElement | null>(null);
@@ -217,7 +225,7 @@ export function BasinStory({
           }
         }
       },
-      { rootMargin: "-45% 0px -45% 0px" },
+      { rootMargin: "-40% 0px -40% 0px" },
     );
     cards.forEach((c) => io.observe(c));
     return () => io.disconnect();
@@ -267,6 +275,13 @@ export function BasinStory({
   }, []);
   const hideTip = useCallback(() => setTip(null), []);
 
+  // Tap-shown tooltips linger on touch devices; any scroll dismisses.
+  useEffect(() => {
+    const clear = () => setTip(null);
+    window.addEventListener("scroll", clear, { passive: true });
+    return () => window.removeEventListener("scroll", clear);
+  }, []);
+
   // ---- layer opacities: hero = 1, context whisper, hidden = 0 --------------
   const on = (layer: ExploreLayer | "basin") =>
     exploring ? (layer === "basin" ? true : exploreLayer === layer) : undefined;
@@ -286,6 +301,8 @@ export function BasinStory({
 
   const rOf = (af: number) => 5.1 * Math.sqrt(af / 1_000_000);
   const inv = 1 / k;
+  // Mobile type scale: SVG-unit text renders ~2.5x smaller at phone width.
+  const ts = (narrow ? 1.9 : 1) * inv;
 
   if (!geo || !counties) {
     return (
@@ -364,7 +381,7 @@ export function BasinStory({
                 return (
                   <>
                     <circle cx={x} cy={y} r={3 * inv} className="st-ink" />
-                    <text x={x + 8 * inv} y={y + 3.5 * inv} className="st-label ink" style={{ fontSize: 10.5 * inv }}>
+                    <text x={x + 8 * inv} y={y + 3.5 * inv} className="st-label ink" style={{ fontSize: 10.5 * ts }}>
                       Lees Ferry — where the river is measured
                     </text>
                   </>
@@ -380,7 +397,7 @@ export function BasinStory({
                 const rCap = rOf(r.capacityAf);
                 const pct = live ? (live.af / r.capacityAf) * 100 : null;
                 const major = r.id === "powell" || r.id === "mead";
-                const showLabel = major || (exploring && (rCap >= 7 || k >= 2.2));
+                const showLabel = (major || (exploring && (rCap >= 7 || k >= 2.2))) && (!narrow || major || exploring);
                 return (
                   <g
                     key={r.id}
@@ -402,7 +419,7 @@ export function BasinStory({
                         x={x}
                         y={rCap < 9 ? y + rCap + 11 * inv : y - rCap - 6 * inv}
                         className="st-label water"
-                        style={{ fontSize: (major ? 12 : 10.5) * inv }}
+                        style={{ fontSize: (major ? 12 : 10.5) * ts }}
                       >
                         {r.name}
                         {pct !== null ? ` · ${percent(pct, 0)}` : ""}
@@ -452,7 +469,7 @@ export function BasinStory({
                 ].map(([name, lon, lat]) => {
                   const [x, y] = project(lon as number, lat as number);
                   return (
-                    <text key={name as string} x={x} y={y} className="st-label canal" style={{ fontSize: 10.5 * inv }}>
+                    <text key={name as string} x={x} y={y} className="st-label canal" style={{ fontSize: 10.5 * ts }}>
                       {name}
                     </text>
                   );
@@ -464,7 +481,7 @@ export function BasinStory({
               {MAP_POPULATION.map((p) => {
                 const [x, y] = project(p.lon, p.lat);
                 const r = 3.2 * Math.sqrt(p.people / 1_000_000);
-                const label = p.people >= PEOPLE_LABEL_MIN || (exploring && k >= 2.2);
+                const label = (p.people >= (narrow ? 2_000_000 : PEOPLE_LABEL_MIN)) || (exploring && k >= 2.2);
                 return (
                   <g
                     key={p.id}
@@ -479,7 +496,7 @@ export function BasinStory({
                     <circle cx={x} cy={y} r={Math.max(r, 9)} fill="transparent" />
                     <circle cx={x} cy={y} r={r} className="st-people" style={{ strokeWidth: 1.1 * inv }} />
                     {label && (
-                      <text x={x} y={y - r - 4 * inv} className="st-label people" style={{ fontSize: 10 * inv }}>
+                      <text x={x} y={y - r - 4 * inv} className="st-label people" style={{ fontSize: 10 * ts }}>
                         {p.name.split("·")[0]!.split("/")[0]!.trim()}
                       </text>
                     )}
@@ -517,7 +534,7 @@ export function BasinStory({
                   {(() => {
                     const [x, y] = project(-115.5, 32.95);
                     return (
-                      <text x={x - 14} y={y + 4} textAnchor="end" className="st-label farm" style={{ fontSize: 11 * inv }}>
+                      <text x={x - 14} y={y + 4} textAnchor="end" className="st-label farm" style={{ fontSize: 11 * ts }}>
                         Imperial Valley
                       </text>
                     );
@@ -525,7 +542,7 @@ export function BasinStory({
                   {(() => {
                     const [x, y] = project(-119.6, 36.6);
                     return (
-                      <text x={x} y={y} className="st-label farm" style={{ fontSize: 10 * inv }}>
+                      <text x={x} y={y} className="st-label farm" style={{ fontSize: 10 * ts }}>
                         Central Valley — outside the basin
                       </text>
                     );
