@@ -1371,3 +1371,49 @@ td.mono { font-family: var(--mono); font-size: 11px; }
 @media (prefers-color-scheme: dark) {
   .st-nid { stroke: color-mix(in srgb, #4a90c2 65%, var(--muted)); }
 }
+
+/* ================================================== time strip (storage) */
+
+.timestrip {
+  position: absolute;
+  left: 50%; bottom: 10px;
+  transform: translateX(-50%);
+  z-index: 6;
+  width: min(640px, calc(100% - 20px));
+  display: flex; align-items: center; gap: 8px;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  box-shadow: 0 6px 22px rgba(0,0,0,.12);
+}
+.ts-controls { display: flex; flex-direction: column; gap: 4px; }
+.ts-controls button {
+  width: 30px; height: 26px;
+  border: 1px solid var(--border); border-radius: 6px;
+  background: var(--surface-2); color: var(--text);
+  font-size: 11px; cursor: pointer;
+}
+.timestrip svg { flex: 1; display: block; height: auto; cursor: crosshair; }
+.ts-ghost { fill: none; stroke: var(--border); stroke-width: 1.2; }
+.ts-line { fill: none; stroke-width: 1.8; }
+.ts-line.powell { stroke: #2b7fb8; }
+.ts-line.mead { stroke: #0c8f6b; }
+.ts-hair { stroke: var(--text); stroke-width: 1; opacity: .55; }
+.ts-tick { fill: var(--faint); font-size: 8.5px; text-anchor: middle; }
+.ts-label { font-size: 10px; font-weight: 700; }
+.ts-label.powell { fill: #2b7fb8; }
+.ts-label.mead { fill: #0c8f6b; }
+.ts-date {
+  min-width: 64px; text-align: right;
+  font-size: 11.5px; font-weight: 650; color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+@media (prefers-color-scheme: dark) {
+  .ts-line.powell { stroke: #4a90c2; } .ts-label.powell { fill: #4a90c2; }
+  .ts-line.mead { stroke: #2e9d85; } .ts-label.mead { fill: #2e9d85; }
+}
+@media (max-width: 720px) {
+  .timestrip { bottom: 6px; padding: 6px 8px; gap: 6px; }
+  .ts-date { min-width: 52px; font-size: 10.5px; }
+}

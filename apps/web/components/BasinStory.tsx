@@ -398,31 +398,59 @@ export function BasinStory({
   // Mobile: the basin is portrait-shaped — crop to it for the intro steps so
   // the map fills the screen; zoom out to full extent exactly when the story
   // leaves the basin (deliveries/people/farms/explore need LA and Denver).
-// Auto-replay 2000->today once when the storage step first activates.
-  // Motion is the data here (change over time); honors reduced-motion and
-  // the pinned QA mode, both of which jump straight to "today".
+// Playback engine for the storage time-lapse: play/pause/restart/seek.
+  // Motion is the data (change over time); the synced time-strip line chart
+  // below the map carries the trajectory the circles alone can't.
+  const REPLAY_MS = 12_000;
+  const [playing, setPlaying] = useState(false);
+  const [prog, setProg] = useState(1); // 0..1 through the archive; 1 = today
+  const progRef = useRef(1);
+  const seek = (p: number, keepPlaying = false) => {
+    const clamped = Math.max(0, Math.min(1, p));
+    progRef.current = clamped;
+    setProg(clamped);
+    if (!history) return;
+    if (clamped >= 1) setTimeIdx(null);
+    else setTimeIdx(Math.round(clamped * (history.months.length - 1)));
+    if (!keepPlaying) setPlaying(false);
+  };
+  useEffect(() => {
+    if (!playing || !history) return;
+    if (progRef.current >= 1) progRef.current = 0;
+    let raf = 0;
+    let last = performance.now();
+    const tick = (t: number) => {
+      const p = Math.min(1, progRef.current + (t - last) / REPLAY_MS);
+      last = t;
+      progRef.current = p;
+      setProg(p);
+      setTimeIdx(p >= 1 ? null : Math.round(p * (history.months.length - 1)));
+      if (p < 1) raf = requestAnimationFrame(tick);
+      else setPlaying(false);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [playing, history]);
+
+  // Auto-play once on first arrival at the storage step (not in pinned QA;
+  // reduced-motion users keep manual control instead).
   useEffect(() => {
     if (step !== "storage" || pinned || playedRef.current || !history) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     playedRef.current = true;
-    const n = history.months.length;
-    const dur = 4200;
-    const t0 = performance.now();
-    let raf = 0;
-    const tick = (t: number) => {
-      const p = Math.min(1, (t - t0) / dur);
-      const eased = p < 0.5 ? 2 * p * p : 1 - (-2 * p + 2) ** 2 / 2;
-      setTimeIdx(Math.round(eased * (n - 1)));
-      if (p < 1) raf = requestAnimationFrame(tick);
-      else window.setTimeout(() => setTimeIdx(null), 600); // rest at today
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    progRef.current = 0;
+    setProg(0);
+    setPlaying(true);
   }, [step, pinned, history]);
 
-  // Leaving the storage context always returns the clock to today.
+  // Leaving the storage context returns the clock to today and stops playback.
   useEffect(() => {
-    if (hero !== "storage") setTimeIdx(null);
+    if (hero !== "storage") {
+      setPlaying(false);
+      progRef.current = 1;
+      setProg(1);
+      setTimeIdx(null);
+    }
   }, [hero]);
 
   // City rank within its state (cities arrive sorted by population desc).
@@ -1013,6 +1041,86 @@ export function BasinStory({
             </div>
           </>
         )}
+
+        {/* time strip: the trajectory as lines, synced to the map. Playback
+            transport lives here (play/pause/restart, click-to-seek). */}
+        {step === "storage" && !exploring && history && (() => {
+          const SW = 620, SH = 96, SM = { t: 10, r: 56, b: 16, l: 16 };
+          const n = history.months.length;
+          const sx = (i: number) => SM.l + (i / (n - 1)) * (SW - SM.l - SM.r);
+          const sy = (af: number) => SH - SM.b - (af / (26_000_000)) * (SH - SM.t - SM.b);
+          const lineOf = (rid: string) => {
+            let d = "";
+            let pen = false;
+            (history.series[rid] ?? []).forEach((v, i) => {
+              if (v === null) { pen = false; return; }
+              d += `${pen ? "L" : "M"}${sx(i).toFixed(1)},${sy(v).toFixed(1)} `;
+              pen = true;
+            });
+            return d;
+          };
+          const curI = timeIdx ?? n - 1;
+          const clipW = SM.l + prog * (SW - SM.l - SM.r);
+          const yearTicks = history.months
+            .map((m, i) => ({ m, i }))
+            .filter(({ m }) => m.endsWith("-01") && Number(m.slice(0, 4)) % 5 === 0);
+          const onSeek = (e: React.MouseEvent<SVGSVGElement>) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const px = ((e.clientX - rect.left) / rect.width) * SW;
+            seek((px - SM.l) / (SW - SM.l - SM.r));
+          };
+          return (
+            <div className="timestrip">
+              <div className="ts-controls">
+                <button
+                  aria-label={playing ? "Pause" : "Play"}
+                  onClick={() => setPlaying(!playing)}
+                >
+                  {playing ? "❚❚" : "▶"}
+                </button>
+                <button aria-label="Restart from 2000" onClick={() => { seek(0, true); setPlaying(true); }}>
+                  ↺
+                </button>
+              </div>
+              <svg viewBox={`0 0 ${SW} ${SH}`} role="img"
+                aria-label="Powell and Mead storage over time — click to seek"
+                onClick={onSeek}>
+                <defs>
+                  <clipPath id="ts-clip">
+                    <rect x={0} y={0} width={clipW} height={SH} />
+                  </clipPath>
+                </defs>
+                {yearTicks.map(({ m, i }) => (
+                  <text key={m} x={sx(i)} y={SH - 3} className="ts-tick">{m.slice(0, 4)}</text>
+                ))}
+                <path d={lineOf("powell")} className="ts-ghost" />
+                <path d={lineOf("mead")} className="ts-ghost" />
+                <g clipPath="url(#ts-clip)">
+                  <path d={lineOf("powell")} className="ts-line powell" />
+                  <path d={lineOf("mead")} className="ts-line mead" />
+                </g>
+                <line x1={sx(curI)} x2={sx(curI)} y1={SM.t} y2={SH - SM.b} className="ts-hair" />
+                {(() => {
+                  // end labels track the current values; nudge apart on collision
+                  let yp = sy(history.series.powell?.[curI] ?? 0) + 3.5;
+                  let ym = sy(history.series.mead?.[curI] ?? 0) + 3.5;
+                  if (Math.abs(yp - ym) < 10) {
+                    const mid = (yp + ym) / 2;
+                    yp = mid + (yp >= ym ? 5.5 : -5.5);
+                    ym = mid + (yp >= ym ? -5.5 : 5.5);
+                  }
+                  return (
+                    <>
+                      <text x={SW - SM.r + 6} y={yp} className="ts-label powell">Powell</text>
+                      <text x={SW - SM.r + 6} y={ym} className="ts-label mead">Mead</text>
+                    </>
+                  );
+                })()}
+              </svg>
+              <div className="ts-date">{timeLabel ?? "Today"}</div>
+            </div>
+          );
+        })()}
 
         {/* time context: ghost year during replay/scrub */}
         {timeLabel && (
