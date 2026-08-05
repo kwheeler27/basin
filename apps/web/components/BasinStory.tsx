@@ -472,9 +472,11 @@ export function BasinStory({
               );
             })}
 
-            {/* county boundaries — ground detail for the farms step & zoomed explore */}
+            {/* county boundaries — permanent quiet ground, one rung below
+                state lines; slightly more present where they carry meaning
+                (farms data, zoomed exploration) */}
             <g
-              style={{ opacity: hero === "farms" ? 0.7 : exploring && k >= 2 ? 0.55 : 0 }}
+              style={{ opacity: hero === "farms" ? 0.7 : exploring && k >= 2 ? 0.6 : 0.32 }}
               className="fade"
             >
               {geo.countyLines.features.map((f) => (
