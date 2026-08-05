@@ -999,7 +999,12 @@ td.mono { font-family: var(--mono); font-size: 11px; }
 }
 
 /* scrolling cards */
-.story-cards { position: relative; z-index: 2; pointer-events: none; }
+.story-cards {
+  position: relative; z-index: 2; pointer-events: none;
+  /* padding, not child margin: a last-child bottom margin collapses through
+     the parent and the sticky stage releases early (padding cannot collapse) */
+  padding-bottom: 58svh;
+}
 .story-card {
   pointer-events: auto;
   max-width: 340px;
@@ -1016,7 +1021,12 @@ td.mono { font-family: var(--mono); font-size: 11px; }
 }
 .story-card.active { opacity: 1; }
 .story-card:first-child { margin-top: 4svh; }
-.story-card:last-child { margin-bottom: 8svh; }
+.story-card:last-child {
+  /* runway: the sticky stage releases when .story ends, so the last card
+     needs enough bottom margin that the map stays pinned (and its controls
+     clickable) through the whole explore interaction */
+  margin-bottom: 58svh;
+}
 
 /* mobile is a redesign, not a reflow (docs/MAP_DESIGN.md #19).
    The map is an opaque pinned stage; cards scroll in the space below it and
@@ -1037,7 +1047,7 @@ td.mono { font-family: var(--mono); font-size: 11px; }
     opacity: .8;
   }
   .story-card:first-child { margin-top: 5svh; }
-  .story-card:last-child { margin-bottom: 30svh; }
+  .story-card:last-child { margin-bottom: 62svh; }
   .story-card h3 { font-size: 15.5px; }
   .story-card p { font-size: 12.5px; }
   .story-layerbar { top: 8px; left: 8px; gap: 4px; }
@@ -1060,10 +1070,11 @@ td.mono { font-family: var(--mono); font-size: 11px; }
 .story-layerbar {
   position: absolute; top: 12px; left: 12px;
   display: flex; gap: 6px; flex-wrap: wrap;
+  z-index: 6;               /* above the scrolling cards — they pass beneath */
 }
 .story-radio {
   border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  background: var(--surface);   /* solid: must stay legible under passing cards */
   color: var(--faint);
   border-radius: 999px;
   padding: 5px 13px;
@@ -1078,6 +1089,7 @@ td.mono { font-family: var(--mono); font-size: 11px; }
 .story-zoom {
   position: absolute; top: 12px; right: 12px;
   display: flex; flex-direction: column; gap: 6px;
+  z-index: 6;
 }
 .story-zoom button {
   width: 32px; height: 32px; border-radius: 7px;
@@ -1188,3 +1200,10 @@ td.mono { font-family: var(--mono); font-size: 11px; }
 }
 .st-label.ink-city { fill: var(--muted); font-weight: 500; }
 .story-radio.on.cities { border-color: var(--text); box-shadow: inset 0 0 0 1px var(--text); }
+
+
+/* in explore, the story is over — passed cards step aside */
+.story.exploring .story-card:not(.active) {
+  opacity: 0.12;
+  pointer-events: none;
+}

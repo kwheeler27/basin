@@ -242,16 +242,28 @@ export function BasinStory({
     if (pinned) return;
     const cards = document.querySelectorAll<HTMLElement>("[data-story-card]");
     if (!cards.length) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            setStepIdx(Number((e.target as HTMLElement).dataset.storyCard));
-          }
+    // The observer is only a trigger; the active step is always the card
+    // nearest the viewport center. Setting state per-entry made the last
+    // intersecting card win, so the final transition flickered out of
+    // explore when two tall cards straddled the band.
+    const pick = () => {
+      const mid = window.innerHeight / 2;
+      let best = 0;
+      let bestDist = Infinity;
+      cards.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        const d = Math.abs((r.top + r.bottom) / 2 - mid);
+        if (d < bestDist) {
+          bestDist = d;
+          best = Number(el.dataset.storyCard);
         }
-      },
-      { rootMargin: "-40% 0px -40% 0px" },
-    );
+      });
+      setStepIdx(best);
+    };
+    const io = new IntersectionObserver(pick, {
+      rootMargin: "-30% 0px -30% 0px",
+      threshold: [0, 0.25, 0.5, 0.75, 1],
+    });
     cards.forEach((c) => io.observe(c));
     return () => io.disconnect();
   }, [pinned, geo]);
@@ -386,7 +398,7 @@ export function BasinStory({
 
 
   return (
-    <div className={`story${pinned ? " pinned" : ""}`}>
+    <div className={`story${pinned ? " pinned" : ""}${exploring ? " exploring" : ""}`}>
       <div className="story-sticky" ref={stickyRef}>
         <svg
           ref={svgRef}
