@@ -234,3 +234,24 @@ INSERT INTO measure VALUES (
   citation = EXCLUDED.citation, revision_status = EXCLUDED.revision_status,
   expected_cadence = EXCLUDED.expected_cadence, sla_hours = EXCLUDED.sla_hours,
   caveats = EXCLUDED.caveats, not_comparable_with = EXCLUDED.not_comparable_with;
+
+INSERT INTO measure VALUES (
+  'colorado.structure.grand_valley_canal.diversion', 'Grand Valley Canal — headgate diversion', 'Daily flow diverted from the Colorado River into the Grand Valley Canal (WDID 7200645, Mesa County), measured at the headgate and recorded by Colorado''s water commissioners. Water rights on this canal date to 1882. The first structure-level (farm-scale) series in the registry.',
+  'VolumeFlowRate', 'cubic_foot_per_second', 'observed',
+  'diversion', 'interval_mean', 'P1D', 'water_year',
+  'station', 'codwr.7200645',
+  'Colorado Division of Water Resources', 'CDSS REST API', 'https://dwr.state.co.us/Rest/GET/api/v2/structures/divrec/divrecday/?wdid=7200645',
+  'Colorado Division of Water Resources, Colorado''s Decision Support Systems (CDSS), daily diversion records for WDID 7200645 (Grand Valley Canal), irrigation water class. Accessed {access_date}.', 'provisional',
+  'P1D', 72,
+  '["This is a DIVERSION at one headgate, not consumptive use — return flows from the Grand Valley re-enter the river downstream.","One headgate carries multiple water classes (irrigation plus a small stock/domestic class); this measure is the irrigation class only. Summing all classes at a WDID double-counts.","The canal is a mutual-company structure serving many farms; attribution below the headgate is not knowable from public records."]'::jsonb,
+  '[{"measure":"colorado.upper_basin.consumptive_use","reason":"Diversion vs. consumptive use — return flows make these different quantities."}]'::jsonb
+) ON CONFLICT (id) DO UPDATE SET
+  label = EXCLUDED.label, description = EXCLUDED.description,
+  quantity_kind = EXCLUDED.quantity_kind, canonical_unit = EXCLUDED.canonical_unit,
+  measurement_class = EXCLUDED.measurement_class, accounting_concept = EXCLUDED.accounting_concept,
+  temporal_semantics = EXCLUDED.temporal_semantics, grain = EXCLUDED.grain, calendar = EXCLUDED.calendar,
+  spatial_type = EXCLUDED.spatial_type, spatial_id = EXCLUDED.spatial_id,
+  agency = EXCLUDED.agency, source_system = EXCLUDED.source_system, endpoint = EXCLUDED.endpoint,
+  citation = EXCLUDED.citation, revision_status = EXCLUDED.revision_status,
+  expected_cadence = EXCLUDED.expected_cadence, sla_hours = EXCLUDED.sla_hours,
+  caveats = EXCLUDED.caveats, not_comparable_with = EXCLUDED.not_comparable_with;

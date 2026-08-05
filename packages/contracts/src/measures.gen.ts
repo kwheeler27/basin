@@ -28,7 +28,7 @@ export interface MeasureDef {
   readonly notComparableWith: readonly { readonly measure: string; readonly reason: string }[];
 }
 
-export type MeasureId = "colorado.gauge.lees_ferry.discharge" | "colorado.reservoir.mead.elevation" | "colorado.reservoir.mead.release_total" | "colorado.reservoir.mead.storage" | "colorado.reservoir.powell.elevation" | "colorado.reservoir.powell.inflow_unregulated" | "colorado.reservoir.powell.release_total" | "colorado.reservoir.powell.storage" | "colorado.snow.stations.swe" | "colorado.snow.upper_basin.swe_pct_median";
+export type MeasureId = "colorado.gauge.lees_ferry.discharge" | "colorado.reservoir.mead.elevation" | "colorado.reservoir.mead.release_total" | "colorado.reservoir.mead.storage" | "colorado.reservoir.powell.elevation" | "colorado.reservoir.powell.inflow_unregulated" | "colorado.reservoir.powell.release_total" | "colorado.reservoir.powell.storage" | "colorado.snow.stations.swe" | "colorado.snow.upper_basin.swe_pct_median" | "colorado.structure.grand_valley_canal.diversion";
 
 export const MEASURES: Record<MeasureId, MeasureDef> = {
   "colorado.gauge.lees_ferry.discharge": {
@@ -393,6 +393,45 @@ export const MEASURES: Record<MeasureId, MeasureDef> = {
       {
         "measure": "colorado.reservoir.powell.inflow_unregulated",
         "reason": "Snowpack percent does not map linearly to runoff volume — runoff efficiency varies with temperature, soil moisture, and dust; that relationship is exactly what the hydrology model estimates."
+      }
+    ]
+  },
+  "colorado.structure.grand_valley_canal.diversion": {
+    "id": "colorado.structure.grand_valley_canal.diversion",
+    "label": "Grand Valley Canal — headgate diversion",
+    "description": "Daily flow diverted from the Colorado River into the Grand Valley Canal (WDID 7200645, Mesa County), measured at the headgate and recorded by Colorado's water commissioners. Water rights on this canal date to 1882. The first structure-level (farm-scale) series in the registry.",
+    "quantityKind": "VolumeFlowRate",
+    "canonicalUnit": "cubic_foot_per_second",
+    "measurementClass": "observed",
+    "accountingConcept": "diversion",
+    "temporalSemantics": "interval_mean",
+    "grain": "P1D",
+    "calendar": "water_year",
+    "spatialRef": {
+      "type": "station",
+      "id": "codwr.7200645"
+    },
+    "provenance": {
+      "agency": "Colorado Division of Water Resources",
+      "system": "CDSS REST API",
+      "endpoint": "https://dwr.state.co.us/Rest/GET/api/v2/structures/divrec/divrecday/?wdid=7200645",
+      "citation": "Colorado Division of Water Resources, Colorado's Decision Support Systems (CDSS), daily diversion records for WDID 7200645 (Grand Valley Canal), irrigation water class. Accessed {access_date}."
+    },
+    "revisionStatus": "provisional",
+    "freshness": {
+      "expectedCadence": "P1D",
+      "slaHours": 72
+    },
+    "uncertainty": "none_published",
+    "caveats": [
+      "This is a DIVERSION at one headgate, not consumptive use — return flows from the Grand Valley re-enter the river downstream.",
+      "One headgate carries multiple water classes (irrigation plus a small stock/domestic class); this measure is the irrigation class only. Summing all classes at a WDID double-counts.",
+      "The canal is a mutual-company structure serving many farms; attribution below the headgate is not knowable from public records."
+    ],
+    "notComparableWith": [
+      {
+        "measure": "colorado.upper_basin.consumptive_use",
+        "reason": "Diversion vs. consumptive use — return flows make these different quantities."
       }
     ]
   },

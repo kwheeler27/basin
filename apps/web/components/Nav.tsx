@@ -8,11 +8,12 @@ const TABS = [
   { href: "/supply", label: "Supply" },
   { href: "/demand", label: "Demand" },
   { href: "/reservoirs", label: "Reservoirs" },
+  { href: "/distribution", label: "Distribution" },
   { href: "/data", label: "Data" },
 ] as const;
 
 /** Stages not yet built, shown so the shape of the product is legible. */
-const PLANNED = ["Infrastructure", "Distribution", "Agriculture"] as const;
+const PLANNED = ["Infrastructure", "Agriculture"] as const;
 
 export function Nav() {
   const pathname = usePathname();
