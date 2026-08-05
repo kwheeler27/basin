@@ -54,9 +54,15 @@ export default async function Overview() {
       </h1>
       <p className="page-lede">
         Roughly 40 million people and 5 million irrigated acres depend on it.
-        Scroll — the map tells the story one layer at a time, then opens up
-        for you to explore.
+        The map is live — switch layers, pan, zoom, tap anything. Or scroll
+        for the guided story.
       </p>
+
+      <BasinStory storage={liveStorage} variant="explore" />
+
+      <div className="scroll-cue" aria-hidden="true">
+        The guided tour ↓ · five chapters, two minutes
+      </div>
 
       <BasinStory storage={liveStorage} />
       <p className="chain-caveat">

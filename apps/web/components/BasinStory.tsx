@@ -79,6 +79,9 @@ const STEP_INDEX: Record<StepId, number> = Object.fromEntries(
   STEP_IDS.map((s, i) => [s, i]),
 ) as Record<StepId, number>;
 
+/** The narrated chapters — explore now lives in its own hero instance. */
+const STORY_STEPS = STEPS.slice(0, -1);
+
 type ExploreLayer = "storage" | "flows" | "people" | "cities" | "farms" | "et";
 
 interface NidDam {
@@ -146,9 +149,17 @@ const PEOPLE_LABEL_MIN = 1_000_000;
 
 export function BasinStory({
   storage,
+  variant = "story",
 }: {
   storage: Record<string, { af: number; asOf: string } | undefined>;
+  /**
+   * "story" — the scroll-driven narration with sticky stage and cards.
+   * "explore" — the same stage as a static, always-interactive hero:
+   * layer pills, zoom, taps; no cards, no scroll driving, no time-lapse.
+   */
+  variant?: "story" | "explore";
 }) {
+  const isHero = variant === "explore";
   const [geo, setGeo] = useState<GeoData | null>(null);
   const [counties, setCounties] = useState<CountyRow[] | null>(null);
   const [cities, setCities] = useState<CityRow[] | null>(null);
@@ -178,7 +189,9 @@ export function BasinStory({
   const zoomRef = useRef<ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const stickyRef = useRef<HTMLDivElement | null>(null);
 
-  const step = STEPS[Math.min(stepIdx, STEPS.length - 1)]!.id;
+  const step: StepId = isHero
+    ? "explore"
+    : STORY_STEPS[Math.min(stepIdx, STORY_STEPS.length - 1)]!.id;
   const exploring = step === "explore";
   // The hero layer for the current view (story step, or explore selection).
   const hero: StepId | ExploreLayer = exploring ? exploreLayer : step;
@@ -236,17 +249,18 @@ export function BasinStory({
     };
   }, []);
 
-  // ?step=N pins a view (QA / deep links).
+  // ?step=N pins a view (QA / deep links). Story instance only.
   useEffect(() => {
+    if (isHero) return;
     const raw = new URLSearchParams(window.location.search).get("step");
     if (raw !== null) {
       const n = Number(raw);
-      if (Number.isFinite(n) && n >= 0 && n < STEPS.length) {
+      if (Number.isFinite(n) && n >= 0 && n < STORY_STEPS.length) {
         setStepIdx(n);
         setPinned(true);
       }
     }
-  }, []);
+  }, [isHero]);
 
   // ---- projection ----------------------------------------------------------
   const { path, project } = useMemo(() => {
@@ -276,7 +290,7 @@ export function BasinStory({
 
   // ---- scroll driving ------------------------------------------------------
   useEffect(() => {
-    if (pinned) return;
+    if (isHero || pinned) return;
     const cards = document.querySelectorAll<HTMLElement>("[data-story-card]");
     if (!cards.length) return;
     // The observer is only a trigger; the active step is always the card
@@ -506,7 +520,10 @@ export function BasinStory({
 
 
   return (
-    <div className={`story${pinned ? " pinned" : ""}${exploring ? " exploring" : ""}`}>
+    <div
+      id={isHero ? "explore" : undefined}
+      className={`story${pinned ? " pinned" : ""}${exploring ? " exploring" : ""}${isHero ? " explore-hero" : ""}`}
+    >
       <div className="story-sticky" ref={stickyRef}>
         <svg
           ref={svgRef}
@@ -1141,52 +1158,14 @@ export function BasinStory({
           </div>
         )}
 
-        {/* manual scrubber: explore + storage layer only */}
-        {exploring && exploreLayer === "storage" && history && (
-          <div className="scrubber" role="group" aria-label="Storage history timeline">
-            <input
-              type="range"
-              min={0}
-              max={history.months.length - 1}
-              value={timeIdx ?? history.months.length - 1}
-              aria-label="Month"
-              onChange={(e) => {
-                const v = Number(e.currentTarget.value);
-                setTimeIdx(v >= history.months.length - 1 ? null : v);
-              }}
-            />
-            <div className="scrubber-row">
-              <span>2000</span>
-              <strong>
-                {timeLabel ?? "Today"}
-                {(() => {
-                  const p = shownStorage("powell");
-                  const m = shownStorage("mead");
-                  return p !== null && m !== null
-                    ? ` · Powell + Mead ${acreFeet(p + m)}`
-                    : "";
-                })()}
-              </strong>
-              <button
-                className="scrubber-now"
-                onClick={() => setTimeIdx(null)}
-                disabled={timeIdx === null}
-              >
-                Now
-              </button>
-            </div>
-            <div className="scrubber-src">
-              Reclamation RISE, monthly-sampled daily storage since 2000
-            </div>
+        {/* step dots (story only) */}
+        {!isHero && (
+          <div className="story-dots" aria-hidden="true">
+            {STORY_STEPS.map((s, i) => (
+              <i key={s.id} className={i === stepIdx ? "on" : undefined} />
+            ))}
           </div>
         )}
-
-        {/* step dots */}
-        <div className="story-dots" aria-hidden="true">
-          {STEPS.map((s, i) => (
-            <i key={s.id} className={i === stepIdx ? "on" : undefined} />
-          ))}
-        </div>
 
         {tip && (
           <div
@@ -1202,20 +1181,34 @@ export function BasinStory({
         <DetailSheet data={sheet} onClose={() => setSheet(null)} />
       </div>
 
-      {/* scrolling cards */}
-      <div className="story-cards">
-        {STEPS.map((s, i) => (
-          <article
-            key={s.id}
-            data-story-card={i}
-            className={`story-card${i === stepIdx ? " active" : ""}`}
-          >
-            <div className="story-kicker">{s.kicker}</div>
-            <h3>{s.hed}</h3>
-            <p>{s.body}</p>
+      {/* scrolling cards (story only) */}
+      {!isHero && (
+        <div className="story-cards">
+          {STORY_STEPS.map((s, i) => (
+            <article
+              key={s.id}
+              data-story-card={i}
+              className={`story-card${i === stepIdx ? " active" : ""}`}
+            >
+              <div className="story-kicker">{s.kicker}</div>
+              <h3>{s.hed}</h3>
+              <p>{s.body}</p>
+            </article>
+          ))}
+          <article className="story-card outro active">
+            <div className="story-kicker">Explore</div>
+            <h3>Now it&rsquo;s your instrument.</h3>
+            <p>
+              Every layer you just read is live on the map at the top of this
+              page — pan, zoom, switch layers, and tap anything for what it
+              means, how it compares, and where the number comes from.
+            </p>
+            <a className="story-outro-link" href="#explore">
+              ↑ Back to the map
+            </a>
           </article>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -1519,3 +1519,37 @@ a.src-badge:hover { opacity: 0.82; }
   color: var(--muted); margin-bottom: 9px;
 }
 .watch-body { font-size: 14px; color: var(--muted); line-height: 1.55; margin: 0 0 4px; }
+
+/* ---------- Overview: exploratory hero above the story ---------- */
+html { scroll-behavior: smooth; }
+.explore-hero { margin: 18px 0 0; }
+.explore-hero .story-sticky { position: static; }
+@media (min-width: 721px) {
+  .explore-hero .story-sticky svg { height: min(78svh, 700px); width: 100%; }
+}
+@media (max-width: 720px) {
+  /* pills become a single swipeable row ABOVE the portrait map */
+  .explore-hero .story-sticky { display: flex; flex-direction: column; }
+  .explore-hero .story-layerbar {
+    position: static; order: -1;
+    flex-wrap: nowrap; overflow-x: auto;
+    padding: 10px 10px 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .explore-hero .story-layerbar::-webkit-scrollbar { display: none; }
+  .explore-hero .story-layerbar .story-radio { flex: 0 0 auto; }
+  /* re-assert the phone zoom-button hide: the base .story-zoom rule sits
+     after the 720px block in this file, so it needs specificity to lose */
+  .story .story-zoom { display: none; }
+}
+.scroll-cue {
+  text-align: center; color: var(--muted);
+  font: 600 11.5px var(--mono); letter-spacing: 0.07em;
+  text-transform: uppercase; margin: 30px 0 0;
+}
+.story-outro-link {
+  display: inline-block; margin-top: 10px;
+  font-weight: 600; color: var(--accent); text-decoration: none;
+}
+.story-outro-link:hover { text-decoration: underline; }
