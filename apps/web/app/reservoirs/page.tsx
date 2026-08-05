@@ -1,3 +1,4 @@
+import { DrawdownChart } from "@/components/DrawdownChart";
 import { ReservoirCard } from "@/components/ReservoirCard";
 import { RulesToday } from "@/components/RulesToday";
 import { COMBINED_CAPACITY_ACRE_FEET, MEAD, POWELL } from "@/lib/reservoirs";
@@ -98,6 +99,19 @@ export default async function Reservoirs() {
           </p>
         )}
       </section>
+
+      <h2 className="section-title">The drawdown, as a line</h2>
+      <p className="body-text">
+        Twenty-six years in one picture: both reservoirs nearly full at the
+        millennium, the 2002 collapse, partial recoveries in 2005, 2011 and
+        2023 — and the long structural slide underneath all of it.
+      </p>
+      <DrawdownChart
+        liveNow={{
+          powell: powellStor.latest?.value,
+          mead: meadStor.latest?.value,
+        }}
+      />
 
       <div className="grid">
         <ReservoirCard

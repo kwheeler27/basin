@@ -1329,3 +1329,32 @@ td.mono { font-family: var(--mono); font-size: 11px; }
   .story-radio.on.et { border-color: #2e9d85; box-shadow: inset 0 0 0 1px #2e9d85; }
   .clock-model { color: #2e9d85; border-color: #2e9d85; }
 }
+
+/* mini series (inside tap sheets) */
+.mini-series { margin-top: 10px; }
+.mini-series svg { display: block; width: 100%; height: auto; }
+.ms-line { fill: none; stroke: #2b7fb8; stroke-width: 1.7; }
+.ms-ref { stroke: var(--faint); stroke-width: 1; stroke-dasharray: 3 3; }
+.ms-ref-label { fill: var(--faint); font-size: 9px; text-anchor: end; }
+.ms-now { fill: var(--text); stroke: var(--surface); stroke-width: 1.4; }
+.ms-min { fill: var(--danger); opacity: .8; }
+.ms-axis { fill: var(--faint); font-size: 9.5px; }
+.ms-axis.end { text-anchor: end; }
+@media (prefers-color-scheme: dark) { .ms-line { stroke: #4a90c2; } }
+
+/* drawdown chart */
+.drawdown { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+.drawdown.loading { color: var(--faint); font-size: 13px; }
+.drawdown svg { display: block; width: 100%; height: auto; }
+.dd-line { fill: none; stroke-width: 2; }
+.dd-line.powell { stroke: #2b7fb8; }
+.dd-line.mead { stroke: #0c8f6b; }
+.dd-label { font-size: 12px; font-weight: 700; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; }
+.dd-label.powell { fill: #2b7fb8; }
+.dd-label.mead { fill: #0c8f6b; }
+.dd-dot.powell { fill: #2b7fb8; stroke: var(--surface); stroke-width: 1.4; }
+.dd-dot.mead { fill: #0c8f6b; stroke: var(--surface); stroke-width: 1.4; }
+@media (prefers-color-scheme: dark) {
+  .dd-line.powell { stroke: #4a90c2; } .dd-label.powell { fill: #4a90c2; } .dd-dot.powell { fill: #4a90c2; }
+  .dd-line.mead { stroke: #2e9d85; } .dd-label.mead { fill: #2e9d85; } .dd-dot.mead { fill: #2e9d85; }
+}

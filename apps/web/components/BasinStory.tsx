@@ -586,6 +586,15 @@ export function BasinStory({
                           : "Bureau of Reclamation (capacity); operator data unavailable",
                         clock: "live",
                         clockLabel: live ? "LIVE · updated daily" : "REFERENCE",
+                        series: history?.series[r.id]
+                          ? {
+                              points: history.months.map((m, i) => [m, history.series[r.id]![i] ?? null]),
+                              unit: "acre-feet",
+                              reference: { value: r.capacityAf, label: "capacity" },
+                              startLabel: "2000",
+                              endLabel: "now",
+                            }
+                          : undefined,
                       })
                     }
                     onMouseMove={(e) =>
@@ -835,6 +844,12 @@ export function BasinStory({
                         source: "OpenET ensemble (NASA/USGS/DRI partnership), calendar 2025",
                         clock: "model",
                         clockLabel: "SATELLITE MODEL · 2025",
+                        series: {
+                          points: f.monthly.map((v, i) => [`M${i + 1}`, v]),
+                          unit: "inches/month",
+                          startLabel: "Jan ’25",
+                          endLabel: "Dec ’25",
+                        },
                       })
                     }
                     onMouseMove={(e) =>

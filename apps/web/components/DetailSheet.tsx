@@ -12,6 +12,7 @@
 
 import { useState } from "react";
 import { GLOSSARY } from "@/lib/glossary";
+import { MiniSeries, type MiniSeriesData } from "./MiniSeries";
 
 export type DataClock = "live" | "annual" | "census" | "model";
 
@@ -26,6 +27,7 @@ export interface SheetData {
   readonly source: string;
   readonly clock: DataClock;
   readonly clockLabel: string;
+  readonly series?: MiniSeriesData;
 }
 
 const CLOCK_STYLE: Record<DataClock, string> = {
@@ -58,6 +60,7 @@ export function DetailSheet({
       </div>
 
       <p className="sheet-fact">{data.fact}</p>
+      {data.series && <MiniSeries data={data.series} />}
       {data.detail && <p className="sheet-detail">{data.detail}</p>}
 
       {data.chips.length > 0 && (
