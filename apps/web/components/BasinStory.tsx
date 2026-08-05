@@ -16,7 +16,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { geoArea, geoConicConformal, geoPath } from "d3-geo";
+import { geoArea, geoConicConformal, geoContains, geoPath } from "d3-geo";
 import { feature } from "topojson-client";
 import { select } from "d3-selection";
 import { zoom, zoomIdentity, type ZoomBehavior } from "d3-zoom";
@@ -80,6 +80,12 @@ const STEP_INDEX: Record<StepId, number> = Object.fromEntries(
 ) as Record<StepId, number>;
 
 type ExploreLayer = "storage" | "flows" | "people" | "cities" | "farms" | "et";
+
+interface NidDam {
+  n: string; id: string; st: string;
+  lat: number; lon: number; af: number;
+  own: string; use: string; riv: string; yr: string | null;
+}
 
 interface EtField {
   id: string; name: string; st: string; crops: string;
@@ -147,6 +153,7 @@ export function BasinStory({
   const [counties, setCounties] = useState<CountyRow[] | null>(null);
   const [cities, setCities] = useState<CityRow[] | null>(null);
   const [etFields, setEtFields] = useState<EtField[] | null>(null);
+  const [nidDams, setNidDams] = useState<NidDam[] | null>(null);
   const [stepIdx, setStepIdx] = useState(0);
   const [pinned, setPinned] = useState(false);
   const [exploreLayer, setExploreLayer] = useState<ExploreLayer>("storage");
@@ -188,8 +195,9 @@ export function BasinStory({
       fetch("/geo/cities_10k.json").then((r) => r.json()),
       fetch("/geo/storage_history.json").then((r) => r.json()),
       fetch("/geo/openet_fields_2025.json").then((r) => r.json()),
+      fetch("/geo/nid_reservoirs.json").then((r) => r.json()),
     ]).then(
-      ([topo, rivers, boundary, wu, countyLines, cityData, hist, etData]: [
+      ([topo, rivers, boundary, wu, countyLines, cityData, hist, etData, nid]: [
         unknown,
         GeoJSON.FeatureCollection,
         GeoJSON.FeatureCollection,
@@ -198,6 +206,7 @@ export function BasinStory({
         { places: CityRow[] },
         StorageHistory,
         { fields: EtField[] },
+        { dams: NidDam[] },
       ]) => {
         if (!alive) return;
         const t = topo as Parameters<typeof feature>[0] & {
@@ -215,6 +224,11 @@ export function BasinStory({
         setCities(cityData.places);
         setHistory(hist);
         setEtFields(etData.fields.filter((f) => f.quality === "field"));
+        // Drop NID entries that duplicate the curated live reservoirs
+        // (Hoover, Glen Canyon, ... appear in both).
+        setNidDams(nid.dams.filter((d) =>
+          !MAP_RESERVOIRS.some((r) =>
+            Math.abs(r.lat - d.lat) < 0.09 && Math.abs(r.lon - d.lon) < 0.09)));
       },
     );
     return () => {
@@ -361,6 +375,10 @@ export function BasinStory({
     leesFerry: step === "basin" || exploring ? 1 : 0,
   };
 
+  /** Point-in-watershed test against the USGS HUC boundary (post-rewind). */
+  const inBasin = (lon: number, lat: number) =>
+    geo?.boundary.features.some((f) => geoContains(f, [lon, lat])) ?? false;
+
   /** Storage shown on the map: historical during replay/scrub, else live. */
   const shownStorage = (rid: string): number | null => {
     if (timeIdx !== null) return history?.series[rid]?.[timeIdx] ?? null;
@@ -448,7 +466,7 @@ export function BasinStory({
         ? 215 // window [0,585]: Central Valley + Imperial in
         : 0;
 
-  if (!geo || !counties || !cities || !etFields) {
+  if (!geo || !counties || !cities || !etFields || !nidDams) {
     return (
       <div className="story-loading" style={{ aspectRatio: `${W}/${H}` }}>
         Loading basin geometry…
@@ -553,6 +571,51 @@ export function BasinStory({
 
             {/* storage — ring (capacity) + disc (live) */}
             <g style={{ opacity: opacity.storage }} className="fade">
+              {/* the long tail: every NID dam >= 10 kaf (capacity only, no
+                  live feed). Zoom-density: majors at rest, everything when
+                  zoomed. Explore only — the story keeps its 13. */}
+              {exploring && nidDams.map((d) => {
+                if (k < 2.2 && d.af < 100_000) return null;
+                const [x, y] = project(d.lon, d.lat);
+                if (x < 6 || x > W - 6 || y < 6 || y > H - 6) return null;
+                const rr = Math.max(1.2, rOf(d.af));
+                const inside = inBasin(d.lon, d.lat);
+                return (
+                  <g
+                    key={d.id}
+                    className="tappable"
+                    onClick={() =>
+                      setSheet({
+                        kicker: "Reservoir (inventory)",
+                        title: d.n,
+                        fact: `Capacity about ${acreFeet(d.af)} — ${d.use.toLowerCase() || "multi-purpose"}, on ${d.riv || "an unnamed stream"}${d.yr ? `, completed ${d.yr}` : ""}.`,
+                        detail: inside
+                          ? "Inside the Colorado River watershed."
+                          : "OUTSIDE the Colorado River watershed — a different river system, even if it sits in a basin state (some Front Range reservoirs store imported Colorado River water).",
+                        chips: ["storage_capacity", "watershed", "acre_foot"],
+                        compare: [
+                          `${d.own || "Unknown"} owner · no public live-storage feed`,
+                        ],
+                        source: "US Army Corps of Engineers, National Inventory of Dams (2026 snapshot)",
+                        clock: "annual",
+                        clockLabel: "INVENTORY · NID 2026",
+                      })
+                    }
+                    onMouseMove={(e) =>
+                      showTip(e, d.n, [`≈ ${acreFeet(d.af)} capacity · ${d.st}`])
+                    }
+                    onMouseLeave={hideTip}
+                  >
+                    <circle cx={x} cy={y} r={Math.max(rr, 7)} fill="transparent" />
+                    <circle cx={x} cy={y} r={rr} className={`st-nid${inside ? "" : " outside"}`} style={{ strokeWidth: 1 * inv }} />
+                    {k >= 3 && d.af >= 12_000 && (
+                      <text x={x} y={y - rr - 3 * inv} className="st-label nid" style={{ fontSize: 8.5 * ts }}>
+                        {d.n}
+                      </text>
+                    )}
+                  </g>
+                );
+              })}
               {MAP_RESERVOIRS.map((r) => {
                 const [x, y] = project(r.lon, r.lat);
                 const live = storage[r.id];
