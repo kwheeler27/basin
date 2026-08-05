@@ -1,5 +1,6 @@
 import { SourceBadge } from "@/components/SourceBadge";
 import { CASE_GSC, WATCHLIST } from "@/lib/markets";
+import ledger from "@/public/geo/transactions_gv.json";
 
 export const metadata = { title: "Markets — Basin" };
 
@@ -111,15 +112,70 @@ export default function Markets() {
         ))}
       </div>
 
-      <div className="note" style={{ marginTop: 26 }}>
+      <h2 className="section-title">The ledger — Grand Valley, first cut</h2>
+      <p className="body-text">
+        Watching water markets case-by-case has a ceiling — the systematic view
+        needs a systematic record. Colorado is the only basin state that
+        publishes one: every court-decreed transaction on a water right,
+        queryable down to the ditch. This is Water District 72 — the Grand
+        Valley — filtered to the market signal: changes of use, transfers, and
+        abandonments. Since 2017, <strong>{ledger.casesSince2017} cases</strong>
+        , every one a small spring, drain, pump, or well.
+      </p>
+      <div className="note">
         <p>
-          <strong>What comes next: the ledger.</strong> Watching water markets
-          case-by-case has a ceiling — the systematic view needs a systematic
-          record. Colorado is the only basin state that publishes one: every
-          court-decreed change in how a water right is used, queryable down to
-          the ditch. A live feed of that ledger is the next piece of this
-          page — and its first query will be the Grand Valley entry above.
+          <strong>Which answers the watchlist question.</strong> No change case
+          touching the valley&rsquo;s major canal systems appears in this
+          ledger since 2017 — the era of the investment-fund purchases. The
+          last canal-system change cases are 2011 and 2002. Whatever the
+          fund&rsquo;s intentions, on paper its water is still farming. The
+          record can&rsquo;t prove a negative forever — this page re-checks on
+          every data refresh.
         </p>
+      </div>
+      <div className="table-scroll">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Filed</th>
+              <th>Case</th>
+              <th>Type</th>
+              <th>Structures decreed</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ledger.cases
+              .filter((c) => c.year >= 2017)
+              .map((c) => (
+                <tr key={c.case}>
+                  <td>{c.year}</td>
+                  <td>
+                    <a href={c.url} target="_blank" rel="noopener noreferrer">
+                      {c.case}
+                    </a>
+                  </td>
+                  <td>{c.types.join(", ")}</td>
+                  <td>
+                    {c.structures.join(" · ")}
+                    {c.structureCount > c.structures.length &&
+                      ` · +${c.structureCount - c.structures.length} more`}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="chain-caveat" style={{ marginTop: 10 }}>
+        <span className="src-badge src-filed" style={{ marginRight: 8 }}>
+          FILED RECORD
+        </span>
+        {ledger.source} Case links open the water-court record. Type codes per
+        DWR HydroBase: C change of water right · TT/TF transferred to/from ·
+        AB abandonment. Snapshot {ledger.fetched};{" "}
+        {ledger.marketRowsSince2000} decree rows since 2000 across{" "}
+        {ledger.caseCount} cases. Ownership is not recorded in CDSS — that
+        chain ends at county deeds, by design of the record, which is exactly
+        what the badges above are for.
       </div>
     </main>
   );

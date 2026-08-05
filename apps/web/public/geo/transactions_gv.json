@@ -1,0 +1,4010 @@
+{
+ "source": "Colorado DWR, CDSS REST API — waterrights/transaction, Water District 72 (Grand Valley). Court-decreed transactions only; ownership is not recorded in CDSS.",
+ "fetched": "2026-08-05",
+ "district": 72,
+ "totalRows": 5497,
+ "marketRowsSince2000": 739,
+ "caseCount": 240,
+ "casesSince2017": 47,
+ "cases": [
+  {
+   "case": "25CW0002",
+   "year": 2025,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/324379",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "POLK DRAIN"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "REED WASH"
+   ]
+  },
+  {
+   "case": "25CW0004",
+   "year": 2025,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/324164",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "SNYDER PUMP"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "PECK AND BEEDE WASH"
+   ]
+  },
+  {
+   "case": "24CW0004",
+   "year": 2024,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/319204",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "HOEFNER SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "24CW3051",
+   "year": 2024,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/324381",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "32.5 GRAVEL PIT"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "24CW3137",
+   "year": 2024,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/323375",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "POWDER RIDGE SPRING AND PIPELINE"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BIG BEAVER CREEK"
+   ]
+  },
+  {
+   "case": "23CW0007",
+   "year": 2023,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/319561",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "YORK SPRING NO.1",
+    "WASTEWATER AT YORK SPRING NO.1",
+    "YORK SPRING NO.2"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "23CW0008",
+   "year": 2023,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/324380",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "TAITER SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "23CW0009",
+   "year": 2023,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/319740",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "KETTLE DIVERSION NO. 2"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "23CW3107",
+   "year": 2023,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/316046",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "DAY WELL"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "GROUNDWATER: COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "23CW3185",
+   "year": 2023,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/318410",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "BURKETT- RENCH DIT. HDGT2"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BIG SALT WASH"
+   ]
+  },
+  {
+   "case": "23CW3204",
+   "year": 2023,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/319863",
+   "types": [
+    "AB"
+   ],
+   "structures": [
+    "SEGREST SPRING & SEEP"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "22CW0003",
+   "year": 2022,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/310307",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "FORSTER PUMP SITE 1",
+    "FORSTER PUMP SITE 2"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "22CW0006",
+   "year": 2022,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/310310",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "LORALEE PUMP STATION"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "WEST SALT CREEK"
+   ]
+  },
+  {
+   "case": "22CW0013",
+   "year": 2022,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/314966",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "KETTLE DIVERSION"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "ADOBE CREEK"
+   ]
+  },
+  {
+   "case": "22CW3047",
+   "year": 2022,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/310314",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "GOLD LAKE FEEDER PL"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "REED WASH"
+   ]
+  },
+  {
+   "case": "22CW3073",
+   "year": 2022,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/278853",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "RED BARN SPRING NO. 1"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BIG CREEK"
+   ]
+  },
+  {
+   "case": "21CW0007",
+   "year": 2021,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/319205",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "BIESER DITCH NO 2"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "21CW3053",
+   "year": 2021,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/307165",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "ARRANTS PUMP AND PIPELINE",
+    "ARRANTS POND"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "SINK CREEK"
+   ]
+  },
+  {
+   "case": "21CW3107",
+   "year": 2021,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/310298",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "WILDERNESS PUMP AND PIPELINE NO 2",
+    "HILLARD POND NO 1",
+    "HILLARED POND NO 2"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "21CW3134",
+   "year": 2021,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/310289",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "BLANCK STORAGE TANK"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "EAST SALT CREEK"
+   ]
+  },
+  {
+   "case": "21CW3151",
+   "year": 2021,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/316754",
+   "types": [
+    "AB",
+    "TT"
+   ],
+   "structures": [
+    "GLACIER SPRING PIPELINE",
+    "HILLTOP PUMP & PIPELINE",
+    "MCCALL PUMPING PLANT",
+    "MCCLELLAN WASTE DITCH",
+    "MCGEOCH DITCH",
+    "MIDDLETON MEADOWS DITCH"
+   ],
+   "structureCount": 29,
+   "sources": [
+    "MESA CREEK",
+    "COLORADO RIVER",
+    "COON CREEK",
+    "MIDDLETON CREEK"
+   ]
+  },
+  {
+   "case": "21CW3181",
+   "year": 2021,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/310184",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "BOYACK PUMP NO. 2",
+    "BOYACK WASTEWATER DIVERSION",
+    "BOYACK POND"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "REED WASH"
+   ]
+  },
+  {
+   "case": "21CW3183",
+   "year": 2021,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/310297",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "MCCURTER PUMP & PIPELINE",
+    "MCCURTER POND NO. 2 DIVERSION",
+    "MCCURTER POND NO. 2",
+    "MCCURTER POND NO. 1",
+    "MCCURTER POND NO. 3",
+    "MCCURTER POND NO. 4"
+   ],
+   "structureCount": 6,
+   "sources": [
+    "WEST SALT CREEK"
+   ]
+  },
+  {
+   "case": "20CW3032",
+   "year": 2020,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/306519",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "BRACH WASTEWATER DITCH",
+    "BRACH WASTEWATER POND"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "EAST SALT CREEK"
+   ]
+  },
+  {
+   "case": "19CW0002",
+   "year": 2019,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/304677",
+   "types": [
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "BOREN DIVERSION NO 6"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "EAST SALT CREEK"
+   ]
+  },
+  {
+   "case": "19CW3011",
+   "year": 2019,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/233611",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "MACK PUMPING PIPELINE"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "19CW3050",
+   "year": 2019,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/298503",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "SCOTT POND",
+    "SCOTT SPRING"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "19CW3078",
+   "year": 2019,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/324382",
+   "types": [
+    "AB"
+   ],
+   "structures": [
+    "NELSON POND"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "WEST SALT CREEK"
+   ]
+  },
+  {
+   "case": "19CW3121",
+   "year": 2019,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/303731",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "CS PUMP NO 2",
+    "CS PUMP NO 2 ALT POINT NO 1",
+    "CS PUMP NO 2 ATL POINT NO 2",
+    "CS PUMP NO 2 ALT POINT NO 3"
+   ],
+   "structureCount": 4,
+   "sources": [
+    "MACK WASH"
+   ]
+  },
+  {
+   "case": "19CW3152",
+   "year": 2019,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/304669",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "TIMBERLINE DIVERSION"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "LEACH CREEK"
+   ]
+  },
+  {
+   "case": "19CW3155",
+   "year": 2019,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/304413",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "GIPP POND"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BUZZARD CREEK"
+   ]
+  },
+  {
+   "case": "19CW3165",
+   "year": 2019,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/304470",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "REDLANDS WATER AND POWER PUMPING STATION"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "18CW0013",
+   "year": 2018,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/298509",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "SIMONES DITCH"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "EAST BRANCH REED WASH"
+   ]
+  },
+  {
+   "case": "18CW3019",
+   "year": 2018,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/295085",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "GIPP PUMP STATION"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BUZZARD CREEK"
+   ]
+  },
+  {
+   "case": "18CW3022",
+   "year": 2018,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/291685",
+   "types": [
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "PALISADE TWN SEEPGE DIVR"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "18CW3133",
+   "year": 2018,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/295108",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "BROOK SPRING",
+    "NATIVE POND",
+    "BROOK POND",
+    "BROWN POND",
+    "RAINBOW POND"
+   ],
+   "structureCount": 5,
+   "sources": [
+    "TATE CREEK"
+   ]
+  },
+  {
+   "case": "18CW3177",
+   "year": 2018,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/298818",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "FLETCHERS POND"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COON CREEK"
+   ]
+  },
+  {
+   "case": "18CW3178",
+   "year": 2018,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/303728",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "CS PUMP NO 2"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MACK WASH"
+   ]
+  },
+  {
+   "case": "18CW3218",
+   "year": 2018,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/303299",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "HARDEE POND NO. 1",
+    "HARDEE POND NO.2",
+    "HARDEE POND NO. 3",
+    "HARDEE SPRING NO. 3",
+    "HARDEE SPRING NO. 4",
+    "HARDEE SPRING NO. 5"
+   ],
+   "structureCount": 9,
+   "sources": [
+    "EAST SALT CREEK"
+   ]
+  },
+  {
+   "case": "18CW3222",
+   "year": 2018,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/299162",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "23 ROAD GRAVEL PIT (THE \"PIT\")"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "17CW0002",
+   "year": 2017,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/286995",
+   "types": [
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "EAST SALT CREEK PUMP NO2"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "EAST SALT CREEK"
+   ]
+  },
+  {
+   "case": "17CW0018",
+   "year": 2017,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/319560",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "HOEFNER SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "17CW3154",
+   "year": 2017,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/287019",
+   "types": [
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "FORAKER DITCH"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BULL CREEK"
+   ]
+  },
+  {
+   "case": "17CW3198",
+   "year": 2017,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/291677",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "RED MOUNTAIN SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "17CW3212",
+   "year": 2017,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/324043",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "TAVISTOCK DIVERSION NO 1",
+    "TAVISTOCK DIVERSION NO 2"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COLORADO RIVER",
+    "REED WASH"
+   ]
+  },
+  {
+   "case": "17CW3239",
+   "year": 2017,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/291696",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "BRIDGES SWITCH PUMP PL"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "17CW3246",
+   "year": 2017,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/291697",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "CASTLE PEAK DIVERSION SYSTEM",
+    "CASTLE PEAK DIVERSION SYSTEM AP"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "SPRING CREEK"
+   ]
+  },
+  {
+   "case": "16CW0004",
+   "year": 2016,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/286962",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "WILSON PUMP- REED WASH"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "EAST BRANCH REED WASH"
+   ]
+  },
+  {
+   "case": "16CW3003",
+   "year": 2016,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/279722",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "GOLD LAKE"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "REED WASH"
+   ]
+  },
+  {
+   "case": "16CW3009",
+   "year": 2016,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/289047",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "AP DEERPARK GULCH PMP PL & PACIFIC OIL CO PL NO 2"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "16CW3076",
+   "year": 2016,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/287038",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "WORTHINGTON SPRING",
+    "BIG VU AUGMENTATION TANK",
+    "BIG VU POND"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "WALLACE GULCH"
+   ]
+  },
+  {
+   "case": "16CW3098",
+   "year": 2016,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/286916",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "IVS NO 1 SYSTEM POINT A"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "16CW3102",
+   "year": 2016,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/319203",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "BURKETT- RENCH DIT. HDGT2"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BIG SALT WASH"
+   ]
+  },
+  {
+   "case": "16CW3184",
+   "year": 2016,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/287249",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "Y T RESERVOIR DITCH"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "GROVE CREEK"
+   ]
+  },
+  {
+   "case": "15CW0011",
+   "year": 2015,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/281155",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "ROADSIDE SEEPS"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "15CW0013",
+   "year": 2015,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/289041",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "IMPALA SPRINGS POND"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "15CW3008",
+   "year": 2015,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/281683",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "STURDEVANT SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "15CW3073",
+   "year": 2015,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/307600",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "JASON SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "15CW3112",
+   "year": 2015,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/279723",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "PEEBLES PUMP AND PIPELINE"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "15CW3114",
+   "year": 2015,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/279424",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "RED BARN POND",
+    "RED BARN SPRING NO. 1",
+    "RED BARN SPRING NO. 2"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "BIG CREEK"
+   ]
+  },
+  {
+   "case": "14CW0014",
+   "year": 2014,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/269757",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "MARY LOU PUMP AND PIPELINE"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BIG SALT WASH"
+   ]
+  },
+  {
+   "case": "14CW3093",
+   "year": 2014,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/281675",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "MCKEE DITCH",
+    "CAMP 7 POND",
+    "CARLSON WELL",
+    "CAMP 7 SPRING NO. 1",
+    "CAMP 7 SPRING NO. 2"
+   ],
+   "structureCount": 5,
+   "sources": [
+    "KIMBALL CREEK",
+    "GROUNDWATER: PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "14CW3103",
+   "year": 2014,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/269747",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "BULL CREEK RES NO 4"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BULL CREEK"
+   ]
+  },
+  {
+   "case": "14CW3115",
+   "year": 2014,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/275136",
+   "types": [
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "SCHORN COLLECTION D NO 3",
+    "SCHORN COLLECTION D NO 4",
+    "SCHORN RESERVOIR NO 03"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "BULL CREEK"
+   ]
+  },
+  {
+   "case": "14CW3146",
+   "year": 2014,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/275061",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "TAYLOR PIPELINE",
+    "TAYLOR PIT WELL"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COLORADO RIVER",
+    "GROUNDWATER: COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "14CW3165",
+   "year": 2014,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/281220",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "A&G WASTEWATER DIVERSION NO. 1",
+    "A&G WASTEWATER DIVERSION NO. 2",
+    "A&G WASTEWATER DIVERSION NO. 3",
+    "A&G WASTEWATER DIVERSION NO. 4",
+    "A&G WASTEWATER DIVERSION NO. 5"
+   ],
+   "structureCount": 5,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "14CW3174",
+   "year": 2014,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/274598",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "PE PUMP STATION",
+    "GROUNDHOG GULCH RESERVOIR"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "BUZZARD CREEK"
+   ]
+  },
+  {
+   "case": "13CW0030",
+   "year": 2013,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/260914",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "RALPH'S SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "SINK CREEK"
+   ]
+  },
+  {
+   "case": "13CW0033",
+   "year": 2013,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/267481",
+   "types": [
+    "AB"
+   ],
+   "structures": [
+    "BRUCK POND"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "LEACH CREEK"
+   ]
+  },
+  {
+   "case": "13CW0035",
+   "year": 2013,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/260979",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "MOORE SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BIG CREEK"
+   ]
+  },
+  {
+   "case": "13CW0057",
+   "year": 2013,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/260951",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "JT SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BULL CREEK"
+   ]
+  },
+  {
+   "case": "13CW3050",
+   "year": 2013,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/289035",
+   "types": [
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "GAVIN CANAL DITCH",
+    "RUBY AND LEE DITCH",
+    "UPPER SALT WASH DITCH",
+    "WILLIAMS IRRIGATING D"
+   ],
+   "structureCount": 4,
+   "sources": [
+    "BIG SALT WASH"
+   ]
+  },
+  {
+   "case": "13CW3051",
+   "year": 2013,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/267305",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "HOOSIER DITCH",
+    "YOUNG AUGMENTATION TANK"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "13CW3063",
+   "year": 2013,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/267381",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "NICHOLS SPRING NO 1"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BUZZARD CREEK"
+   ]
+  },
+  {
+   "case": "13CW3098",
+   "year": 2013,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/268906",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "SMITH STRUTHERS DITCH #1 ISLAND ACRES ENLARGEMENT",
+    "ISLAND ACRES PUMP"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "13CW3099",
+   "year": 2013,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/268904",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "ADOBE CREEK PUMP AND PIPLINE"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "13CW3106",
+   "year": 2013,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/267775",
+   "types": [
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "BRUCK POND"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "LEACH CREEK"
+   ]
+  },
+  {
+   "case": "12CW0011",
+   "year": 2012,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/298507",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "DEATON FDR DITCH ALT. #1",
+    "DEATON FDR DITCH ALT. #2",
+    "DEATON WILDLIFE POND #1"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "EAST SALT CREEK"
+   ]
+  },
+  {
+   "case": "12CW0020",
+   "year": 2012,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250904",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "BEN NICHOLS SPRING NO. 1",
+    "BEN NICHOLS SPRING NO. 2"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "12CW0089",
+   "year": 2012,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/304374",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "MARK'S DIVERSION"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "12CW0173",
+   "year": 2012,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/260938",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "NELSON PIPELINE",
+    "NELSON POND"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "WEST SALT CREEK"
+   ]
+  },
+  {
+   "case": "11CW0043",
+   "year": 2011,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/278893",
+   "types": [
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "BOREN DIVERSION NO 2",
+    "BOREN DIVERSION NO 4",
+    "BOREN DIVERSION NO 5",
+    "BOREN DIVERSION NO 6",
+    "BOREN POND NO 2"
+   ],
+   "structureCount": 5,
+   "sources": [
+    "EAST SALT CREEK"
+   ]
+  },
+  {
+   "case": "11CW0066",
+   "year": 2011,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250808",
+   "types": [
+    "AB",
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "CURRIER BADGER WASH PUMP",
+    "MCWHORTER IRRIGATION PUMP STATION"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "WEST SALT CREEK"
+   ]
+  },
+  {
+   "case": "11CW0102",
+   "year": 2011,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250850",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "CS PUMP NO 1",
+    "CS PUMP NO 2",
+    "CS PUMP NO 2 ALT POINT NO 1",
+    "CS PUMP NO 2 ATL POINT NO 2",
+    "CS PUMP NO 2 ALT POINT NO 3",
+    "CS POND"
+   ],
+   "structureCount": 6,
+   "sources": [
+    "MACK WASH"
+   ]
+  },
+  {
+   "case": "11CW0115",
+   "year": 2011,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250878",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "LEKSE SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "SALT CREEK"
+   ]
+  },
+  {
+   "case": "11CW0120",
+   "year": 2011,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/251024",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "MACK MESA RESERVOIR"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MACK WASH"
+   ]
+  },
+  {
+   "case": "11CW0121",
+   "year": 2011,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/251040",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "HIGHLINE RESERVOIR"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MACK WASH"
+   ]
+  },
+  {
+   "case": "11CW0129",
+   "year": 2011,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250891",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "CRISPELL DIVERSION NO 1",
+    "CRISPELL DIVERSION NO 2",
+    "CRISPELL POND NO 1",
+    "CRISPELL POND NO 2"
+   ],
+   "structureCount": 4,
+   "sources": [
+    "LIMEKILN GULCH"
+   ]
+  },
+  {
+   "case": "11CW0141",
+   "year": 2011,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250902",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "MORMON MESA DITCH",
+    "BALDWIN POND"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COTTONWOOD CREEK"
+   ]
+  },
+  {
+   "case": "11CW0172",
+   "year": 2011,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/291722",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "BRUSH CREEK CANAL",
+    "HARRISON CANAL",
+    "COLORADO CANAL",
+    "BUZZARD CREEK DAM & RES",
+    "OWENS CREEK RESERVOIR"
+   ],
+   "structureCount": 5,
+   "sources": [
+    "BUZZARD CREEK",
+    "OWENS CREEK"
+   ]
+  },
+  {
+   "case": "11CW0188",
+   "year": 2011,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/297228",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "SUNSET DITCH (GROVE CR)",
+    "SWANSON DITCH",
+    "SPRUCE MEADOW DITCH",
+    "BIG SLIDE SPRING",
+    "DEAD ASPEN PARK SPRING",
+    "FALLING CABIN SPRING NO1"
+   ],
+   "structureCount": 20,
+   "sources": [
+    "GROVE CREEK"
+   ]
+  },
+  {
+   "case": "10CW0010",
+   "year": 2010,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234653",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "JACK'S SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "10CW0105",
+   "year": 2010,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250829",
+   "types": [
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "DAVENPORT D (COTTNWD)",
+    "JENKINS CROSS PHILLIPS 1"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COTTONWOOD CREEK",
+    "BULL CREEK"
+   ]
+  },
+  {
+   "case": "10CW0135",
+   "year": 2010,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236513",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "CURRY SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BUZZARD CREEK"
+   ]
+  },
+  {
+   "case": "10CW0155",
+   "year": 2010,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/286974",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "NORTH PASTURE POND"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "10CW0224",
+   "year": 2010,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/289033",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "FEUERBORN PIT"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "10CW0232",
+   "year": 2010,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250691",
+   "types": [
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "MICALE COMMERCIAL WELL"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "GROUNDWATER: GROVE CREEK"
+   ]
+  },
+  {
+   "case": "10CW0236",
+   "year": 2010,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/291628",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "PERSIGO WASH PUMP"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "PERSIGO WASH"
+   ]
+  },
+  {
+   "case": "10CW0257",
+   "year": 2010,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250818",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "POWDER RIDGE RES NO 1",
+    "POWDER RIDGE RES NO 2",
+    "POWDER RIDGE RES NO 3",
+    "POWDER RIDGE RES NO 4",
+    "POWDER RIDGE TANK"
+   ],
+   "structureCount": 5,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "10CW0288",
+   "year": 2010,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236577",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "LYNN SPRING NO 1",
+    "LYNN SPRING NO 2",
+    "LYNN SPRING NO 3",
+    "LYNN SPRING NO 4",
+    "LYNN SPRING NO 5",
+    "LYNN SPRING NO 6"
+   ],
+   "structureCount": 6,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "10CW0303",
+   "year": 2010,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250843",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "SPRING POND",
+    "JO POND",
+    "GIPP POND",
+    "HIGH POND"
+   ],
+   "structureCount": 4,
+   "sources": [
+    "BUZZARD CREEK",
+    "COLLIER CREEK"
+   ]
+  },
+  {
+   "case": "09CW0025",
+   "year": 2009,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/276950",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "WILMA SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "09CW0029",
+   "year": 2009,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250792",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "WILLOW CREEK RESERVOIR"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BUZZARD CREEK"
+   ]
+  },
+  {
+   "case": "09CW0030",
+   "year": 2009,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250802",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "MONUMENT RESERVOIR NO 1, UTE WATER ENLARGEMENT"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MONUMENT CREEK"
+   ]
+  },
+  {
+   "case": "09CW0082",
+   "year": 2009,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234650",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "BARBEE SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "09CW0124",
+   "year": 2009,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/284379",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "PETERS SPRING NO 1",
+    "PETERS SPRING NO 2",
+    "PETERS SPRING NO 3"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "GROVE CREEK"
+   ]
+  },
+  {
+   "case": "09CW0132",
+   "year": 2009,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/321459",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "BROOK SPRING",
+    "NATIVE POND",
+    "BROOK POND",
+    "BROWN POND",
+    "RAINBOW POND"
+   ],
+   "structureCount": 5,
+   "sources": [
+    "TATE CREEK"
+   ]
+  },
+  {
+   "case": "09CW0138",
+   "year": 2009,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/232786",
+   "types": [
+    "AB",
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "MORMON MESA DITCH"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COTTONWOOD CREEK"
+   ]
+  },
+  {
+   "case": "09CW0166",
+   "year": 2009,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250793",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "TAVISTOCK DIVERSION NO 1"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "09CW0176",
+   "year": 2009,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234652",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "GRAYBILL DIV",
+    "GRAYBILL POND"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "REED WASH"
+   ]
+  },
+  {
+   "case": "09CW0195",
+   "year": 2009,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250788",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "HT PUMP STATION  PIT WELL"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "09CW0196",
+   "year": 2009,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250715",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "C C D PUMP PIT WELL"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "08CW0055",
+   "year": 2008,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234555",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "DEL'S DITCH"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MACK WASH"
+   ]
+  },
+  {
+   "case": "08CW0108",
+   "year": 2008,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/233511",
+   "types": [
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "GAY PIPELINE A & B",
+    "GAY A-2",
+    "GAY A"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "MACK WASH"
+   ]
+  },
+  {
+   "case": "08CW0118",
+   "year": 2008,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/233320",
+   "types": [
+    "AB",
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "SALT CREEK PUMP STATION"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "SALT CREEK"
+   ]
+  },
+  {
+   "case": "08CW0133",
+   "year": 2008,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/231757",
+   "types": [
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "CLIFTON SAN D EAST DISCH",
+    "CLIFTON SAN D WEST DISCH",
+    "CLIFTON COMBINE DISCHARGE (CRWWTP)"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "08CW0138",
+   "year": 2008,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/281154",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "MCCALLUM PUMP"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "LIMEKILN GULCH"
+   ]
+  },
+  {
+   "case": "08CW0146",
+   "year": 2008,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234522",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "SPENDRUP CANAL AND PUMP",
+    "SPENDRUP POND"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "08CW0166",
+   "year": 2008,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236411",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "SOARING EAGLE GRAVEL PIT"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "GROUNDWATER: COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "08CW0205",
+   "year": 2008,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/267302",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "GUNDERSON RANCH DITCH NO. 1",
+    "GUNDERSON RANCH DITCH NO. 2",
+    "GUNDERSON RANCH DITCH NO. 4"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "COLLIER CREEK"
+   ]
+  },
+  {
+   "case": "07CW0033",
+   "year": 2007,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/267177",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "ADAMS PIT NO 512 PUMP ST",
+    "WINDOW LAKE DIVERSION",
+    "ADAMS SOUTH LAKE WELL"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "COLORADO RIVER",
+    "GROUNDWATER: COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "07CW0090",
+   "year": 2007,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234637",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "TURLEY SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "KIMBALL CREEK"
+   ]
+  },
+  {
+   "case": "07CW0110",
+   "year": 2007,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234736",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "KELLEY POND"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BIG SALT WASH"
+   ]
+  },
+  {
+   "case": "07CW0112",
+   "year": 2007,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236573",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "ROADSIDE SEEPS",
+    "PAT'S SPRINGS"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "07CW0129",
+   "year": 2007,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234632",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "RIVER CANYON PMP & PL",
+    "RIVER CANYON PMP & PL ALT PT",
+    "RIVER CANYON POND NO. 1",
+    "RIVER CANYON POND NO. 2",
+    "RIVER CANYON POND NO. 3",
+    "RIVER CANYON POND NO. 4"
+   ],
+   "structureCount": 6,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "07CW0132",
+   "year": 2007,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234614",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "MANDI HEADGATE",
+    "TAMI POND",
+    "JASON SPRING",
+    "BOURASSA EXCHANGE REACH",
+    "BOURASSA AUG PLAN POD"
+   ],
+   "structureCount": 5,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "07CW0160",
+   "year": 2007,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234631",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "CEDARPOINT FEEDER DITCH",
+    "CEDARPOINT POND"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "07CW0173",
+   "year": 2007,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234639",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "BARNHILL PUMP & PL."
+   ],
+   "structureCount": 1,
+   "sources": [
+    "PERSIGO WASH"
+   ]
+  },
+  {
+   "case": "07CW0231",
+   "year": 2007,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/266679",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "CURRIER RESERVOIR NO 2",
+    "DONNA SPRING & PL",
+    "DONNA SPRING & PL DEPLETION REACH"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "BUZZARD CREEK",
+    "MIDDLETON CREEK",
+    "UHL CREEK"
+   ]
+  },
+  {
+   "case": "06CW0050",
+   "year": 2006,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/233079",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "SPRING DITCH (PLATEAU)"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "06CW0094",
+   "year": 2006,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234936",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "BRUCK POND"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "LEACH CREEK"
+   ]
+  },
+  {
+   "case": "06CW0114",
+   "year": 2006,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236038",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "POWER ROAD WELL A"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "06CW0192",
+   "year": 2006,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/233434",
+   "types": [
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "CLARIDA DITCH & PIPELINE"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "06CW0201",
+   "year": 2006,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/232469",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "JACKSON DITCH (PLATEAU)",
+    "VROMAN POND",
+    "VROMAN WELL"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "06CW0205",
+   "year": 2006,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234616",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "MESA CREEK LODGE P&PL"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "06CW0214",
+   "year": 2006,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234615",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "MORRISON DITCH"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "ADOBE CREEK"
+   ]
+  },
+  {
+   "case": "06CW0238",
+   "year": 2006,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234634",
+   "types": [
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "PRIDE PUMP",
+    "DOUBLE D PUMP"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "BIG SALT WASH"
+   ]
+  },
+  {
+   "case": "06CW0246",
+   "year": 2006,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/235055",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "KIRKENDALL RESERVOIR"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "EAST LEON CREEK"
+   ]
+  },
+  {
+   "case": "06CW0251",
+   "year": 2006,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236073",
+   "types": [
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "BURNING BOULDER SPRING",
+    "BUFFALO WALLOW SPRING",
+    "MONUMENT MESA SPRING",
+    "JACKASS SPRING"
+   ],
+   "structureCount": 4,
+   "sources": [
+    "JERRY CREEK",
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "06CW0254",
+   "year": 2006,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234626",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "WILLY'S POND PUMP"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "REED WASH"
+   ]
+  },
+  {
+   "case": "06CW0256",
+   "year": 2006,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/231983",
+   "types": [
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "CLIFTON NORTH SIDE",
+    "WHITE ELEPHANT DITCH"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "06CW0261",
+   "year": 2006,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/235284",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "BULL CREEK RES NO 4"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BULL CREEK"
+   ]
+  },
+  {
+   "case": "05CW0044",
+   "year": 2005,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250758",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "VANDEGRIFT SPRING NO. 1",
+    "VANDEGRIFT SPRING NO. 2"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "KIMBALL CREEK"
+   ]
+  },
+  {
+   "case": "05CW0061",
+   "year": 2005,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250766",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "BROKEN ARROW SALT CR PL"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "EAST SALT CREEK"
+   ]
+  },
+  {
+   "case": "05CW0103",
+   "year": 2005,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234444",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "JD NO. 2 PUMP"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "EAST SALT CREEK"
+   ]
+  },
+  {
+   "case": "05CW0194",
+   "year": 2005,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/235734",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "VANDEGRIFT POND",
+    "VANDEGRIFT WELL"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "KIMBALL CREEK",
+    "GROUNDWATER: KIMBALL CREEK"
+   ]
+  },
+  {
+   "case": "05CW0211",
+   "year": 2005,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250773",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "LINN-JENSEN POND NO 3",
+    "LINN-JENSEN POND NO 4",
+    "LINN-JENSEN SPG SEEP NO1",
+    "LINN-JENSEN SPRING NO2"
+   ],
+   "structureCount": 4,
+   "sources": [
+    "BUZZARD CREEK"
+   ]
+  },
+  {
+   "case": "05CW0239",
+   "year": 2005,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/269639",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "CITIES SERVICE PL AND PP"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "05CW0255",
+   "year": 2005,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234646",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "SHELL COLORADO RIVER PUMPING PLANT"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "05CW0259",
+   "year": 2005,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250744",
+   "types": [
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "MESA CREEK RES NO 1",
+    "SCOTT POND",
+    "SCOTT SPRING"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "05CW0274",
+   "year": 2005,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236548",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "PICKET SPRING #1",
+    "PICKET SPRING #2",
+    "PICKET SPRING #3",
+    "PICKET SPRING #4"
+   ],
+   "structureCount": 4,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "04CW0007",
+   "year": 2004,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236552",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "SWEDE FLATTS SPRING & SWEDE FLATTS CARRIER DITCH"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "04CW0075",
+   "year": 2004,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236518",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "GRUMPY NO. 1 SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "04CW0078",
+   "year": 2004,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/276506",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "NICHOLS SPRING DITCH",
+    "MIKE'S DIVERSION"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "04CW0101",
+   "year": 2004,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234557",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "HAMPTON PUMP SITE NO. 2"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "EAST SALT CREEK"
+   ]
+  },
+  {
+   "case": "04CW0128",
+   "year": 2004,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234926",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "HIGHTOWER RANCH RESERVOIR NO. 1"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "OWENS CREEK"
+   ]
+  },
+  {
+   "case": "04CW0144",
+   "year": 2004,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/279428",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "HILGENFELD WW D HDGT 1",
+    "HILGENFELD WW D HDGT 2"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "04CW0146",
+   "year": 2004,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236544",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "BEN NICHOLS SPRING NO. 1",
+    "BEN NICHOLS SPRING NO. 2"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "04CW0197",
+   "year": 2004,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234607",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "LYNDSAY'S PUMP NO 1",
+    "LYNDSAY'S RESERVOIR"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "04CW0200",
+   "year": 2004,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234693",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "LAGO MARIA ELENA RES"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "04CW0203",
+   "year": 2004,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250751",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "S M WACHLER SEEP DITCH 1",
+    "S M WACHLER SEEP DITCH 2"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "04CW0211",
+   "year": 2004,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/235615",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "CURRIER RESERVOIR NO 2"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BUZZARD CREEK"
+   ]
+  },
+  {
+   "case": "03CW0001",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234079",
+   "types": [
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "HARTMAN DIVERSION",
+    "HARTMAN DIVERSION-WEBB"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "EAST SALT CREEK"
+   ]
+  },
+  {
+   "case": "03CW0007",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/233901",
+   "types": [
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "OBERGFELL DIVERSION",
+    "OBERGFELL DIVERSION NEW POINT"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "03CW0059",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236132",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "VAN WAGNER LAKE WELL",
+    "DUKE LAKE",
+    "CONNECTED LAKE",
+    "ENDANGERED SPECIES LAKE"
+   ],
+   "structureCount": 4,
+   "sources": [
+    "GROUNDWATER: COLORADO RIVER",
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "03CW0070",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/233419",
+   "types": [
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "DANIELS PUMP AND PL",
+    "DANIELS PUMP SITE # 1",
+    "DANIELS PUMPSITE #3"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "EAST SALT CREEK"
+   ]
+  },
+  {
+   "case": "03CW0081",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234582",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "KIEFER DIVERSION",
+    "KIEFER POND",
+    "KIEFER SPRING"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "MACK WASH"
+   ]
+  },
+  {
+   "case": "03CW0091",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/296789",
+   "types": [
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "ROBERT V RAINEY PUMP"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "03CW0106",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234600",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "MEDILL DITCH"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BIG SALT WASH"
+   ]
+  },
+  {
+   "case": "03CW0107",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234558",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "WATSON CREEK RANCH DIVERSION",
+    "WATSON CREEK RANCH POND"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "WATSON CREEK"
+   ]
+  },
+  {
+   "case": "03CW0132",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/232550",
+   "types": [
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "KING DITCH"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "03CW0204",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236519",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "HOEFNER SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "03CW0207",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236511",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "CURRY SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BUZZARD CREEK"
+   ]
+  },
+  {
+   "case": "03CW0208",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/235161",
+   "types": [
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "MESA CREEK RES NO 1",
+    "MESA CREEK RES NO 3"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "03CW0226",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236407",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "CLIFTON WATER PIT"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "GROUNDWATER: COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "03CW0262",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234299",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "FRY DIVERSION NO 2",
+    "FRY DIVERSION NO 3",
+    "FRY DIVERSION NO 4",
+    "FRY DIVERSION NO 5"
+   ],
+   "structureCount": 4,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "03CW0283",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234565",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "NAKANO DIVERSION"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "03CW0315",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/235138",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "GLACIER SPG RETAIN POND",
+    "MESA CREEK RES NO 5",
+    "JUMBO CAMPGROUND WELL"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "MESA CREEK"
+   ]
+  },
+  {
+   "case": "03CW0316",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234586",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "BOREN DIVERSION NO 2",
+    "BOREN DIVERSION NO 3",
+    "BOREN DIVERSION NO 4",
+    "BOREN DIVERSION NO 2AP",
+    "BOREN POND NO 2"
+   ],
+   "structureCount": 5,
+   "sources": [
+    "EAST SALT CREEK"
+   ]
+  },
+  {
+   "case": "03CW0317",
+   "year": 2003,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234597",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "ADOBE CREEK PUMP & PIPELINE",
+    "ADOBE CREEK POND NO 1"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "02CW0002",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/232479",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "JENKINS CROSS PHILLIPS 1",
+    "ELKINS RESERVOIR NO. 1",
+    "ELKINS RESERVOIR NO. 2",
+    "ELKINS RESERVOIR NO. 3",
+    "ELKINS SPRING #1",
+    "ELKINS SPRING #2"
+   ],
+   "structureCount": 13,
+   "sources": [
+    "BULL CREEK"
+   ]
+  },
+  {
+   "case": "02CW0026",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/235057",
+   "types": [
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "LEON LAKE RESERVOIR"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MIDDLE LEON CREEK"
+   ]
+  },
+  {
+   "case": "02CW0033",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234529",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "RASMUSSEN HYDRO DIV"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COON CREEK"
+   ]
+  },
+  {
+   "case": "02CW0065",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/250707",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "CURRIER BADGER WASH PUMP",
+    "LORALEE PUMP STATION"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "WEST SALT CREEK"
+   ]
+  },
+  {
+   "case": "02CW0066",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234584",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "CRONK PROP SEEP DRAW DIVR",
+    "CRONK PROP SEEPAGE DRAW"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "PERSIGO WASH"
+   ]
+  },
+  {
+   "case": "02CW0084",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234521",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "SPENDRUP CANAL AND PUMP",
+    "SPENDRUP POND"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "02CW0142",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236372",
+   "types": [
+    "AB",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "FRUITA READY MIX CORN P1",
+    "FRUITA READY MIX CORN P2"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "GROUNDWATER: COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "02CW0153",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/233343",
+   "types": [
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "BARLOW DITCH NO 1"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "EAST SALT CREEK"
+   ]
+  },
+  {
+   "case": "02CW0158",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/235271",
+   "types": [
+    "AB"
+   ],
+   "structures": [
+    "BULL CREEK RES NO 1",
+    "BULL CREEK RES NO 2"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "BULL CREEK"
+   ]
+  },
+  {
+   "case": "02CW0172",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/232823",
+   "types": [
+    "TT"
+   ],
+   "structures": [
+    "OAK SPRINGS DITCH",
+    "OAK SPRINGS HDGT #2",
+    "OAK SPRINGS HDGT #3",
+    "OAK SPRINGS HDGT #4"
+   ],
+   "structureCount": 4,
+   "sources": [
+    "RAPID CREEK"
+   ]
+  },
+  {
+   "case": "02CW0173",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/235433",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "HIGHLINE RESERVOIR"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MACK WASH"
+   ]
+  },
+  {
+   "case": "02CW0174",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/235643",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "MACK MESA RESERVOIR"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MACK WASH"
+   ]
+  },
+  {
+   "case": "02CW0188",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234579",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "PORTER PUMP & PIPELINE"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BIG SALT WASH"
+   ]
+  },
+  {
+   "case": "02CW0219",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234546",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "AMBROSICH PUMP"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "02CW0292",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/235280",
+   "types": [
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "BULL CREEK RES NO 4",
+    "LEARNING CENTER WELL"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "BULL CREEK",
+    "GROUNDWATER: SPRING CREEK"
+   ]
+  },
+  {
+   "case": "02CW0325",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234593",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "SHOTWELL DITCH PICKUP ENLARGE"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COTTONWOOD CREEK"
+   ]
+  },
+  {
+   "case": "02CW0326",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234591",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "SHOTWELL DITCH PICKUP ENLARGE"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COTTONWOOD CREEK"
+   ]
+  },
+  {
+   "case": "02CW0327",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234592",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "SHOTWELL DITCH PICKUP ENLARGE"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COTTONWOOD CREEK"
+   ]
+  },
+  {
+   "case": "02CW0335",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234909",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "OVER POND"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MACK WASH"
+   ]
+  },
+  {
+   "case": "02CW0345",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234567",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "BRANDON PUMP & PIPELINE",
+    "BRANDON POND FEEDER DITCH",
+    "NORTH PASTURE POND",
+    "BRANDON POND"
+   ],
+   "structureCount": 4,
+   "sources": [
+    "LEACH CREEK",
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "02CW0399",
+   "year": 2002,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234618",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "HARVEY DITCH #3",
+    "HARVEY DITCH #3 ALT #1",
+    "HARVEY DITCH#3 ALTERNATE#2"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "WALLACE GULCH",
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "01CW0029",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/235538",
+   "types": [
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "PROSPECT POND NO 1",
+    "PROSPECT POND NO 2",
+    "BEAR POND",
+    "WALLS POND"
+   ],
+   "structureCount": 4,
+   "sources": [
+    "BIG SALT WASH",
+    "EAST SALT CREEK"
+   ]
+  },
+  {
+   "case": "01CW0043",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236453",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "PETERS SPRING NO 1",
+    "PETERS SPRING NO 2",
+    "PETERS SPRING NO 3"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "GROVE CREEK"
+   ]
+  },
+  {
+   "case": "01CW0049",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234574",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "BESWICK DITCH"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "01CW0056",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/233118",
+   "types": [
+    "AB",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "STEWART DITCH NO 1",
+    "STEWART DITCH NO 2"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "RAPID CREEK"
+   ]
+  },
+  {
+   "case": "01CW0081",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234563",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "GERGELY PRESERVE DITCH"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "01CW0100",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234900",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "GERGELY POND"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "01CW0125",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236467",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "BITTSY SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "KIMBALL CREEK"
+   ]
+  },
+  {
+   "case": "01CW0168",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236461",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "J L SPRING"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BUZZARD CREEK"
+   ]
+  },
+  {
+   "case": "01CW0181",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234918",
+   "types": [
+    "AB",
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "MCF ALTERNATE POND",
+    "MESA CREEK RES NO 1",
+    "MESA CREEK RES NO 3",
+    "MESA CREEK RES NO 4",
+    "COON CREEK RES NO 1",
+    "COON CREEK RES NO 2"
+   ],
+   "structureCount": 7,
+   "sources": [
+    "MESA CREEK",
+    "COON CREEK",
+    "GROUNDWATER: MESA CREEK"
+   ]
+  },
+  {
+   "case": "01CW0197",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234739",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "SHORT RESERVOIR"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "BUZZARD CREEK"
+   ]
+  },
+  {
+   "case": "01CW0226",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234553",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "DEL'S DITCH"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MACK WASH"
+   ]
+  },
+  {
+   "case": "01CW0254",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/235692",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "TROUT POND NO 1",
+    "SATTERFIELD SPRING NO 1"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COON CREEK"
+   ]
+  },
+  {
+   "case": "01CW0283",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234560",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "4 ACRE PUMP",
+    "4 ACRE POND"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "01CW0316",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/233684",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "RUBY CANYON PUMP AND PL",
+    "RUBY CANYON PUMP NO 1",
+    "RUBY CANYON PUMP NO 2",
+    "RUBY CANYON PUMP NO 3",
+    "RUBY CANYON PUMP NO 4"
+   ],
+   "structureCount": 5,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "01CW0323",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236475",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "SEGREST SPRING & SEEP"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "01CW0337",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/231859",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "BITTER CR STOCK SPRINGS",
+    "GIBSON DITCH (DEACON)",
+    "GIBSON WATER PLANT",
+    "HALL DOW DITCH",
+    "HOLLY SUGAR PIPELINE",
+    "LLOYD DITCH"
+   ],
+   "structureCount": 43,
+   "sources": [
+    "COLORADO RIVER",
+    "PLATEAU CREEK",
+    "GROVE CREEK",
+    "RAPID CREEK"
+   ]
+  },
+  {
+   "case": "01CW0340",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/232548",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "KING DITCH",
+    "WORTHINGTON SPRING",
+    "BIG VU AUGMENTATION TANK",
+    "BIG VU POND",
+    "BIG VU WELL NO. 2"
+   ],
+   "structureCount": 5,
+   "sources": [
+    "MESA CREEK",
+    "WALLACE GULCH",
+    "GROUNDWATER: WALLACE GULCH"
+   ]
+  },
+  {
+   "case": "01CW0341",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234527",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "VINCENT DIVERSION"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "01CW0342",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234897",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "BUCHER RESERVOIR NO. 5",
+    "BUCHER RESERVOIR",
+    "BUCHER SPRING NO. 2",
+    "BUCHER SPRING NO. 3",
+    "BUCHER SPRING NO. 4",
+    "BUCHER SPRING NO. 5"
+   ],
+   "structureCount": 12,
+   "sources": [
+    "COTTONWOOD CREEK"
+   ]
+  },
+  {
+   "case": "01CW0346",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234898",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "BUCHER RESERVOIR NO. 6"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COTTONWOOD CREEK"
+   ]
+  },
+  {
+   "case": "01CW0348",
+   "year": 2001,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234561",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "BUCHER DITCH NO. 4",
+    "BUCHER RESERVOIR NO. 2",
+    "BUCHER RESERVOIR NO. 3",
+    "BUCHER RESERVOIR NO. 4"
+   ],
+   "structureCount": 4,
+   "sources": [
+    "COTTONWOOD CREEK"
+   ]
+  },
+  {
+   "case": "00CW0003",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234102",
+   "types": [
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "GUNDERSON DITCH",
+    "GIPP DITCH"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COLLIER CREEK"
+   ]
+  },
+  {
+   "case": "00CW0004",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/249888",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "FELLHAUER NO 1 PUMP SITE"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "00CW0005",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/249891",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "FELLHAUER NO 2 PUMP SITE"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "00CW0012",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/235770",
+   "types": [
+    "AB"
+   ],
+   "structures": [
+    "COLLINS ARTESIAN WELL"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "00CW0023",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234508",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "RINDERLE DIVERSION DITCH"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "SINK CREEK"
+   ]
+  },
+  {
+   "case": "00CW0049",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234533",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "MCCALLUM PUMP"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "LIMEKILN GULCH"
+   ]
+  },
+  {
+   "case": "00CW0067",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234518",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "ADAMS-CHEYNEY DIVERSION",
+    "ADAMS-CHEYNEY RESERVIOR",
+    "ADAMS-CHEYNEY RESERVOIR"
+   ],
+   "structureCount": 3,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "00CW0090",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/233482",
+   "types": [
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "ERVEN DITCH",
+    "ERVEN PUMP NO 1"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "PLATEAU CREEK"
+   ]
+  },
+  {
+   "case": "00CW0108",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236404",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "29-1/2 ROAD PIT"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "GROUNDWATER: COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "00CW0141",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/236506",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "RED BARN SPRING NO. 1",
+    "RED BARN SPRING NO. 2"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "BIG CREEK"
+   ]
+  },
+  {
+   "case": "00CW0150",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234495",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "WALTERS MICROHYDROPOWER"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COON CREEK"
+   ]
+  },
+  {
+   "case": "00CW0179",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/231947",
+   "types": [
+    "C",
+    "TF",
+    "TT"
+   ],
+   "structures": [
+    "BURKETT - RENCH DITCH",
+    "BURKETT- RENCH DIT. HDGT2"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "BIG SALT WASH"
+   ]
+  },
+  {
+   "case": "00CW0205",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234510",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "JONES DIVERSION"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "00CW0206",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234512",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "GOLD LAKE FEEDER PL",
+    "GOLD LAKE"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "REED WASH"
+   ]
+  },
+  {
+   "case": "00CW0219",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/235563",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "ROOTS RESERVOIR"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "MACK WASH"
+   ]
+  },
+  {
+   "case": "00CW0226",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234506",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "MARSHALL PUMP"
+   ],
+   "structureCount": 1,
+   "sources": [
+    "REED WASH"
+   ]
+  },
+  {
+   "case": "00CW0283",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234523",
+   "types": [
+    "C"
+   ],
+   "structures": [
+    "CALDWELL POND NO 2 INTAKE",
+    "CALDWELL POND NO 2"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  },
+  {
+   "case": "00CW0290",
+   "year": 2000,
+   "url": "https://dwr.state.co.us/Tools/WaterRights/Transactions/234525",
+   "types": [
+    "AB",
+    "C"
+   ],
+   "structures": [
+    "CALDWELL POND NO 1 INTAKE",
+    "CALDWELL POND NO 1"
+   ],
+   "structureCount": 2,
+   "sources": [
+    "COLORADO RIVER"
+   ]
+  }
+ ]
+}
