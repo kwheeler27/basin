@@ -106,6 +106,12 @@ interface Tip {
   lines: string[];
 }
 
+interface StorageHistory {
+  vintage: string;
+  months: string[];               // "yyyy-mm"
+  series: Record<string, (number | null)[]>;
+}
+
 interface GeoData {
   states: GeoJSON.FeatureCollection;
   rivers: GeoJSON.FeatureCollection;
@@ -139,6 +145,10 @@ export function BasinStory({
   const [exploreLayer, setExploreLayer] = useState<ExploreLayer>("storage");
   const [tip, setTip] = useState<Tip | null>(null);
   const [sheet, setSheet] = useState<SheetData | null>(null);
+  const [history, setHistory] = useState<StorageHistory | null>(null);
+  /** Index into history.months during replay/scrub; null = today (live). */
+  const [timeIdx, setTimeIdx] = useState<number | null>(null);
+  const playedRef = useRef(false);
   const [k, setK] = useState(1);
   const [narrow, setNarrow] = useState(false);
   useEffect(() => {
@@ -169,14 +179,16 @@ export function BasinStory({
       fetch("/geo/county_wateruse.json").then((r) => r.json()),
       fetch("/geo/basin_counties.geojson").then((r) => r.json()),
       fetch("/geo/cities_10k.json").then((r) => r.json()),
+      fetch("/geo/storage_history.json").then((r) => r.json()),
     ]).then(
-      ([topo, rivers, boundary, wu, countyLines, cityData]: [
+      ([topo, rivers, boundary, wu, countyLines, cityData, hist]: [
         unknown,
         GeoJSON.FeatureCollection,
         GeoJSON.FeatureCollection,
         { counties: CountyRow[] },
         GeoJSON.FeatureCollection,
         { places: CityRow[] },
+        StorageHistory,
       ]) => {
         if (!alive) return;
         const t = topo as Parameters<typeof feature>[0] & {
@@ -192,6 +204,7 @@ export function BasinStory({
         setGeo({ states, rivers, boundary, countyLines });
         setCounties(wu.counties);
         setCities(cityData.places);
+        setHistory(hist);
       },
     );
     return () => {
@@ -337,6 +350,17 @@ export function BasinStory({
     leesFerry: step === "basin" || exploring ? 1 : 0,
   };
 
+  /** Storage shown on the map: historical during replay/scrub, else live. */
+  const shownStorage = (rid: string): number | null => {
+    if (timeIdx !== null) return history?.series[rid]?.[timeIdx] ?? null;
+    return storage[rid]?.af ?? null;
+  };
+  const timeLabel =
+    timeIdx !== null && history
+      ? new Date(`${history.months[timeIdx]}-15T00:00:00Z`).toLocaleDateString(
+          "en-US", { year: "numeric", month: "short", timeZone: "UTC" })
+      : null;
+
   const rOf = (af: number) => 5.1 * Math.sqrt(af / 1_000_000);
   const inv = 1 / k;
   // Mobile type scale: SVG-unit text renders ~2.5x smaller at phone width.
@@ -345,7 +369,34 @@ export function BasinStory({
   // Mobile: the basin is portrait-shaped — crop to it for the intro steps so
   // the map fills the screen; zoom out to full extent exactly when the story
   // leaves the basin (deliveries/people/farms/explore need LA and Denver).
-// City rank within its state (cities arrive sorted by population desc).
+// Auto-replay 2000->today once when the storage step first activates.
+  // Motion is the data here (change over time); honors reduced-motion and
+  // the pinned QA mode, both of which jump straight to "today".
+  useEffect(() => {
+    if (step !== "storage" || pinned || playedRef.current || !history) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    playedRef.current = true;
+    const n = history.months.length;
+    const dur = 4200;
+    const t0 = performance.now();
+    let raf = 0;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - t0) / dur);
+      const eased = p < 0.5 ? 2 * p * p : 1 - (-2 * p + 2) ** 2 / 2;
+      setTimeIdx(Math.round(eased * (n - 1)));
+      if (p < 1) raf = requestAnimationFrame(tick);
+      else window.setTimeout(() => setTimeIdx(null), 600); // rest at today
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [step, pinned, history]);
+
+  // Leaving the storage context always returns the clock to today.
+  useEffect(() => {
+    if (hero !== "storage") setTimeIdx(null);
+  }, [hero]);
+
+  // City rank within its state (cities arrive sorted by population desc).
   const cityRank = useMemo(() => {
     const perState = new Map<string, number>();
     const out = new Map<string, number>();
@@ -492,8 +543,9 @@ export function BasinStory({
               {MAP_RESERVOIRS.map((r) => {
                 const [x, y] = project(r.lon, r.lat);
                 const live = storage[r.id];
+                const shown = shownStorage(r.id);
                 const rCap = rOf(r.capacityAf);
-                const pct = live ? (live.af / r.capacityAf) * 100 : null;
+                const pct = shown !== null ? (shown / r.capacityAf) * 100 : null;
                 const major = r.id === "powell" || r.id === "mead";
                 const storageIsHero = hero === "storage";
                 const showLabel = storageIsHero && (major || (exploring && (rCap >= 7 || k >= 2.2))) && (!narrow || major || exploring);
@@ -535,7 +587,7 @@ export function BasinStory({
                   >
                     <circle cx={x} cy={y} r={Math.max(rCap, 11)} fill="transparent" />
                     <circle cx={x} cy={y} r={rCap} className="st-cap" style={{ strokeWidth: 1.1 * inv }} />
-                    {live && <circle cx={x} cy={y} r={rOf(live.af)} className="st-store" />}
+                    {shown !== null && <circle cx={x} cy={y} r={rOf(shown)} className="st-store" />}
                     {showLabel && (
                       <text
                         x={x}
@@ -827,6 +879,53 @@ export function BasinStory({
               <button onClick={resetZoom} aria-label="Reset">⌂</button>
             </div>
           </>
+        )}
+
+        {/* time context: ghost year during replay/scrub */}
+        {timeLabel && (
+          <div className="ghost-year" aria-hidden="true">
+            {timeLabel}
+          </div>
+        )}
+
+        {/* manual scrubber: explore + storage layer only */}
+        {exploring && exploreLayer === "storage" && history && (
+          <div className="scrubber" role="group" aria-label="Storage history timeline">
+            <input
+              type="range"
+              min={0}
+              max={history.months.length - 1}
+              value={timeIdx ?? history.months.length - 1}
+              aria-label="Month"
+              onChange={(e) => {
+                const v = Number(e.currentTarget.value);
+                setTimeIdx(v >= history.months.length - 1 ? null : v);
+              }}
+            />
+            <div className="scrubber-row">
+              <span>2000</span>
+              <strong>
+                {timeLabel ?? "Today"}
+                {(() => {
+                  const p = shownStorage("powell");
+                  const m = shownStorage("mead");
+                  return p !== null && m !== null
+                    ? ` · Powell + Mead ${acreFeet(p + m)}`
+                    : "";
+                })()}
+              </strong>
+              <button
+                className="scrubber-now"
+                onClick={() => setTimeIdx(null)}
+                disabled={timeIdx === null}
+              >
+                Now
+              </button>
+            </div>
+            <div className="scrubber-src">
+              Reclamation RISE, monthly-sampled daily storage since 2000
+            </div>
+          </div>
         )}
 
         {/* step dots */}
