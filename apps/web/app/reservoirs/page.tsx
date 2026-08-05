@@ -1,4 +1,5 @@
 import { DrawdownChart } from "@/components/DrawdownChart";
+import { WhatIf } from "@/components/WhatIf";
 import { ReservoirCard } from "@/components/ReservoirCard";
 import { RulesToday } from "@/components/RulesToday";
 import { COMBINED_CAPACITY_ACRE_FEET, MEAD, POWELL } from "@/lib/reservoirs";
@@ -112,6 +113,16 @@ export default async function Reservoirs() {
           mead: meadStor.latest?.value,
         }}
       />
+
+      <h2 className="section-title">What happens next?</h2>
+      <p className="body-text">
+        The first question a line can&rsquo;t answer alone. This projection runs
+        the verified operating rules forward over every recent-history inflow
+        sequence — move the slider to see what additional Lower Basin
+        conservation does to the trajectories, and when the rules&rsquo; own
+        thresholds get crossed.
+      </p>
+      <WhatIf />
 
       <div className="grid">
         <ReservoirCard
