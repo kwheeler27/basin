@@ -79,7 +79,13 @@ const STEP_INDEX: Record<StepId, number> = Object.fromEntries(
   STEP_IDS.map((s, i) => [s, i]),
 ) as Record<StepId, number>;
 
-type ExploreLayer = "storage" | "flows" | "people" | "cities" | "farms";
+type ExploreLayer = "storage" | "flows" | "people" | "cities" | "farms" | "et";
+
+interface EtField {
+  id: string; name: string; st: string; crops: string;
+  quality: "field" | "uncertain";
+  monthly: number[]; annual: number; lon: number; lat: number;
+}
 
 interface CityRow {
   n: string;
@@ -140,6 +146,7 @@ export function BasinStory({
   const [geo, setGeo] = useState<GeoData | null>(null);
   const [counties, setCounties] = useState<CountyRow[] | null>(null);
   const [cities, setCities] = useState<CityRow[] | null>(null);
+  const [etFields, setEtFields] = useState<EtField[] | null>(null);
   const [stepIdx, setStepIdx] = useState(0);
   const [pinned, setPinned] = useState(false);
   const [exploreLayer, setExploreLayer] = useState<ExploreLayer>("storage");
@@ -180,8 +187,9 @@ export function BasinStory({
       fetch("/geo/basin_counties.geojson").then((r) => r.json()),
       fetch("/geo/cities_10k.json").then((r) => r.json()),
       fetch("/geo/storage_history.json").then((r) => r.json()),
+      fetch("/geo/openet_fields_2025.json").then((r) => r.json()),
     ]).then(
-      ([topo, rivers, boundary, wu, countyLines, cityData, hist]: [
+      ([topo, rivers, boundary, wu, countyLines, cityData, hist, etData]: [
         unknown,
         GeoJSON.FeatureCollection,
         GeoJSON.FeatureCollection,
@@ -189,6 +197,7 @@ export function BasinStory({
         GeoJSON.FeatureCollection,
         { places: CityRow[] },
         StorageHistory,
+        { fields: EtField[] },
       ]) => {
         if (!alive) return;
         const t = topo as Parameters<typeof feature>[0] & {
@@ -205,6 +214,7 @@ export function BasinStory({
         setCounties(wu.counties);
         setCities(cityData.places);
         setHistory(hist);
+        setEtFields(etData.fields.filter((f) => f.quality === "field"));
       },
     );
     return () => {
@@ -347,6 +357,7 @@ export function BasinStory({
     people: hero === "people" ? 1 : 0,
     farms: hero === "farms" ? 1 : 0,
     cities: exploring && exploreLayer === "cities" ? 1 : 0,
+    et: exploring && exploreLayer === "et" ? 1 : 0,
     leesFerry: step === "basin" || exploring ? 1 : 0,
   };
 
@@ -437,7 +448,7 @@ export function BasinStory({
         ? 215 // window [0,585]: Central Valley + Imperial in
         : 0;
 
-  if (!geo || !counties || !cities) {
+  if (!geo || !counties || !cities || !etFields) {
     return (
       <div className="story-loading" style={{ aspectRatio: `${W}/${H}` }}>
         Loading basin geometry…
@@ -800,6 +811,47 @@ export function BasinStory({
               )}
             </g>
 
+            {/* consumption ’25 — OpenET representative fields; MODELED, so
+                dashed (the doctrine's epistemic encoding), field-quality
+                points only (missed-field samples are named in the legend) */}
+            <g style={{ opacity: opacity.et }} className="fade">
+              {opacity.et > 0 && etFields.map((f) => {
+                const [x, y] = project(f.lon, f.lat);
+                const r = 4 + f.annual / 5.5;
+                return (
+                  <g
+                    key={f.id}
+                    className="tappable"
+                    onClick={() =>
+                      setSheet({
+                        kicker: "Consumption · 2025",
+                        title: `${f.name}, ${f.st}`,
+                        fact: `Fields here consumed about ${f.annual} inches of water depth in 2025 — ${(f.annual / 12).toFixed(1)} vertical feet off every irrigated acre.`,
+                        detail: `Grows ${f.crops}. Sampled at one representative 30m field pixel; ensemble of satellite models, not a ground instrument.`,
+                        chips: ["evapotranspiration", "satellite_model", "consumptive_use"],
+                        compare: [
+                          `#${[...etFields].sort((a, b) => b.annual - a.annual).findIndex((z) => z.id === f.id) + 1} of ${etFields.length} sampled districts by consumption depth`,
+                        ],
+                        source: "OpenET ensemble (NASA/USGS/DRI partnership), calendar 2025",
+                        clock: "model",
+                        clockLabel: "SATELLITE MODEL · 2025",
+                      })
+                    }
+                    onMouseMove={(e) =>
+                      showTip(e, `${f.name}, ${f.st}`, [`≈ ${f.annual} in of ET in 2025 (modeled)`])
+                    }
+                    onMouseLeave={hideTip}
+                  >
+                    <circle cx={x} cy={y} r={Math.max(r, 10)} fill="transparent" />
+                    <circle cx={x} cy={y} r={r} className="st-et" style={{ strokeWidth: 1.6 * inv }} />
+                    <text x={x} y={y + 3 * ts} className="st-label et" style={{ fontSize: 9.5 * ts }}>
+                      {Math.round(f.annual)}&#8243;
+                    </text>
+                  </g>
+                );
+              })}
+            </g>
+
             {/* cities — explore only: every incorporated place >= 10k */}
             <g style={{ opacity: opacity.cities }} className="fade">
               {opacity.cities > 0 && cities.map((c) => {
@@ -862,7 +914,8 @@ export function BasinStory({
                   ["flows", "Deliveries"],
                   ["people", "People"],
                   ["cities", "Cities"],
-                  ["farms", "Irrigation"],
+                  ["farms", "Irrigation ’15"],
+                  ["et", "Consumption ’25"],
                 ] as const
               ).map(([key, label]) => (
                 <button

@@ -13,7 +13,7 @@
 import { useState } from "react";
 import { GLOSSARY } from "@/lib/glossary";
 
-export type DataClock = "live" | "annual" | "census";
+export type DataClock = "live" | "annual" | "census" | "model";
 
 export interface SheetData {
   readonly kicker: string;
@@ -32,6 +32,7 @@ const CLOCK_STYLE: Record<DataClock, string> = {
   live: "clock-live",
   annual: "clock-annual",
   census: "clock-census",
+  model: "clock-model",
 };
 
 export function DetailSheet({

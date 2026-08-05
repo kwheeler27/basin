@@ -86,6 +86,18 @@ export const GLOSSARY: Record<string, Term> = {
     short:
       "Water diverted or pumped for crops. Some returns to rivers and aquifers as runoff and seepage — so this is bigger than what crops actually consume.",
   },
+  evapotranspiration: {
+    id: "evapotranspiration",
+    label: "evapotranspiration",
+    short:
+      "Water that leaves as vapor — evaporated from soil plus transpired through plants. For a farm field, it IS consumption: measured in inches of depth, like rainfall in reverse.",
+  },
+  satellite_model: {
+    id: "satellite_model",
+    label: "satellite model",
+    short:
+      "Estimated from Landsat imagery by an ensemble of models (OpenET — a NASA/USGS/DRI partnership), not measured by an instrument on the ground. Modeled values are always marked and never mixed with measurements.",
+  },
 };
 
 export type TermId = keyof typeof GLOSSARY;

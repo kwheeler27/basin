@@ -1313,3 +1313,19 @@ td.mono { font-family: var(--mono); font-size: 11px; }
   .cc-line { stroke: #4a90c2; }
   .cc-peak { fill: #4a90c2; }
 }
+
+/* consumption layer — MODELED, hence dashed (epistemic encoding) */
+.st-et {
+  fill: color-mix(in srgb, #0c8f6b 14%, transparent);
+  stroke: #0c8f6b;
+  stroke-dasharray: 4 3;
+}
+.st-label.et { fill: #0c8f6b; font-weight: 700; }
+.story-radio.on.et { border-color: #0c8f6b; border-style: dashed; box-shadow: inset 0 0 0 1px #0c8f6b; }
+.clock-model { color: #0c8f6b; border-color: #0c8f6b; border-style: dashed; }
+@media (prefers-color-scheme: dark) {
+  .st-et { fill: color-mix(in srgb, #2e9d85 16%, transparent); stroke: #2e9d85; }
+  .st-label.et { fill: #2e9d85; }
+  .story-radio.on.et { border-color: #2e9d85; box-shadow: inset 0 0 0 1px #2e9d85; }
+  .clock-model { color: #2e9d85; border-color: #2e9d85; }
+}
