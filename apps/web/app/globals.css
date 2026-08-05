@@ -1472,3 +1472,50 @@ td.mono { font-family: var(--mono); font-size: 11px; }
   .wi-med { stroke: #4a90c2; }
   .wi-band { fill: color-mix(in srgb, #4a90c2 16%, transparent); }
 }
+
+/* ---------- Markets: case files & sourcing badges ---------- */
+.src-badge {
+  display: inline-block; font: 600 10px/1 var(--mono); letter-spacing: 0.07em;
+  padding: 4px 8px; border-radius: 4px; text-transform: uppercase;
+  text-decoration: none; white-space: nowrap;
+}
+.src-filed { background: var(--text); color: var(--bg); border: 1px solid var(--text); }
+.src-reported { background: transparent; color: var(--warn); border: 1px solid var(--warn); }
+a.src-badge:hover { opacity: 0.82; }
+.case-status {
+  display: inline-block; font: 700 11px/1 var(--mono); letter-spacing: 0.07em;
+  color: var(--accent); border: 1.5px solid var(--accent); border-radius: 4px;
+  padding: 5px 9px;
+}
+.tl { list-style: none; margin: 26px 0 10px; padding: 0 0 0 2px; border-left: 2px solid var(--border); }
+.tl-item { position: relative; padding: 0 0 26px 24px; }
+.tl-item:last-child { padding-bottom: 8px; }
+.tl-item::before {
+  content: ""; position: absolute; left: -8px; top: 3px; width: 10px; height: 10px;
+  border-radius: 50%; background: var(--surface); border: 2px solid var(--faint);
+}
+.tl-item.filed::before { background: var(--text); border-color: var(--text); }
+.tl-item.reported::before { background: var(--surface); border-color: var(--warn); }
+.tl-date { font: 600 12px var(--mono); color: var(--muted); letter-spacing: 0.04em; }
+.tl-title { font-weight: 700; font-size: 15.5px; margin: 3px 0 4px; }
+.tl-body { color: var(--muted); font-size: 14.5px; line-height: 1.55; max-width: 640px; margin: 0; }
+.tl-src { margin-top: 7px; }
+.watch-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 14px; margin-top: 16px;
+}
+.watch-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px 18px 14px;
+}
+.watch-place {
+  font: 600 10.5px var(--mono); color: var(--faint);
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+.watch-name { font-weight: 700; font-size: 15.5px; margin: 4px 0 7px; }
+.watch-status {
+  display: inline-block; font: 600 10px/1 var(--mono); letter-spacing: 0.05em;
+  padding: 4px 7px; border: 1px solid var(--border); border-radius: 4px;
+  color: var(--muted); margin-bottom: 9px;
+}
+.watch-body { font-size: 14px; color: var(--muted); line-height: 1.55; margin: 0 0 4px; }
