@@ -1042,13 +1042,16 @@ export function BasinStory({
           </>
         )}
 
-        {/* time strip: the trajectory as lines, synced to the map. Playback
-            transport lives here (play/pause/restart, click-to-seek). */}
+        {/* time panel: the trajectory as lines, synced to the map.
+            Desktop: prominent right-side panel over the map's quiet east.
+            Mobile: compact bottom strip. Transport lives here. */}
         {step === "storage" && !exploring && history && (() => {
-          const SW = 620, SH = 96, SM = { t: 10, r: 56, b: 16, l: 16 };
+          const P = narrow
+            ? { SW: 620, SH: 118, t: 12, r: 58, b: 18, l: 16, axis: false }
+            : { SW: 340, SH: 250, t: 34, r: 54, b: 22, l: 34, axis: true };
           const n = history.months.length;
-          const sx = (i: number) => SM.l + (i / (n - 1)) * (SW - SM.l - SM.r);
-          const sy = (af: number) => SH - SM.b - (af / (26_000_000)) * (SH - SM.t - SM.b);
+          const sx = (i: number) => P.l + (i / (n - 1)) * (P.SW - P.l - P.r);
+          const sy = (af: number) => P.SH - P.b - (af / 26_000_000) * (P.SH - P.t - P.b);
           const lineOf = (rid: string) => {
             let d = "";
             let pen = false;
@@ -1060,38 +1063,62 @@ export function BasinStory({
             return d;
           };
           const curI = timeIdx ?? n - 1;
-          const clipW = SM.l + prog * (SW - SM.l - SM.r);
+          const clipW = P.l + prog * (P.SW - P.l - P.r);
           const yearTicks = history.months
             .map((m, i) => ({ m, i }))
-            .filter(({ m }) => m.endsWith("-01") && Number(m.slice(0, 4)) % 5 === 0);
+            .filter(({ m }) => m.endsWith("-01") && Number(m.slice(0, 4)) % (narrow ? 5 : 10) === 0);
           const onSeek = (e: React.MouseEvent<SVGSVGElement>) => {
             const rect = e.currentTarget.getBoundingClientRect();
-            const px = ((e.clientX - rect.left) / rect.width) * SW;
-            seek((px - SM.l) / (SW - SM.l - SM.r));
+            const px = ((e.clientX - rect.left) / rect.width) * P.SW;
+            seek((px - P.l) / (P.SW - P.l - P.r));
           };
+          const labels = (() => {
+            let yp = sy(history.series.powell?.[curI] ?? 0) + 3.5;
+            let ym = sy(history.series.mead?.[curI] ?? 0) + 3.5;
+            if (Math.abs(yp - ym) < 11) {
+              const mid = (yp + ym) / 2;
+              const povTop = yp <= ym;
+              yp = mid + (povTop ? -6 : 6);
+              ym = mid + (povTop ? 6 : -6);
+            }
+            return { yp, ym };
+          })();
           return (
-            <div className="timestrip">
-              <div className="ts-controls">
-                <button
-                  aria-label={playing ? "Pause" : "Play"}
-                  onClick={() => setPlaying(!playing)}
-                >
-                  {playing ? "❚❚" : "▶"}
-                </button>
-                <button aria-label="Restart from 2000" onClick={() => { seek(0, true); setPlaying(true); }}>
-                  ↺
-                </button>
+            <div className={`timestrip${narrow ? "" : " panel"}`}>
+              <div className="ts-head">
+                <div className="ts-controls">
+                  <button aria-label={playing ? "Pause" : "Play"} onClick={() => setPlaying(!playing)}>
+                    {playing ? "❚❚" : "▶"}
+                  </button>
+                  <button aria-label="Restart from 2000" onClick={() => { seek(0, true); setPlaying(true); }}>
+                    ↺
+                  </button>
+                </div>
+                <div className="ts-date">{timeLabel ?? "Today"}</div>
               </div>
-              <svg viewBox={`0 0 ${SW} ${SH}`} role="img"
+              <svg viewBox={`0 0 ${P.SW} ${P.SH}`} role="img"
                 aria-label="Powell and Mead storage over time — click to seek"
                 onClick={onSeek}>
                 <defs>
                   <clipPath id="ts-clip">
-                    <rect x={0} y={0} width={clipW} height={SH} />
+                    <rect x={0} y={0} width={clipW} height={P.SH} />
                   </clipPath>
                 </defs>
+                {P.axis && (
+                  <>
+                    <text x={P.l - 4} y={P.t - 8} className="ts-tick" style={{ textAnchor: "start" }}>
+                      storage, MAF
+                    </text>
+                    {[5, 15, 25].map((m) => (
+                      <g key={m}>
+                        <line x1={P.l} x2={P.SW - P.r} y1={sy(m * 1e6)} y2={sy(m * 1e6)} className="ts-grid" />
+                        <text x={P.l - 4} y={sy(m * 1e6) + 3} className="ts-tick" style={{ textAnchor: "end" }}>{m}</text>
+                      </g>
+                    ))}
+                  </>
+                )}
                 {yearTicks.map(({ m, i }) => (
-                  <text key={m} x={sx(i)} y={SH - 3} className="ts-tick">{m.slice(0, 4)}</text>
+                  <text key={m} x={sx(i)} y={P.SH - 5} className="ts-tick">{m.slice(0, 4)}</text>
                 ))}
                 <path d={lineOf("powell")} className="ts-ghost" />
                 <path d={lineOf("mead")} className="ts-ghost" />
@@ -1099,25 +1126,10 @@ export function BasinStory({
                   <path d={lineOf("powell")} className="ts-line powell" />
                   <path d={lineOf("mead")} className="ts-line mead" />
                 </g>
-                <line x1={sx(curI)} x2={sx(curI)} y1={SM.t} y2={SH - SM.b} className="ts-hair" />
-                {(() => {
-                  // end labels track the current values; nudge apart on collision
-                  let yp = sy(history.series.powell?.[curI] ?? 0) + 3.5;
-                  let ym = sy(history.series.mead?.[curI] ?? 0) + 3.5;
-                  if (Math.abs(yp - ym) < 10) {
-                    const mid = (yp + ym) / 2;
-                    yp = mid + (yp >= ym ? 5.5 : -5.5);
-                    ym = mid + (yp >= ym ? -5.5 : 5.5);
-                  }
-                  return (
-                    <>
-                      <text x={SW - SM.r + 6} y={yp} className="ts-label powell">Powell</text>
-                      <text x={SW - SM.r + 6} y={ym} className="ts-label mead">Mead</text>
-                    </>
-                  );
-                })()}
+                <line x1={sx(curI)} x2={sx(curI)} y1={P.t} y2={P.SH - P.b} className="ts-hair" />
+                <text x={P.SW - P.r + 6} y={labels.yp} className="ts-label powell">Powell</text>
+                <text x={P.SW - P.r + 6} y={labels.ym} className="ts-label mead">Mead</text>
               </svg>
-              <div className="ts-date">{timeLabel ?? "Today"}</div>
             </div>
           );
         })()}
