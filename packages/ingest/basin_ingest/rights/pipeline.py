@@ -480,31 +480,6 @@ def aggregate() -> None:
       GROUP BY 1,2,3
     """).fetchall()
 
-    def map_use(state: str, raw: str) -> str:
-        raw = (raw or "").strip().upper()
-        if not raw:
-            return "unknown"
-        if state == "co":
-            classes = {CO_USE_CODES.get(ch, "other") for ch in raw if ch in CO_USE_CODES}
-            for pref in ("irrigation", "municipal", "domestic", "stockwater", "storage_use"):
-                if pref in classes:
-                    return pref
-            return next(iter(classes), "other")
-        table = {
-            "IRR": "irrigation", "IRRIGATION": "irrigation", "DOM": "domestic", "DOMESTIC": "domestic",
-            "MUN": "municipal", "MUNICIPAL": "municipal", "STK": "stockwater", "STOCK": "stockwater",
-            "IND": "industrial", "COM": "industrial", "MIN": "mining", "REC": "recreation",
-            "SAN": "domestic", "EXP": "other", "MDW": "domestic",
-        }
-        if state == "ca":
-            if "STATEMENT" in raw:
-                return "unknown"  # CA use classes live elsewhere; type ≠ use
-            return "unknown"
-        for k, v in table.items():
-            if raw.startswith(k):
-                return v
-        return "other"
-
     from collections import defaultdict
     uses = defaultdict(lambda: defaultdict(int))
     for st, ck, raw, n in use_rows:
@@ -592,6 +567,85 @@ def aggregate() -> None:
     print(f"aggregate: {len(out_counties)} county bins, {matched} rows fips-matched → {out} ({out.stat().st_size/1024:.0f}KB)")
 
 
+def map_use(state: str, raw: str) -> str:
+    raw = (raw or "").strip().upper()
+    if not raw:
+        return "unknown"
+    if state == "co":
+        classes = {CO_USE_CODES.get(ch, "other") for ch in raw if ch in CO_USE_CODES}
+        for pref in ("irrigation", "municipal", "domestic", "stockwater", "storage_use"):
+            if pref in classes:
+                return pref
+        return next(iter(classes), "other")
+    table = {
+        "IRR": "irrigation", "IRRIGATION": "irrigation", "DOM": "domestic", "DOMESTIC": "domestic",
+        "MUN": "municipal", "MUNICIPAL": "municipal", "STK": "stockwater", "STOCK": "stockwater",
+        "IND": "industrial", "COM": "industrial", "MIN": "mining", "REC": "recreation",
+        "SAN": "domestic", "EXP": "other", "MDW": "domestic",
+    }
+    if state == "ca":
+        if "STATEMENT" in raw:
+            return "unknown"  # CA use classes live elsewhere; type ≠ use
+        return "unknown"
+    for k, v in table.items():
+        if raw.startswith(k):
+            return v
+    return "other"
+
+
+def export_points() -> None:
+    """GeoJSONL for tippecanoe (Phase 3). The D6 privacy gate is applied at
+    the ROW level here: owner name is included only when the parquet class
+    AND classify_owner() both say non-individual — the same double gate as
+    the owners artifact — and the export aborts if a scan disagrees."""
+    import duckdb
+
+    con = duckdb.connect()
+    rows = con.execute(f"""
+      SELECT lon, lat, state, priority_date, priority_basis, use_raw,
+             status_class, owner, owner_entity_class, source_system, source_id
+      FROM read_parquet('{OUT_PARQUET}')
+      WHERE lon IS NOT NULL AND lat IS NOT NULL AND status_class != 'inactive'
+        AND lon BETWEEN -125 AND -100 AND lat BETWEEN 25 AND 45
+    """).fetchall()
+    dest = ROOT / "data" / "rights" / "points.geojsonl"
+    kept = 0
+    gated_names = 0
+    with open(dest, "w") as f:
+        for lon, lat, st, pd, pb, use_raw, status, owner, ocls, syssrc, sid in rows:
+            props = {
+                "st": st,
+                "yr": int(pd[:4]) if pd else None,
+                "basis": pb,
+                "use": map_use(st, use_raw or ""),
+                "src": f"{syssrc}:{sid}",
+            }
+            if (
+                owner
+                and ocls in ("entity", "public", "tribal_govt")
+                and classify_owner(owner) != "individual"
+            ):
+                props["holder"] = " ".join(owner.upper().split())[:80]
+                gated_names += 1
+            props = {k: v for k, v in props.items() if v is not None}
+            f.write(json.dumps({
+                "type": "Feature",
+                "geometry": {"type": "Point", "coordinates": [round(lon, 5), round(lat, 5)]},
+                "properties": props,
+            }) + "\n")
+            kept += 1
+    # Post-write privacy scan: no line may carry a holder that classifies individual.
+    bad = 0
+    for line in open(dest):
+        o = json.loads(line)["properties"].get("holder")
+        if o and classify_owner(o) == "individual":
+            bad += 1
+    if bad:
+        dest.unlink()
+        raise SystemExit(f"privacy scan failed: {bad} individual-classified holder names")
+    print(f"points: {kept} features, {gated_names} with gated holder names → {dest} ({dest.stat().st_size/1e6:.0f}MB)")
+
+
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else ""
     RAW.mkdir(parents=True, exist_ok=True)
@@ -601,5 +655,7 @@ if __name__ == "__main__":
         normalize()
     elif cmd == "aggregate":
         aggregate()
+    elif cmd == "export-points":
+        export_points()
     else:
         raise SystemExit("usage: pipeline.py fetch <co|az|nm|ca|counties> | normalize | aggregate")
