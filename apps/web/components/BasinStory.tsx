@@ -345,7 +345,10 @@ export function BasinStory({
     return () => {
       svg.on(".zoom", null);
     };
-  }, [exploring]);
+    // `geo` is a dependency because the hero variant is exploring from its
+    // very first render, while the SVG doesn't exist until data loads — bind
+    // once the real stage mounts, not against the loading placeholder's refs.
+  }, [exploring, geo]);
 
   const zoomBy = useCallback((f: number) => {
     if (svgRef.current && zoomRef.current)
