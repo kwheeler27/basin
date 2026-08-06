@@ -1,6 +1,8 @@
 import { SourceBadge } from "@/components/SourceBadge";
 import { CASE_GSC, WATCHLIST } from "@/lib/markets";
 import ledger from "@/public/geo/transactions_gv.json";
+import utChanges from "@/public/geo/changes_ut.json";
+import caPetitions from "@/public/geo/petitions_ca.json";
 
 export const metadata = { title: "Markets — Basin" };
 
@@ -112,7 +114,7 @@ export default function Markets() {
         ))}
       </div>
 
-      <h2 className="section-title">The ledger — Grand Valley, first cut</h2>
+      <h2 className="section-title">The ledger — Colorado: Grand Valley, first cut</h2>
       <p className="body-text">
         Watching water markets case-by-case has a ceiling — the systematic view
         needs a systematic record. Colorado is the only basin state that
@@ -176,6 +178,90 @@ export default function Markets() {
         {ledger.caseCount} cases. Ownership is not recorded in CDSS — that
         chain ends at county deeds, by design of the record, which is exactly
         what the badges above are for.
+      </div>
+
+      <h2 className="section-title">The ledger — Utah: every change application, live</h2>
+      <p className="body-text">
+        Utah runs the strongest change-of-use tracker in the basin: a live
+        public list of every application to move a water right to a new use,
+        place, or point of diversion — applicant named, protest status shown.
+        In the current six-month window: <strong>{utChanges.count}</strong>{" "}
+        applications. The twenty-five most recently filed:
+      </p>
+      <div className="table-scroll">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Filed</th>
+              <th>Change №</th>
+              <th>Applicant</th>
+              <th>Protested</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[...utChanges.applications]
+              .filter((a) => a.filed)
+              .sort((a, b) => (b.filed! < a.filed! ? -1 : 1))
+              .slice(0, 25)
+              .map((a) => (
+                <tr key={a.change}>
+                  <td>{a.filed}</td>
+                  <td>{a.change}</td>
+                  <td>{a.applicant}</td>
+                  <td>{a.protested ? "Y" : "—"}</td>
+                  <td>{a.comments ?? ""}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="chain-caveat" style={{ marginTop: 10 }}>
+        <span className="src-badge src-filed" style={{ marginRight: 8 }}>
+          FILED RECORD
+        </span>
+        {utChanges.source} Snapshot {utChanges.fetched}. Utah&rsquo;s legal
+        office of record for ownership is still the county recorder; this
+        tracker is the division&rsquo;s live administrative feed.
+      </div>
+
+      <h2 className="section-title">The ledger — California: change petitions on notice</h2>
+      <p className="body-text">
+        California publishes every petition to change a permitted or licensed
+        water right as a public notice — holder named, change type spelled
+        out. All {caPetitions.count} currently on the books:
+      </p>
+      <div className="table-scroll">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Noticed</th>
+              <th>Water-right holder</th>
+              <th>Change sought</th>
+              <th>Protest deadline</th>
+            </tr>
+          </thead>
+          <tbody>
+            {caPetitions.petitions.map((p) => (
+              <tr key={`${p.applications}-${p.holder}`}>
+                <td>{p.noticed ?? "—"}</td>
+                <td>{p.holder}</td>
+                <td>{p.changeTypes}</td>
+                <td>{p.protestDeadline ?? "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="chain-caveat" style={{ marginTop: 10 }}>
+        <span className="src-badge src-filed" style={{ marginRight: 8 }}>
+          FILED RECORD
+        </span>
+        {caPetitions.source} Snapshot {caPetitions.fetched}. Both this table
+        and the state&rsquo;s points-of-diversion API sit outside the
+        in-flight eWRIMS→CalWATRS migration. Wyoming and Nevada publish no
+        equivalent tracker — changes there are paper filings, which is itself
+        a finding this page reports rather than hides.
       </div>
     </main>
   );

@@ -1,0 +1,104 @@
+{
+ "source": "California State Water Resources Control Board, Division of Water Rights — Standard Change Petition Notices (public notice table).",
+ "url": "https://www.waterboards.ca.gov/waterrights/water_issues/programs/petitions/standard_change_petition.html",
+ "fetched": "2026-08-06",
+ "count": 12,
+ "petitions": [
+  {
+   "applications": "4768, 5128, 15201, and 25056",
+   "holder": "East Bay Municipal Utility District",
+   "changeTypes": "Place of Use, Point of Rediversion, and Time Extension",
+   "noticed": "2026/07/24",
+   "protestDeadline": "2026/08/24",
+   "order": null
+  },
+  {
+   "applications": "25247",
+   "holder": "Cal-Cel Marketing, Inc.",
+   "changeTypes": "Place of Use",
+   "noticed": "2025/11/26",
+   "protestDeadline": "2025/12/22",
+   "order": null
+  },
+  {
+   "applications": "26454",
+   "holder": "Cawelo Water District",
+   "changeTypes": "Point of Diversion, Distribution of Storage, Purpose of Use, and Time Extension",
+   "noticed": "2025/11/20",
+   "protestDeadline": "2025/12/22",
+   "order": null
+  },
+  {
+   "applications": "11876, and 23017",
+   "holder": "Redway Community Services District",
+   "changeTypes": "Place of Use, Purpose of Use, and Time Extension",
+   "noticed": "2025/07/23",
+   "protestDeadline": "2025/08/22",
+   "order": null
+  },
+  {
+   "applications": "12987",
+   "holder": "Gary Barton",
+   "changeTypes": "Place of use",
+   "noticed": "2025/06/17",
+   "protestDeadline": "2025/07/17",
+   "order": null
+  },
+  {
+   "applications": "5626, 5628, 9363, 9364, 13370, 13371, 15374, 15375, 15764, 16767, 17374, and 17376",
+   "holder": "U.S. Bureau of Reclamation",
+   "changeTypes": "Addition of Points of Rediversion",
+   "noticed": "2025/03/21",
+   "protestDeadline": "2025/04/21",
+   "order": "2026/05/08 Order"
+  },
+  {
+   "applications": "A017002",
+   "holder": "Alameda County Flood Control and Water Conservation District (Zone 7)",
+   "changeTypes": "Split, Petition for Change and Time Extension",
+   "noticed": "2024/11/20",
+   "protestDeadline": "2024/12/20",
+   "order": null
+  },
+  {
+   "applications": "26224",
+   "holder": "Vineyard Club, Inc.",
+   "changeTypes": "Addition of Point of Diversion",
+   "noticed": "2024/11/20",
+   "protestDeadline": "2024/12/20",
+   "order": "2025/08/22 Order"
+  },
+  {
+   "applications": "5653, 5654, 7141, 7142, 7143, 8098, 8099, 8387, 9455, and 11751",
+   "holder": "Santa Clara Valley Water District",
+   "changeTypes": "Various Changes, Instream Flow Dedication, Environmental Terms",
+   "noticed": "2024/05/23",
+   "protestDeadline": "2024/06/24",
+   "order": null
+  },
+  {
+   "applications": "5630, 14443, 14445A, 17512",
+   "holder": "California Department of Water Resources",
+   "changeTypes": "Addition of Points of Diversion and Rediversion",
+   "noticed": "2024/02/29",
+   "protestDeadline": "2024/05/13",
+   "order": null
+  },
+  {
+   "applications": "1150, 4123, and 4124",
+   "holder": "Sweetwater Company",
+   "changeTypes": "Addition of Point of Diversion, and Change in Purpose of Use",
+   "noticed": "2024/02/28",
+   "protestDeadline": "2024/03/29",
+   "order": null
+  },
+  {
+   "applications": "A019510",
+   "holder": "Fulton Water Company, Inc.",
+   "changeTypes": "Extension of Time, Addition of Point of Diversion, and Change in Place of Use",
+   "noticed": "2023/08/14",
+   "protestDeadline": "2023/09/13",
+   "order": "2025/10/13 Order"
+  }
+ ]
+}
