@@ -190,10 +190,15 @@ def _county_locator(state_fips: str):
         g = f["geometry"]
         rings = g["coordinates"] if g["type"] == "Polygon" else [r for p in g["coordinates"] for r in p]
         outer = [g["coordinates"][0]] if g["type"] == "Polygon" else [p[0] for p in g["coordinates"]]
-        polys.append((f["properties"]["GEOID"], f["properties"]["BASENAME"], outer))
+        xs = [pt[0] for ring in outer for pt in ring]
+        ys = [pt[1] for ring in outer for pt in ring]
+        polys.append((f["properties"]["GEOID"], f["properties"]["BASENAME"], outer,
+                      (min(xs), min(ys), max(xs), max(ys))))
 
     def locate(lon: float, lat: float):
-        for geoid, name, outers in polys:
+        for geoid, name, outers, (x0, y0, x1, y1) in polys:
+            if lon < x0 or lon > x1 or lat < y0 or lat > y1:
+                continue
             for ring in outers:
                 if _point_in_ring(lon, lat, ring):
                     return geoid, name
@@ -259,7 +264,7 @@ def normalize() -> None:
     WITH co_raw AS (
       SELECT * FROM read_json_auto('{co}', format='newline_delimited', union_by_name=true)
     ), co AS (
-      SELECT 'co:cdss_netamount:' || wdid || ':' || COALESCE(CAST(waterRightNum AS VARCHAR),'0') AS right_uid,
+      SELECT 'co:cdss_netamount:' || wdid || ':' || COALESCE(CAST(waterRightNetAmtNum AS VARCHAR),'0') AS right_uid,
         'co' AS state, 'cdss_netamount' AS source_system, CAST(wdid AS VARCHAR) AS source_id,
         longitude AS lon, latitude AS lat,
         CASE WHEN latitude IS NOT NULL THEN 'gis' ELSE 'missing' END AS loc_quality,
@@ -279,7 +284,9 @@ def normalize() -> None:
         'az' AS state, 'adwr_filing_pod' AS source_system, FILENO AS source_id,
         _lon AS lon, _lat AS lat,
         CASE WHEN _lon IS NOT NULL THEN 'gis' ELSE 'missing' END AS loc_quality,
-        CASE WHEN PRIOR_DT IS NOT NULL THEN strftime(to_timestamp(CAST(PRIOR_DT AS BIGINT)/1000), '%Y-%m-%d') END AS priority_date,
+        CASE WHEN regexp_matches(CAST(PRIOR_DT AS VARCHAR), '^[0-9]{{4}}-') THEN substr(CAST(PRIOR_DT AS VARCHAR),1,10)
+             WHEN regexp_matches(CAST(PRIOR_DT AS VARCHAR), '^[0-9]{{1,2}}/') THEN substr(CAST(try_strptime(CAST(PRIOR_DT AS VARCHAR), '%-m/%-d/%Y') AS VARCHAR),1,10)
+        END AS priority_date,
         CASE WHEN STATUS LIKE '%CERT%' THEN 'certificated' ELSE 'permitted' END AS priority_basis,
         COALESCE(CAST(USE_FOR_1 AS VARCHAR),'') AS use_raw,
         NULL AS quantity_value, NULL AS quantity_unit, NULL AS quantity_kind,
@@ -313,8 +320,9 @@ def normalize() -> None:
         'ca' AS state, 'swrcb_pod' AS source_system, CAST(POD_ID AS VARCHAR) AS source_id,
         LONGITUDE AS lon, LATITUDE AS lat,
         CASE WHEN LATITUDE IS NOT NULL THEN 'gis' ELSE 'missing' END AS loc_quality,
-        CASE WHEN PRIORITY_DATE IS NOT NULL AND CAST(PRIORITY_DATE AS VARCHAR) != ''
-             THEN substr(CAST(strptime(CAST(PRIORITY_DATE AS VARCHAR), '%m/%d/%Y') AS VARCHAR),1,10) END AS priority_date,
+        CASE WHEN regexp_matches(CAST(PRIORITY_DATE AS VARCHAR), '^[0-9]{{4}}-') THEN substr(CAST(PRIORITY_DATE AS VARCHAR),1,10)
+             WHEN regexp_matches(CAST(PRIORITY_DATE AS VARCHAR), '^[0-9]{{1,2}}/') THEN substr(CAST(try_strptime(CAST(PRIORITY_DATE AS VARCHAR), '%-m/%-d/%Y') AS VARCHAR),1,10)
+        END AS priority_date,
         CASE WHEN WATER_RIGHT_TYPE LIKE '%Statement%' THEN 'claimed'
              WHEN WATER_RIGHT_TYPE LIKE '%Registration%' THEN 'registered'
              ELSE 'permitted' END AS priority_basis,
@@ -334,6 +342,38 @@ def normalize() -> None:
     )
     SELECT *, {ent} AS owner_entity_class FROM unioned
     """)
+    # FIPS post-pass: NM uses 2-letter county codes and some CA rows carry
+    # no county — assign by geometry wherever we have coordinates.
+    pending = con.execute(
+        "SELECT right_uid, state, lon, lat FROM rights WHERE fips IS NULL AND lon IS NOT NULL AND lat IS NOT NULL"
+    ).fetchall()
+    locators = {st: _county_locator(STATE_FIPS[st]) for st in {r[1] for r in pending}}
+    fixes = []
+    for uid, st, lon, lat in pending:
+        geoid, cname = locators[st](lon, lat)
+        if geoid:
+            fixes.append((uid, geoid, cname))
+    con.execute("CREATE TEMP TABLE fixes (right_uid VARCHAR, fips VARCHAR, cname VARCHAR)")
+    con.executemany("INSERT INTO fixes VALUES (?, ?, ?)", fixes)
+    con.execute("""UPDATE rights SET fips = f.fips, county_key = f.fips, county_name = f.cname
+                   FROM fixes f WHERE rights.right_uid = f.right_uid""")
+    print(f"fips post-pass: {len(fixes)}/{len(pending)} located by geometry")
+
+    # Name pass for rows with a county name but no coordinates (CO/CA tails).
+    counties_d = json.loads((RAW / "counties7.geojson").read_text())
+    inv = {v: k for k, v in STATE_FIPS.items()}
+    n2f = {(inv[f["properties"]["STATE"]], f["properties"]["BASENAME"].upper()): f["properties"]["GEOID"]
+           for f in counties_d["features"]}
+    named = con.execute(
+        "SELECT DISTINCT state, county_key FROM rights WHERE fips IS NULL AND county_key IS NOT NULL"
+    ).fetchall()
+    nfix = [(st, ck, n2f[(st, ck.strip().upper())]) for st, ck in named if (st, (ck or "").strip().upper()) in n2f]
+    con.execute("CREATE TEMP TABLE nfix (state VARCHAR, ck VARCHAR, fips VARCHAR)")
+    con.executemany("INSERT INTO nfix VALUES (?, ?, ?)", nfix)
+    con.execute("""UPDATE rights SET fips = nfix.fips FROM nfix
+                   WHERE rights.fips IS NULL AND rights.state = nfix.state AND rights.county_key = nfix.ck""")
+    print(f"name pass: {len(nfix)} county names mapped")
+
     n = con.execute("SELECT count(*), count(DISTINCT state) FROM rights").fetchone()
     per = con.execute("SELECT state, count(*) FROM rights GROUP BY 1 ORDER BY 1").fetchall()
     print("normalized:", n, per)
@@ -384,21 +424,21 @@ def aggregate() -> None:
         name_to_fips[(st, p["BASENAME"].upper())] = p["GEOID"]
 
     rows = con.execute("""
-      SELECT state, county_key, fips,
+      SELECT state, any_value(county_name) AS county_key, fips,
         count(*) AS n,
         CAST(median(CAST(substr(priority_date,1,4) AS INT)) AS INT) AS med_yr,
         round(100.0 * count(*) FILTER (WHERE priority_date IS NOT NULL AND priority_date < '1922-01-01')
               / NULLIF(count(*) FILTER (WHERE priority_date IS NOT NULL),0), 1) AS pct_pre1922,
         count(*) FILTER (WHERE priority_date IS NOT NULL) AS n_dated,
         count(*) FILTER (WHERE owner_entity_class IN ('entity','public','tribal_govt')) AS n_entity_held
-      FROM r WHERE county_key IS NOT NULL AND status_class != 'inactive'
-      GROUP BY 1,2,3
+      FROM r WHERE (fips IS NOT NULL OR county_key IS NOT NULL) AND status_class != 'inactive'
+      GROUP BY 1,3
     """).fetchall()
 
     # use mix per county (top-level classes via per-state raw mapping)
     use_rows = con.execute("""
-      SELECT state, county_key, use_raw, count(*) FROM r
-      WHERE county_key IS NOT NULL AND status_class != 'inactive'
+      SELECT state, fips, use_raw, count(*) FROM r
+      WHERE fips IS NOT NULL AND status_class != 'inactive'
       GROUP BY 1,2,3
     """).fetchall()
 
@@ -442,7 +482,7 @@ def aggregate() -> None:
             "fips": f, "state": st, "county": ck, "n": n,
             "medianPriorityYear": med, "pctPre1922": pct, "nDated": n_dated,
             "entityHeldShare": round(n_ent / n, 3) if n else None,
-            "uses": dict(sorted(uses[(st, ck)].items(), key=lambda kv: -kv[1])[:6]),
+            "uses": dict(sorted(uses[(st, f)].items(), key=lambda kv: -kv[1])[:6]),
         })
 
     totals = dict(con.execute("SELECT state, count(*) FROM r GROUP BY 1").fetchall())

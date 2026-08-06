@@ -18,7 +18,7 @@
  */
 
 import { useMemo, useState } from "react";
-import { geoConicConformal, geoPath } from "d3-geo";
+import { geoArea, geoConicConformal, geoPath } from "d3-geo";
 import { feature } from "topojson-client";
 import statesTopo from "@/public/geo/states-10m.json";
 import counties from "@/public/geo/counties_west.json";
@@ -81,9 +81,24 @@ export function RightsMap() {
     return { path: geoPath(projection), states: west };
   }, []);
 
+  // TIGERweb rings wind opposite to d3-geo's spherical convention — the
+  // same ArcGIS trap as the watershed boundary. Rewind or every county
+  // renders as its own complement.
+  const countyFeatures = useMemo(() => {
+    const fc = counties as unknown as GeoJSON.FeatureCollection;
+    for (const f of fc.features) {
+      if (geoArea(f) > Math.PI) {
+        const g = f.geometry;
+        if (g.type === "Polygon") g.coordinates.forEach((r) => r.reverse());
+        if (g.type === "MultiPolygon") g.coordinates.forEach((p) => p.forEach((r) => r.reverse()));
+      }
+    }
+    return fc.features;
+  }, []);
+
   const byFips = useMemo(() => {
     const m = new Map<string, CountyAgg>();
-    for (const c of (agg as { counties: CountyAgg[] }).counties) {
+    for (const c of (agg as unknown as { counties: CountyAgg[] }).counties) {
       if (c.fips) m.set(c.fips, c);
     }
     return m;
@@ -175,7 +190,7 @@ export function RightsMap() {
     });
   };
 
-  const fetched = (agg as { fetched: string }).fetched;
+  const fetched = (agg as unknown as { fetched: string }).fetched;
 
   return (
     <div className="rightsmap">
@@ -199,7 +214,7 @@ export function RightsMap() {
         {states.map((f) => (
           <path key={String(f.id)} d={path(f) ?? undefined} className="rm-state" />
         ))}
-        {(counties as unknown as GeoJSON.FeatureCollection).features.map((f) => {
+        {countyFeatures.map((f) => {
           const p = f.properties as { fips: string; name: string };
           const fill = fillOf(p.fips);
           return (
