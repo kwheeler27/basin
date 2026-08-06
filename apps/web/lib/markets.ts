@@ -161,12 +161,25 @@ export const WATCHLIST: WatchItem[] = [
   {
     place: "La Paz County, Arizona",
     name: "Fondomonte Arizona",
-    status: "STATE LEASES ENDED · PRIVATE PUMPING REPORTED",
-    body: "The Saudi-owned alfalfa operation lost its Arizona state-land leases (terminated in 2023, the rest lapsed in 2025) — but pumping is reported to continue on roughly ten thousand privately held acres nearby. Not a river-water transfer; a groundwater-and-land case showing the same pattern from another angle.",
+    status: "OUT OF BUTLER VALLEY · PRIVATE PUMPING REPORTED",
+    body: "The Saudi-owned alfalfa operation lost its state-land leases in Butler Valley — one of the four export basins on the map below — by governor's action: termination announced October 2023, pumping officially ended there by March 2024. The Arizona Republic reports operations continue on privately held land nearby. Not a river-water transfer; the same land-for-water pattern from another angle.",
+    source: {
+      kind: "filed",
+      name: "Office of the Arizona Governor",
+      url: "https://azgovernor.gov/office-arizona-governor/news/2024/03/governor-katie-hobbs-announces-fondomonte-officially-no-longer",
+      date: "2024-03-08",
+    },
+  },
+  {
+    place: "San Luis Valley, Colorado — Rio Grande basin",
+    name: "Renewable Water Resources",
+    status: "STALLED · COUNTY DECLINED 2022",
+    body: "The long-running proposal to export ~22,000 acre-feet a year of valley groundwater to Douglas County suburbs. County commissioners voted 2–1 in 2022 against funding the roughly $400 million pipeline; by late 2023 the firm's principals were backing candidates in the valley's water-district board races. Outside the Colorado River basin — included because the buyer pattern is identical.",
     source: {
       kind: "reported",
-      name: "press accounts",
-      date: "2025-02-01",
+      name: "Alamosa Citizen",
+      url: "https://www.alamosacitizen.com/developers-behind-rwr-contribute-thousands-to-douglas-county-water-district-races/",
+      date: "2023-12-02",
     },
   },
 ];
