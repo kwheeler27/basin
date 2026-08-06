@@ -1594,3 +1594,20 @@ html { scroll-behavior: smooth; }
   display: block; color: var(--muted); font-style: italic; margin-bottom: 7px;
 }
 .src-card-url { display: block; font: 600 11px var(--mono); color: var(--accent); }
+
+/* ---------- Water Rights: seven-state county stage ---------- */
+.rightsmap { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; padding-bottom: 6px; }
+.rightsmap svg { display: block; width: 100%; height: auto; }
+.rights-layerbar { position: static; padding: 12px 12px 4px; }
+.rm-state { fill: color-mix(in srgb, var(--surface-2) 40%, var(--surface)); stroke: none; }
+.rm-state-line { fill: none; stroke: var(--faint); stroke-width: 0.9; vector-effect: non-scaling-stroke; pointer-events: none; }
+.rm-county { stroke: var(--surface); stroke-width: 0.4; vector-effect: non-scaling-stroke; cursor: pointer; }
+.rm-county.nodata { fill: var(--surface-2); opacity: 0.55; }
+.rm-county:hover { stroke: var(--text); stroke-width: 1; }
+.rm-legend {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  font: 11.5px var(--mono); color: var(--muted); padding: 8px 14px 8px;
+}
+.rm-swatch { display: inline-block; width: 13px; height: 13px; border-radius: 3px; border: 1px solid var(--border); }
+.rm-swatch.nodata { background: var(--surface-2); opacity: 0.7; }
+.rm-asof { margin-left: auto; color: var(--faint); }
