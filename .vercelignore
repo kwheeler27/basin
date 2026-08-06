@@ -1,5 +1,5 @@
-data/
-.qa/
-.github/
-docs/
+/data/
+/.qa/
+/.github/
+/docs/
 *.log
