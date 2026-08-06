@@ -47,7 +47,7 @@ const STEPS: readonly { id: StepId; kicker: string; hed: string; body: string }[
     id: "storage",
     kicker: "Storage",
     hed: "Two reservoirs hold the savings — and they're about three-quarters empty.",
-    body: "Rings show capacity; filled circles show what's actually there. Powell and Mead dwarf everything else and carry the system's buffer. The smaller pools downstream stay full on purpose — they're regulating basins for the aqueducts, not savings.",
+    body: "Each circle is a reservoir; its area is the water actually in storage right now, and the label is percent of capacity. Even three-quarters empty, Powell and Mead dwarf everything else — they carry the system’s buffer. The smaller pools downstream stay full on purpose: regulating basins for the aqueducts, not savings.",
   },
   {
     id: "flows",
@@ -626,7 +626,7 @@ export function BasinStory({
                 if (k < 2.2 && d.af < 100_000) return null;
                 const [x, y] = project(d.lon, d.lat);
                 if (x < 6 || x > W - 6 || y < 6 || y > H - 6) return null;
-                const rr = Math.max(1.2, rOf(d.af));
+                const rr = 1.7; // uniform dot: presence, not size — tap for capacity
                 const inside = inBasin(d.lon, d.lat);
                 return (
                   <g
@@ -654,8 +654,8 @@ export function BasinStory({
                     }
                     onMouseLeave={hideTip}
                   >
-                    <circle cx={x} cy={y} r={Math.max(rr, 7)} fill="transparent" />
-                    <circle cx={x} cy={y} r={rr} className={`st-nid${inside ? "" : " outside"}`} style={{ strokeWidth: 1 * inv }} />
+                    <circle cx={x} cy={y} r={7} fill="transparent" />
+                    <circle cx={x} cy={y} r={rr * inv} className="st-nid" />
                     {k >= 3 && d.af >= 12_000 && (
                       <text x={x} y={y - rr - 3 * inv} className="st-label nid" style={{ fontSize: 8.5 * ts }}>
                         {d.n}
@@ -668,11 +668,11 @@ export function BasinStory({
                 const [x, y] = project(r.lon, r.lat);
                 const live = storage[r.id];
                 const shown = shownStorage(r.id);
-                const rCap = rOf(r.capacityAf);
+                const rNow = shown !== null ? Math.max(1.6, rOf(shown)) : 2.2;
                 const pct = shown !== null ? (shown / r.capacityAf) * 100 : null;
                 const major = r.id === "powell" || r.id === "mead";
                 const storageIsHero = hero === "storage";
-                const showLabel = storageIsHero && (major || (exploring && (rCap >= 7 || k >= 2.2))) && (!narrow || major || exploring);
+                const showLabel = storageIsHero && (major || (exploring && (r.capacityAf >= 1_800_000 || k >= 2.2))) && (!narrow || major || exploring);
                 return (
                   <g
                     key={r.id}
@@ -718,13 +718,14 @@ export function BasinStory({
                     }
                     onMouseLeave={hideTip}
                   >
-                    <circle cx={x} cy={y} r={Math.max(rCap, 11)} fill="transparent" />
-                    <circle cx={x} cy={y} r={rCap} className="st-cap" style={{ strokeWidth: 1.1 * inv }} />
-                    {shown !== null && <circle cx={x} cy={y} r={rOf(shown)} className="st-store" />}
+                    <circle cx={x} cy={y} r={Math.max(rNow, 11)} fill="transparent" />
+                    {shown !== null
+                      ? <circle cx={x} cy={y} r={rNow} className="st-store" />
+                      : <circle cx={x} cy={y} r={rNow * inv} className="st-nid" />}
                     {showLabel && (
                       <text
                         x={x}
-                        y={rCap < 9 ? y + rCap + 11 * inv : y - rCap - 6 * inv}
+                        y={rNow < 9 ? y + rNow + 11 * inv : y - rNow - 6 * inv}
                         className="st-label water"
                         style={{ fontSize: (major ? 12 : 10.5) * ts }}
                       >
@@ -1169,10 +1170,8 @@ export function BasinStory({
           <div className="hero-legend" aria-label="Map legend">
             {exploreLayer === "storage" && (
               <>
-                <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="6" className="map-res-storage" /></svg>water in storage now (live)</span>
-                <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="6.5" className="map-res-capacity" /></svg>full capacity</span>
-                <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="4.5" className="st-nid" /></svg>other large dams — no live gauge</span>
-                <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="4.5" className="st-nid outside" /></svg>dashed: outside the watershed</span>
+                <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="6" className="st-store" /></svg>reservoir — circle area is water in storage now (live); label is % of capacity</span>
+                <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="2.5" className="st-nid" /></svg>dam of note — tap for capacity &amp; details</span>
               </>
             )}
             {exploreLayer === "flows" && (
