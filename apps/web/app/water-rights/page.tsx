@@ -1,4 +1,5 @@
 import { AzExportMap } from "@/components/AzExportMap";
+import { RightsDrillIn } from "@/components/RightsDrillIn";
 import { RightsMap } from "@/components/RightsMap";
 import { SourceBadge } from "@/components/SourceBadge";
 import { CASE_GSC, WATCHLIST } from "@/lib/markets";
@@ -38,6 +39,17 @@ export default function WaterRights() {
           is itself part of the picture.
         </p>
       </div>
+
+      <h2 className="section-title">Every recorded right, one by one</h2>
+      <p className="body-text">
+        The county picture above is an aggregate; underneath it are 333,459
+        individually recorded rights. The point map serves them all from a
+        single 9&nbsp;MB static tile file — color is priority year, and each
+        point carries its record identifier. Holder names appear only for
+        entities, agencies, and tribal governments; individual holders are
+        never shown.
+      </p>
+      <RightsDrillIn />
 
       <h2 className="section-title">The largest holders of record</h2>
       <p className="body-text">
