@@ -1161,6 +1161,39 @@ export function BasinStory({
           </div>
         )}
 
+        {/* hero legend: what each mark means, per layer — the story's cards
+            carry this job in narration; the explore front door needs it
+            stated. Swatches use the real mark classes so they cannot drift
+            from the map. */}
+        {isHero && (
+          <div className="hero-legend" aria-label="Map legend">
+            {exploreLayer === "storage" && (
+              <>
+                <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="6" className="map-res-storage" /></svg>water in storage now (live)</span>
+                <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="6.5" className="map-res-capacity" /></svg>full capacity</span>
+                <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="4.5" className="st-nid" /></svg>other large dams — no live gauge</span>
+                <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="4.5" className="st-nid outside" /></svg>dashed: outside the watershed</span>
+              </>
+            )}
+            {exploreLayer === "flows" && (
+              <span className="hl-item"><svg viewBox="0 0 22 16" className="hl-sw wide"><path d="M2 8 L20 8" className="st-canal" strokeWidth={4} /></svg>delivery path — width is sourced annual volume; schematic between real endpoints</span>
+            )}
+            {exploreLayer === "people" && (
+              <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="6" className="map-people" /></svg>population served by a water provider — area is people</span>
+            )}
+            {exploreLayer === "cities" && (
+              <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="4.5" className="st-city" /></svg>city or town of 10,000+ — area is population (2024 census estimates)</span>
+            )}
+            {exploreLayer === "farms" && (
+              <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="6" className="st-farm" /></svg>county irrigation withdrawals — area is volume (2015 USGS census)</span>
+            )}
+            {exploreLayer === "et" && (
+              <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="5.5" className="st-et" /></svg>district field consumption, 2025 — dashed: modeled from satellite (OpenET)</span>
+            )}
+            <span className="hl-tap">tap any mark for detail &amp; source</span>
+          </div>
+        )}
+
         {/* step dots (story only) */}
         {!isHero && (
           <div className="story-dots" aria-hidden="true">

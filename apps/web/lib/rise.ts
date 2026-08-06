@@ -62,11 +62,15 @@ export async function fetchSeries(itemId: number, days = 400): Promise<Series> {
       const url =
         `${RISE_BASE}/result?itemId=${itemId}&itemsPerPage=${PAGE_SIZE}` +
         `&dateTime%5Bafter%5D=${after}&page=${page}`;
+      // RISE outages must degrade to the pages' honest "unavailable"
+      // states, never hang a build or a request (static-first doctrine).
+      // Freshness comes from PAGE-level ISR (export const revalidate), not
+      // the fetch cache: with next.revalidate, Next both ignores the abort
+      // signal and keeps the export waiting on the hung request. no-store
+      // restores real timeouts; the page still revalidates hourly.
       const res = await fetch(url, {
         headers: { Accept: ACCEPT, "User-Agent": "basin/0.1" },
-        next: { revalidate: REVALIDATE_SECONDS },
-        // RISE outages must degrade to the pages' honest "unavailable"
-        // states, never hang a build or a request (static-first doctrine).
+        cache: "no-store",
         signal: AbortSignal.timeout(8_000),
       });
       if (!res.ok) throw new Error(`RISE ${res.status} for item ${itemId}`);
