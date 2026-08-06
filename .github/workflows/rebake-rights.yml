@@ -1,0 +1,62 @@
+# Monthly re-bake of the seven-state rights picture (design D7 cadence:
+# AZ/NM bulk sources move slowly; CO/CA ride along). Fetches raw snapshots,
+# normalizes through rights-v1, aggregates, and opens a PR when the county
+# or owners artifacts changed. The privacy gate (test_artifact_privacy)
+# runs in the CI that the PR itself triggers — an individual name cannot
+# reach main even if this bake misbehaves.
+name: Re-bake rights picture
+
+on:
+  schedule:
+    - cron: "41 9 3 * *" # 3rd of the month, 09:41 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  rebake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install duckdb
+      - name: Fetch all sources
+        working-directory: packages/ingest
+        run: |
+          python -m basin_ingest.rights.pipeline fetch counties
+          python -m basin_ingest.rights.pipeline fetch nm
+          python -m basin_ingest.rights.pipeline fetch ca
+          python -m basin_ingest.rights.pipeline fetch az
+          python -m basin_ingest.rights.pipeline fetch co
+      - name: Normalize + aggregate
+        working-directory: packages/ingest
+        run: |
+          python -m basin_ingest.rights.pipeline normalize
+          python -m basin_ingest.rights.pipeline aggregate
+      - name: Privacy gate (pre-PR belt; CI on the PR is the suspenders)
+        working-directory: packages/ingest
+        run: |
+          pip install pytest
+          python -m pytest tests/test_artifact_privacy.py -q
+      - name: Open PR if artifacts changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet apps/web/public/geo; then
+            echo "rights artifacts unchanged"; exit 0
+          fi
+          BRANCH="bake/rights-$(date -u +%Y%m%d)"
+          git config user.name "basin-bake"
+          git config user.email "actions@github.com"
+          git checkout -b "$BRANCH"
+          git add apps/web/public/geo
+          git commit -m "bake: monthly rights refresh ($(date -u +%Y-%m-%d))"
+          git push origin "$BRANCH"
+          gh pr create --base main --head "$BRANCH" \
+            --title "bake: monthly rights refresh $(date -u +%Y-%m-%d)" \
+            --body "Automated re-bake of the seven-state rights picture (county + owners artifacts). Shape assertions and the privacy gate passed. Deploy via CLI after merge."

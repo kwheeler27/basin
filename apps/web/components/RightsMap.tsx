@@ -23,6 +23,7 @@ import { feature } from "topojson-client";
 import statesTopo from "@/public/geo/states-10m.json";
 import counties from "@/public/geo/counties_west.json";
 import agg from "@/public/geo/rights_county_agg.json";
+import owners from "@/public/geo/rights_owner_agg.json";
 import { DetailSheet, type SheetData } from "@/components/DetailSheet";
 
 const W = 960;
@@ -177,9 +178,15 @@ export function RightsMap() {
       detail: [
         total ? `${Math.round((irr / total) * 100)}% recorded for irrigation.` : null,
         c.entityHeldShare !== null
-          ? `${Math.round(c.entityHeldShare * 100)}% held by entities or agencies (rest: individual holders).`
+          ? `${Math.round(c.entityHeldShare * 100)}% held by entities or agencies (rest: individual holders, aggregated).`
           : null,
         `${c.nDated.toLocaleString()} of ${c.n.toLocaleString()} carry a priority date.`,
+        (() => {
+          const top = (owners as unknown as { counties: Record<string, { name: string; n: number }[]> }).counties[fips];
+          return top?.length
+            ? `Largest holders of record: ${top.map((o) => `${o.name} (${o.n.toLocaleString()})`).join("; ")}.`
+            : null;
+        })(),
       ]
         .filter(Boolean)
         .join(" "),

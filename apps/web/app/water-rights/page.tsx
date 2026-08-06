@@ -3,6 +3,7 @@ import { RightsMap } from "@/components/RightsMap";
 import { SourceBadge } from "@/components/SourceBadge";
 import { CASE_GSC, WATCHLIST } from "@/lib/markets";
 import ledger from "@/public/geo/transactions_gv.json";
+import owners from "@/public/geo/rights_owner_agg.json";
 import utChanges from "@/public/geo/changes_ut.json";
 import caPetitions from "@/public/geo/petitions_ca.json";
 
@@ -36,6 +37,55 @@ export default function WaterRights() {
           shown as such on the Coverage layer, because the shape of the record
           is itself part of the picture.
         </p>
+      </div>
+
+      <h2 className="section-title">The largest holders of record</h2>
+      <p className="body-text">
+        Ranked by count of active filings in each state&rsquo;s record system —
+        entities, agencies, and tribal governments only; individual holders
+        appear in the county statistics above but are never named. Colorado is
+        absent because its net-amounts record does not carry a holder name
+        (ownership lives at the county recorder).
+      </p>
+      <div className="table-scroll">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>State</th>
+              <th>Holder of record</th>
+              <th>Class</th>
+              <th>Filings</th>
+              <th>Counties</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(
+              (owners as unknown as {
+                states: Record<string, { name: string; class: string; n: number; counties: number }[]>;
+              }).states,
+            )
+              .sort(([a], [b]) => a.localeCompare(b))
+              .flatMap(([st, list]) =>
+                list.slice(0, 6).map((o, i) => (
+                  <tr key={`${st}-${o.name}`}>
+                    <td>{i === 0 ? st.toUpperCase() : ""}</td>
+                    <td>{o.name}</td>
+                    <td>{o.class === "public" ? "agency" : o.class === "tribal_govt" ? "tribal govt" : "entity"}</td>
+                    <td>{o.n.toLocaleString()}</td>
+                    <td>{o.counties}</td>
+                  </tr>
+                )),
+              )}
+          </tbody>
+        </table>
+      </div>
+      <div className="chain-caveat" style={{ marginTop: 10 }}>
+        <span className="src-badge src-filed" style={{ marginRight: 8 }}>
+          FILED RECORD
+        </span>
+        {(owners as unknown as { note: string }).note} Class labels are
+        heuristic where the source does not state one. Snapshot{" "}
+        {(owners as unknown as { fetched: string }).fetched}.
       </div>
 
       <h2 className="section-title">Transactions</h2>
