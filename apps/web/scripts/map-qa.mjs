@@ -19,7 +19,7 @@ const VIEWPORTS = [
   { name: "desktop", width: 1360, height: 900 },
   { name: "mobile", width: 390, height: 844 },
 ];
-const STEPS = [0, 1, 2, 3, 4, 5];
+const STEPS = [0, 1, 2, 3, 4]; // story chapters; explore is the hero on top
 
 mkdirSync(".qa", { recursive: true });
 const browser = await chromium.launch();
@@ -36,10 +36,24 @@ for (const vp of VIEWPORTS) {
     await page.screenshot({ path: `.qa/${vp.name}-step${step}.png`, fullPage: step === 0 });
   }
 
+  // smoke: the explore hero must render its six layer pills and switch layers
+  await page.goto(`${BASE}/`, { waitUntil: "load", timeout: 45000 });
+  await page.waitForTimeout(2600);
+  const pills = await page.locator(".explore-hero .story-radio").count();
+  if (pills !== 6) { console.error(`✗ ${vp.name}: hero has ${pills} pills, expected 6`); failures++; }
+  else {
+    await page.locator(".explore-hero .story-radio.flows").evaluate((el) => el.click());
+    await page.waitForTimeout(300);
+    const on = await page.locator(".explore-hero .story-radio.flows.on").count();
+    if (on !== 1) { console.error(`✗ ${vp.name}: hero layer switch broken`); failures++; }
+    else console.log(`✓ ${vp.name}: hero pills + layer switch`);
+  }
+  await page.screenshot({ path: `.qa/${vp.name}-hero.png` });
+
   // smoke: tapping the largest farm circle must open the sheet with chips
   await page.goto(`${BASE}/?step=4`, { waitUntil: "load", timeout: 45000 });
   await page.waitForTimeout(2600);
-  const circles = await page.locator("circle.st-farm").all();
+  const circles = await page.locator(".story:not(.explore-hero) circle.st-farm").all();
   let biggest = null, r0 = 0;
   for (const c of circles) {
     const r = parseFloat(await c.getAttribute("r"));

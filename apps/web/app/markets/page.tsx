@@ -1,5 +1,9 @@
+import { AzExportMap } from "@/components/AzExportMap";
 import { SourceBadge } from "@/components/SourceBadge";
 import { CASE_GSC, WATCHLIST } from "@/lib/markets";
+import ledger from "@/public/geo/transactions_gv.json";
+import utChanges from "@/public/geo/changes_ut.json";
+import caPetitions from "@/public/geo/petitions_ca.json";
 
 export const metadata = { title: "Markets — Basin" };
 
@@ -111,15 +115,177 @@ export default function Markets() {
         ))}
       </div>
 
-      <div className="note" style={{ marginTop: 26 }}>
+      <h2 className="section-title">The ledger — Colorado: Grand Valley, first cut</h2>
+      <p className="body-text">
+        Watching water markets case-by-case has a ceiling — the systematic view
+        needs a systematic record. Colorado is the only basin state that
+        publishes one: every court-decreed transaction on a water right,
+        queryable down to the ditch. This is Water District 72 — the Grand
+        Valley — filtered to the market signal: changes of use, transfers, and
+        abandonments. Since 2017, <strong>{ledger.casesSince2017} cases</strong>
+        , every one a small spring, drain, pump, or well.
+      </p>
+      <div className="note">
         <p>
-          <strong>What comes next: the ledger.</strong> Watching water markets
-          case-by-case has a ceiling — the systematic view needs a systematic
-          record. Colorado is the only basin state that publishes one: every
-          court-decreed change in how a water right is used, queryable down to
-          the ditch. A live feed of that ledger is the next piece of this
-          page — and its first query will be the Grand Valley entry above.
+          <strong>Which answers the watchlist question.</strong> No change case
+          touching the valley&rsquo;s major canal systems appears in this
+          ledger since 2017 — the era of the investment-fund purchases. The
+          last canal-system change cases are 2011 and 2002. Whatever the
+          fund&rsquo;s intentions, on paper its water is still farming. The
+          record can&rsquo;t prove a negative forever — this page re-checks on
+          every data refresh.
         </p>
+      </div>
+      <div className="table-scroll">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Filed</th>
+              <th>Case</th>
+              <th>Type</th>
+              <th>Structures decreed</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ledger.cases
+              .filter((c) => c.year >= 2017)
+              .map((c) => (
+                <tr key={c.case}>
+                  <td>{c.year}</td>
+                  <td>
+                    <a href={c.url} target="_blank" rel="noopener noreferrer">
+                      {c.case}
+                    </a>
+                  </td>
+                  <td>{c.types.join(", ")}</td>
+                  <td>
+                    {c.structures.join(" · ")}
+                    {c.structureCount > c.structures.length &&
+                      ` · +${c.structureCount - c.structures.length} more`}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="chain-caveat" style={{ marginTop: 10 }}>
+        <span className="src-badge src-filed" style={{ marginRight: 8 }}>
+          FILED RECORD
+        </span>
+        {ledger.source} Case links open the water-court record. Type codes per
+        DWR HydroBase: C change of water right · TT/TF transferred to/from ·
+        AB abandonment. Snapshot {ledger.fetched};{" "}
+        {ledger.marketRowsSince2000} decree rows since 2000 across{" "}
+        {ledger.caseCount} cases. Ownership is not recorded in CDSS — that
+        chain ends at county deeds, by design of the record, which is exactly
+        what the badges above are for.
+      </div>
+
+      <h2 className="section-title">The ledger — Utah: every change application, live</h2>
+      <p className="body-text">
+        Utah runs the strongest change-of-use tracker in the basin: a live
+        public list of every application to move a water right to a new use,
+        place, or point of diversion — applicant named, protest status shown.
+        In the current six-month window: <strong>{utChanges.count}</strong>{" "}
+        applications. The twenty-five most recently filed:
+      </p>
+      <div className="table-scroll">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Filed</th>
+              <th>Change №</th>
+              <th>Applicant</th>
+              <th>Protested</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[...utChanges.applications]
+              .filter((a) => a.filed)
+              .sort((a, b) => (b.filed! < a.filed! ? -1 : 1))
+              .slice(0, 25)
+              .map((a) => (
+                <tr key={a.change}>
+                  <td>{a.filed}</td>
+                  <td>{a.change}</td>
+                  <td>{a.applicant}</td>
+                  <td>{a.protested ? "Y" : "—"}</td>
+                  <td>{a.comments ?? ""}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="chain-caveat" style={{ marginTop: 10 }}>
+        <span className="src-badge src-filed" style={{ marginRight: 8 }}>
+          FILED RECORD
+        </span>
+        {utChanges.source} Snapshot {utChanges.fetched}. Utah&rsquo;s legal
+        office of record for ownership is still the county recorder; this
+        tracker is the division&rsquo;s live administrative feed.
+      </div>
+
+      <h2 className="section-title">The ledger — California: change petitions on notice</h2>
+      <p className="body-text">
+        California publishes every petition to change a permitted or licensed
+        water right as a public notice — holder named, change type spelled
+        out. All {caPetitions.count} currently on the books:
+      </p>
+      <div className="table-scroll">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Noticed</th>
+              <th>Water-right holder</th>
+              <th>Change sought</th>
+              <th>Protest deadline</th>
+            </tr>
+          </thead>
+          <tbody>
+            {caPetitions.petitions.map((p) => (
+              <tr key={`${p.applications}-${p.holder}`}>
+                <td>{p.noticed ?? "—"}</td>
+                <td>{p.holder}</td>
+                <td>{p.changeTypes}</td>
+                <td>{p.protestDeadline ?? "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="chain-caveat" style={{ marginTop: 10 }}>
+        <span className="src-badge src-filed" style={{ marginRight: 8 }}>
+          FILED RECORD
+        </span>
+        {caPetitions.source} Snapshot {caPetitions.fetched}. Both this table
+        and the state&rsquo;s points-of-diversion API sit outside the
+        in-flight eWRIMS→CalWATRS migration. Wyoming and Nevada publish no
+        equivalent tracker — changes there are paper filings, which is itself
+        a finding this page reports rather than hides.
+      </div>
+
+      <h2 className="section-title">The legal geography — where Arizona groundwater can cash out</h2>
+      <p className="body-text">
+        Arizona bans moving rural groundwater to its cities — except from four
+        named basins, written into statute. Whoever owns land over these
+        basins owns the only rural groundwater in the state that can legally
+        become municipal supply. That is why Cibola-style stories keep
+        starting here: the Harquahala INA and McMullen Valley are where
+        Queen Creek and its neighbors went shopping next.
+      </p>
+      <AzExportMap />
+      <div className="chain-caveat" style={{ marginTop: 10 }}>
+        <span className="src-badge src-filed" style={{ marginRight: 8 }}>
+          FILED RECORD
+        </span>
+        Basin boundaries: Arizona Department of Water Resources public feature
+        services (2024). Legal basis: A.R.S. §45-551 et seq. — groundwater
+        transportation to Active Management Areas. ADWR&rsquo;s surface-water
+        registry (99,775 filings, 25,659 of them assignments) is public on
+        the same servers; Colorado River mainstem entitlements, like the
+        case-file transfer above, are federal Reclamation contracts and do
+        not appear in state filings.
       </div>
     </main>
   );
