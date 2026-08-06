@@ -112,6 +112,12 @@ The subject is politically live: an unsigned Record of Decision, no seven-state 
 - **No villain framing.** Not "agriculture is wasteful," not "cities are the problem." Alfalfa persists because it is high-yielding, nutrient-dense, perennial, nitrogen-fixing, marketable, and suited to livestock systems — the product explains *why* a practice exists before quantifying its cost.
 - **Tribal water rights are structural, not a callout box.** 30 federally recognized tribes; ~3.2 MAF of quantified entitlement (~22–26% of supply); roughly 12 tribes with unresolved claims; the Northeastern Arizona settlement pending in Congress, **not enacted**. Present quantified, unquantified, and pending as first-class states.
 - **Policy levers are presented with tradeoffs, not rankings.** Crop switching, deficit irrigation, fallowing, water markets, and genetics each have costs borne by someone specific. Name who.
+- **Neutral register — the facts carry the argument** (made explicit 2026-08-06, prompted by Markets-page copy). Narrative prose states what the record shows, in the words the record supports, and nothing more:
+  - No editorial color: not "a company no one had heard of," not "went shopping for water" — write "GSC Farm, LLC contracted for…," "acquired…"
+  - No imputed motive, ever. Intent appears in no filing. Fact patterns (buy → hold → transfer application) are presented; the reader draws conclusions.
+  - Characterizations are attributed or self-descriptions: "which describes itself as…," "the Republic identifies it as…" — never our own epithet for an entity.
+  - Analytic claims ("the strongest tracker," "the only basins that can legally export") are allowed only when they restate a verifiable, sourced comparison — of data or law, not of actors' character.
+  - The test: every sentence should survive being read aloud by any party to the transaction. If a sentence would sound like an accusation or an endorsement to one of them, rewrite it as what the record says.
 
 ---
 

@@ -5,6 +5,9 @@ const nextConfig = {
   experimental: {
     typedRoutes: true,
   },
+  redirects: async () => [
+    { source: "/markets", destination: "/water-rights", permanent: true },
+  ],
 };
 
 export default nextConfig;
