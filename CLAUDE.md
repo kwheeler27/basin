@@ -5,7 +5,12 @@
 ## Source of truth & change flow
 
 - **GitHub (`kwheeler27/basin`, PUBLIC) is the source of truth.** The repo is public and Apache-2.0 licensed: never commit secrets, credentials, or tokens — not in code, fixtures, snapshots, or history. `.env` is gitignored; `.env.example` documents required vars.
-- **Never commit directly to `main`** (branch-protected). For any change: feature branch (`feat/...`, `fix/...`) → push → `gh pr create` → Kevin reviews and merges.
+- **Never commit directly to `main`** (branch-protected). For any change: feature branch (`feat/...`, `fix/...`) → push → `gh pr create`.
+- **Branch from `main`, merge to `main`, delete the branch.** No long-lived integration branches, no stacked PRs. If a second feature finishes while the first PR is open, the fix is to merge the first — never to stack on it.
+- **Small PRs, merged same-day.** Merge cadence beats review ceremony; an aging PR is where stacks and drift come from.
+- **Merge authority is split by class** (agreed 2026-08-06): Kevin merges anything with product judgment, factual/public-facing claims, or money/data-integrity implications. The agent has standing authorization to merge *mechanical* PRs only: automated ledger/data re-bakes (shape-checked, data-only), dependency bumps, typo-level docs.
+- **Review depth is proportional to risk**: PR descriptions must state what was tested; money-representation, data-integrity, sourcing/factual claims, and security changes get an adversarial review before merge.
+- **Deploys come from `main`, after merge.** Target state: Vercel GitHub connection (auto-deploy on merge, preview URLs on PRs) — blocked on a one-time step only Kevin can do (add a GitHub Login Connection in the Vercel dashboard, then `vercel git connect`). Until then: CLI deploy (`npx vercel deploy --prod --yes`) only from `main`, only after merge — never from a working branch.
 - Keep PRs focused; state what was tested in the description.
 
 ## Hard rules (violations are bugs)
