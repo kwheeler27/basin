@@ -1,0 +1,47 @@
+id: colorado.reservoir.powell.elevation
+label: Lake Powell pool elevation
+description: >
+  Water surface elevation of Lake Powell above mean sea level. The operative
+  variable for release-tier determination (via projected January 1 elevation),
+  with critical thresholds at 3,575 / 3,525 ft (tier boundaries), 3,490 ft
+  (minimum power pool, medium confidence), and 3,370 ft (dead pool).
+
+quantity_kind: Length
+canonical_unit: foot
+measurement_class: observed
+accounting_concept: stage
+temporal_semantics: instantaneous
+grain: P1D
+calendar: water_year
+spatial_ref: { type: reservoir, id: usbr.lake_powell }
+
+provenance:
+  agency: USBR
+  system: RISE
+  catalog_record: 2362
+  catalog_item: 508
+  endpoint: https://data.usbr.gov/rise/api/result?itemId=508
+  retrieved_via: http_json
+  license: public_domain_us_gov
+  citation: >
+    U.S. Bureau of Reclamation, RISE, Lake Powell pool elevation, catalog item
+    508. Accessed {access_date}.
+
+ingest:
+  adapter: rise
+  params: { item_id: 508 }
+
+revision_policy:
+  status: provisional
+  detect_via: updateDate
+
+freshness:
+  expected_cadence: P1D
+  sla_hours: 36
+
+uncertainty: none_published
+
+caveats:
+  - >
+    Tier determination uses the projected January 1 elevation from the August
+    24-Month Study, not current elevation.

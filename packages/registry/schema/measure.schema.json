@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kwheeler27/basin/packages/registry/schema/measure.schema.json",
+  "title": "Basin measure definition",
+  "description": "Single source of truth for one measure. Everything downstream — Dagster assets, Postgres measure dimension, TS/Zod contracts, dbt schema.yml, AI tool schema — is generated from files validating against this schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id", "label", "quantity_kind", "canonical_unit", "measurement_class",
+    "accounting_concept", "temporal_semantics", "grain", "calendar",
+    "spatial_ref", "provenance", "revision_policy", "freshness"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*){2,5}$",
+      "description": "Stable dotted slug with basin prefix, e.g. colorado.reservoir.mead.storage. Never reused; renames require an alias."
+    },
+    "label": { "type": "string", "minLength": 3, "maxLength": 80 },
+    "description": { "type": "string" },
+    "aliases": { "type": "array", "items": { "type": "string" }, "description": "Former ids that resolve to this measure." },
+    "quantity_kind": {
+      "enum": ["Volume", "Length", "VolumeFlowRate", "Dimensionless", "Temperature", "Area", "Mass"],
+      "description": "QUDT quantity kind. Guards unit conversion."
+    },
+    "canonical_unit": {
+      "enum": ["acre_foot", "foot", "cubic_foot_per_second", "millimeter", "percent", "degree_celsius", "acre", "acre_foot_per_month", "unitless"],
+      "description": "Storage unit for value_canonical. All conversion derives from this via the unit_conversion table."
+    },
+    "measurement_class": {
+      "enum": ["observed", "estimated", "modeled", "forecast", "reconstructed", "administrative"],
+      "description": "Epistemic class. Never mixed in a query or chart series without explicit distinction."
+    },
+    "accounting_concept": {
+      "enum": ["diversion", "withdrawal", "consumptive_use", "depletion", "return_flow", "delivery", "storage", "evaporation", "loss", "allocation", "flow", "snowpack", "stage", "climate"],
+      "description": "Water-accounting semantics. Measures differing here are never summed without a declared bridge."
+    },
+    "temporal_semantics": {
+      "enum": ["instantaneous", "interval_total", "interval_mean", "end_of_period", "period_max"],
+      "description": "Aggregation legality: instantaneous values cannot be averaged; interval means cannot be summed."
+    },
+    "grain": {
+      "type": "string",
+      "pattern": "^(P\\d+[YMWD]|PT\\d+[HM]|irregular)$",
+      "description": "Native time step as ISO 8601 duration, or 'irregular'."
+    },
+    "calendar": { "enum": ["calendar_year", "water_year", "irrigation_season", "compact_year"] },
+    "spatial_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id"],
+      "properties": {
+        "type": { "enum": ["reservoir", "station", "gauge", "reach", "basin", "huc", "state", "county", "project", "border_point"] },
+        "id": { "type": "string" }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agency", "system", "endpoint", "license", "citation"],
+      "properties": {
+        "agency": { "type": "string" },
+        "system": { "type": "string" },
+        "catalog_record": { "type": ["integer", "string"] },
+        "catalog_item": { "type": ["integer", "string"] },
+        "site_id": { "type": "string" },
+        "endpoint": { "type": "string", "format": "uri" },
+        "retrieved_via": { "enum": ["http_json", "http_csv", "http_excel", "pdf_extraction", "computed"] },
+        "license": { "enum": ["public_domain_us_gov", "public_domain", "cc_by", "other"] },
+        "citation": { "type": "string", "description": "Citation template; may contain {access_date}." }
+      }
+    },
+    "ingest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adapter"],
+      "properties": {
+        "adapter": { "enum": ["rise", "usgs_ogc", "awdb", "usdm", "computed", "manual"] },
+        "params": { "type": "object", "description": "Adapter-specific parameters (item ids, station triplets, parameter codes, element codes)." },
+        "source_unit": { "type": "string", "description": "Unit as delivered by the source, when it differs from canonical_unit; ingest converts." },
+        "depends_on": { "type": "array", "items": { "type": "string" }, "description": "Measure ids this computed measure derives from." }
+      }
+    },
+    "revision_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["provisional", "approved_lagged", "final", "mixed"] },
+        "detect_via": { "type": "string", "description": "Field or mechanism used to detect upstream revisions (e.g. updateDate, approval_status)." },
+        "note": { "type": "string" }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expected_cadence", "sla_hours"],
+      "properties": {
+        "expected_cadence": { "type": "string", "pattern": "^(P\\d+[YMWD]|PT\\d+[HM]|irregular)$" },
+        "sla_hours": { "type": "number", "exclusiveMinimum": 0 },
+        "note": { "type": "string" }
+      }
+    },
+    "uncertainty": {
+      "type": "string",
+      "description": "How uncertainty is expressed: none_published, ensemble_percentiles, prediction_interval, method_range, or free text."
+    },
+    "caveats": { "type": "array", "items": { "type": "string" } },
+    "not_comparable_with": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["measure", "reason"],
+        "properties": {
+          "measure": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      },
+      "description": "Anti-join edges with human-readable reasons; enforced by the API and surfaced verbatim in the UI."
+    }
+  }
+}

@@ -1,0 +1,49 @@
+id: colorado.reservoir.powell.storage
+label: Lake Powell storage
+description: >
+  Volume of water held in Lake Powell, derived by Reclamation from measured
+  pool elevation via the area-capacity table.
+
+quantity_kind: Volume
+canonical_unit: acre_foot
+measurement_class: observed
+accounting_concept: storage
+temporal_semantics: instantaneous
+grain: P1D
+calendar: water_year
+spatial_ref: { type: reservoir, id: usbr.lake_powell }
+
+provenance:
+  agency: USBR
+  system: RISE
+  catalog_record: 2362
+  catalog_item: 509
+  endpoint: https://data.usbr.gov/rise/api/result?itemId=509
+  retrieved_via: http_json
+  license: public_domain_us_gov
+  citation: >
+    U.S. Bureau of Reclamation, RISE, Lake Powell storage, catalog item 509.
+    Accessed {access_date}.
+
+ingest:
+  adapter: rise
+  params: { item_id: 509 }
+
+revision_policy:
+  status: provisional
+  detect_via: updateDate
+
+freshness:
+  expected_cadence: P1D
+  sla_hours: 36
+
+uncertainty: none_published
+
+caveats:
+  - >
+    Sedimentation since 1963 has reduced actual capacity below the nominal
+    24.32 MAF; percent-full figures depend on which capacity survey is used.
+
+not_comparable_with:
+  - measure: colorado.upper_basin.consumptive_use
+    reason: "Stock vs. flux. Same unit, different kind of quantity."

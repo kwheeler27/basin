@@ -1,0 +1,56 @@
+id: colorado.snow.stations.swe
+label: SNOTEL station snow water equivalent
+description: >
+  Daily snow water equivalent at individual SNOTEL stations in the Upper
+  Colorado Basin HUCs. The raw input to the basin percent-of-median rollup and
+  the hydrology model's SWE features. Station dimension carried in
+  geography_id (one observation row per station per day).
+
+quantity_kind: Length
+canonical_unit: millimeter
+measurement_class: observed
+accounting_concept: snowpack
+temporal_semantics: instantaneous
+grain: P1D
+calendar: water_year
+spatial_ref: { type: basin, id: colorado.upper_basin }
+
+provenance:
+  agency: USDA-NRCS
+  system: AWDB REST
+  endpoint: https://wcc.sc.egov.usda.gov/awdbRestApi/services/v1/data
+  retrieved_via: http_json
+  license: public_domain_us_gov
+  citation: >
+    USDA Natural Resources Conservation Service, Air and Water Database
+    (AWDB), SNOTEL network, element WTEQ. Accessed {access_date}.
+
+ingest:
+  adapter: awdb
+  source_unit: inch
+  params:
+    element: WTEQ
+    duration: DAILY
+    networks: ["SNTL"]
+    huc_prefixes: ["14"]
+
+revision_policy:
+  status: provisional
+  detect_via: refetch_window
+  note: >
+    AWDB exposes no revision stamp; ingest refetches a trailing 14-day window
+    and diffs. Empty result sets are valid JSON ([]) — distinguish "no data"
+    from "bad station" via the stations endpoint.
+
+freshness:
+  expected_cadence: P1D
+  sla_hours: 48
+
+uncertainty: none_published
+
+caveats:
+  - Source unit is inches; converted to canonical millimeters at ingest.
+  - >
+    Station set changes over time (new stations, discontinuations); the
+    stations endpoint's beginDate/endDate and HUC membership are synced as a
+    dimension, not assumed static.

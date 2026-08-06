@@ -37,3 +37,13 @@ data/
 .DS_Store
 .idea/
 *.log
+
+# python build artifacts
+*.egg-info/
+.pytest_cache/
+
+# next
+.next/
+next-env.d.ts
+.vercel
+.qa/

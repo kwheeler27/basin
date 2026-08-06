@@ -1,0 +1,54 @@
+id: colorado.reservoir.mead.elevation
+label: Lake Mead pool elevation
+description: >
+  Water surface elevation of Lake Mead above mean sea level. The operative
+  variable for shortage-tier determination (via projected January 1 elevation)
+  and the critical thresholds at 1,075 / 1,050 / 1,025 ft (tiers), ~950 ft
+  (minimum power pool), and 895 ft (dead pool).
+
+quantity_kind: Length
+canonical_unit: foot
+measurement_class: observed
+accounting_concept: stage
+temporal_semantics: instantaneous
+grain: P1D
+calendar: water_year
+spatial_ref: { type: reservoir, id: usbr.lake_mead }
+
+provenance:
+  agency: USBR
+  system: RISE
+  catalog_record: 4370
+  catalog_item: 6123
+  endpoint: https://data.usbr.gov/rise/api/result?itemId=6123
+  retrieved_via: http_json
+  license: public_domain_us_gov
+  citation: >
+    U.S. Bureau of Reclamation, RISE, Lake Mead pool elevation, catalog item
+    6123. Period of record from 1935-02-02. Accessed {access_date}.
+
+ingest:
+  adapter: rise
+  params: { item_id: 6123 }
+
+revision_policy:
+  status: provisional
+  detect_via: updateDate
+
+freshness:
+  expected_cadence: P1D
+  sla_hours: 36
+
+uncertainty: none_published
+
+caveats:
+  - >
+    Tier determination does not use current elevation: it uses the projected
+    January 1 elevation from the August 24-Month Study. Displaying current
+    elevation against tier thresholds requires that framing.
+
+not_comparable_with:
+  - measure: colorado.reservoir.mead.storage
+    reason: >
+      Elevation maps to storage only through the (re-surveyed, nonlinear)
+      area-capacity table — never by linear scaling.
