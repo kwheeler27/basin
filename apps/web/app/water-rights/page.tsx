@@ -1,4 +1,5 @@
 import { AzExportMap } from "@/components/AzExportMap";
+import { RightsMap } from "@/components/RightsMap";
 import { SourceBadge } from "@/components/SourceBadge";
 import { CASE_GSC, WATCHLIST } from "@/lib/markets";
 import ledger from "@/public/geo/transactions_gv.json";
@@ -12,10 +13,32 @@ export default function WaterRights() {
     <main>
       <h1 className="page-title">Water rights</h1>
       <p className="page-lede">
-        This page tracks transactions in which land changed hands and water
-        rights moved with it — traced through the public record, and labeled
-        by what the record can and cannot say.
+        Who may take water, from where, since when, for what — the western
+        rights system as the public record shows it, county by county. Below
+        the map: the transactions where rights change hands, traced through
+        filings and labeled by what the record can and cannot say.
       </p>
+
+      <RightsMap />
+
+      <div className="note" style={{ marginTop: 14 }}>
+        <p>
+          <strong>Why the map covers what it covers.</strong> West of roughly
+          the 100th meridian, water law runs on prior appropriation —
+          first-in-time, first-in-right — which produces the records mapped
+          here: points of diversion, priority dates, decreed uses. The eastern
+          states run on riparian doctrine, where rights attach to landownership
+          and no comparable statewide record exists. Within the West, coverage
+          follows each state&rsquo;s record system: Colorado, Arizona, and
+          California publish machine-readable rights with priority dates; New
+          Mexico publishes points of diversion without one; Utah, Nevada, and
+          Wyoming keep records that are public but not yet machine-readable —
+          shown as such on the Coverage layer, because the shape of the record
+          is itself part of the picture.
+        </p>
+      </div>
+
+      <h2 className="section-title">Transactions</h2>
 
       <div className="note">
         <p>

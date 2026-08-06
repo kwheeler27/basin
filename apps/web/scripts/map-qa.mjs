@@ -50,6 +50,23 @@ for (const vp of VIEWPORTS) {
   }
   await page.screenshot({ path: `.qa/${vp.name}-hero.png` });
 
+  // smoke: the rights stage must render its four layers and open a county sheet
+  await page.goto(`${BASE}/water-rights`, { waitUntil: "load", timeout: 45000 });
+  await page.waitForTimeout(1500);
+  const rPills = await page.locator(".rightsmap .story-radio").count();
+  const rCounties = await page.locator(".rightsmap .rm-county").count();
+  if (rPills !== 4 || rCounties < 200) {
+    console.error(`✗ ${vp.name}: rights stage broken (pills=${rPills}, counties=${rCounties})`); failures++;
+  } else {
+    await page.locator(".rightsmap .rm-county:not(.nodata)").first().evaluate((el) => el.dispatchEvent(new MouseEvent("click", { bubbles: true })));
+    await page.waitForTimeout(400);
+    const rSheet = (await page.locator(".sheet").count()) === 1;
+    if (!rSheet) { console.error(`✗ ${vp.name}: rights county sheet did not open`); failures++; }
+    else console.log(`✓ ${vp.name}: rights stage (${rCounties} counties, sheet opens)`);
+    await page.keyboard.press("Escape");
+  }
+  await page.screenshot({ path: `.qa/${vp.name}-rights.png` });
+
   // smoke: tapping the largest farm circle must open the sheet with chips
   await page.goto(`${BASE}/?step=4`, { waitUntil: "load", timeout: 45000 });
   await page.waitForTimeout(2600);
