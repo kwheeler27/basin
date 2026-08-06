@@ -5,17 +5,16 @@ import ledger from "@/public/geo/transactions_gv.json";
 import utChanges from "@/public/geo/changes_ut.json";
 import caPetitions from "@/public/geo/petitions_ca.json";
 
-export const metadata = { title: "Markets — Basin" };
+export const metadata = { title: "Water Rights — Basin" };
 
-export default function Markets() {
+export default function WaterRights() {
   return (
     <main>
-      <h1 className="page-title">Markets</h1>
+      <h1 className="page-title">Water rights</h1>
       <p className="page-lede">
-        When a farm sells, sometimes the crop was never the point. This page
-        tracks transactions where land changed hands and the water was the
-        asset — traced through the public record, and labeled by what the
-        record can and cannot say.
+        This page tracks transactions in which land changed hands and water
+        rights moved with it — traced through the public record, and labeled
+        by what the record can and cannot say.
       </p>
 
       <div className="note">
@@ -26,11 +25,12 @@ export default function Markets() {
           Register notice, an SEC filing, a court order — and links to it.{" "}
           <span className="src-badge src-reported">REPORTED · OUTLET</span>{" "}
           means it exists so far only in journalism, and names the outlet.
-          The gap between the two is the story: land is bought through LLCs,
-          no basin state keeps a registry of who owns water rights, and intent
-          never appears in a filing. So we show fact patterns — buy, hold,
-          transfer — and never claim motive. Entities and structures, not
-          individuals.
+          The gap between the two matters: land is bought through LLCs, no
+          basin state keeps a registry of who owns water rights, and intent
+          never appears in a filing. So this page shows fact patterns — buy,
+          hold, transfer — and never claims motive; characterizations are
+          attributed or self-descriptions, never our own. Entities and
+          structures, not individuals. The facts carry the argument.
         </p>
       </div>
 
@@ -38,12 +38,12 @@ export default function Markets() {
         <div className="fieldnote-kicker">{CASE_GSC.kicker}</div>
         <h2 className="fieldnote-hed">{CASE_GSC.hed}</h2>
         <p className="body-text">
-          In 2013, a company no one had heard of contracted for Colorado River
-          water to irrigate a farm at Cibola, on the Arizona bank. A decade
-          later, most of that water belongs to a Phoenix suburb two hundred
-          miles away — the first fight over it decided in federal court, the
-          next one still open. This is the whole arc of a water market in one
-          case, told in filings.
+          In 2013, GSC Farm, LLC contracted for Colorado River water to
+          irrigate farmland at Cibola, on the Arizona bank of the river. A
+          decade later, most of that entitlement belongs to a Phoenix-area
+          suburb two hundred miles away — the first legal challenge decided in
+          federal court, the court-ordered review still open. The sequence,
+          from the filings:
         </p>
 
         <div className="stat-row">
@@ -84,11 +84,11 @@ export default function Markets() {
           <p>
             <strong>Where the paper trail ends.</strong> The filed record names
             exactly one seller: <em>GSC Farm, LLC</em>. That the LLC is a
-            subsidiary of Greenstone — a Phoenix company built to trade water —
-            and that Greenstone&rsquo;s parent is the financial-services firm
-            Barings, is known only through reporting. This is not a footnote;
-            it is the reason the badges exist. The documents stop at the LLC,
-            everywhere, in every state.
+            subsidiary of Greenstone — a Phoenix company that describes itself
+            as advancing water transactions — and that Greenstone&rsquo;s
+            parent is the financial-services firm Barings, is known only
+            through reporting. This is why the badges exist: the documents
+            stop at the LLC, in every state.
           </p>
         </div>
       </section>
@@ -267,12 +267,11 @@ export default function Markets() {
 
       <h2 className="section-title">The legal geography — where Arizona groundwater can cash out</h2>
       <p className="body-text">
-        Arizona bans moving rural groundwater to its cities — except from four
-        named basins, written into statute. Whoever owns land over these
-        basins owns the only rural groundwater in the state that can legally
-        become municipal supply. That is why Cibola-style stories keep
-        starting here: the Harquahala INA and McMullen Valley are where
-        Queen Creek and its neighbors went shopping next.
+        Arizona law generally prohibits transporting rural groundwater to the
+        urban Active Management Areas — with four named exceptions, written
+        into statute. Land over these basins therefore carries the only rural
+        groundwater in the state that can legally be conveyed to the AMAs;
+        the basins are where transfer proposals concentrate.
       </p>
       <AzExportMap />
       <div className="chain-caveat" style={{ marginTop: 10 }}>
