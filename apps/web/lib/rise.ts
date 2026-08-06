@@ -65,6 +65,9 @@ export async function fetchSeries(itemId: number, days = 400): Promise<Series> {
       const res = await fetch(url, {
         headers: { Accept: ACCEPT, "User-Agent": "basin/0.1" },
         next: { revalidate: REVALIDATE_SECONDS },
+        // RISE outages must degrade to the pages' honest "unavailable"
+        // states, never hang a build or a request (static-first doctrine).
+        signal: AbortSignal.timeout(8_000),
       });
       if (!res.ok) throw new Error(`RISE ${res.status} for item ${itemId}`);
       const body = (await res.json()) as { data?: RiseRow[] };
