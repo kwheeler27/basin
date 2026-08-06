@@ -29,8 +29,10 @@ transform/target/
 transform/dbt_packages/
 transform/logs/
 
-# data — raw snapshots live in R2, not git
-data/
+# data — raw snapshots at the REPO ROOT live in object storage, not git.
+# Root-anchored: a bare `data/` also swallowed apps/web/app/data (the Data
+# tab route, never committed until 2026-08-06) and packages/model/data.
+/data/
 *.duckdb
 
 # os / editor
@@ -47,3 +49,6 @@ data/
 next-env.d.ts
 .vercel
 .qa/
+
+# typescript incremental build cache
+*.tsbuildinfo
