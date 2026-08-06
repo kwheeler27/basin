@@ -31,6 +31,9 @@ transform/logs/
 
 # data — raw snapshots live in R2, not git
 data/
+# …but small baked artifacts that tests validate against ARE committed
+!packages/model/data/
+!packages/model/data/model_inputs.json
 *.duckdb
 
 # os / editor
@@ -47,3 +50,6 @@ data/
 next-env.d.ts
 .vercel
 .qa/
+
+# typescript incremental build cache
+*.tsbuildinfo
