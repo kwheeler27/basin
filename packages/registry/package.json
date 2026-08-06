@@ -4,8 +4,8 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "gen": "tsx codegen/generate.ts",
-    "gen:check": "tsx codegen/generate.ts --check",
+    "gen": "tsx codegen/generate.ts && tsx codegen/generate-rights.ts",
+    "gen:check": "tsx codegen/generate.ts --check && tsx codegen/generate-rights.ts --check",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
