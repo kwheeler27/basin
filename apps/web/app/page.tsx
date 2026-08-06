@@ -14,6 +14,9 @@ import {
 } from "@/lib/system";
 
 export const revalidate = 3600;
+// Pin static despite the no-store RISE fetches (see lib/rise.ts) — data
+// updates via page-level ISR, never per-request.
+export const dynamic = "force-static";
 
 export default async function Overview() {
   // Live storage for every reservoir with a RISE item (11 of 13; Roosevelt

@@ -1611,3 +1611,18 @@ html { scroll-behavior: smooth; }
 .rm-swatch { display: inline-block; width: 13px; height: 13px; border-radius: 3px; border: 1px solid var(--border); }
 .rm-swatch.nodata { background: var(--surface-2); opacity: 0.7; }
 .rm-asof { margin-left: auto; color: var(--faint); }
+
+/* ---------- Overview hero: per-layer mark legend ---------- */
+.hero-legend {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px;
+  padding: 8px 14px 10px; font: 11.5px var(--mono); color: var(--muted);
+  border-top: 1px solid var(--grid);
+}
+.hl-item { display: inline-flex; align-items: center; gap: 6px; }
+.hero-legend svg.hl-sw { width: 15px; height: 15px; flex: 0 0 auto; overflow: visible; }
+.hero-legend svg.hl-sw.wide { width: 22px; }
+.hl-tap { margin-left: auto; color: var(--faint); }
+@media (max-width: 720px) {
+  .hero-legend { font-size: 10.5px; gap: 3px 10px; padding: 7px 10px 9px; }
+  .hl-tap { display: none; }
+}
