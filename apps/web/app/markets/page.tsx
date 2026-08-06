@@ -1,3 +1,4 @@
+import { AzExportMap } from "@/components/AzExportMap";
 import { SourceBadge } from "@/components/SourceBadge";
 import { CASE_GSC, WATCHLIST } from "@/lib/markets";
 import ledger from "@/public/geo/transactions_gv.json";
@@ -262,6 +263,29 @@ export default function Markets() {
         in-flight eWRIMS→CalWATRS migration. Wyoming and Nevada publish no
         equivalent tracker — changes there are paper filings, which is itself
         a finding this page reports rather than hides.
+      </div>
+
+      <h2 className="section-title">The legal geography — where Arizona groundwater can cash out</h2>
+      <p className="body-text">
+        Arizona bans moving rural groundwater to its cities — except from four
+        named basins, written into statute. Whoever owns land over these
+        basins owns the only rural groundwater in the state that can legally
+        become municipal supply. That is why Cibola-style stories keep
+        starting here: the Harquahala INA and McMullen Valley are where
+        Queen Creek and its neighbors went shopping next.
+      </p>
+      <AzExportMap />
+      <div className="chain-caveat" style={{ marginTop: 10 }}>
+        <span className="src-badge src-filed" style={{ marginRight: 8 }}>
+          FILED RECORD
+        </span>
+        Basin boundaries: Arizona Department of Water Resources public feature
+        services (2024). Legal basis: A.R.S. §45-551 et seq. — groundwater
+        transportation to Active Management Areas. ADWR&rsquo;s surface-water
+        registry (99,775 filings, 25,659 of them assignments) is public on
+        the same servers; Colorado River mainstem entitlements, like the
+        case-file transfer above, are federal Reclamation contracts and do
+        not appear in state filings.
       </div>
     </main>
   );

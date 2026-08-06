@@ -1553,3 +1553,16 @@ html { scroll-behavior: smooth; }
   font-weight: 600; color: var(--accent); text-decoration: none;
 }
 .story-outro-link:hover { text-decoration: underline; }
+
+/* ---------- Markets: Arizona export-basin map ---------- */
+.azmap { max-width: 560px; margin: 16px auto 0; }
+.azmap svg { display: block; width: 100%; height: auto; }
+.azmap-state { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+.azmap-basin {
+  fill: color-mix(in srgb, var(--warn) 22%, transparent);
+  stroke: var(--warn); stroke-width: 1.2;
+}
+.azmap-label { font: 600 12px var(--mono); fill: var(--text); text-anchor: middle; }
+.azmap-ama { fill: var(--text); }
+.azmap-ama-label { font: 600 11px var(--mono); fill: var(--muted); }
+.azmap-note { font: 11px var(--mono); fill: var(--faint); }
