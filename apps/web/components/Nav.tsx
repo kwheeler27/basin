@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import type { Route } from "next";
 import { usePathname } from "next/navigation";
 
-const TABS = [
+const TABS: readonly { href: Route; label: string }[] = [
   { href: "/", label: "Overview" },
   { href: "/supply", label: "Supply" },
   { href: "/demand", label: "Demand" },
@@ -11,7 +12,7 @@ const TABS = [
   { href: "/distribution", label: "Distribution" },
   { href: "/water-rights", label: "Water Rights" },
   { href: "/data", label: "Data" },
-] as const;
+];
 
 /** Stages not yet built, shown so the shape of the product is legible. */
 const PLANNED = ["Infrastructure", "Agriculture"] as const;
