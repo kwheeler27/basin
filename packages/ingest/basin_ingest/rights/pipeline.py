@@ -224,6 +224,29 @@ PUBLIC_PAT = (
 TRIBAL_PAT = "TRIBE|TRIBAL|NATION\\b|INDIAN COMMUNITY|PUEBLO OF"
 
 
+import re as _re
+
+_TRIBAL_RE = _re.compile(TRIBAL_PAT)
+_PUBLIC_RE = _re.compile(PUBLIC_PAT)
+_ENTITY_RE = _re.compile(ENTITY_PAT)
+
+
+def classify_owner(name: str | None) -> str:
+    """Conservative entity classification (WATER_RIGHTS_DESIGN.md D6).
+    The publication gate and the CI privacy test share this function —
+    a name is publishable only if it classifies AWAY from individual."""
+    if not name or not name.strip():
+        return "unknown"
+    u = " ".join(name.upper().split())
+    if _TRIBAL_RE.search(u):
+        return "tribal_govt"
+    if _PUBLIC_RE.search(u):
+        return "public"
+    if _ENTITY_RE.search(u):
+        return "entity"
+    return "individual"
+
+
 def normalize() -> None:
     import duckdb
 
@@ -274,7 +297,7 @@ def normalize() -> None:
         CASE WHEN COALESCE(netAbsolute,0) > 0 THEN netAbsolute ELSE NULL END AS quantity_value,
         CASE WHEN decreedUnits = 'C' THEN 'cfs' WHEN decreedUnits = 'A' THEN 'af' ELSE NULL END AS quantity_unit,
         CASE WHEN decreedUnits = 'C' THEN 'rate' WHEN decreedUnits = 'A' THEN 'volume_storage' ELSE NULL END AS quantity_kind,
-        NULL AS owner, county AS county_name, upper(county) AS county_key, NULL AS fips,
+        NULL AS owner, county AS county_name, upper(county) AS county_key, NULL AS fips, NULL AS owner_entity_src,
         'active' AS status_class, NULL AS status_raw
       FROM co_raw WHERE wdid IS NOT NULL
     ),
@@ -290,7 +313,7 @@ def normalize() -> None:
         CASE WHEN STATUS LIKE '%CERT%' THEN 'certificated' ELSE 'permitted' END AS priority_basis,
         COALESCE(CAST(USE_FOR_1 AS VARCHAR),'') AS use_raw,
         NULL AS quantity_value, NULL AS quantity_unit, NULL AS quantity_kind,
-        APPNAME AS owner, _county AS county_name, _fips AS county_key, _fips AS fips,
+        APPNAME AS owner, _county AS county_name, _fips AS county_key, _fips AS fips, NULL AS owner_entity_src,
         CASE WHEN upper(STATUS) LIKE 'ACTIVE%' THEN 'active'
              WHEN upper(STATUS) LIKE 'INACTIVE%' THEN 'inactive' ELSE 'unknown' END AS status_class,
         STATUS AS status_raw
@@ -308,7 +331,7 @@ def normalize() -> None:
         COALESCE(use_,'') AS use_raw,
         NULL AS quantity_value, NULL AS quantity_unit, NULL AS quantity_kind,
         trim(COALESCE(own_lname,'') || ' ' || COALESCE(own_fname,'')) AS owner,
-        county AS county_name, upper(county) AS county_key, NULL AS fips,
+        county AS county_name, upper(county) AS county_key, NULL AS fips, NULL AS owner_entity_src,
         CASE WHEN upper(COALESCE(pod_status,'')) = 'ACT' THEN 'active' ELSE 'unknown' END AS status_class,
         pod_status AS status_raw
       FROM read_csv('{nm}', header=true, all_varchar=false, ignore_errors=true, types={{'lat_deg':'DOUBLE','lat_min':'DOUBLE','lat_sec':'DOUBLE','lon_deg':'DOUBLE','lon_min':'DOUBLE','lon_sec':'DOUBLE'}})
@@ -328,7 +351,22 @@ def normalize() -> None:
              ELSE 'permitted' END AS priority_basis,
         COALESCE(WATER_RIGHT_TYPE,'') AS use_raw,
         NULL AS quantity_value, NULL AS quantity_unit, NULL AS quantity_kind,
-        APPLICATION_PRIMARY_OWNER AS owner, COUNTY AS county_name, upper(COUNTY) AS county_key, NULL AS fips,
+        APPLICATION_PRIMARY_OWNER AS owner,
+        CASE PRIMARY_OWNER_ENTITY_TYPE
+          WHEN 'Individual' THEN 'individual'
+          WHEN 'Trust' THEN 'individual'
+          WHEN 'Estate' THEN 'individual'
+          WHEN 'Partnership or Co-owners' THEN 'individual'
+          WHEN 'Receivership/Fiduciary' THEN 'individual'
+          WHEN 'Corporation' THEN 'entity'
+          WHEN 'Limited Liability Company' THEN 'entity'
+          WHEN 'Organization/Association' THEN 'entity'
+          WHEN 'Limited Partner' THEN 'entity'
+          WHEN 'Joint Venture' THEN 'entity'
+          WHEN 'Government (State/Municipal)' THEN 'public'
+          WHEN 'Federal Government' THEN 'public'
+        END AS owner_entity_src,
+        COUNTY AS county_name, upper(COUNTY) AS county_key, NULL AS fips,
         CASE WHEN upper(COALESCE(WATER_RIGHT_STATUS,'')) IN ('ACTIVE','LICENSED','PERMITTED','CLAIMED') THEN 'active'
              WHEN upper(COALESCE(WATER_RIGHT_STATUS,'')) IN ('CANCELLED','REVOKED','REJECTED','CLOSED','INACTIVE') THEN 'inactive'
              ELSE 'unknown' END AS status_class,
@@ -340,7 +378,7 @@ def normalize() -> None:
       SELECT * FROM co UNION ALL BY NAME SELECT * FROM az
       UNION ALL BY NAME SELECT * FROM nm UNION ALL BY NAME SELECT * FROM ca
     )
-    SELECT *, {ent} AS owner_entity_class FROM unioned
+    SELECT *, COALESCE(owner_entity_src, {ent}) AS owner_entity_class FROM unioned
     """)
     # FIPS post-pass: NM uses 2-letter county codes and some CA rows carry
     # no county — assign by geometry wherever we have coordinates.
@@ -500,6 +538,55 @@ def aggregate() -> None:
         },
         "counties": out_counties,
     }
+    # ---- owners artifact (Phase 2): entity/public/tribal holders ONLY.
+    # Double gate: parquet class must be non-individual AND classify_owner
+    # must agree — a name reaches the artifact only if both say entity.
+    raw_owners = con.execute("""
+      SELECT state, fips, owner, owner_entity_class, count(*) AS n
+      FROM r WHERE owner IS NOT NULL AND trim(owner) != '' AND fips IS NOT NULL
+        AND status_class != 'inactive'
+        AND owner_entity_class IN ('entity','public','tribal_govt')
+      GROUP BY 1,2,3,4
+    """).fetchall()
+    from collections import defaultdict as _dd
+    by_state, by_county = _dd(lambda: _dd(lambda: [0, "", set()])), _dd(list)
+    for st, f, name, cls, n in raw_owners:
+        key = " ".join(name.upper().split())
+        if classify_owner(key) == "individual":
+            continue  # the belt-and-suspenders publication gate
+        agg_entry = by_state[st][key]
+        agg_entry[0] += n
+        agg_entry[1] = cls
+        agg_entry[2].add(f)
+        by_county[f].append((key, cls, n))
+    owners_states = {
+        st: [
+            {"name": k, "class": v[1], "n": v[0], "counties": len(v[2])}
+            for k, v in sorted(m.items(), key=lambda kv: -kv[1][0])[:12]
+        ]
+        for st, m in by_state.items()
+    }
+    owners_counties = {}
+    for f, lst in by_county.items():
+        merged = _dd(lambda: [0, ""])
+        for k, cls, n in lst:
+            merged[k][0] += n
+            merged[k][1] = cls
+        owners_counties[f] = [
+            {"name": k, "class": v[1], "n": v[0]}
+            for k, v in sorted(merged.items(), key=lambda kv: -kv[1][0])[:3]
+        ]
+    owners_out = {
+        "schema_version": "rights-v1",
+        "fetched": TODAY,
+        "note": "Holders of record in state filings — entities, agencies, and tribal governments only; individual holders are aggregated in county statistics and never named. Name strings are as filed (no entity resolution across spellings). Holder of record is not beneficial ownership.",
+        "states": owners_states,
+        "counties": owners_counties,
+    }
+    oout = WEB_GEO / "rights_owner_agg.json"
+    oout.write_text(json.dumps(owners_out, separators=(",", ":")))
+    print(f"owners: {sum(len(v) for v in owners_states.values())} state-level, {len(owners_counties)} counties → {oout} ({oout.stat().st_size/1024:.0f}KB)")
+
     out = WEB_GEO / "rights_county_agg.json"
     out.write_text(json.dumps(meta, separators=(",", ":")))
     print(f"aggregate: {len(out_counties)} county bins, {matched} rows fips-matched → {out} ({out.stat().st_size/1024:.0f}KB)")
