@@ -28,6 +28,7 @@ import {
   MAP_RESERVOIRS,
 } from "@/lib/mapdata";
 import riverProfiles from "@/public/geo/river_profiles.json";
+import capCanal from "@/public/geo/cap_canal.json";
 import { acreFeet, percent, HOUSEHOLD_ACRE_FEET_PER_YEAR } from "@/lib/format";
 import { DetailSheet, type SheetData } from "./DetailSheet";
 
@@ -795,44 +796,76 @@ export function BasinStory({
             {/* deliveries — draw in once on activation */}
             <g style={{ opacity: opacity.flows, pointerEvents: opacity.flows === 0 ? "none" : undefined }} className="fade">
               {MAP_CONVEYANCE.map((c) => {
-                const d =
+                const schematic =
                   "M" +
                   c.path.map((p) => project(p[0], p[1]).map((n) => n.toFixed(1)).join(",")).join("L");
+                // CAP renders its operator-published canal geometry; every
+                // other path is schematic between real endpoints (stated).
+                const real =
+                  c.id === "cap"
+                    ? (capCanal as unknown as GeoJSON.FeatureCollection).features
+                        .map((f) => path(f))
+                        .filter(Boolean)
+                        .join(" ")
+                    : null;
                 const wLine = c.approxAfPerYear
                   ? Math.max(1.4, 1.1 * Math.sqrt(c.approxAfPerYear / 500_000))
                   : 1.6;
+                const served = c.servesId ? MAP_POPULATION.find((pp) => pp.id === c.servesId) : undefined;
+                const openDelivery = () =>
+                  setSheet({
+                    kicker: "Delivery path",
+                    title: c.name,
+                    fact: c.approxAfPerYear
+                      ? `${acreFeet(c.approxAfPerYear)} ${c.volumeSource?.includes("CY2025") ? "in 2025" : "a year (long-term average)"} — ${households(c.approxAfPerYear)}.`
+                      : "No sourced annual volume — shown for its role, not its size.",
+                    detail: [
+                      c.role + ".",
+                      c.volumeKind ? `Figure: ${c.volumeKind}.` : null,
+                      served ? `Serves ${served.name} — about ${(served.people / 1e6).toFixed(1)}M people (see the Served population layer).` : null,
+                      c.operator ? `Operated by ${c.operator}.` : null,
+                      real ? "Drawn from the operator's published canal geometry." : "The drawn path is schematic between real endpoints.",
+                    ]
+                      .filter(Boolean)
+                      .join(" "),
+                    chips: ["aqueduct", "acre_foot", "consumptive_use"],
+                    source: c.volumeSource ?? "Role documented; volume unsourced",
+                    clock: "annual",
+                    clockLabel: c.volumeSource?.includes("CY2025") ? "CY2025 ACCOUNTING" : c.volumeSource ? "REPORTED AVERAGE" : "ROLE ONLY",
+                  });
                 return (
-                  <path
-                    key={c.id}
-                    d={d}
-                    pathLength={1}
-                    className={`st-canal tappable${flowsActive ? " drawn" : ""}`}
-                    onClick={() =>
-                      setSheet({
-                        kicker: "Delivery path",
-                        title: c.name,
-                        fact: c.approxAfPerYear
-                          ? `Carries about ${acreFeet(c.approxAfPerYear)} a year — ${households(c.approxAfPerYear)}.`
-                          : "No sourced annual volume — shown for its role, not its size.",
-                        detail: `${c.role}. The drawn path is schematic between real endpoints.`,
-                        chips: ["aqueduct", "acre_foot", "consumptive_use"],
-                        source: c.volumeSource ?? "Role documented; volume unsourced",
-                        clock: "annual",
-                        clockLabel: "REPORTED AVERAGE",
-                      })
-                    }
-                    style={{ strokeWidth: wLine * inv }}
-                    onMouseMove={(e) =>
-                      showTip(e, c.name, [
-                        c.role,
-                        c.approxAfPerYear
-                          ? `≈ ${acreFeet(c.approxAfPerYear)}/yr — ${c.volumeSource ?? ""}`
-                          : "No sourced volume; width is nominal.",
-                        "Path is schematic between real endpoints.",
-                      ])
-                    }
-                    onMouseLeave={hideTip}
-                  />
+                  <g key={c.id}>
+                    <path
+                      d={real ?? schematic}
+                      pathLength={1}
+                      className={`st-canal${flowsActive ? " drawn" : ""}`}
+                      style={{ strokeWidth: wLine * inv, pointerEvents: "none" }}
+                    />
+                    <path
+                      d={real ?? schematic}
+                      className="st-canal-hit"
+                      style={{ strokeWidth: 11 * inv }}
+                      onClick={openDelivery}
+                      onMouseMove={(e) =>
+                        showTip(e, c.name, [
+                          c.role,
+                          c.approxAfPerYear ? `${acreFeet(c.approxAfPerYear)}${c.volumeSource?.includes("CY2025") ? " in 2025" : "/yr avg"} — tap for source & detail.` : "Tap for detail.",
+                        ])
+                      }
+                      onMouseLeave={hideTip}
+                    />
+                    {c.terminus && (() => {
+                      const [tx, ty] = project(c.terminus.lon, c.terminus.lat);
+                      return (
+                        <g className="tappable" onClick={openDelivery}>
+                          <circle cx={tx} cy={ty} r={2.6 * inv} className="st-canal-end" />
+                          <text x={tx + 5 * inv} y={ty + 3.5 * inv} className="st-label canal-end" style={{ fontSize: 9.5 * ts }}>
+                            {c.terminus.label}
+                          </text>
+                        </g>
+                      );
+                    })()}
+                  </g>
                 );
               })}
               {/* destination labels, flows step only */}
@@ -841,7 +874,6 @@ export function BasinStory({
                   ["Los Angeles", -118.24, 34.15],
                   ["Phoenix", -112.07, 33.28],
                   ["Denver", -104.9, 39.9],
-                  ["Mexico", -115.25, 32.14],
                 ].map(([name, lon, lat]) => {
                   const [x, y] = project(lon as number, lat as number);
                   return (
@@ -1229,7 +1261,10 @@ export function BasinStory({
               </>
             )}
             {exploreLayer === "flows" && (
-              <span className="hl-item"><svg viewBox="0 0 22 16" className="hl-sw wide"><path d="M2 8 L20 8" className="st-canal" strokeWidth={4} /></svg>delivery path — width is sourced annual volume; schematic between real endpoints</span>
+              <>
+                <span className="hl-item"><svg viewBox="0 0 22 16" className="hl-sw wide"><path d="M2 8 L20 8" className="st-canal" strokeWidth={4} /></svg>delivery path — width is 2025 accounted volume (CAP drawn from operator geometry; others schematic)</span>
+                <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="3.5" className="st-canal-end" /></svg>terminus — tap path or dot for volume, operator &amp; source</span>
+              </>
             )}
             {exploreLayer === "people" && (
               <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="6" className="map-people" /></svg>people served Colorado River water by a provider — area is population; most live outside the watershed</span>
