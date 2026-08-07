@@ -153,10 +153,20 @@ export interface MapConveyance {
   /** [lon, lat] waypoints — SCHEMATIC path between real endpoints. */
   readonly path: readonly (readonly [number, number])[];
   readonly role: string;
+  readonly operator?: string;
   /** Sourced volume only; omit rather than invent. */
   readonly approxAfPerYear?: number;
   readonly volumeSource?: string;
+  /** What the volume IS (decree consumptive use vs delivery vs aggregate). */
+  readonly volumeKind?: string;
+  readonly terminus?: { readonly lon: number; readonly lat: number; readonly label: string };
+  /** Link into MAP_PEOPLE for the served population (connect, don't merge). */
+  readonly servesId?: string;
 }
+
+/** CY2025 Lower Basin decree accounting (Article V), Reclamation:
+ *  usbr.gov/lc/region/g4000/4200Rpts/DecreeRpt/2025/2025.pdf */
+const DECREE_2025 = "Reclamation CY2025 Colorado River Accounting Report (Article V decree accounting)";
 
 export const MAP_CONVEYANCE: readonly MapConveyance[] = [
   {
@@ -168,9 +178,13 @@ export const MAP_CONVEYANCE: readonly MapConveyance[] = [
       [-105.08, 39.9],
       [-104.99, 39.74],
     ],
-    role: "Adams, Moffat & Roberts tunnels under the Continental Divide — water that leaves the basin permanently",
+    role: "Adams, Moffat & Roberts tunnels under the Continental Divide — water that leaves the basin permanently for the Front Range",
+    operator: "Northern Water, Denver Water, Southeastern District",
     approxAfPerYear: 432_000,
     volumeSource: "Aggregated project-level reporting (C-BT ~230k, Denver Water ~150k, Fry-Ark ~52k)",
+    volumeKind: "long-term average of aggregated operator reporting — not a single-year decree figure",
+    terminus: { lon: -104.99, lat: 39.74, label: "Front Range" },
+    servesId: "front_range",
   },
   {
     id: "cap",
@@ -182,6 +196,12 @@ export const MAP_CONVEYANCE: readonly MapConveyance[] = [
       [-110.97, 32.25],
     ],
     role: "336-mile aqueduct lifting Colorado River water 2,900 ft to Phoenix and Tucson",
+    operator: "Central Arizona Water Conservation District",
+    approxAfPerYear: 906_711,
+    volumeSource: DECREE_2025,
+    volumeKind: "CY2025 consumptive use at Lake Havasu (shortage-reduced; a further ~125 kaf of CAP subcontractor water was left in Lake Mead as system conservation)",
+    terminus: { lon: -110.97, lat: 32.25, label: "Tucson" },
+    servesId: "phoenix",
   },
   {
     id: "cra",
@@ -193,6 +213,12 @@ export const MAP_CONVEYANCE: readonly MapConveyance[] = [
       [-117.2, 33.95],
     ],
     role: "Metropolitan Water District's 242-mile aqueduct to coastal Southern California",
+    operator: "Metropolitan Water District of Southern California",
+    approxAfPerYear: 810_401,
+    volumeSource: DECREE_2025,
+    volumeKind: "CY2025 consumptive use pumped at Lake Havasu (a further ~242 kaf of MWD water was left in Lake Mead as system conservation)",
+    terminus: { lon: -117.2, lat: 33.95, label: "Southern California" },
+    servesId: "socal",
   },
   {
     id: "snwa",
@@ -201,7 +227,13 @@ export const MAP_CONVEYANCE: readonly MapConveyance[] = [
       [-114.41, 36.25],
       [-115.14, 36.17],
     ],
-    role: "Southern Nevada draws nearly all its water from Lake Mead",
+    role: "Southern Nevada draws nearly all its water from Lake Mead through intakes — the deepest sits below the reservoir's old outlets so the straws keep working as the lake drops",
+    operator: "Southern Nevada Water Authority",
+    approxAfPerYear: 197_570,
+    volumeSource: DECREE_2025,
+    volumeKind: "CY2025 Nevada total consumptive use (predominantly the Las Vegas system; ~89 kaf more was left in Lake Mead as system conservation)",
+    terminus: { lon: -115.14, lat: 36.17, label: "Las Vegas" },
+    servesId: "vegas",
   },
   {
     id: "aac",
@@ -211,9 +243,27 @@ export const MAP_CONVEYANCE: readonly MapConveyance[] = [
       [-115.0, 32.72],
       [-115.5, 32.8],
     ],
-    role: "Delivers the Imperial Irrigation District's ~3.1 MAF entitlement — the single largest on the river, ~97% agricultural",
-    approxAfPerYear: 3_100_000,
-    volumeSource: "IID QSA reporting",
+    role: "Gravity canal delivering the Imperial Irrigation District's water — the single largest use on the river, overwhelmingly agricultural",
+    operator: "Imperial Irrigation District",
+    approxAfPerYear: 2_187_165,
+    volumeSource: DECREE_2025,
+    volumeKind: "CY2025 total consumptive use (a further ~255 kaf was left in Lake Mead as system conservation)",
+    terminus: { lon: -115.56, lat: 32.79, label: "Imperial Valley" },
+  },
+  {
+    id: "coachella",
+    name: "Coachella Canal",
+    path: [
+      [-115.0, 32.72],
+      [-115.52, 33.1],
+      [-116.05, 33.52],
+    ],
+    role: "Branch of the All-American system running north along the Salton Sea to the Coachella Valley's farms and communities",
+    operator: "Coachella Valley Water District",
+    approxAfPerYear: 317_762,
+    volumeSource: DECREE_2025,
+    volumeKind: "CY2025 consumptive use (a further ~39 kaf was left in Lake Mead as system conservation)",
+    terminus: { lon: -116.05, lat: 33.52, label: "Coachella Valley" },
   },
   {
     id: "mexico",
@@ -222,9 +272,12 @@ export const MAP_CONVEYANCE: readonly MapConveyance[] = [
       [-114.72, 32.72],
       [-115.0, 32.3],
     ],
-    role: "1944 Treaty delivery at Morelos Dam — 1.5 MAF obligation, reduced under shortage",
-    approxAfPerYear: 1_352_595,
-    volumeSource: "IBWC 2026 initial allocation under Minute 323/330",
+    role: "1944 Treaty delivery at Morelos Dam — the 1.5 MAF obligation, adjusted under shortage minutes",
+    operator: "IBWC (United States and Mexico)",
+    approxAfPerYear: 1_450_000,
+    volumeSource: DECREE_2025,
+    volumeKind: "CY2025 total in satisfaction of treaty requirements (includes ~121 kaf created as system water under Minute 330)",
+    terminus: { lon: -115.0, lat: 32.3, label: "Mexico" },
   },
 ];
 

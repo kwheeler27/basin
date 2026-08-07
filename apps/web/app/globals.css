@@ -1651,3 +1651,8 @@ html { scroll-behavior: smooth; }
 
 /* rivers: thin visible line, fat invisible hit-stroke */
 .st-river-hit { fill: none; stroke: #000; stroke-opacity: 0; pointer-events: stroke; cursor: pointer; }
+
+/* deliveries v2: hit strokes + termini */
+.st-canal-hit { fill: none; stroke: #000; stroke-opacity: 0; pointer-events: stroke; cursor: pointer; }
+.st-canal-end { fill: var(--warn); stroke: var(--surface); stroke-width: 1; }
+.st-label.canal-end { fill: var(--warn); text-anchor: start; font-weight: 700; }
