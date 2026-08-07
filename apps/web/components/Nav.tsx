@@ -11,11 +11,12 @@ const TABS: readonly { href: Route; label: string }[] = [
   { href: "/reservoirs", label: "Reservoirs" },
   { href: "/distribution", label: "Distribution" },
   { href: "/water-rights", label: "Water Rights" },
+  { href: "/infrastructure", label: "Infrastructure" },
   { href: "/data", label: "Data" },
 ];
 
 /** Stages not yet built, shown so the shape of the product is legible. */
-const PLANNED = ["Infrastructure", "Agriculture"] as const;
+const PLANNED = ["Agriculture"] as const;
 
 export function Nav() {
   const pathname = usePathname();
