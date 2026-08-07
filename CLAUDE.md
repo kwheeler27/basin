@@ -10,7 +10,7 @@
 - **Small PRs, merged same-day.** Merge cadence beats review ceremony; an aging PR is where stacks and drift come from.
 - **Merge authority is split by class** (agreed 2026-08-06): Kevin merges anything with product judgment, factual/public-facing claims, or money/data-integrity implications. The agent has standing authorization to merge *mechanical* PRs only: automated ledger/data re-bakes (shape-checked, data-only), dependency bumps, typo-level docs.
 - **Review depth is proportional to risk**: PR descriptions must state what was tested; money-representation, data-integrity, sourcing/factual claims, and security changes get an adversarial review before merge.
-- **Deploys come from `main`, after merge.** Target state: Vercel GitHub connection (auto-deploy on merge, preview URLs on PRs) — blocked on a one-time step only Kevin can do (add a GitHub Login Connection in the Vercel dashboard, then `vercel git connect`). Until then: CLI deploy (`npx vercel deploy --prod --yes`) only from `main`, only after merge — never from a working branch.
+- **Deploys are automatic.** The repo is GitHub-connected to Vercel (2026-08-06): merging to `main` deploys production; every PR gets a preview URL — review visual changes there before merging. Never CLI-deploy to production except in a Vercel outage; never deploy from a working branch.
 - Keep PRs focused; state what was tested in the description.
 
 ## Hard rules (violations are bugs)
