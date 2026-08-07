@@ -1039,8 +1039,8 @@ export function BasinStory({
                 [
                   ["storage", "Storage"],
                   ["flows", "Deliveries"],
-                  ["people", "People"],
-                  ["cities", "Cities"],
+                  ["people", "Served population"],
+                  ["cities", "All cities"],
                   ["farms", "Irrigation ’15"],
                   ["et", "Consumption ’25"],
                 ] as const
@@ -1178,10 +1178,10 @@ export function BasinStory({
               <span className="hl-item"><svg viewBox="0 0 22 16" className="hl-sw wide"><path d="M2 8 L20 8" className="st-canal" strokeWidth={4} /></svg>delivery path — width is sourced annual volume; schematic between real endpoints</span>
             )}
             {exploreLayer === "people" && (
-              <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="6" className="map-people" /></svg>population served by a water provider — area is people</span>
+              <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="6" className="map-people" /></svg>people served Colorado River water by a provider — area is population; most live outside the watershed</span>
             )}
             {exploreLayer === "cities" && (
-              <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="4.5" className="st-city" /></svg>city or town of 10,000+ — area is population (2024 census estimates)</span>
+              <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="4.5" className="st-city" /></svg>every city or town of 10,000+ in the region, river-dependent or not — geographic context (2024 census)</span>
             )}
             {exploreLayer === "farms" && (
               <span className="hl-item"><svg viewBox="0 0 16 16" className="hl-sw"><circle cx="8" cy="8" r="6" className="st-farm" /></svg>county irrigation withdrawals — area is volume (2015 USGS census)</span>
