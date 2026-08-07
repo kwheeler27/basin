@@ -38,8 +38,11 @@ jobs:
           git add watch/
           git commit -m "watch: Reclamation publication state ($(date -u +%Y-%m-%d))"
           git push origin "$BRANCH"
+          {
+            cat /tmp/watch-out.txt
+            echo ""
+            echo "Merging records the new state. New 24-Month Study => backtest queue item is fresher; ROD tripwire => operating-rules banner and rulebook succession need review."
+          } > /tmp/pr-body.md
           gh pr create --base main --head "$BRANCH" \
             --title "Reclamation lookout: $(head -1 /tmp/watch-out.txt | cut -c1-60)" \
-            --body "$(cat /tmp/watch-out.txt)
-
-Merging records the new state. If this is a new 24-Month Study, the backtest-page queue item just got fresher; if the ROD tripwire fired, the operating-rules banner and rulebook succession need review."
+            --body-file /tmp/pr-body.md
