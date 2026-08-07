@@ -635,15 +635,23 @@ export function BasinStory({
                 const profile = (riverProfiles as unknown as { rivers: Record<string, RiverProfile> }).rivers[rKey];
                 const on = selectedRiver === rKey;
                 return (
-                  <path
-                    key={i}
-                    d={path(f) ?? undefined}
-                    className={`st-river${on ? " on" : ""}${exploring && profile ? " tappable-river" : ""}`}
-                    style={{ strokeWidth: ((name === "Colorado" ? 2.4 : 1.4) + (on ? 1.4 : 0)) * inv }}
-                    onClick={exploring && profile ? () => openRiver(rKey) : undefined}
-                    onMouseMove={(e) => showTip(e, `${name} River`, [exploring && profile ? "Tap for flow, storage it feeds, and where it goes." : "Natural Earth centerline."])}
-                    onMouseLeave={hideTip}
-                  />
+                  <g key={i}>
+                    <path
+                      d={path(f) ?? undefined}
+                      className={`st-river${on ? " on" : ""}`}
+                      style={{ strokeWidth: ((name === "Colorado" ? 2.4 : 1.4) + (on ? 1.4 : 0)) * inv, pointerEvents: "none" }}
+                    />
+                    {exploring && profile && (
+                      <path
+                        d={path(f) ?? undefined}
+                        className="st-river-hit"
+                        style={{ strokeWidth: 11 * inv }}
+                        onClick={() => openRiver(rKey)}
+                        onMouseMove={(e) => showTip(e, `${name} River`, ["Tap for flow, storage it feeds, and where it goes."])}
+                        onMouseLeave={hideTip}
+                      />
+                    )}
+                  </g>
                 );
               })}
             </g>
@@ -664,7 +672,7 @@ export function BasinStory({
             </g>
 
             {/* storage — ring (capacity) + disc (live) */}
-            <g style={{ opacity: opacity.storage }} className="fade">
+            <g style={{ opacity: opacity.storage, pointerEvents: opacity.storage === 0 ? "none" : undefined }} className="fade">
               {/* the long tail: every NID dam >= 10 kaf (capacity only, no
                   live feed). Zoom-density: majors at rest, everything when
                   zoomed. Explore only — the story keeps its 13. */}
@@ -785,7 +793,7 @@ export function BasinStory({
             </g>
 
             {/* deliveries — draw in once on activation */}
-            <g style={{ opacity: opacity.flows }} className="fade">
+            <g style={{ opacity: opacity.flows, pointerEvents: opacity.flows === 0 ? "none" : undefined }} className="fade">
               {MAP_CONVEYANCE.map((c) => {
                 const d =
                   "M" +
@@ -864,7 +872,7 @@ export function BasinStory({
             </g>
 
             {/* people — one violet circle system */}
-            <g style={{ opacity: opacity.people }} className="fade">
+            <g style={{ opacity: opacity.people, pointerEvents: opacity.people === 0 ? "none" : undefined }} className="fade">
               {narrow && hero === "people" && (
                 <text
                   x={786 - panX} /* inside the pan layer: counter-offset to stay at the frame edge */
@@ -916,7 +924,7 @@ export function BasinStory({
             </g>
 
             {/* farms — county irrigation, one teal circle system */}
-            <g style={{ opacity: opacity.farms }} className="fade">
+            <g style={{ opacity: opacity.farms, pointerEvents: opacity.farms === 0 ? "none" : undefined }} className="fade">
               {counties.map((c) => {
                 const v = c.ir;
                 if (v === null || v <= 1) return null;
@@ -981,7 +989,7 @@ export function BasinStory({
             {/* consumption ’25 — OpenET representative fields; MODELED, so
                 dashed (the doctrine's epistemic encoding), field-quality
                 points only (missed-field samples are named in the legend) */}
-            <g style={{ opacity: opacity.et }} className="fade">
+            <g style={{ opacity: opacity.et, pointerEvents: opacity.et === 0 ? "none" : undefined }} className="fade">
               {opacity.et > 0 && etFields.map((f) => {
                 const [x, y] = project(f.lon, f.lat);
                 const r = 4 + f.annual / 5.5;
@@ -1026,7 +1034,7 @@ export function BasinStory({
             </g>
 
             {/* cities — explore only: every incorporated place >= 10k */}
-            <g style={{ opacity: opacity.cities }} className="fade">
+            <g style={{ opacity: opacity.cities, pointerEvents: opacity.cities === 0 ? "none" : undefined }} className="fade">
               {opacity.cities > 0 && cities.map((c) => {
                 const ck = `${c.n}|${c.st}`;
                 const [x, y] = project(c.lon, c.lat);

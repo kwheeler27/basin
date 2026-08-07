@@ -1648,3 +1648,6 @@ html { scroll-behavior: smooth; }
 .st-river.tappable-river { cursor: pointer; pointer-events: stroke; }
 .st-river.on { stroke: var(--accent); filter: drop-shadow(0 0 2px color-mix(in srgb, var(--accent) 55%, transparent)); }
 .st-store.fed { stroke: var(--accent); stroke-width: 2; }
+
+/* rivers: thin visible line, fat invisible hit-stroke */
+.st-river-hit { fill: none; stroke: #000; stroke-opacity: 0; pointer-events: stroke; cursor: pointer; }
