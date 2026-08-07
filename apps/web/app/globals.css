@@ -891,9 +891,9 @@ td.mono { font-family: var(--mono); font-size: 11px; }
   border-radius: var(--radius);
   overflow: hidden;
 }
-.story-sticky svg { display: block; width: 100%; height: auto; }
-.story-sticky svg.explorable { cursor: grab; }
-.story-sticky svg.explorable:active { cursor: grabbing; }
+.story-sticky > svg { display: block; width: 100%; height: auto; }
+.story-sticky > svg.explorable { cursor: grab; }
+.story-sticky > svg.explorable:active { cursor: grabbing; }
 .story-loading {
   display: flex; align-items: center; justify-content: center;
   border: 1px solid var(--border); border-radius: var(--radius);
@@ -1525,7 +1525,7 @@ html { scroll-behavior: smooth; }
 .explore-hero { margin: 18px 0 0; }
 .explore-hero .story-sticky { position: static; }
 @media (min-width: 721px) {
-  .explore-hero .story-sticky svg { height: min(78svh, 700px); width: 100%; }
+  .explore-hero .story-sticky > svg { height: min(78svh, 700px); width: 100%; }
 }
 @media (max-width: 720px) {
   /* pills become a single swipeable row ABOVE the portrait map */
