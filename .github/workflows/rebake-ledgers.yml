@@ -6,7 +6,7 @@
 # merges). Note: scheduled workflows run from the default branch only, so
 # this is dormant until the feature stack lands in main. Deploys stay
 # manual (Vercel is CLI-driven, not GitHub-connected).
-name: Re-bake market ledgers
+name: Weekly data refresh
 
 on:
   schedule:
@@ -31,6 +31,8 @@ jobs:
           node scripts/build-transactions.mjs
           node scripts/build-ut-changes.mjs
           node scripts/build-ca-petitions.mjs
+          node scripts/build-rivers.mjs
+          node scripts/build-history.mjs
       - name: Open PR if artifacts changed
         env:
           GH_TOKEN: ${{ github.token }}
@@ -43,8 +45,8 @@ jobs:
           git config user.email "actions@github.com"
           git checkout -b "$BRANCH"
           git add apps/web/public/geo
-          git commit -m "bake: weekly ledger refresh ($(date -u +%Y-%m-%d))"
+          git commit -m "bake: weekly data refresh ($(date -u +%Y-%m-%d))"
           git push origin "$BRANCH"
           gh pr create --base main --head "$BRANCH" \
-            --title "bake: weekly ledger refresh $(date -u +%Y-%m-%d)" \
-            --body "Automated re-bake of the CO/UT/CA market ledgers. Diff is the week's change activity; shape assertions passed. Deploy via CLI after merge."
+            --title "bake: weekly data refresh $(date -u +%Y-%m-%d)" \
+            --body "Automated weekly refresh: CO/UT/CA ledgers, river flow profiles (USGS), reservoir storage history (RISE — the diff also surfaces Reclamation's silent revisions). Shape assertions passed. Deploy via CLI after merge."
