@@ -1643,3 +1643,8 @@ html { scroll-behavior: smooth; }
   border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.14); padding: 12px 14px;
 }
 .pm-popup .pm-src { font: 10.5px var(--mono); color: var(--faint); }
+
+/* ---------- Overview: tappable rivers ---------- */
+.st-river.tappable-river { cursor: pointer; pointer-events: stroke; }
+.st-river.on { stroke: var(--accent); filter: drop-shadow(0 0 2px color-mix(in srgb, var(--accent) 55%, transparent)); }
+.st-store.fed { stroke: var(--accent); stroke-width: 2; }

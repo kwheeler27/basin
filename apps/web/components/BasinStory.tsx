@@ -27,6 +27,7 @@ import {
   MAP_POPULATION,
   MAP_RESERVOIRS,
 } from "@/lib/mapdata";
+import riverProfiles from "@/public/geo/river_profiles.json";
 import { acreFeet, percent, HOUSEHOLD_ACRE_FEET_PER_YEAR } from "@/lib/format";
 import { DetailSheet, type SheetData } from "./DetailSheet";
 
@@ -121,6 +122,12 @@ interface Tip {
   lines: string[];
 }
 
+interface RiverProfile {
+  name: string; gauge: string; gaugeName: string; feeds: string[];
+  downstream: string; series: (number | null)[]; meanAnnualAf: number;
+  latest: { date: string; cfs: number };
+}
+
 interface StorageHistory {
   vintage: string;
   months: string[];               // "yyyy-mm"
@@ -170,6 +177,7 @@ export function BasinStory({
   const [exploreLayer, setExploreLayer] = useState<ExploreLayer>("storage");
   const [tip, setTip] = useState<Tip | null>(null);
   const [sheet, setSheet] = useState<SheetData | null>(null);
+  const [selectedRiver, setSelectedRiver] = useState<string | null>(null);
   const [history, setHistory] = useState<StorageHistory | null>(null);
   /** Index into history.months during replay/scrub; null = today (live). */
   const [timeIdx, setTimeIdx] = useState<number | null>(null);
@@ -365,6 +373,40 @@ export function BasinStory({
     setTip({ x: e.clientX - rect.left, y: e.clientY - rect.top, title, lines });
   }, []);
   const hideTip = useCallback(() => setTip(null), []);
+
+  const fedBy = (rKey: string): string[] =>
+    (riverProfiles as unknown as { rivers: Record<string, RiverProfile> }).rivers[rKey]?.feeds ?? [];
+
+  const openRiver = (rKey: string) => {
+    const rp = (riverProfiles as unknown as { rivers: Record<string, RiverProfile>; months: string[]; fetched: string });
+    const r = rp.rivers[rKey]!;
+    setSelectedRiver(rKey);
+    const fedLine = r.feeds.length
+      ? "Feeds " + r.feeds.map((id) => {
+          const res = MAP_RESERVOIRS.find((m) => m.id === id);
+          const live = res ? storage[res.id] : undefined;
+          return res
+            ? `${res.name}${live ? ` (${percent((live.af / res.capacityAf) * 100, 0)} full today)` : ""}`
+            : id;
+        }).join(", ") + ". "
+      : "";
+    setSheet({
+      kicker: "River",
+      title: r.name,
+      fact: `Mean flow ${acreFeet(r.meanAnnualAf)} per year at ${r.gaugeName} (WY2001–now) — running ${r.latest.cfs.toLocaleString()} cfs on ${r.latest.date}.`,
+      detail: fedLine + r.downstream,
+      chips: ["acre_foot", "provisional"],
+      source: `USGS gauge ${r.gauge}, ${r.gaugeName} — daily mean discharge, snapshot ${rp.fetched}`,
+      clock: "live",
+      clockLabel: "DAILY GAUGE · provisional",
+      series: {
+        points: rp.months.map((m, i) => [m, r.series[i] ?? null]),
+        unit: "cfs (monthly mean)",
+        startLabel: "2000",
+        endLabel: "now",
+      },
+    });
+  };
 
   // Tap-shown tooltips linger on touch devices; any scroll dismisses.
   useEffect(() => {
@@ -589,13 +631,17 @@ export function BasinStory({
             <g style={{ opacity: opacity.rivers }} className="fade">
               {geo.rivers.features.map((f, i) => {
                 const name = (f.properties as { name?: string })?.name ?? "";
+                const rKey = name.toLowerCase().replace(/\s/g, "");
+                const profile = (riverProfiles as unknown as { rivers: Record<string, RiverProfile> }).rivers[rKey];
+                const on = selectedRiver === rKey;
                 return (
                   <path
                     key={i}
                     d={path(f) ?? undefined}
-                    className="st-river"
-                    style={{ strokeWidth: (name === "Colorado" ? 2.4 : 1.4) * inv }}
-                    onMouseMove={(e) => showTip(e, `${name} River`, ["Natural Earth centerline."])}
+                    className={`st-river${on ? " on" : ""}${exploring && profile ? " tappable-river" : ""}`}
+                    style={{ strokeWidth: ((name === "Colorado" ? 2.4 : 1.4) + (on ? 1.4 : 0)) * inv }}
+                    onClick={exploring && profile ? () => openRiver(rKey) : undefined}
+                    onMouseMove={(e) => showTip(e, `${name} River`, [exploring && profile ? "Tap for flow, storage it feeds, and where it goes." : "Natural Earth centerline."])}
                     onMouseLeave={hideTip}
                   />
                 );
@@ -720,7 +766,7 @@ export function BasinStory({
                   >
                     <circle cx={x} cy={y} r={Math.max(rNow, 11)} fill="transparent" />
                     {shown !== null
-                      ? <circle cx={x} cy={y} r={rNow} className="st-store" />
+                      ? <circle cx={x} cy={y} r={rNow} className={`st-store${selectedRiver && fedBy(selectedRiver).includes(r.id) ? " fed" : ""}`} />
                       : <circle cx={x} cy={y} r={rNow * inv} className="st-nid" />}
                     {showLabel && (
                       <text
@@ -1213,7 +1259,7 @@ export function BasinStory({
             ))}
           </div>
         )}
-        <DetailSheet data={sheet} onClose={() => setSheet(null)} />
+        <DetailSheet data={sheet} onClose={() => { setSheet(null); setSelectedRiver(null); }} />
       </div>
 
       {/* scrolling cards (story only) */}
