@@ -12,11 +12,12 @@ const TABS: readonly { href: Route; label: string }[] = [
   { href: "/distribution", label: "Distribution" },
   { href: "/water-rights", label: "Water Rights" },
   { href: "/infrastructure", label: "Infrastructure" },
+  { href: "/agriculture", label: "Agriculture" },
   { href: "/data", label: "Data" },
 ];
 
 /** Stages not yet built, shown so the shape of the product is legible. */
-const PLANNED = ["Agriculture"] as const;
+const PLANNED: readonly string[] = [];
 
 export function Nav() {
   const pathname = usePathname();
@@ -32,7 +33,7 @@ export function Nav() {
             {t.label}
           </Link>
         ))}
-        <span className="nav-divider" />
+        {PLANNED.length > 0 && <span className="nav-divider" />}
         {PLANNED.map((p) => (
           <span key={p} className="nav-tab planned" title="Not built yet">
             {p}
