@@ -1689,6 +1689,13 @@ html { scroll-behavior: smooth; }
 .ep-plant.on { fill: var(--text); }
 .mx-carrier { fill: none; stroke: none; }
 
+/* machine v3 */
+.mx-wrap { position: relative; }
+.mx-wrap > svg { display: block; width: 100%; height: auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+.mx-zoom { position: absolute; top: 12px; right: 12px; }
+.ep-ground { fill: color-mix(in srgb, var(--faint) 22%, var(--surface)); stroke: var(--faint); stroke-width: 1; }
+.ep-note { font: italic 10.5px var(--mono); fill: var(--muted); }
+
 /* ======================================================== agriculture */
 
 .cropmix { position: relative; margin-top: 14px; }
