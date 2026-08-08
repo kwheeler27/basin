@@ -1688,3 +1688,11 @@ html { scroll-behavior: smooth; }
 .ep-lift.on { stroke: var(--text); stroke-width: 4; }
 .ep-plant.on { fill: var(--text); }
 .mx-carrier { fill: none; stroke: none; }
+
+/* machine v3 */
+.mx-wrap { position: relative; }
+.mx-wrap > svg { display: block; width: 100%; height: auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+.mx-zoom { position: absolute; top: 12px; right: 12px; }
+.mx-plant.schematic { fill: color-mix(in srgb, var(--accent) 70%, var(--surface)); }
+.ep-ground { fill: color-mix(in srgb, var(--faint) 22%, var(--surface)); stroke: var(--faint); stroke-width: 1; }
+.ep-note { font: italic 10.5px var(--mono); fill: var(--muted); }
