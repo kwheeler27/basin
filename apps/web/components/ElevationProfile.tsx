@@ -1,3 +1,5 @@
+"use client";
+
 import type { SystemProfile } from "@/lib/infrastructure";
 
 /**
@@ -11,7 +13,15 @@ const W = 720;
 const H = 240;
 const M = { t: 26, r: 16, b: 34, l: 46 };
 
-export function ElevationProfile({ system }: { system: SystemProfile }) {
+export function ElevationProfile({
+  system,
+  selected,
+  onSelect,
+}: {
+  system: SystemProfile;
+  selected?: string | null;
+  onSelect?: (name: string | null) => void;
+}) {
   const pts = system.points;
   const x = (mile: number) => M.l + (mile / system.miles) * (W - M.l - M.r);
 
@@ -63,12 +73,20 @@ export function ElevationProfile({ system }: { system: SystemProfile }) {
           </g>
         ))}
         <path d={d} className="ep-line" />
-        {steps.filter((s) => s.e1 > s.e0).map((s) => (
-          <g key={s.p.name}>
-            <line x1={s.x0} x2={s.x1} y1={y(s.e0)} y2={y(s.e1)} className={`ep-lift${s.p.schematic ? " schematic" : ""}`} />
-            <circle cx={s.x1} cy={y(s.e1)} r={2.4} className="ep-plant" />
-          </g>
-        ))}
+        {steps.filter((s) => s.e1 > s.e0).map((s) => {
+          const on = selected === s.p.name;
+          return (
+            <g
+              key={s.p.name}
+              className="tappable"
+              onClick={onSelect ? () => onSelect(on ? null : s.p.name) : undefined}
+            >
+              <rect x={s.x0 - 7} y={y(s.e1) - 6} width={14} height={y(s.e0) - y(s.e1) + 12} fill="transparent" />
+              <line x1={s.x0} x2={s.x1} y1={y(s.e0)} y2={y(s.e1)} className={`ep-lift${s.p.schematic ? " schematic" : ""}${on ? " on" : ""}`} />
+              <circle cx={s.x1} cy={y(s.e1)} r={on ? 4 : 2.4} className={`ep-plant${on ? " on" : ""}`} />
+            </g>
+          );
+        })}
         {steps.filter((s) => s.p.kind !== "pump" || !s.p.schematic || s.p.note).slice(0, 8).map((s, i) => (
           <text
             key={s.p.name}

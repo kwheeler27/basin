@@ -1,5 +1,5 @@
-import { ElevationProfile } from "@/components/ElevationProfile";
-import { SYSTEM_NOTES, SYSTEM_PROFILES } from "@/lib/infrastructure";
+import { MachineExplorer } from "@/components/MachineExplorer";
+import { SYSTEM_NOTES } from "@/lib/infrastructure";
 import { MAP_CONVEYANCE } from "@/lib/mapdata";
 import { acreFeet } from "@/lib/format";
 import nid from "@/public/geo/nid_reservoirs.json";
@@ -54,9 +54,7 @@ export default function Infrastructure() {
         — thousands of vertical feet, at industrial scale, forever. Each
         vertical step below is one plant.
       </p>
-      {SYSTEM_PROFILES.map((s) => (
-        <ElevationProfile key={s.id} system={s} />
-      ))}
+      <MachineExplorer />
 
       <h2 className="section-title">Every delivery system</h2>
       <p className="body-text">

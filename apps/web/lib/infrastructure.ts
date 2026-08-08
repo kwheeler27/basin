@@ -20,6 +20,12 @@ export interface ProfilePoint {
   readonly schematic?: boolean;
 }
 
+/** Fraction [0..1] along the system's drawn route for map placement —
+ *  derived from published mileposts (or schematic ones, flagged upstream). */
+export function routeFraction(p: ProfilePoint, miles: number): number {
+  return Math.max(0, Math.min(1, p.mile / miles));
+}
+
 export interface SystemProfile {
   readonly id: string;
   readonly name: string;
