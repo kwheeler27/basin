@@ -1656,3 +1656,16 @@ html { scroll-behavior: smooth; }
 .st-canal-hit { fill: none; stroke: #000; stroke-opacity: 0; pointer-events: stroke; cursor: pointer; }
 .st-canal-end { fill: var(--warn); stroke: var(--surface); stroke-width: 1; }
 .st-label.canal-end { fill: var(--warn); text-anchor: start; font-weight: 700; }
+
+/* ---------- Infrastructure: elevation profiles ---------- */
+.elevprofile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px 12px; margin: 16px 0; }
+.ep-head { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.ep-head span { color: var(--muted); font-size: 13px; }
+.elevprofile svg { display: block; width: 100%; height: auto; }
+.ep-grid { stroke: var(--grid); stroke-width: 1; }
+.ep-line { fill: none; stroke: var(--water); stroke-width: 2; }
+.ep-lift { stroke: var(--accent); stroke-width: 3; }
+.ep-lift.schematic { stroke-dasharray: 4 3; }
+.ep-plant { fill: var(--accent); }
+.ep-label { font: 600 10px var(--mono); fill: var(--text); }
+.ep-narrative { font-size: 13.5px; color: var(--muted); line-height: 1.55; margin: 10px 0 0; }
