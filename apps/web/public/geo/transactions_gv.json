@@ -1,6 +1,6 @@
 {
  "source": "Colorado DWR, CDSS REST API — waterrights/transaction, Water District 72 (Grand Valley). Court-decreed transactions only; ownership is not recorded in CDSS.",
- "fetched": "2026-08-06",
+ "fetched": "2026-08-17",
  "district": 72,
  "totalRows": 5497,
  "marketRowsSince2000": 739,

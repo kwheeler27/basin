@@ -1,9 +1,17 @@
 {
  "source": "California State Water Resources Control Board, Division of Water Rights — Standard Change Petition Notices (public notice table).",
  "url": "https://www.waterboards.ca.gov/waterrights/water_issues/programs/petitions/standard_change_petition.html",
- "fetched": "2026-08-06",
- "count": 12,
+ "fetched": "2026-08-17",
+ "count": 13,
  "petitions": [
+  {
+   "applications": "9806, 19086, 19087, 20376, and 28453",
+   "holder": "Upper Swanston Ranch, Inc.",
+   "changeTypes": "Place of Use",
+   "noticed": "2026/08/12",
+   "protestDeadline": "2026/09/11",
+   "order": null
+  },
   {
    "applications": "4768, 5128, 15201, and 25056",
    "holder": "East Bay Municipal Utility District",
