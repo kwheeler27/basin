@@ -1,150 +1,195 @@
-# Information Architecture & Interaction Map
+# Information Architecture v2 — the backbone and its applications
 
-**Phase 1 (MVP) ships §1, §2, §9-lite, §10.** The rest are mapped so the seams exist from the start.
-
----
-
-## Global shell
-
-```
-┌──────────────────────────────────────────────────────────────────┐
-│  BASIN ▸ Colorado   Today · Balance · Reservoirs · Snow · Use    │
-│                     Ag · States · History · Scenarios · Data     │
-│                                                [units: AF ▾]     │
-├──────────────────────────────────────────────────────────────────┤
-│  ⚠ Operating rules in force: 2007 IG + 2019 DCP (expires Sep 30) │
-│    Post-2026 Final EIS published Jul 31 2026 — no ROD yet   [→]  │
-└──────────────────────────────────────────────────────────────────┘
-```
-
-Persistent: **unit selector** (acre-feet · gallons · liters · m³ · household-years) rewrites every number live via the registry's conversion table. **Rulebook banner** states what's in force — earns its place while the framework is unsettled.
+**Supersedes the v1 topic-tab IA (Phase 1, 2026-08).** v1 mapped ten topical
+sections; what shipped drifted into nine peer tabs ordered by build history,
+and individual pages mixed monitoring, narrative, and exploration on one
+surface (the Overview rendered the story map twice — once guided, once
+free-roam — plus a live-status banner and an essay). v2 reorganizes the
+product around **what the reader is doing**, not what the data is about.
+The v1 section specs that remain unbuilt (Snow to River, States & Tribal
+Rights, History, full Scenario Lab) are carried forward below as planned
+chapters and instruments, not dropped.
 
 ---
 
-## 1. Today  *(MVP)*
+## The model
 
 ```
-┌─ How much water is in the system today? ────────────────────────┐
-│                                                                  │
-│   COMBINED STORAGE          ▁▂▃▄▅▆▇ ▇▆▅▄▃▂▁                     │
-│   ██████░░░░░░░░░░░  33%    2000 ──────────────── 2026          │
-│   19.2 MAF of 58.5 MAF      ↓ 6 pts vs. one year ago            │
-│   provisional · RISE · 2026-07-30                                │
-│                                                                  │
-│  ┌── LAKE POWELL ──────────┐  ┌── LAKE MEAD ───────────────┐   │
-│  │  3,5xx.x ft    22% full │  │  1,04x.x ft     27% full    │   │
-│  │  ▁▂▃▅▇ percentile: 2nd  │  │  ▁▂▃▅▇ percentile: 3rd      │   │
-│  │  ── min power 3,490 ─── │  │  ── min power 950 ────────  │   │
-│  │  ── dead pool 3,370 ─── │  │  ── dead pool 895 ────────  │   │
-│  │  in 7.48 → out 6.00 MAF │  │  Tier 1 shortage (CY2026)   │   │
-│  └─────────────────────────┘  └─────────────────────────────┘   │
-│                                                                  │
-│  ┌─ SNOWPACK ──┐ ┌─ RUNOFF FCST ┐ ┌─ DROUGHT ─┐ ┌─ WY PRECIP ┐ │
-│  │  xx% median │ │  13% of avg  │ │ D3 · 62%  │ │  xx% avg   │ │
-│  │  (Jul: n/a) │ │  CBRFC Apr–Jul│ │ of basin  │ │            │ │
-│  └─────────────┘ └──────────────┘ └───────────┘ └────────────┘ │
-│                                                                  │
-│  ┌─ WHAT CHANGED AND WHY ────────────────── [Phase 5: AI] ────┐ │
-│  │  Every claim links to a measure id. No free-text retrieval.│ │
-│  └────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────┘
+                    ┌─────────────┬─────────────┬─────────────┐
+   applications →   │   MONITOR   │   REPORT    │   EXPLORE   │
+                    │ what's the  │ why is it   │ let me look │
+                    │ state?      │ happening?  │ for myself  │
+                    └──────┬──────┴──────┬──────┴──────┬──────┘
+                           │             │             │
+                    ┌──────┴─────────────┴─────────────┴──────┐
+   backbone →       │              THE DATA                   │
+                    │  trustworthy · reliable · relevant ·    │
+                    │  up-to-date · consistent                │
+                    └─────────────────────────────────────────┘
 ```
 
-Every tile: value · unit · percentile-of-record · source · as-of · provisional badge. Click → the measure's Data Explorer entry.
+- **The backbone is the product's foundation, treated with scientific
+  rigor.** Every fact on any surface traces to it. Applications make
+  different presentation choices but never own private facts.
+- **Monitor, Report, and Explore are applications built on the backbone.**
+  They differ in what the reader is doing, not in what data they can see.
+- Monitor is deliberately the smallest application: a dense strip of live
+  state whose job is to prove the data is alive and current — the backbone's
+  trustworthiness made visible. It must not grow into a dashboard suite;
+  Report and Explore are where the product earns its existence.
+
+## The user journey — and why the nav mirrors it
+
+1. **What's happening, and what has been happening?** → Monitor (**Now**)
+2. **Why? What's driving the trends and their changes over time?** → **Report**
+3. **Let me go explore the data myself.** → **Explore**
+
+```
+BASIN ▸ Colorado          Now · Report · Explore · Data
+```
+
+The nav order *is* the journey. **Data** sits last as the audit surface —
+where any reader, at any point in the journey, can inspect what a number is,
+where it came from, and when it was last true.
 
 ---
 
-## 2. The Water Balance  *(MVP — the signature visual)*
+## The backbone contract
 
-The one view that proves the thesis. A Sankey where **width is volume** and the reader can see the imbalance.
+The backbone spans multiple stores — the measure registry / Postgres time
+series, geospatial bakes (`public/geo/*.json`, PMTiles), document ledgers
+(decrees, change applications), and literature-derived constants (e.g. the
+Richter et al. sector shares). **The contract is singular even though the
+stores are plural.** Every dataset, regardless of store, carries:
 
-```
-  SNOWPACK          RUNOFF        POWELL         MEAD        DELIVERIES
-  ────────          ──────        ──────         ────        ──────────
-  Upper Basin ═══╗
-  SWE            ║══► Unregulated ═══╗
-  xx% median     ║    inflow         ║══► STORAGE ══╗
-                 ║    xx% of avg     ║    ▼ falling ║══► STORAGE ═══╦══► California 4.4
-  Precip     ════╝                   ║              ║    ▼ falling  ╠══► Arizona   2.8
-                     ┌───────────────╨──┐           ║               ╠══► Nevada    0.3
-                     │ evaporation ~0.4 │           ║               ╠══► Mexico    1.35
-                     │ ← method-dependent│          ║               ╠══► evap ~0.6
-                     └──────────────────┘           ║               ╚══► losses
-                                                     ║
-   ⚠ OUT EXCEEDS IN ──────────────────────────────────┘
-     the gap is drawn to scale and labeled in household-years
-```
+| Field | Meaning |
+|---|---|
+| Source | Agency of record or peer-reviewed citation (primary sources only) |
+| Valid time | What period the value describes |
+| Publication / retrieval time | When the source published it; when we fetched it |
+| Accounting concept | Where applicable — never summed across concepts without a declared bridge |
+| Measurement class | observed / estimated / modeled / forecast / reconstructed / administrative |
+| Revision status | Revisions are new rows/records, never in-place edits |
+| Refresh cadence & freshness | Expected update rhythm; staleness surfaces, never silently served |
+| Caveats & incompatibilities | Including `not_comparable_with` edges with reasons |
+| Citation & download | How a reader takes it with them |
 
-**Interactions:** hover a flow → volume in the active unit + scale anchors + source. Click → drill to that component. Toggle *this year* / *10-yr average* / *pre-2000 average* to watch the structural deficit appear. Toggle `accounting_concept` visibility so diversion vs. consumptive use vs. return flow are separable, never merged.
-
----
-
-## 3. Reservoir Explorer
-
-Per reservoir (Mead, Powell first; Flaming Gorge, Navajo, Blue Mesa later): elevation and storage with historical percentile bands, operating thresholds as reference lines, inflow/outflow, storage trend, forecast range, and analog-year comparison ("2026 most resembles ___"). Powell has ~15 RISE series including evaporation; **Mead has only 4** — the UI must degrade honestly where series don't exist.
-
-## 4. Snow to River
-
-The causal explainer for why normal snowpack no longer means normal runoff.
-
-```
-  SWE ──┐
-  Precip ─┤
-  Soil moist ─┼──► RUNOFF EFFICIENCY ──► Forecast inflow ──► Actual
-  Temp ──┘         ▼                        vs.
-              declining trend, ~9.3%/°C   (skill shown honestly)
-              Milly & Dunne 2020
-```
-
-Scatter of SWE vs. subsequent runoff, colored by decade — the visual proof that the relationship has shifted. Model coefficients and CV skill shown, not hidden.
-
-## 5. Who Uses the Water
-
-Breakdown by state, basin, sector, crop, provider, and legal entitlement — with `accounting_concept` as an explicit, switchable dimension. Scale anchors throughout. Where agencies disagree (Upper Basin CU: 3.8 vs 4.3 MAF), both are shown with methodology notes.
-
-## 6. Agriculture
-
-Irrigated acreage, crop mix, water applied per acre, estimated consumptive use, alfalfa and forage share, crop value, water productivity, virtual water exports. Leads with **why alfalfa persists** before quantifying its cost. Richter et al. 2024 as the citable spine: 52% agriculture, alfalfa alone >5 MAF/yr ≈ 26% of everything consumed, 90% of Upper Basin irrigation water to cattle feed.
-
-## 7. States, Allocations & Tribal Rights
-
-Per state: legal allocation, historical and current use, consumptive use, sectors, projects, seniority, transbasin diversions, trend. **Tribal rights are structural here, not a sidebar** — 30 tribes, quantified/unquantified/pending as first-class states, the pending Northeastern Arizona settlement flagged as *not enacted*.
-
-## 8. Historical Timeline
-
-Compact · dams · reservoir filling · droughts · policy changes · shortage rules · conservation agreements · climate trends, overlaid on reconstructed and observed flow back to 762 CE. The 1922 Compact's ~16.4 MAF assumption drawn against the ~14.6 MAF reconstructed mean and the ~12.4 MAF modern average — the structural problem in one image.
-
-## 9. Scenario Lab  *(MVP: one slider; Phase 4: full)*
-
-```
-┌─ INPUTS ──────────────────┐   ┌─ OUTPUTS ─────────────────────┐
-│ Rulebook  [2007 IG ▾]     │   │  Mead trajectory              │
-│ Snowpack     ──●────  85% │   │   ▔▔▔╲▁▁▁ P90                 │
-│ Temperature  ──●──   +1°C │   │      ╲▁▁▁▁ P50                │
-│ LB cut       ●─────  0 MAF│   │       ╲▁▁▁▁▁ P10             │
-│ Ag reduction ●─────    0% │   │  ── min power ──────────────  │
-│ Evap method  [BREB ▾]     │   │  ── dead pool ──────────────  │
-│                           │   │                               │
-│ [run exact scenario]      │   │  Time to min power: xx months │
-└───────────────────────────┘   │  ≈ x.x M household-years      │
-                                 └───────────────────────────────┘
-   sliders interpolate a precomputed surface → instant
-   off-grid combinations → server run on Modal
-   every output stamped: model_version · rulebook_version · input_data_version
-```
-
-**MVP scope:** one slider (Lower Basin cut), Mead trajectory, uncertainty band, time-to-threshold.
-
-## 10. Data Explorer  *(MVP)*
-
-**Rendered directly from the measure registry** — it cannot drift from the pipeline. Per measure: definition, accounting concept, measurement class, temporal semantics, canonical unit, source and endpoint, historical coverage, cadence, last refresh, revision status, caveats, `not_comparable_with` edges with reasons, CSV/JSON download, citation block. Links to the hosted **dbt docs** lineage graph.
+**Honest current state (2026-08):** the measure registry implements this
+contract in full, but only two shipped pages draw live from it (Overview,
+Reservoirs via RISE). The geo bakes are individually sourced and dated but
+bespoke — no shared manifest, no freshness surfacing. Narrative constants
+live hardcoded in `lib/system.ts` / `lib/markets.ts`. Bringing these under
+the contract (a bake manifest; constants into the registry) is incremental
+backbone work — see Sequencing.
 
 ---
 
-## Cross-cutting
+## The surfaces
 
-**Unit switcher** — global, registry-driven, rewrites every number including anchors.
-**Provenance hover** — available on every number, everywhere.
-**Glossary** — registry-sourced, one click from any term.
-**Deep links** — every scenario, chart state, and time range is URL-addressable and shareable.
-**Freshness strip** — per-source status; stale sources surface rather than silently serving old numbers.
+### `/` — the front door
+
+Stages the journey in order. The thesis headline ("The Colorado River is
+committed to delivering more water than it produces"), a **compact live
+state strip** (combined storage, Powell/Mead, rulebook in force — a
+condensation of Now), then the two doorways: *read the report* (chapter
+list visible, not hidden behind a click) and *explore the data* (instrument
+index visible). Because mode labels are more abstract than topic labels,
+the front door works harder: a reader looking for a topic ("water rights")
+must find it from here in one glance.
+
+### `/now` — the monitor
+
+The v1 "Today" spec, finally a real place. Dense and small: rulebook banner,
+combined storage vs. capacity with percentile-of-record, Powell and Mead
+tiles (elevation, % full, operating thresholds), snowpack / runoff forecast /
+drought / WY precipitation tiles, and the **per-source freshness strip**.
+Every tile: value · unit · percentile · source · as-of · provisional badge.
+Click-through → the measure's Data entry. No prose beyond captions.
+
+### `/report` — the narrative spine
+
+Ordered chapters with prev/next, readable front to back like an atlas.
+Chapter titles are questions or claims (DESIGN_PRINCIPLES §1). Chapters are
+essays: prose and charts, no stateful instruments embedded. Every chart
+deep-links into the matching Explore instrument at the moment a reader
+wants to verify or dig further.
+
+| # | Chapter | Content (today's source) |
+|---|---|---|
+| 1 | The System | Guided story map, the three numbers, where the water goes (from Overview) |
+| 2 | Supply | Why the river is shrinking (from `/supply`) |
+| 3 | Demand | Who uses the water (from `/demand`) |
+| 4 | Reservoirs | The drawdown; what happens next (from `/reservoirs`, minus the scenario widget) |
+| 5 | Agriculture | What the water grows (from `/agriculture`) |
+| 6 | Infrastructure | The machine, narratively (from `/infrastructure`, minus the explorer) |
+| 7 | Water Rights | Property on a shrinking river: the GSC case, the watchlist story, legal geography (the essay half of `/water-rights`) |
+| 8 | Distribution | Where deliveries actually went (from `/distribution`) |
+| — | *Planned* | Snow to River · States, Allocations & Tribal Rights · History (v1 §§4, 7, 8) |
+
+### `/explore` — the instruments
+
+Full-page, data-dense, stateful destinations with an index page. Every view
+state is URL-addressable and shareable. No essay prose — captions and
+provenance only.
+
+| Instrument | Content (today's source) |
+|---|---|
+| Basin map | The free-roam story map (`variant="explore"` from Overview) |
+| Rights ledger | 617k rights drill-in, largest holders, transactions, state ledgers (the instrument half of `/water-rights`) |
+| Machine explorer | One-system-at-a-time infrastructure explorer with zoom, plant cards, terrain profiles |
+| Scenario lab | The what-if model (currently embedded in `/reservoirs`), grown per v1 §9 |
+| *Planned* | Per-measure series explorer rendered from the registry |
+
+### `/data` — the backbone made visible
+
+Promoted from a peer tab to the audit surface for **everything**: registry
+measures *and* geo bakes *and* document ledgers *and* literature constants,
+each with its full contract fields, incompatibility edges, downloads, and
+citation blocks. Rendered from the registry and (new) bake manifest so it
+cannot drift from the pipeline.
+
+---
+
+## Migration map
+
+| Current route | Destination(s) |
+|---|---|
+| `/` (Overview) | Split → front door `/` + chapter 1 + Explore basin map + Now strip |
+| `/supply` | `/report/supply` |
+| `/demand` | `/report/demand` |
+| `/reservoirs` | `/report/reservoirs`; scenario widget → `/explore/scenarios` |
+| `/distribution` | `/report/distribution` |
+| `/water-rights` | Split → `/explore/rights` + `/report/water-rights` |
+| `/infrastructure` | Split → `/report/infrastructure` + `/explore/machine` |
+| `/agriculture` | `/report/agriculture` |
+| `/data` | `/data` (expanded per contract) |
+
+The site is public and linked: every current route gets a **permanent
+redirect** to its primary destination (the split pages redirect to the
+Report chapter, which links its sibling instrument above the fold).
+
+## Sequencing stance
+
+**Applications first, backbone incrementally.** Restructure the surfaces on
+top of today's bespoke bakes; adopt the backbone contract as a hard
+requirement for all *new* datasets from day one; consolidate existing bakes
+and constants under a manifest as they come up for refresh. Rationale: the
+surface restructure is user-visible and cheap; a backbone-first
+consolidation would stall visible progress for weeks with no reader benefit
+until the surfaces move anyway.
+
+## Multi-basin note
+
+Surfaces are basin-scoped in principle (`/​colorado/report/...`), matching
+the measure-ID prefixes. With one basin shipped, routes stay unprefixed;
+the prefix is introduced when basin #2 arrives, with redirects.
+
+## Cross-cutting (carried from v1, unchanged)
+
+**Unit switcher** — global, registry-driven, rewrites every number including
+anchors. **Provenance hover** — on every number, everywhere. **Glossary** —
+registry-sourced, one click from any term. **Deep links** — every scenario,
+chart state, and time range URL-addressable. **Freshness strip** — per-source
+status; stale sources surface rather than silently serving old numbers
+(lives on Now and Data). **Rulebook banner** — persistent while the
+operating framework is unsettled.
