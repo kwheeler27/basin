@@ -78,17 +78,17 @@ export default async function Landing() {
 
       <section className="landing-hero">
         <div className="landing-kicker">
-          A public digital twin of the Colorado River
+          A live public picture of the Colorado River
         </div>
         <h1 className="page-title">
           The Colorado River is committed to delivering more water than it
           produces.
         </h1>
         <p className="page-lede">
-          Roughly 40 million people and 5 million irrigated acres depend on it.
-          Basin shows the system as the public record shows it — what state
-          it&rsquo;s in right now, why it got here, and the primary sources
-          behind every number. No accounts, no paywall; the map below is live.
+          Roughly 40 million people and 5 million irrigated acres depend on
+          it. Basin shows what state the river is in right now, why it got
+          that way, and the government records behind every number. No
+          account, no paywall. The map below is live.
         </p>
         <div className="cta-row">
           <Link className="cta primary" href={"/report/the-system" as Route}>
