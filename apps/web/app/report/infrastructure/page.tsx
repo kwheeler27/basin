@@ -1,4 +1,6 @@
-import { MachineExplorer } from "@/components/MachineExplorer";
+import Link from "next/link";
+import type { Route } from "next";
+import { ChapterKicker, ChapterPager } from "@/components/Chapter";
 import { SYSTEM_NOTES } from "@/lib/infrastructure";
 import { MAP_CONVEYANCE } from "@/lib/mapdata";
 import { acreFeet } from "@/lib/format";
@@ -17,6 +19,7 @@ const TYPOLOGY = [
 export default function Infrastructure() {
   return (
     <main>
+      <ChapterKicker slug="infrastructure" />
       <h1 className="page-title">Infrastructure</h1>
       <p className="page-lede">
         The river is committed by law, but delivered by machines. This is the
@@ -51,10 +54,20 @@ export default function Infrastructure() {
       <p className="body-text">
         The basin&rsquo;s signature machines are its pumping plants: the river
         is lower than most of the people who drink it, so its water is lifted
-        — thousands of vertical feet, at industrial scale, forever. Each
-        vertical step below is one plant.
+        — thousands of vertical feet, at industrial scale, forever. The
+        Colorado River Aqueduct climbs 1,614 feet in five plants; the Central
+        Arizona Project climbs roughly 3,000 in fourteen.
       </p>
-      <MachineExplorer />
+      <div className="note">
+        <p>
+          <strong>See the machines themselves:</strong>{" "}
+          <Link href={"/explore/machine" as Route}>
+            open the machine explorer →
+          </Link>{" "}
+          Each system drawn one at a time — every pumping plant on real
+          terrain, with the lift each one buys, zoomable and tappable.
+        </p>
+      </div>
 
       <h2 className="section-title">Every delivery system</h2>
       <p className="body-text">
@@ -97,6 +110,8 @@ export default function Infrastructure() {
           the source on the figure.
         </p>
       </div>
+
+      <ChapterPager slug="infrastructure" />
     </main>
   );
 }

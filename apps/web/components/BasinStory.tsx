@@ -1323,12 +1323,12 @@ export function BasinStory({
             <div className="story-kicker">Explore</div>
             <h3>Now it&rsquo;s your instrument.</h3>
             <p>
-              Every layer you just read is live on the map at the top of this
-              page — pan, zoom, switch layers, and tap anything for what it
-              means, how it compares, and where the number comes from.
+              Every layer you just read is live on the basin map — pan, zoom,
+              switch layers, and tap anything for what it means, how it
+              compares, and where the number comes from.
             </p>
-            <a className="story-outro-link" href="#explore">
-              ↑ Back to the map
+            <a className="story-outro-link" href="/explore/map">
+              Open the basin map →
             </a>
           </article>
         </div>

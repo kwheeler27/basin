@@ -27,7 +27,7 @@ export function SystemChain({
       <div className="chain-row">
         <div className="chain-side">
           <div className="chain-label">
-            <Link href="/supply">Supply →</Link>
+            <Link href="/report/supply">Supply →</Link>
           </div>
           <div className="chain-title">What the river produces</div>
           <div className="chain-value">
@@ -63,7 +63,7 @@ export function SystemChain({
 
         <div className="chain-side">
           <div className="chain-label">
-            <Link href="/demand">Demand →</Link>
+            <Link href="/report/demand">Demand →</Link>
           </div>
           <div className="chain-title">What the system consumes</div>
           <div className="chain-value">

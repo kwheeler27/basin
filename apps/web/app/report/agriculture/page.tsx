@@ -1,4 +1,5 @@
 import { CropMix } from "@/components/CropMix";
+import { ChapterKicker, ChapterPager } from "@/components/Chapter";
 import { CROPS_META } from "@/lib/agriculture";
 
 export const metadata = { title: "Agriculture — Basin" };
@@ -7,6 +8,7 @@ export default function Agriculture() {
   const m = CROPS_META;
   return (
     <main>
+      <ChapterKicker slug="agriculture" />
       <h1 className="page-title">Agriculture</h1>
       <p className="page-lede">
         Most of the river&rsquo;s water grows things. This page shows what,
@@ -65,6 +67,8 @@ export default function Agriculture() {
           of record, with the method disclosed on the figure.
         </p>
       </div>
+
+      <ChapterPager slug="agriculture" />
     </main>
   );
 }

@@ -1,7 +1,7 @@
+import Link from "next/link";
+import type { Route } from "next";
 import { DrawdownChart } from "@/components/DrawdownChart";
-import { WhatIf } from "@/components/WhatIf";
-import { ReservoirCard } from "@/components/ReservoirCard";
-import { RulesToday } from "@/components/RulesToday";
+import { ChapterKicker, ChapterPager } from "@/components/Chapter";
 import { COMBINED_CAPACITY_ACRE_FEET, MEAD, POWELL } from "@/lib/reservoirs";
 import { fetchSeries, REVALIDATE_SECONDS } from "@/lib/rise";
 import {
@@ -21,10 +21,8 @@ export const dynamic = "force-static";
 export const metadata = { title: "Reservoirs — Basin" };
 
 export default async function Reservoirs() {
-  const [powellElev, powellStor, meadElev, meadStor] = await Promise.all([
-    fetchSeries(POWELL.riseElevationItem),
+  const [powellStor, meadStor] = await Promise.all([
     fetchSeries(POWELL.riseStorageItem),
-    fetchSeries(MEAD.riseElevationItem),
     fetchSeries(MEAD.riseStorageItem),
   ]);
 
@@ -45,10 +43,14 @@ export default async function Reservoirs() {
 
   return (
     <main>
+      <ChapterKicker slug="reservoirs" />
       <h1 className="page-title">Reservoirs</h1>
       <p className="page-lede">
         Lakes Powell and Mead are the buffer that has absorbed the gap between
-        commitments and supply for two decades. This is what&rsquo;s left.
+        commitments and supply for two decades. This is what&rsquo;s left —
+        and what the operating rules do as it falls. Today&rsquo;s elevations,
+        tier status, and thresholds live on{" "}
+        <Link href={"/now" as Route}>Now</Link>.
       </p>
 
       <section className="hero">
@@ -119,29 +121,25 @@ export default async function Reservoirs() {
 
       <h2 className="section-title">What happens next?</h2>
       <p className="body-text">
-        The first question a line can&rsquo;t answer alone. This projection runs
+        The first question a line can&rsquo;t answer alone. The{" "}
+        <Link href={"/explore/scenarios" as Route}>scenario lab</Link> runs
         the verified operating rules forward over every recent-history inflow
-        sequence — move the slider to see what additional Lower Basin
-        conservation does to the trajectories, and when the rules&rsquo; own
-        thresholds get crossed.
+        sequence — move the conservation slider yourself and watch when the
+        rules&rsquo; own thresholds get crossed. The output is always a band,
+        not a line: the same rules over the wettest and driest recent inflow
+        sequences produce very different trajectories, and that spread is the
+        honest answer.
       </p>
-      <WhatIf />
-
-      <div className="grid">
-        <ReservoirCard
-          reservoir={POWELL}
-          elevation={powellElev}
-          storage={powellStor}
-        />
-        <ReservoirCard reservoir={MEAD} elevation={meadElev} storage={meadStor} />
+      <div className="note">
+        <p>
+          <strong>Try it:</strong>{" "}
+          <Link href={"/explore/scenarios" as Route}>
+            open the scenario lab →
+          </Link>{" "}
+          Every projection is a band, never a line; the model, rulebook, and
+          input-data versions are stamped on the output.
+        </p>
       </div>
-
-      {powellElev.latest && meadElev.latest && (
-        <RulesToday
-          powellElevation={powellElev.latest.value}
-          meadElevation={meadElev.latest.value}
-        />
-      )}
 
       <div className="chain-caveat" style={{ marginTop: 22 }}>
         Source: U.S. Bureau of Reclamation{" "}
@@ -151,6 +149,8 @@ export default async function Reservoirs() {
         {REVALIDATE_SECONDS / 60} minutes; rendered{" "}
         {formatTimestamp(new Date().toISOString())}.
       </div>
+
+      <ChapterPager slug="reservoirs" />
     </main>
   );
 }

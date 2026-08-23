@@ -1,4 +1,5 @@
 import { Figure } from "@/components/Figure";
+import { ChapterKicker, ChapterPager } from "@/components/Chapter";
 import {
   COLORADO_TRANSBASIN,
   COLORADO_TRANSBASIN_TOTAL,
@@ -23,6 +24,7 @@ export default function Supply() {
 
   return (
     <main>
+      <ChapterKicker slug="supply" />
       <h1 className="page-title">Supply</h1>
       <p className="page-lede">
         Everything begins as snow. What reaches the river depends not only on
@@ -104,6 +106,8 @@ export default function Supply() {
         publishes daily diversion readings, but only as PDFs — one of several
         places where the pipeline still needs building.
       </div>
+
+      <ChapterPager slug="supply" />
     </main>
   );
 }

@@ -1,4 +1,5 @@
 import { Figure } from "@/components/Figure";
+import { ChapterKicker, ChapterPager } from "@/components/Chapter";
 import {
   APPORTIONMENTS,
   CROPS,
@@ -18,6 +19,7 @@ export default function Demand() {
 
   return (
     <main>
+      <ChapterKicker slug="demand" />
       <h1 className="page-title">Demand</h1>
       <p className="page-lede">
         Who consumes the water — and the accounting distinctions that make
@@ -141,6 +143,8 @@ export default function Demand() {
           enforced by the measure registry, not by editorial discipline.
         </p>
       </div>
+
+      <ChapterPager slug="demand" />
     </main>
   );
 }
