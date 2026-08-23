@@ -1,44 +1,29 @@
 import Link from "next/link";
-import { BasinStory } from "@/components/BasinStory";
-import { SystemChain } from "@/components/SystemChain";
-import { MEAD, POWELL, RULEBOOK } from "@/lib/reservoirs";
-import { MAP_RESERVOIRS } from "@/lib/mapdata";
+import type { Route } from "next";
+import {
+  COMBINED_CAPACITY_ACRE_FEET,
+  MEAD,
+  POWELL,
+  RULEBOOK,
+} from "@/lib/reservoirs";
 import { fetchSeries } from "@/lib/rise";
 import { acreFeet, formatDate, percent } from "@/lib/format";
-import {
-  CROPS,
-  RICHTER,
-  SUPPLY,
-  TOTAL_APPORTIONED,
-  TEMPERATURE_SENSITIVITY,
-} from "@/lib/system";
+import { CHAPTERS, INSTRUMENTS } from "@/lib/report";
 
 export const revalidate = 3600;
 // Pin static despite the no-store RISE fetches (see lib/rise.ts) — data
 // updates via page-level ISR, never per-request.
 export const dynamic = "force-static";
 
-export default async function Overview() {
-  // Live storage for every reservoir with a RISE item (11 of 13; Roosevelt
-  // and Dillon have non-federal operators and no live feed).
-  const withItems = MAP_RESERVOIRS.filter((r) => r.riseStorageItem);
-  const series = await Promise.all(
-    withItems.map((r) => fetchSeries(r.riseStorageItem!, 45)),
-  );
-  const liveStorage: Record<string, { af: number; asOf: string } | undefined> =
-    {};
-  withItems.forEach((r, i) => {
-    const latest = series[i]!.latest;
-    if (latest) liveStorage[r.id] = { af: latest.value, asOf: latest.date };
-  });
-  const powellStor = series[withItems.findIndex((r) => r.id === "powell")]!;
-  const meadStor = series[withItems.findIndex((r) => r.id === "mead")]!;
-
+export default async function FrontDoor() {
+  const [powellStor, meadStor] = await Promise.all([
+    fetchSeries(POWELL.riseStorageItem),
+    fetchSeries(MEAD.riseStorageItem),
+  ]);
   const stored =
     powellStor.latest && meadStor.latest
       ? powellStor.latest.value + meadStor.latest.value
       : null;
-  const capacity = POWELL.capacityAcreFeet + MEAD.capacityAcreFeet;
   const asOf = powellStor.latest?.date ?? null;
 
   return (
@@ -57,127 +42,90 @@ export default async function Overview() {
       </h1>
       <p className="page-lede">
         Roughly 40 million people and 5 million irrigated acres depend on it.
-        The map is live — switch layers, pan, zoom, tap anything. Or scroll
-        for the guided story.
+        Basin is a public instrument for understanding that system: what state
+        it&rsquo;s in, why, and the records behind every number.
       </p>
 
-      <BasinStory storage={liveStorage} variant="explore" />
-
-      <div className="scroll-cue" aria-hidden="true">
-        The guided tour ↓ · five chapters, two minutes
-      </div>
-
-      <BasinStory storage={liveStorage} />
-      <p className="chain-caveat">
-        Rivers and the watershed are real geometry (Natural Earth, USGS);
-        delivery paths are schematic between real endpoints. Reservoir storage
-        is live from Reclamation RISE, provisional.
-      </p>
-
-      <SystemChain storedNow={stored} />
-
-      <h2 className="section-title">The three numbers that explain it</h2>
-      <div className="triad">
-        <div className="triad-item">
-          <div className="triad-num">
-            {acreFeet(TOTAL_APPORTIONED)}
-            <span className="chip chip-administrative">legal</span>
+      <Link href={"/now" as Route} className="state-strip">
+        <div className="stat-row">
+          <div className="stat">
+            <div className="stat-num">
+              {stored !== null
+                ? percent((stored / COMBINED_CAPACITY_ACRE_FEET) * 100, 0)
+                : "—"}
+            </div>
+            <div className="stat-label">
+              of combined capacity left in Lakes Powell &amp; Mead
+            </div>
           </div>
-          <div className="triad-label">Promised on paper</div>
-          <p>
-            7.5 MAF to the Upper Basin, 7.5 to the Lower Basin, 1.5 to Mexico by
-            treaty. These are entitlements, not measurements — and they were
-            written when the river was assumed to carry{" "}
-            {acreFeet(SUPPLY.compactAssumption.acreFeet)} a year.
-          </p>
-        </div>
-        <div className="triad-item">
-          <div className="triad-num">
-            {acreFeet(SUPPLY.modernMean.acreFeet)}
-            <span className="chip chip-estimated">estimated</span>
+          <div className="stat">
+            <div className="stat-num">
+              {stored !== null ? acreFeet(stored) : "—"}
+            </div>
+            <div className="stat-label">
+              in storage{asOf && <> · as of {formatDate(asOf)}</>} ·
+              provisional (Reclamation RISE)
+            </div>
           </div>
-          <div className="triad-label">What actually arrives</div>
-          <p>
-            The modern average. Tree rings put the long-term mean near{" "}
-            {acreFeet(SUPPLY.reconstructedMean.acreFeet)} — meaning the Compact&rsquo;s
-            founding number was never normal. Warming has since cut flow by
-            about {TEMPERATURE_SENSITIVITY.percentPerDegreeC}% per °C.
-          </p>
-        </div>
-        <div className="triad-item">
-          <div className="triad-num">
-            {stored !== null ? acreFeet(stored) : "—"}
-            <span className="chip chip-observed">observed</span>
+          <div className="stat">
+            <div className="stat-num">→</div>
+            <div className="stat-label">
+              full system state, tier status &amp; source freshness on Now
+            </div>
           </div>
-          <div className="triad-label">What&rsquo;s left in storage</div>
-          <p>
-            Lakes Powell and Mead combined
-            {stored !== null && (
-              <>
-                {" "}
-                — {percent((stored / capacity) * 100, 0)} of capacity, roughly
-                one year of the river&rsquo;s modern flow
-              </>
-            )}
-            . The buffer that has absorbed the difference for two decades.
-          </p>
         </div>
-      </div>
+      </Link>
 
-      <h2 className="section-title">Where the water actually goes</h2>
-      <div className="split">
-        <div>
-          <div className="sector-bars">
-            {RICHTER.sectors.map((s) => (
-              <div key={s.id} className="sector-row">
-                <div className="sector-label">
-                  {s.label}
-                  <span className="sector-pct">{s.percent}%</span>
-                </div>
-                <div className="sector-track">
-                  <div
-                    className={`sector-fill ${s.id.split(".")[1]}`}
-                    style={{ width: `${s.percent}%` }}
-                  />
-                </div>
-              </div>
+      <div className="doorways">
+        <section className="doorway">
+          <h2 className="section-title">Why: read the report</h2>
+          <p className="body-text">
+            Eight chapters, in reading order — the whole system, then one
+            piece at a time.
+          </p>
+          <ol className="toc">
+            {CHAPTERS.map((c, i) => (
+              <li key={c.slug}>
+                <Link className="toc-item" href={`/report/${c.slug}` as Route}>
+                  <span className="toc-num">{i + 1}</span>
+                  <span className="toc-title">{c.title}</span>
+                  <span className="toc-q">{c.question}</span>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="doorway">
+          <h2 className="section-title">Yourself: explore the data</h2>
+          <p className="body-text">
+            The instruments — live, zoomable, every view a shareable URL.
+          </p>
+          <div className="doorway-list">
+            {INSTRUMENTS.map((ins) => (
+              <Link
+                key={ins.slug}
+                className="watch-card doorway-card"
+                href={`/explore/${ins.slug}` as Route}
+              >
+                <div className="watch-name">{ins.title} →</div>
+                <p className="watch-body">{ins.blurb}</p>
+              </Link>
             ))}
           </div>
-          <p className="prov" style={{ borderTop: "none" }}>
-            {RICHTER.source} · {RICHTER.period} · total{" "}
-            {acreFeet(RICHTER.totalAcreFeet)}. This is a{" "}
-            <strong>different accounting universe</strong> from the balance
-            above: it includes natural riparian vegetation, which Compact
-            accounting excludes. The two totals are not comparable.
+          <p className="body-text" style={{ marginTop: 12 }}>
+            And underneath all of it: <Link href="/data">the Data page</Link>
+            {" — "}every dataset&rsquo;s definition, source, accounting concept, and
+            freshness, rendered from the measure registry.
           </p>
-        </div>
-        <div className="note">
-          <p>
-            <strong>Agriculture is {RICHTER.sectors[0]!.percent}% of it</strong>{" "}
-            — and cattle-feed crops are {CROPS.cattleFeedShareOfAgriculture}% of
-            that. Alfalfa alone consumes about{" "}
-            {acreFeet(CROPS.alfalfaAcreFeet)} a year, roughly{" "}
-            {CROPS.alfalfaShareOfBasin}% of all water consumed in the basin. In
-            the Upper Basin, {CROPS.upperBasinAgToCattleFeed}% of irrigation
-            water grows feed for livestock.
-          </p>
-          <p>
-            That is not an indictment. Alfalfa persists because it is
-            high-yielding, nutrient-dense, perennial, nitrogen-fixing,
-            marketable, and well suited to livestock systems. But it means the
-            water question is largely an agriculture question, and{" "}
-            <Link href="/demand">every city in the basin combined</Link> is
-            under a fifth of consumption.
-          </p>
-        </div>
+        </section>
       </div>
 
       <div className="chain-caveat" style={{ marginTop: 26 }}>
-        {asOf && <>Reservoir storage as of {formatDate(asOf)}, provisional. </>}
-        Supply, demand, and sector figures come from periodic federal reports
-        and peer-reviewed studies, each dated and cited on the{" "}
-        <Link href="/supply">Supply</Link> and{" "}
-        <Link href="/demand">Demand</Link> pages.
+        Sources are named on every figure; federal data is public domain.
+        Reservoir storage is live from Reclamation RISE, provisional. A
+        reduced-form, independent portrait — not equivalent to
+        Reclamation&rsquo;s CRSS models.
       </div>
     </main>
   );

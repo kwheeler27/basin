@@ -4,20 +4,16 @@ import Link from "next/link";
 import type { Route } from "next";
 import { usePathname } from "next/navigation";
 
+/**
+ * The nav order is the user journey (docs/IA.md v2): what's happening →
+ * why → let me look myself → audit the data.
+ */
 const TABS: readonly { href: Route; label: string }[] = [
-  { href: "/", label: "Overview" },
-  { href: "/supply", label: "Supply" },
-  { href: "/demand", label: "Demand" },
-  { href: "/reservoirs", label: "Reservoirs" },
-  { href: "/distribution", label: "Distribution" },
-  { href: "/water-rights", label: "Water Rights" },
-  { href: "/infrastructure", label: "Infrastructure" },
-  { href: "/agriculture", label: "Agriculture" },
+  { href: "/now", label: "Now" },
+  { href: "/report", label: "Report" },
+  { href: "/explore", label: "Explore" },
   { href: "/data", label: "Data" },
 ];
-
-/** Stages not yet built, shown so the shape of the product is legible. */
-const PLANNED: readonly string[] = [];
 
 export function Nav() {
   const pathname = usePathname();
@@ -28,16 +24,14 @@ export function Nav() {
           <Link
             key={t.href}
             href={t.href}
-            className={`nav-tab${pathname === t.href ? " active" : ""}`}
+            className={`nav-tab${
+              pathname === t.href || pathname.startsWith(`${t.href}/`)
+                ? " active"
+                : ""
+            }`}
           >
             {t.label}
           </Link>
-        ))}
-        {PLANNED.length > 0 && <span className="nav-divider" />}
-        {PLANNED.map((p) => (
-          <span key={p} className="nav-tab planned" title="Not built yet">
-            {p}
-          </span>
         ))}
       </div>
     </nav>

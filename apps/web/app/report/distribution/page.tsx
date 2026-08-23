@@ -1,4 +1,5 @@
 import { CanalChart, type CanalData } from "@/components/CanalChart";
+import { ChapterKicker, ChapterPager } from "@/components/Chapter";
 import canal from "@/public/geo/canal_gvc_2025.json";
 import { acreFeet } from "@/lib/format";
 import { HOUSEHOLD_ACRE_FEET_PER_YEAR } from "@/lib/format";
@@ -10,6 +11,7 @@ export default function Distribution() {
 
   return (
     <main>
+      <ChapterKicker slug="distribution" />
       <h1 className="page-title">Distribution</h1>
       <p className="page-lede">
         Between the reservoirs and the fields sits a century-old network of
@@ -85,6 +87,8 @@ export default function Distribution() {
           honest about what the record can and cannot say.
         </p>
       </div>
+
+      <ChapterPager slug="distribution" />
     </main>
   );
 }

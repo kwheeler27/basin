@@ -31,13 +31,13 @@ for (const vp of VIEWPORTS) {
   page.on("pageerror", (e) => errors.push(String(e).slice(0, 160)));
 
   for (const step of STEPS) {
-    await page.goto(`${BASE}/?step=${step}`, { waitUntil: "load", timeout: 45000 });
+    await page.goto(`${BASE}/report/the-system?step=${step}`, { waitUntil: "load", timeout: 45000 });
     await page.waitForTimeout(2600);
     await page.screenshot({ path: `.qa/${vp.name}-step${step}.png`, fullPage: step === 0 });
   }
 
-  // smoke: the explore hero must render its six layer pills and switch layers
-  await page.goto(`${BASE}/`, { waitUntil: "load", timeout: 45000 });
+  // smoke: the explore map must render its six layer pills and switch layers
+  await page.goto(`${BASE}/explore/map`, { waitUntil: "load", timeout: 45000 });
   await page.waitForTimeout(2600);
   const pills = await page.locator(".explore-hero .story-radio").count();
   if (pills !== 6) { console.error(`✗ ${vp.name}: hero has ${pills} pills, expected 6`); failures++; }
@@ -51,7 +51,7 @@ for (const vp of VIEWPORTS) {
   await page.screenshot({ path: `.qa/${vp.name}-hero.png` });
 
   // smoke: the rights stage must render its four layers and open a county sheet
-  await page.goto(`${BASE}/water-rights`, { waitUntil: "load", timeout: 45000 });
+  await page.goto(`${BASE}/explore/rights`, { waitUntil: "load", timeout: 45000 });
   await page.waitForTimeout(1500);
   const rPills = await page.locator(".rightsmap .story-radio").count();
   const rCounties = await page.locator(".rightsmap .rm-county").count();
@@ -68,7 +68,7 @@ for (const vp of VIEWPORTS) {
   await page.screenshot({ path: `.qa/${vp.name}-rights.png` });
 
   // smoke: tapping the largest farm circle must open the sheet with chips
-  await page.goto(`${BASE}/?step=4`, { waitUntil: "load", timeout: 45000 });
+  await page.goto(`${BASE}/report/the-system?step=4`, { waitUntil: "load", timeout: 45000 });
   await page.waitForTimeout(2600);
   const circles = await page.locator(".story:not(.explore-hero) circle.st-farm").all();
   let biggest = null, r0 = 0;
