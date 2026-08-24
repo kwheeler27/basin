@@ -1,4 +1,5 @@
 import { MEASURES } from "@basin/contracts";
+import { ElevationSeries } from "@/components/ElevationSeries";
 import type { ReservoirRef, Threshold } from "@/lib/reservoirs";
 import type { Series } from "@/lib/rise";
 import {
@@ -7,73 +8,7 @@ import {
   formatDate,
   percent,
   signed,
-  sparklinePath,
 } from "@/lib/format";
-
-/** Vertical elevation gauge with operating thresholds drawn to scale. */
-function ElevationGauge({
-  current,
-  reservoir,
-}: {
-  current: number;
-  reservoir: ReservoirRef;
-}) {
-  const dead = reservoir.thresholds.find((t) => t.kind === "dead")!.elevation;
-  const top = reservoir.fullPoolElevation;
-  const span = top - dead;
-  const pct = (e: number) => ((e - dead) / span) * 100;
-
-  const W = 100;
-  const H = 132;
-  const y = (e: number) => H - (pct(e) / 100) * H;
-
-  return (
-    <div className="gauge">
-      <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" role="img"
-        aria-label={`${reservoir.name} elevation ${current} feet against operating thresholds`}>
-        <rect x="0" y="0" width={W} height={H} fill="var(--surface-2)" rx="2" />
-        <rect
-          x="0"
-          y={y(current)}
-          width={W}
-          height={H - y(current)}
-          fill="var(--water)"
-          opacity="0.85"
-          rx="2"
-        />
-        {reservoir.thresholds.map((t) => (
-          <line
-            key={t.elevation}
-            x1="0"
-            x2={W}
-            y1={y(t.elevation)}
-            y2={y(t.elevation)}
-            stroke={
-              t.kind === "dead"
-                ? "var(--danger)"
-                : t.kind === "power"
-                  ? "var(--danger)"
-                  : "var(--warn)"
-            }
-            strokeWidth="1"
-            strokeDasharray={t.kind === "tier" ? "3 3" : undefined}
-            opacity={t.kind === "power" ? 0.7 : 1}
-            vectorEffect="non-scaling-stroke"
-          />
-        ))}
-        <line
-          x1="0"
-          x2={W}
-          y1={y(current)}
-          y2={y(current)}
-          stroke="var(--text)"
-          strokeWidth="1.5"
-          vectorEffect="non-scaling-stroke"
-        />
-      </svg>
-    </div>
-  );
-}
 
 function ThresholdRow({
   threshold,
@@ -135,8 +70,6 @@ export function ReservoirCard({
     ? elevation.latest.value - elevation.yearAgo.value
     : null;
 
-  const spark = sparklinePath(storage.points.map((p) => p.value));
-
   return (
     <section className="card">
       <div className="card-head">
@@ -172,20 +105,15 @@ export function ReservoirCard({
         </div>
       </div>
 
-      <ElevationGauge current={elevation.latest.value} reservoir={reservoir} />
-
-      {spark && (
-        <div className="spark">
-          <svg viewBox="0 0 240 40" preserveAspectRatio="none" role="img"
-            aria-label={`${reservoir.name} storage over the past year`}>
-            <path d={spark} fill="none" stroke="var(--water)" strokeWidth="1.5"
-              vectorEffect="non-scaling-stroke" />
-          </svg>
-          <div className="card-sub" style={{ marginTop: 2 }}>
-            storage, past {Math.round(storage.points.length / 30)} months
-          </div>
-        </div>
-      )}
+      <ElevationSeries
+        name={reservoir.name}
+        points={elevation.points}
+        thresholds={reservoir.thresholds.map((t) => ({
+          elevation: t.elevation,
+          short: t.short,
+          kind: t.kind,
+        }))}
+      />
 
       <div className="thresholds">
         {reservoir.thresholds.map((t) => (
