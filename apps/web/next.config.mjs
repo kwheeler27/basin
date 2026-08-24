@@ -16,6 +16,7 @@ const nextConfig = {
     { source: "/water-rights", destination: "/report/water-rights", permanent: true },
     { source: "/infrastructure", destination: "/report/infrastructure", permanent: true },
     { source: "/agriculture", destination: "/report/agriculture", permanent: true },
+    { source: "/now", destination: "/current-state", permanent: true },
   ],
 };
 

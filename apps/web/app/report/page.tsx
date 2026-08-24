@@ -34,7 +34,7 @@ export default function ReportIndex() {
           chapter 1 is the whole system in five scenes; the rest take one
           piece at a time. But each stands alone, so start where your
           question is. For the live numbers as of today, see{" "}
-          <Link href={"/now" as Route}>Now</Link>; for definitions, units,
+          <Link href={"/current-state" as Route}>Current state</Link>; for definitions, units,
           and provenance of every dataset, see{" "}
           <Link href="/data">Data</Link>.
         </p>

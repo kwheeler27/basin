@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
  * why → let me look myself → audit the data.
  */
 const TABS: readonly { href: Route; label: string }[] = [
-  { href: "/now", label: "Now" },
+  { href: "/current-state", label: "Current state" },
   { href: "/report", label: "Report" },
   { href: "/explore", label: "Explore" },
   { href: "/data", label: "Data" },
