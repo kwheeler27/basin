@@ -138,3 +138,29 @@ Freshness is displayed per source, with staleness surfaced when a source misses 
 - The backtest is linked from every projection view.
 - The rulebook version in force is stated on every scenario output.
 - When the model disagrees with Reclamation, that is **shown and explained**, not smoothed.
+
+---
+
+## 10. Plain language (Kevin's standing rule, 2026-08-23)
+
+The register to aim for is Matt Levine's Money Stuff: complex things
+explained simply, precisely, and directly — like a smart friend who happens
+to know the material. Clarity is the value; cleverness is not. This ranks
+alongside §7 and applies to every piece of narrative copy on the site.
+
+- **Say the thing.** Lead with the point, then support it. If a sentence
+  needs a second read, rewrite it.
+- **Short declarative sentences.** One idea per sentence. Prefer the period
+  to the semicolon.
+- **Plain words wherever precision survives.** "Water left in storage," not
+  "residual storage volumes." Where a technical term is load-bearing
+  (consumptive use, priority date), keep it — and define it inline on first
+  use, in one clause, without a detour.
+- **Concrete over abstract.** Name the number, the place, the document.
+- **No elegant variation.** The same thing gets the same name everywhere.
+- **Clarity is not simplification.** Never make a number wrong to make it
+  friendly — the scale anchors (§4) and accounting concepts (§5) still bind.
+  Plain language is how the rigor stays readable.
+
+Test: read the sentence aloud. If you wouldn't say it to a smart friend
+across a table, rewrite it.
