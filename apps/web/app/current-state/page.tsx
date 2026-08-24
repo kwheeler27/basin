@@ -26,9 +26,9 @@ export const revalidate = 3600;
 // Pin static despite the no-store RISE fetches (see lib/rise.ts) — data
 // updates via page-level ISR, never per-request.
 export const dynamic = "force-static";
-export const metadata = { title: "Now — Basin" };
+export const metadata = { title: "Current State — Basin" };
 
-export default async function Now() {
+export default async function CurrentState() {
   const [powellElev, powellStor, meadElev, meadStor] = await Promise.all([
     fetchSeries(POWELL.riseElevationItem),
     fetchSeries(POWELL.riseStorageItem),
@@ -108,7 +108,7 @@ export default async function Now() {
         </div>
       </div>
 
-      <h1 className="page-title">Now</h1>
+      <h1 className="page-title">Current state</h1>
       <p className="page-lede">
         The state of the system — live where the record is live, dated
         everywhere else. For why these numbers are what they are, read{" "}

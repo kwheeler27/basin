@@ -40,12 +40,12 @@ chapters and instruments, not dropped.
 
 ## The user journey — and why the nav mirrors it
 
-1. **What's happening, and what has been happening?** → Monitor (**Now**)
+1. **What's happening, and what has been happening?** → Monitor (**Current state**)
 2. **Why? What's driving the trends and their changes over time?** → **Report**
 3. **Let me go explore the data myself.** → **Explore**
 
 ```
-BASIN ▸ Colorado          Now · Report · Explore · Data
+BASIN ▸ Colorado          Current state · Report · Explore · Data
 ```
 
 The nav order *is* the journey. **Data** sits last as the audit surface —
@@ -91,13 +91,13 @@ backbone work — see Sequencing.
 Stages the journey in order. The thesis headline ("The Colorado River is
 committed to delivering more water than it produces"), a **compact live
 state strip** (combined storage, Powell/Mead, rulebook in force — a
-condensation of Now), then the two doorways: *read the report* (chapter
+condensation of Current state), then the two doorways: *read the report* (chapter
 list visible, not hidden behind a click) and *explore the data* (instrument
 index visible). Because mode labels are more abstract than topic labels,
 the front door works harder: a reader looking for a topic ("water rights")
 must find it from here in one glance.
 
-### `/now` — the monitor
+### `/current-state` — the monitor
 
 The v1 "Today" spec, finally a real place. Dense and small: rulebook banner,
 combined storage vs. capacity with percentile-of-record, Powell and Mead
@@ -154,7 +154,7 @@ cannot drift from the pipeline.
 
 | Current route | Destination(s) |
 |---|---|
-| `/` (Overview) | Split → front door `/` + chapter 1 + Explore basin map + Now strip |
+| `/` (Overview) | Split → front door `/` + chapter 1 + Explore basin map + state strip |
 | `/supply` | `/report/supply` |
 | `/demand` | `/report/demand` |
 | `/reservoirs` | `/report/reservoirs`; scenario widget → `/explore/scenarios` |
@@ -191,5 +191,5 @@ anchors. **Provenance hover** — on every number, everywhere. **Glossary** —
 registry-sourced, one click from any term. **Deep links** — every scenario,
 chart state, and time range URL-addressable. **Freshness strip** — per-source
 status; stale sources surface rather than silently serving old numbers
-(lives on Now and Data). **Rulebook banner** — persistent while the
+(lives on Current state and Data). **Rulebook banner** — persistent while the
 operating framework is unsettled.

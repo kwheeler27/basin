@@ -19,8 +19,8 @@ export const dynamic = "force-static";
 
 const JOURNEY = [
   {
-    href: "/now" as Route,
-    label: "Now",
+    href: "/current-state" as Route,
+    label: "Current state",
     q: "What's happening?",
     body: "The live state of the system — reservoir storage, the operating tier in force, and how fresh every source is.",
   },
@@ -94,7 +94,7 @@ export default async function Landing() {
           <Link className="cta primary" href={"/report/the-system" as Route}>
             Start the report →
           </Link>
-          <Link className="cta" href={"/now" as Route}>
+          <Link className="cta" href={"/current-state" as Route}>
             See the state of the system
           </Link>
         </div>
@@ -108,7 +108,7 @@ export default async function Landing() {
         <Link href={"/explore/map" as Route}>full basin map</Link>.
       </p>
 
-      <Link href={"/now" as Route} className="state-strip">
+      <Link href={"/current-state" as Route} className="state-strip">
         <div className="stat-row">
           <div className="stat">
             <div className="stat-num">
@@ -133,7 +133,7 @@ export default async function Landing() {
           <div className="stat">
             <div className="stat-num">→</div>
             <div className="stat-label">
-              tier status, thresholds &amp; source freshness on Now
+              tier status, thresholds &amp; source freshness — the current state
             </div>
           </div>
         </div>

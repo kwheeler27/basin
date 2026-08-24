@@ -50,7 +50,7 @@ export default async function Reservoirs() {
         commitments and supply for two decades. This is what&rsquo;s left —
         and what the operating rules do as it falls. Today&rsquo;s elevations,
         tier status, and thresholds live on{" "}
-        <Link href={"/now" as Route}>Now</Link>.
+        <Link href={"/current-state" as Route}>Current state</Link>.
       </p>
 
       <section className="hero">
