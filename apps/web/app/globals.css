@@ -1809,3 +1809,11 @@ html { scroll-behavior: smooth; }
 .pt-cum { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 4 3; }
 .pt-cumdot { fill: var(--muted); }
 .pt-cumlabel { font-size: 10px; fill: var(--muted); text-anchor: middle; }
+
+/* elevation series (reservoir cards) */
+.elevseries { margin: 14px 0 4px; }
+.elevseries svg { width: 100%; height: auto; display: block; }
+.es-ref { stroke: var(--warn); stroke-width: 1; stroke-dasharray: 4 3; }
+.es-ref.power, .es-ref.dead { stroke: var(--danger); }
+.es-reflabel { font-size: 9px; fill: var(--warn); }
+.es-reflabel.power, .es-reflabel.dead { fill: var(--danger); }
