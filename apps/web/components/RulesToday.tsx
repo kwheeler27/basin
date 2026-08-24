@@ -1,5 +1,6 @@
 import { RULEBOOK, determineMead, determinePowell } from "@basin/contracts";
-import { acreFeet, feet } from "@/lib/format";
+import { acreFeet, feet, formatDate } from "@/lib/format";
+import { OFFICIAL_24MS } from "@/lib/projections";
 
 /**
  * What the operating rules say at today's observed elevations.
@@ -112,6 +113,23 @@ export function RulesToday({
             at {feet(meadElevation)}
           </div>
         </div>
+      </div>
+
+      <div className="note" style={{ marginTop: 14 }}>
+        <p>
+          <strong>The official projection.</strong> Reclamation&rsquo;s{" "}
+          <a href={OFFICIAL_24MS.url}>{OFFICIAL_24MS.edition}</a> (revised{" "}
+          {formatDate(OFFICIAL_24MS.revised)}) projects January 1, 2027
+          elevations of <strong>{feet(OFFICIAL_24MS.powellJan1Ft)}</strong> at
+          Powell and <strong>{feet(OFFICIAL_24MS.meadJan1Ft)}</strong> at Mead
+          — at those elevations this rulebook reads{" "}
+          <em>{determinePowell(OFFICIAL_24MS.powellJan1Ft, OFFICIAL_24MS.meadJan1Ft).tier}</em>{" "}
+          and <em>{determineMead(OFFICIAL_24MS.meadJan1Ft).tierLabel}</em>.
+          The August edition is the one that legally sets the CY2027 tiers; it
+          has not been published at the URL of record yet, and this site
+          watches for it weekly.
+        </p>
+        <p>{OFFICIAL_24MS.notes}</p>
       </div>
 
       <div className="prov">
