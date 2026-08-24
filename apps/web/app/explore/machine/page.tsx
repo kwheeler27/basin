@@ -13,8 +13,8 @@ export default function MachinePage() {
         is lower than most of the people who drink it, so its water is lifted
         — thousands of vertical feet, at industrial scale, forever. One
         system at a time: zoom the map, tap a plant for its card, and read
-        the land-versus-machine profile underneath. The story of why these
-        machines exist is the{" "}
+        the elevation profile underneath — the terrain, and the water&rsquo;s
+        path through it. The story of why these machines exist is the{" "}
         <Link href={"/report/infrastructure" as Route}>
           Infrastructure chapter
         </Link>

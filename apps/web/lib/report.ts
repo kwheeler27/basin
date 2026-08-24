@@ -78,7 +78,7 @@ export const INSTRUMENTS: readonly Instrument[] = [
     slug: "machine",
     title: "Machine explorer",
     blurb:
-      "The aqueduct systems one at a time — every pumping plant on real terrain, with the lift each one buys.",
+      "The aqueduct systems one at a time — every pumping plant on real terrain, and how far each one lifts the water.",
   },
   {
     slug: "scenarios",

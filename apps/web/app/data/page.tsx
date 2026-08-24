@@ -14,8 +14,8 @@ export default function Data() {
       <h1 className="page-title">Data</h1>
       <p className="page-lede">
         Every measure this system ingests, with its unit, accounting concept,
-        epistemic class, cadence, and source. This page is generated from the
-        registry — it cannot fall out of sync with the pipeline.
+        measurement class, cadence, and source. This page is generated from
+        the registry — it cannot fall out of sync with the pipeline.
       </p>
 
       <h2 className="section-title">
