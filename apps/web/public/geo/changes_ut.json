@@ -1,8 +1,8 @@
 {
  "source": "Utah Division of Water Rights — Change Application Tracker (live public tracker, rolling ~6-month action window).",
  "url": "https://waterrights.utah.gov/applicationsrecords/chAppTracker.asp",
- "fetched": "2026-08-17",
- "count": 643,
+ "fetched": "2026-08-24",
+ "count": 647,
  "applications": [
   {
    "change": "a54144",
@@ -49,7 +49,7 @@
    "protestEnd": "2026-07-14",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -57,8 +57,8 @@
    "waterRight": " 25&#8209;6736 ",
    "applicant": "600 West Flex, LLC",
    "filed": "2026-08-10",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -74,6 +74,18 @@
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 10,
+   "comments": null
+  },
+  {
+   "change": "a55001",
+   "waterRight": " 77&#8209;2117 ",
+   "applicant": "Aberdaire LLC",
+   "filed": "2026-08-19",
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 5,
    "comments": null
   },
   {
@@ -97,7 +109,7 @@
    "protestEnd": "2024-04-23",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -181,7 +193,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -253,7 +265,7 @@
    "protestEnd": "2026-08-11",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -277,7 +289,7 @@
    "protestEnd": "2026-07-29",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -289,7 +301,7 @@
    "protestEnd": "2026-07-16",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -301,7 +313,7 @@
    "protestEnd": "2026-07-16",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -337,7 +349,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 85,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -349,7 +361,7 @@
    "protestEnd": "2026-07-29",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -357,8 +369,8 @@
    "waterRight": " 25&#8209;11496 ",
    "applicant": "Archibald, Jerry Kade",
    "filed": "2026-08-10",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -393,8 +405,8 @@
    "waterRight": " 45&#8209;167 ",
    "applicant": "Ashley Central Irrigation Company",
    "filed": "2026-08-06",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-09-02",
+   "protestEnd": "2026-09-29",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -493,7 +505,7 @@
    "protestEnd": "2026-07-29",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -625,7 +637,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -637,7 +649,7 @@
    "protestEnd": "2026-07-14",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -661,7 +673,7 @@
    "protestEnd": "2026-08-18",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 10,
+   "pctComplete": 50,
    "comments": null
   },
   {
@@ -693,8 +705,8 @@
    "waterRight": " 63&#8209;4445 ",
    "applicant": "Bastian AG, LLC",
    "filed": "2026-08-10",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-09-02",
+   "protestEnd": "2026-09-29",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -717,11 +729,23 @@
    "waterRight": " 35&#8209;14835 ",
    "applicant": "Beaver and Shingle Creek Irrigation Company",
    "filed": "2026-07-20",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-28",
+   "protestEnd": "2026-09-24",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 0,
+   "pctComplete": 5,
+   "comments": null
+  },
+  {
+   "change": "a55002",
+   "waterRight": " 75&#8209;2285 ",
+   "applicant": "Beaver I-15 Texaco L.L.C.",
+   "filed": "2026-08-19",
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 5,
    "comments": null
   },
   {
@@ -759,18 +783,6 @@
    "hearing": "Not Protested",
    "pctComplete": 5,
    "comments": "Change application filed on unapproved application to appropriate"
-  },
-  {
-   "change": "a54751",
-   "waterRight": " 77&#8209;1738 ",
-   "applicant": "Beecroft Revocable Living Trust, Todd and LeAnne",
-   "filed": "2026-06-17",
-   "advertised": "2026-07-01",
-   "protestEnd": "2026-07-28",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 90,
-   "comments": null
   },
   {
    "change": "a54561",
@@ -841,7 +853,7 @@
    "protestEnd": "2026-09-09",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 5,
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -863,8 +875,8 @@
    "filed": "2026-07-27",
    "advertised": "2026-08-13",
    "protestEnd": "2026-09-09",
-   "protested": false,
-   "hearing": "Not Protested",
+   "protested": true,
+   "hearing": "Protest Letter Received",
    "pctComplete": 5,
    "comments": null
   },
@@ -877,7 +889,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 85,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -913,7 +925,7 @@
    "protestEnd": "2026-07-29",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -925,7 +937,7 @@
    "protestEnd": "2024-05-08",
    "protested": true,
    "hearing": "Hearing Held",
-   "pctComplete": 70,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -949,7 +961,7 @@
    "protestEnd": "2026-07-14",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 85,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -985,7 +997,7 @@
    "protestEnd": "2026-07-16",
    "protested": true,
    "hearing": "Hearing Not Held",
-   "pctComplete": 50,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -1033,7 +1045,7 @@
    "protestEnd": "2026-07-28",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -1041,8 +1053,8 @@
    "waterRight": " 66&#8209;109 ",
    "applicant": "Bown Land & Livestock LP",
    "filed": "2026-08-06",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -1055,6 +1067,18 @@
    "filed": "2026-07-29",
    "advertised": "2026-08-12",
    "protestEnd": "2026-09-08",
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 5,
+   "comments": null
+  },
+  {
+   "change": "a54999",
+   "waterRight": " 65&#8209;53 ",
+   "applicant": "BRB Livestock Company",
+   "filed": "2026-08-19",
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -1101,8 +1125,8 @@
    "waterRight": " 97&#8209;1525 ",
    "applicant": "Brooks, Arlis Kay and Jodi Kay",
    "filed": "2026-08-11",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -1117,7 +1141,7 @@
    "protestEnd": "2026-07-01",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -1149,8 +1173,8 @@
    "waterRight": " 81&#8209;5975 ",
    "applicant": "Bruce Bulloch Ranch, LLC",
    "filed": "2026-08-10",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -1177,7 +1201,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 85,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -1201,7 +1225,7 @@
    "protestEnd": "2026-08-25",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 5,
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -1237,7 +1261,7 @@
    "protestEnd": "2026-09-09",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 5,
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -1301,18 +1325,6 @@
    "comments": null
   },
   {
-   "change": "a54616",
-   "waterRight": " 73&#8209;4865 ",
-   "applicant": "Cardona, Gustavo A. Cardona and Elsy C.",
-   "filed": "2026-05-13",
-   "advertised": "2026-06-04",
-   "protestEnd": "2026-07-01",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
-   "comments": null
-  },
-  {
    "change": "a53902",
    "waterRight": " 19&#8209;482 ",
    "applicant": "Carter, Garth",
@@ -1337,6 +1349,18 @@
    "comments": null
   },
   {
+   "change": "a54996",
+   "waterRight": " 71&#8209;4616 ",
+   "applicant": "Carter Revocable Trust",
+   "filed": "2026-08-19",
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 5,
+   "comments": null
+  },
+  {
    "change": "a54566",
    "waterRight": " 71&#8209;6092 ",
    "applicant": "Carter Trust dated July 28, 2016, Steve R. Carter, successor Trustee of the",
@@ -1353,8 +1377,8 @@
    "waterRight": " 73&#8209;4886 ",
    "applicant": "Cascade Development Holdings, LC",
    "filed": "2026-08-11",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -1441,7 +1465,7 @@
    "protestEnd": "2026-07-29",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -1453,7 +1477,7 @@
    "protestEnd": "2024-04-23",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -1501,7 +1525,7 @@
    "protestEnd": "2026-07-15",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -1549,7 +1573,7 @@
    "protestEnd": "2026-09-09",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 5,
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -1609,7 +1633,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -1745,18 +1769,6 @@
    "comments": "Application being held until hearing can be conducted"
   },
   {
-   "change": "a54544",
-   "waterRight": " 81&#8209;5827 ",
-   "applicant": "Cottam, Thomas P. Cottam and Raida Elna",
-   "filed": "2026-04-30",
-   "advertised": "2026-05-21",
-   "protestEnd": "2026-06-17",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
-   "comments": null
-  },
-  {
    "change": "a52776",
    "waterRight": " 25&#8209;12027 ",
    "applicant": "Cox, Duane Morley Cox and Jeanne",
@@ -1825,19 +1837,7 @@
    "protestEnd": "2026-05-06",
    "protested": true,
    "hearing": "Hearing Not Held",
-   "pctComplete": 85,
-   "comments": null
-  },
-  {
-   "change": "a54639",
-   "waterRight": " 75&#8209;2282 ",
-   "applicant": "Craig, Thomas Craig Jr. and Erin",
-   "filed": "2026-05-18",
-   "advertised": "2026-06-04",
-   "protestEnd": "2026-07-01",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -1901,15 +1901,15 @@
    "comments": null
   },
   {
-   "change": "a54555",
-   "waterRight": " 73&#8209;4725 ",
-   "applicant": "D&L Harris, LLC",
-   "filed": "2026-05-01",
-   "advertised": "2026-05-21",
-   "protestEnd": "2026-06-17",
+   "change": "a55003",
+   "waterRight": " 65&#8209;1068 ",
+   "applicant": "Daley, Rex H. and Sharon",
+   "filed": "2026-08-20",
+   "advertised": null,
+   "protestEnd": null,
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 95,
+   "pctComplete": 5,
    "comments": null
   },
   {
@@ -1933,7 +1933,7 @@
    "protestEnd": "2026-09-09",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 5,
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -1957,7 +1957,7 @@
    "protestEnd": "2026-07-01",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -1969,7 +1969,7 @@
    "protestEnd": "2026-07-14",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -2041,7 +2041,7 @@
    "protestEnd": "2026-07-30",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -2065,7 +2065,7 @@
    "protestEnd": "2026-07-28",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -2101,7 +2101,7 @@
    "protestEnd": "2026-07-15",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -2137,7 +2137,7 @@
    "protestEnd": "2026-07-29",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -2209,7 +2209,7 @@
    "protestEnd": "2026-07-01",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -2233,7 +2233,7 @@
    "protestEnd": "2026-07-14",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -2341,7 +2341,7 @@
    "protestEnd": "2026-06-02",
    "protested": true,
    "hearing": "Hearing Not Held",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -2561,24 +2561,24 @@
    "comments": null
   },
   {
-   "change": "a54705",
-   "waterRight": " 68&#8209;160 ",
-   "applicant": "Falcon Isle Resources Corp",
-   "filed": "2026-06-01",
-   "advertised": "2026-06-17",
-   "protestEnd": "2026-07-14",
-   "protested": true,
-   "hearing": "Protest Letter Received",
-   "pctComplete": 10,
-   "comments": null
-  },
-  {
    "change": "a54509",
    "waterRight": " 68&#8209;160 ",
    "applicant": "Falcon Isle Resources Corp",
    "filed": "2026-04-20",
    "advertised": "2026-05-06",
    "protestEnd": "2026-06-02",
+   "protested": true,
+   "hearing": "Protest Letter Received",
+   "pctComplete": 10,
+   "comments": null
+  },
+  {
+   "change": "a54705",
+   "waterRight": " 68&#8209;160 ",
+   "applicant": "Falcon Isle Resources Corp",
+   "filed": "2026-06-01",
+   "advertised": "2026-06-17",
+   "protestEnd": "2026-07-14",
    "protested": true,
    "hearing": "Protest Letter Received",
    "pctComplete": 10,
@@ -2725,7 +2725,7 @@
    "protestEnd": "2026-09-09",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 5,
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -2841,8 +2841,8 @@
    "waterRight": " 51&#8209;8957 ",
    "applicant": "Forgard, Benjamin Forgard and Deanna",
    "filed": "2026-08-06",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -2857,7 +2857,7 @@
    "protestEnd": "2026-09-09",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 5,
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -2894,18 +2894,6 @@
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 80,
-   "comments": null
-  },
-  {
-   "change": "a54589",
-   "waterRight": " 55&#8209;13742 ",
-   "applicant": "Frandsen, Ted",
-   "filed": "2026-05-06",
-   "advertised": "2026-05-21",
-   "protestEnd": "2026-06-17",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
    "comments": null
   },
   {
@@ -3001,7 +2989,7 @@
    "protestEnd": "2026-07-30",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -3017,6 +3005,18 @@
    "comments": null
   },
   {
+   "change": "a55006",
+   "waterRight": " 61&#8209;3648 ",
+   "applicant": "Gayler, Michael Scott Jr. and Jenna Ray",
+   "filed": "2026-08-20",
+   "advertised": null,
+   "protestEnd": null,
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 5,
+   "comments": null
+  },
+  {
    "change": "a54817",
    "waterRight": " 73&#8209;4881 ",
    "applicant": "Gentry, Cameron Berry",
@@ -3025,7 +3025,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -3049,7 +3049,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 85,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -3062,6 +3062,18 @@
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 80,
+   "comments": null
+  },
+  {
+   "change": "a54983",
+   "waterRight": " 71&#8209;5412 ",
+   "applicant": "Golden West Ventures LLC",
+   "filed": "2026-08-17",
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 5,
    "comments": null
   },
   {
@@ -3085,7 +3097,7 @@
    "protestEnd": "2026-07-29",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -3145,7 +3157,7 @@
    "protestEnd": "2026-07-15",
    "protested": true,
    "hearing": "Hearing Not Held",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -3189,8 +3201,8 @@
    "waterRight": " 55&#8209;9223 ",
    "applicant": "Hamilton, Rebecca Taylor Sharp",
    "filed": "2026-08-11",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-28",
+   "protestEnd": "2026-09-24",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -3227,8 +3239,8 @@
    "filed": "2026-07-08",
    "advertised": "2026-07-29",
    "protestEnd": "2026-08-25",
-   "protested": false,
-   "hearing": "Not Protested",
+   "protested": true,
+   "hearing": "Protest Letter Received",
    "pctComplete": 5,
    "comments": null
   },
@@ -3253,7 +3265,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -3265,7 +3277,7 @@
    "protestEnd": "2026-07-15",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -3341,18 +3353,6 @@
    "comments": null
   },
   {
-   "change": "a54538",
-   "waterRight": " 35&#8209;14792 ",
-   "applicant": "Henefer Irrigation Company",
-   "filed": "2026-04-29",
-   "advertised": "2026-05-21",
-   "protestEnd": "2026-06-17",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
-   "comments": null
-  },
-  {
    "change": "a38790",
    "waterRight": " 59&#8209;141 ",
    "applicant": "Herriman City",
@@ -3385,7 +3385,7 @@
    "protestEnd": "2026-07-29",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -3449,6 +3449,30 @@
    "comments": "10/30/23: Applicant requested to cancel hearing. Hold until new hearing is scheduled in coordination with applicant."
   },
   {
+   "change": "a55008",
+   "waterRight": " 35&#8209;12503 ",
+   "applicant": "Hollberg Associates Ltd",
+   "filed": "2026-08-20",
+   "advertised": null,
+   "protestEnd": null,
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 0,
+   "comments": null
+  },
+  {
+   "change": "a55007",
+   "waterRight": " 35&#8209;14841 ",
+   "applicant": "Hollberg Associates Ltd",
+   "filed": "2026-08-20",
+   "advertised": null,
+   "protestEnd": null,
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 0,
+   "comments": null
+  },
+  {
    "change": "a54934",
    "waterRight": " 71&#8209;4744 ",
    "applicant": "Holm, Patrick Joseph",
@@ -3457,7 +3481,7 @@
    "protestEnd": "2026-09-09",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 5,
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -3469,7 +3493,7 @@
    "protestEnd": "2026-07-15",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -3481,7 +3505,7 @@
    "protestEnd": "2026-08-18",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 10,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -3561,8 +3585,8 @@
    "waterRight": " 67&#8209;1693 ",
    "applicant": "Humes, Todd",
    "filed": "2026-08-07",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -3589,7 +3613,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -3601,7 +3625,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -3621,8 +3645,8 @@
    "waterRight": " 51&#8209;8921 ",
    "applicant": "Indianola Irrigation Company",
    "filed": "2026-08-05",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -3677,18 +3701,6 @@
    "comments": null
   },
   {
-   "change": "a54588",
-   "waterRight": " 35&#8209;2136 ",
-   "applicant": "Ivory Land Corporation",
-   "filed": "2026-05-06",
-   "advertised": "2026-05-21",
-   "protestEnd": "2026-06-17",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
-   "comments": null
-  },
-  {
    "change": "a54650",
    "waterRight": " 53&#8209;1840 ",
    "applicant": "J L.C. a Utah limited liability company",
@@ -3709,7 +3721,7 @@
    "protestEnd": "2026-07-21",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -3721,7 +3733,7 @@
    "protestEnd": "2026-07-21",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -3747,6 +3759,18 @@
    "hearing": "Protest Letter Received",
    "pctComplete": 10,
    "comments": "Protests received and answer to protests due 11/25/2015. No answer received nor hearing scheduled."
+  },
+  {
+   "change": "a54987",
+   "waterRight": " 81&#8209;2523 ",
+   "applicant": "Jaeger, Sandra M.",
+   "filed": "2026-08-17",
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 5,
+   "comments": null
   },
   {
    "change": "a54825",
@@ -3781,7 +3805,7 @@
    "protestEnd": "2026-07-14",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 85,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -3861,8 +3885,8 @@
    "waterRight": " 71&#8209;6106 ",
    "applicant": "Johnson, David Johnson and Kimberly",
    "filed": "2026-08-06",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -3881,15 +3905,15 @@
    "comments": null
   },
   {
-   "change": "a54554",
-   "waterRight": " 23&#8209;3413 ",
-   "applicant": "Johnson Farm and Ranch, LLC",
-   "filed": "2026-04-30",
-   "advertised": "2026-05-21",
-   "protestEnd": "2026-06-17",
+   "change": "a55011",
+   "waterRight": " 65&#8209;4751 ",
+   "applicant": "Jolley, Scott Wesley and Linda Sharon",
+   "filed": "2026-08-20",
+   "advertised": null,
+   "protestEnd": null,
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 95,
+   "pctComplete": 0,
    "comments": null
   },
   {
@@ -3985,7 +4009,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -4013,26 +4037,14 @@
    "comments": null
   },
   {
-   "change": "a54626",
-   "waterRight": " 73&#8209;283 ",
-   "applicant": "K & D Family, LLC",
-   "filed": "2026-05-14",
-   "advertised": "2026-06-04",
-   "protestEnd": "2026-07-01",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
-   "comments": null
-  },
-  {
    "change": "a54839",
    "waterRight": " 53&#8209;1894 ",
    "applicant": "Kay, Richard Kay and Lucinda",
    "filed": "2026-07-08",
    "advertised": "2026-07-29",
    "protestEnd": "2026-08-25",
-   "protested": false,
-   "hearing": "Not Protested",
+   "protested": true,
+   "hearing": "Protest Letter Received",
    "pctComplete": 5,
    "comments": null
   },
@@ -4041,10 +4053,10 @@
    "waterRight": " 53&#8209;1914 ",
    "applicant": "Kay, Richard",
    "filed": "2026-08-04",
-   "advertised": null,
-   "protestEnd": null,
-   "protested": false,
-   "hearing": "Not Protested",
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
+   "protested": true,
+   "hearing": "Protest Letter Received",
    "pctComplete": 5,
    "comments": null
   },
@@ -4067,9 +4079,9 @@
    "filed": "2026-07-30",
    "advertised": "2026-08-13",
    "protestEnd": "2026-09-09",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 5,
+   "protested": true,
+   "hearing": "Protest Letter Received",
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -4079,9 +4091,9 @@
    "filed": "2026-07-30",
    "advertised": "2026-08-13",
    "protestEnd": "2026-09-09",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 5,
+   "protested": true,
+   "hearing": "Protest Letter Received",
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -4091,9 +4103,9 @@
    "filed": "2026-07-30",
    "advertised": "2026-08-13",
    "protestEnd": "2026-09-09",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 5,
+   "protested": true,
+   "hearing": "Protest Letter Received",
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -4103,9 +4115,9 @@
    "filed": "2026-07-30",
    "advertised": "2026-08-13",
    "protestEnd": "2026-09-09",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 5,
+   "protested": true,
+   "hearing": "Protest Letter Received",
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -4115,9 +4127,9 @@
    "filed": "2026-07-30",
    "advertised": "2026-08-13",
    "protestEnd": "2026-09-09",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 5,
+   "protested": true,
+   "hearing": "Protest Letter Received",
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -4127,9 +4139,9 @@
    "filed": "2026-07-30",
    "advertised": "2026-08-13",
    "protestEnd": "2026-09-09",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 5,
+   "protested": true,
+   "hearing": "Protest Letter Received",
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -4139,9 +4151,9 @@
    "filed": "2026-07-30",
    "advertised": "2026-08-13",
    "protestEnd": "2026-09-09",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 5,
+   "protested": true,
+   "hearing": "Protest Letter Received",
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -4151,9 +4163,9 @@
    "filed": "2026-07-30",
    "advertised": "2026-08-13",
    "protestEnd": "2026-09-09",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 5,
+   "protested": true,
+   "hearing": "Protest Letter Received",
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -4163,9 +4175,9 @@
    "filed": "2026-07-30",
    "advertised": "2026-08-13",
    "protestEnd": "2026-09-09",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 5,
+   "protested": true,
+   "hearing": "Protest Letter Received",
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -4175,9 +4187,9 @@
    "filed": "2026-07-30",
    "advertised": "2026-08-13",
    "protestEnd": "2026-09-09",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 5,
+   "protested": true,
+   "hearing": "Protest Letter Received",
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -4187,9 +4199,9 @@
    "filed": "2026-07-30",
    "advertised": "2026-08-13",
    "protestEnd": "2026-09-09",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 5,
+   "protested": true,
+   "hearing": "Protest Letter Received",
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -4199,9 +4211,9 @@
    "filed": "2026-07-30",
    "advertised": "2026-08-13",
    "protestEnd": "2026-09-09",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 5,
+   "protested": true,
+   "hearing": "Protest Letter Received",
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -4249,7 +4261,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -4261,7 +4273,7 @@
    "protestEnd": "2026-09-09",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 5,
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -4285,7 +4297,7 @@
    "protestEnd": "2026-07-28",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -4313,18 +4325,6 @@
    "comments": "President of Springville Irrigation Company requested that all applications be held until objections are resolved."
   },
   {
-   "change": "a54648",
-   "waterRight": " 97&#8209;1465 ",
-   "applicant": "Larson, Lloyd A.",
-   "filed": "2026-05-19",
-   "advertised": "2026-06-04",
-   "protestEnd": "2026-07-01",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
-   "comments": null
-  },
-  {
    "change": "a48865",
    "waterRight": " 43&#8209;12940 ",
    "applicant": "Last Resort Holdings LLC",
@@ -4341,8 +4341,8 @@
    "waterRight": " 67&#8209;1953 ",
    "applicant": "Laurent, Steven St. Laurent and Sonia St. Laurent and Micaela S.",
    "filed": "2026-07-23",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -4397,18 +4397,6 @@
    "comments": null
   },
   {
-   "change": "a54664",
-   "waterRight": " 15&#8209;3914 ",
-   "applicant": "Lee, David C.",
-   "filed": "2026-05-22",
-   "advertised": "2026-06-03",
-   "protestEnd": "2026-06-30",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
-   "comments": null
-  },
-  {
    "change": "a54037",
    "waterRight": " 65&#8209;4676 ",
    "applicant": "Legacy Sweetwater Inc",
@@ -4441,7 +4429,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -4501,7 +4489,7 @@
    "protestEnd": "2026-08-11",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -4525,7 +4513,7 @@
    "protestEnd": "2026-09-09",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 5,
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -4533,8 +4521,8 @@
    "waterRight": " 25&#8209;7350 ",
    "applicant": "LLC, T&K Nielson Investments",
    "filed": "2026-08-11",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -4613,6 +4601,18 @@
    "comments": null
   },
   {
+   "change": "a54994",
+   "waterRight": " 66&#8209;1076 ",
+   "applicant": "Mad Acres, LLC",
+   "filed": "2026-08-17",
+   "advertised": null,
+   "protestEnd": null,
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 0,
+   "comments": null
+  },
+  {
    "change": "a54871",
    "waterRight": " 81&#8209;5890 ",
    "applicant": "Madruga Family Trust",
@@ -4677,8 +4677,20 @@
    "waterRight": " 68&#8209;3398 ",
    "applicant": "Marion L Anderson Irrevocable Trust",
    "filed": "2026-08-07",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 5,
+   "comments": null
+  },
+  {
+   "change": "a54997",
+   "waterRight": " 68&#8209;3399 ",
+   "applicant": "Marion L Anderson Irrevocable Trust",
+   "filed": "2026-08-17",
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -4691,8 +4703,8 @@
    "filed": "2026-07-29",
    "advertised": "2026-08-13",
    "protestEnd": "2026-09-09",
-   "protested": false,
-   "hearing": "Not Protested",
+   "protested": true,
+   "hearing": "Protest Letter Received",
    "pctComplete": 5,
    "comments": null
   },
@@ -4749,11 +4761,11 @@
    "waterRight": " 51&#8209;8916 ",
    "applicant": "Merrithew, Kevin and Ashley",
    "filed": "2026-08-14",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 0,
+   "pctComplete": 5,
    "comments": null
   },
   {
@@ -4801,7 +4813,7 @@
    "protestEnd": "2026-09-09",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 5,
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -4957,7 +4969,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -4969,7 +4981,7 @@
    "protestEnd": "2026-09-09",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 5,
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -5045,24 +5057,12 @@
    "comments": "President of Springville Irrigation Company requested that all applications be held until objections are resolved."
   },
   {
-   "change": "a54665",
-   "waterRight": " 73&#8209;4868 ",
-   "applicant": "Murray, James R.",
-   "filed": "2026-05-22",
-   "advertised": "2026-06-04",
-   "protestEnd": "2026-07-01",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
-   "comments": null
-  },
-  {
    "change": "a54972",
    "waterRight": " 68&#8209;3397 ",
    "applicant": "Myers, Kirtt M and Lisa",
    "filed": "2026-08-11",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -5101,7 +5101,7 @@
    "protestEnd": "2025-12-30",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -5183,8 +5183,8 @@
    "filed": "2026-07-08",
    "advertised": "2026-07-29",
    "protestEnd": "2026-08-25",
-   "protested": false,
-   "hearing": "Not Protested",
+   "protested": true,
+   "hearing": "Protest Letter Received",
    "pctComplete": 5,
    "comments": null
   },
@@ -5213,18 +5213,6 @@
    "comments": null
   },
   {
-   "change": "a54371",
-   "waterRight": " 54&#8209;1479 ",
-   "applicant": "Oldroyd, Jared Oldroyd and Becki",
-   "filed": "2026-03-24",
-   "advertised": "2026-04-30",
-   "protestEnd": "2026-05-27",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
-   "comments": null
-  },
-  {
    "change": "a36232",
    "waterRight": " 65&#8209;3794 ",
    "applicant": "Olsen, Jay Ivan",
@@ -5243,18 +5231,6 @@
    "filed": "2026-05-11",
    "advertised": "2026-05-21",
    "protestEnd": "2026-06-17",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
-   "comments": null
-  },
-  {
-   "change": "a54652",
-   "waterRight": " 31&#8209;5329 ",
-   "applicant": "P.P.M.C. Inc.",
-   "filed": "2026-05-19",
-   "advertised": "2026-06-08",
-   "protestEnd": "2026-07-05",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 95,
@@ -5285,18 +5261,6 @@
    "comments": null
   },
   {
-   "change": "a54543",
-   "waterRight": " 75&#8209;2281 ",
-   "applicant": "Parker, Dennis Blaine Parker and Richelle Nicole",
-   "filed": "2026-04-30",
-   "advertised": "2026-05-21",
-   "protestEnd": "2026-06-17",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
-   "comments": null
-  },
-  {
    "change": "a54638",
    "waterRight": " 75&#8209;201 ",
    "applicant": "Parker Ranchlands, LLC",
@@ -5318,6 +5282,18 @@
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 10,
+   "comments": null
+  },
+  {
+   "change": "a54989",
+   "waterRight": " 66&#8209;250 ",
+   "applicant": "Paul McPherson Investments, LLC",
+   "filed": "2026-08-17",
+   "advertised": null,
+   "protestEnd": null,
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 0,
    "comments": null
   },
   {
@@ -5377,7 +5353,7 @@
    "protestEnd": "2026-07-01",
    "protested": true,
    "hearing": "Hearing Held",
-   "pctComplete": 70,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -5385,6 +5361,18 @@
    "waterRight": " 43&#8209;1225 ",
    "applicant": "Peterson Trust, Louise L.",
    "filed": "2022-07-14",
+   "advertised": null,
+   "protestEnd": null,
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 0,
+   "comments": null
+  },
+  {
+   "change": "a55013",
+   "waterRight": " 73&#8209;4838 ",
+   "applicant": "Pettey, Jill H.",
+   "filed": "2026-08-21",
    "advertised": null,
    "protestEnd": null,
    "protested": false,
@@ -5401,7 +5389,7 @@
    "protestEnd": "2026-08-11",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -5433,8 +5421,8 @@
    "waterRight": " 81&#8209;5901 ",
    "applicant": "Pintura Properties, LLC",
    "filed": "2026-08-10",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -5513,18 +5501,6 @@
    "comments": "On 10/3/2018, the applicant requested hearings be postponed until all applications of similar nature may be considered simultaneously."
   },
   {
-   "change": "a54755",
-   "waterRight": " 81&#8209;1048 ",
-   "applicant": "Property Reserve, Inc.",
-   "filed": "2026-06-18",
-   "advertised": "2026-07-02",
-   "protestEnd": "2026-07-29",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 90,
-   "comments": null
-  },
-  {
    "change": "a47759",
    "waterRight": " 55&#8209;11087 ",
    "applicant": "Provo City",
@@ -5569,7 +5545,7 @@
    "protestEnd": "2025-08-13",
    "protested": true,
    "hearing": "Hearing Held",
-   "pctComplete": 70,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -5609,15 +5585,15 @@
    "comments": "Timely Quantity Impairment concerns were brought up on this right. State Engineer waiting for additional information from applicant."
   },
   {
-   "change": "a54619",
-   "waterRight": " 55&#8209;12252 ",
-   "applicant": "RE Investment Holdings LLC",
-   "filed": "2026-05-11",
-   "advertised": "2026-06-05",
-   "protestEnd": "2026-07-02",
+   "change": "a55010",
+   "waterRight": " 90&#8209;344 ",
+   "applicant": "Range Creek Properties LLC",
+   "filed": "2026-08-19",
+   "advertised": null,
+   "protestEnd": null,
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 95,
+   "pctComplete": 0,
    "comments": null
   },
   {
@@ -5637,8 +5613,8 @@
    "waterRight": " 55&#8209;13867 ",
    "applicant": "Rhodes Valley, LLC",
    "filed": "2026-08-04",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-28",
+   "protestEnd": "2026-09-24",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -5649,8 +5625,20 @@
    "waterRight": " 66&#8209;1077 ",
    "applicant": "Rhomac LLC, an Arizona Limited Liability Company",
    "filed": "2026-08-12",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 5,
+   "comments": null
+  },
+  {
+   "change": "a54986",
+   "waterRight": " 77&#8209;2115 ",
+   "applicant": "Ricketts Family Trust, Clifton and Linda",
+   "filed": "2026-08-17",
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -5677,7 +5665,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -5761,7 +5749,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 85,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -5797,7 +5785,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 85,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -5869,7 +5857,19 @@
    "protestEnd": "2026-07-15",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 85,
+   "pctComplete": 90,
+   "comments": null
+  },
+  {
+   "change": "a55000",
+   "waterRight": " 51&#8209;9257 ",
+   "applicant": "Sedgwick, Jerem",
+   "filed": "2026-08-19",
+   "advertised": null,
+   "protestEnd": null,
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 0,
    "comments": null
   },
   {
@@ -5921,24 +5921,12 @@
    "comments": null
   },
   {
-   "change": "a54628",
-   "waterRight": " 09&#8209;1786 ",
-   "applicant": "Simpson, Barry W. & Laurie W.",
-   "filed": "2026-05-14",
-   "advertised": "2026-06-03",
-   "protestEnd": "2026-06-30",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
-   "comments": null
-  },
-  {
    "change": "a54976",
    "waterRight": " 68&#8209;1379 ",
    "applicant": "Skeem, Jerry L. and Leandra M.",
    "filed": "2026-08-07",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -5953,7 +5941,7 @@
    "protestEnd": "2026-07-14",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 85,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -5973,8 +5961,8 @@
    "waterRight": " 71&#8209;6071 ",
    "applicant": "Smith, Nathan",
    "filed": "2026-08-10",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -6002,6 +5990,18 @@
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 10,
+   "comments": null
+  },
+  {
+   "change": "a54991",
+   "waterRight": " 61&#8209;1783 ",
+   "applicant": "Sorensen, Ryan E. Sorensen and Janee R.",
+   "filed": "2026-08-18",
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 5,
    "comments": null
   },
   {
@@ -6038,6 +6038,18 @@
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 10,
+   "comments": null
+  },
+  {
+   "change": "a55005",
+   "waterRight": " 71&#8209;6097 ",
+   "applicant": "Space Wolf Research LLC",
+   "filed": "2026-08-20",
+   "advertised": null,
+   "protestEnd": null,
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 0,
    "comments": null
   },
   {
@@ -6209,18 +6221,6 @@
    "comments": null
   },
   {
-   "change": "a54624",
-   "waterRight": " 57&#8209;10180 ",
-   "applicant": "State of Utah Board of Water Resources",
-   "filed": "2026-05-14",
-   "advertised": "2026-06-05",
-   "protestEnd": "2026-07-02",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
-   "comments": null
-  },
-  {
    "change": "a41182",
    "waterRight": " 43&#8209;1219 ",
    "applicant": "State of Utah Division of Wildlife Resources",
@@ -6265,7 +6265,7 @@
    "protestEnd": "2026-07-14",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 85,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -6273,11 +6273,11 @@
    "waterRight": " 99&#8209;141 ",
    "applicant": "State of Utah School & Institutional Trust Lands",
    "filed": "2026-08-04",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 0,
+   "pctComplete": 5,
    "comments": null
   },
   {
@@ -6285,11 +6285,11 @@
    "waterRight": " 99&#8209;142 ",
    "applicant": "State of Utah School & Institutional Trust Lands",
    "filed": "2026-08-04",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 0,
+   "pctComplete": 5,
    "comments": null
   },
   {
@@ -6301,7 +6301,7 @@
    "protestEnd": "2026-06-30",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -6309,11 +6309,11 @@
    "waterRight": " 99&#8209;145 ",
    "applicant": "State of Utah School & Institutional Trust Lands",
    "filed": "2026-08-04",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 0,
+   "pctComplete": 5,
    "comments": null
   },
   {
@@ -6321,11 +6321,11 @@
    "waterRight": " 09&#8209;2681 ",
    "applicant": "State of Utah School and Institutional Trust Lands",
    "filed": "2026-08-04",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 0,
+   "pctComplete": 5,
    "comments": null
   },
   {
@@ -6337,7 +6337,7 @@
    "protestEnd": "2026-07-15",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -6349,7 +6349,7 @@
    "protestEnd": "2026-01-14",
    "protested": true,
    "hearing": "Hearing Held",
-   "pctComplete": 70,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -6365,6 +6365,18 @@
    "comments": null
   },
   {
+   "change": "a54998",
+   "waterRight": " 68&#8209;3066 ",
+   "applicant": "Stevens, Margene J.",
+   "filed": "2026-08-17",
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 5,
+   "comments": null
+  },
+  {
    "change": "a27695",
    "waterRight": " 67&#8209;1536 ",
    "applicant": "Stewart, Vern H. and Linda Sue",
@@ -6375,6 +6387,18 @@
    "hearing": "Not Protested",
    "pctComplete": 10,
    "comments": "Holding for resolution of supplemental/sole supply statements of water use groups."
+  },
+  {
+   "change": "a54992",
+   "waterRight": " 75&#8209;1910 ",
+   "applicant": "Stewart, Brooke Yardley-Stewart and Anthony Lawrence",
+   "filed": "2026-08-18",
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 5,
+   "comments": null
   },
   {
    "change": "a27172",
@@ -6409,7 +6433,7 @@
    "protestEnd": "2026-07-29",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -6421,7 +6445,7 @@
    "protestEnd": "2026-07-14",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -6433,7 +6457,7 @@
    "protestEnd": "2026-07-16",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -6553,19 +6577,7 @@
    "protestEnd": "2026-09-09",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 5,
-   "comments": null
-  },
-  {
-   "change": "a54472",
-   "waterRight": " 65&#8209;3455 ",
-   "applicant": "Swapp, John",
-   "filed": "2026-04-14",
-   "advertised": "2026-04-23",
-   "protestEnd": "2026-05-20",
-   "protested": false,
-   "hearing": "Not Protested",
-   "pctComplete": 95,
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -6577,19 +6589,19 @@
    "protestEnd": "2026-07-01",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
-   "change": "a54545",
-   "waterRight": " 71&#8209;5795 ",
-   "applicant": "Terry, Kevin J. Terry and Lois A.",
-   "filed": "2026-04-30",
-   "advertised": "2026-05-21",
-   "protestEnd": "2026-06-17",
+   "change": "a54990",
+   "waterRight": " 63&#8209;1128 ",
+   "applicant": "Terry, Brion and Mandy",
+   "filed": "2026-08-17",
+   "advertised": "2026-09-02",
+   "protestEnd": "2026-09-29",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 95,
+   "pctComplete": 5,
    "comments": null
   },
   {
@@ -6649,7 +6661,7 @@
    "protestEnd": "2026-08-12",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -6685,7 +6697,7 @@
    "protestEnd": "2026-08-13",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 50,
+   "pctComplete": 85,
    "comments": null
   },
   {
@@ -6693,11 +6705,11 @@
    "waterRight": " 54&#8209;1488 ",
    "applicant": "TJT Enterprises",
    "filed": "2026-08-13",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 0,
+   "pctComplete": 5,
    "comments": null
   },
   {
@@ -6723,6 +6735,18 @@
    "hearing": "Protest Letter Received",
    "pctComplete": 10,
    "comments": "Held at request of applicant."
+  },
+  {
+   "change": "a55004",
+   "waterRight": " 68&#8209;3284 ",
+   "applicant": "Triangle Ten, LLC",
+   "filed": "2026-08-14",
+   "advertised": null,
+   "protestEnd": null,
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 5,
+   "comments": null
   },
   {
    "change": "a54252",
@@ -6769,7 +6793,7 @@
    "protestEnd": "2026-07-15",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 85,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -6933,8 +6957,8 @@
    "waterRight": " 54&#8209;1483 ",
    "applicant": "Ulmer, Adam Ulmer and Tiffany",
    "filed": "2026-08-04",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
@@ -6969,11 +6993,11 @@
    "waterRight": " 16&#8209;48 ",
    "applicant": "USA Bureau of Land Management",
    "filed": "2026-08-14",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 0,
+   "pctComplete": 5,
    "comments": null
   },
   {
@@ -6985,7 +7009,7 @@
    "protestEnd": "2026-07-15",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -7201,7 +7225,7 @@
    "protestEnd": "2026-07-29",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -7285,7 +7309,7 @@
    "protestEnd": "2026-07-15",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -7298,6 +7322,18 @@
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 50,
+   "comments": null
+  },
+  {
+   "change": "a55012",
+   "waterRight": " 29&#8209;5124 ",
+   "applicant": "Warner, Albert H.",
+   "filed": "2026-08-21",
+   "advertised": null,
+   "protestEnd": null,
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 0,
    "comments": null
   },
   {
@@ -7389,11 +7425,11 @@
    "waterRight": " 95&#8209;5587 ",
    "applicant": "Wayne County Water Conservancy District",
    "filed": "2026-08-10",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-27",
+   "protestEnd": "2026-09-23",
    "protested": true,
-   "hearing": "Protest Letter Received",
-   "pctComplete": 5,
+   "hearing": "Hearing Requested",
+   "pctComplete": 4,
    "comments": null
   },
   {
@@ -7477,7 +7513,7 @@
    "protestEnd": "2026-07-01",
    "protested": true,
    "hearing": "Hearing Not Held",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -7489,7 +7525,7 @@
    "protestEnd": "2026-07-15",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -7503,6 +7539,18 @@
    "hearing": "Hearing Held",
    "pctComplete": 10,
    "comments": "Amendatory change. Proof submitted on only a portion of the prior change (a10037). Proof seems to outdated. Applicant needs to segregate his portion of the water right. Need to address portions of the right that were not affected by the proof."
+  },
+  {
+   "change": "a54985",
+   "waterRight": " 77&#8209;1876 ",
+   "applicant": "Wignall, Paul Cleon",
+   "filed": "2026-08-17",
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
+   "protested": false,
+   "hearing": "Not Protested",
+   "pctComplete": 5,
+   "comments": null
   },
   {
    "change": "a53958",
@@ -7585,7 +7633,7 @@
    "protestEnd": "2026-09-09",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 5,
+   "pctComplete": 10,
    "comments": null
   },
   {
@@ -7597,7 +7645,7 @@
    "protestEnd": "2026-07-28",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 85,
+   "pctComplete": 90,
    "comments": null
   },
   {
@@ -7609,7 +7657,7 @@
    "protestEnd": "2026-07-01",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -7621,7 +7669,7 @@
    "protestEnd": "2026-07-14",
    "protested": false,
    "hearing": "Not Protested",
-   "pctComplete": 90,
+   "pctComplete": 95,
    "comments": null
   },
   {
@@ -7665,8 +7713,8 @@
    "waterRight": " 77&#8209;2095 ",
    "applicant": "Yedor, Bryin",
    "filed": "2026-08-06",
-   "advertised": null,
-   "protestEnd": null,
+   "advertised": "2026-08-26",
+   "protestEnd": "2026-09-22",
    "protested": false,
    "hearing": "Not Protested",
    "pctComplete": 5,
