@@ -1,7 +1,10 @@
 import Link from "next/link";
 import type { Route } from "next";
+import { DeliveryPareto, type ParetoItem } from "@/components/DeliveryPareto";
 import { ReservoirCard } from "@/components/ReservoirCard";
 import { RulesToday } from "@/components/RulesToday";
+import { StorageTopline, type ToplinePoint } from "@/components/StorageTopline";
+import { MAP_CONVEYANCE } from "@/lib/mapdata";
 import {
   COMBINED_CAPACITY_ACRE_FEET,
   MEAD,
@@ -50,6 +53,32 @@ export default async function CurrentState() {
       ? ((now - yearAgo) / COMBINED_CAPACITY_ACRE_FEET) * 100
       : null;
   const asOf = powellStor.latest?.date ?? null;
+
+  // Combined daily series: sum where both records exist; a missing day on
+  // either side is a gap, never an interpolation.
+  const meadByDate = new Map(meadStor.points.map((p) => [p.date, p.value]));
+  const combined: ToplinePoint[] = powellStor.points.map((p) => {
+    const m = meadByDate.get(p.date);
+    return { date: p.date, value: m === undefined ? null : p.value + m };
+  });
+
+  // CY2025 decree-accounted deliveries only — the transbasin row is an
+  // operator-reported average, a different accounting, and stays out.
+  const SHORT: Record<string, string> = {
+    cap: "CAP",
+    cra: "CRA",
+    snwa: "Las Vegas",
+    aac: "All-American",
+    coachella: "Coachella",
+    mexico: "Mexico",
+  };
+  const paretoItems: ParetoItem[] = MAP_CONVEYANCE.filter(
+    (c) => c.approxAfPerYear && c.volumeSource?.includes("CY2025"),
+  ).map((c) => ({
+    short: SHORT[c.id] ?? c.name,
+    name: c.name,
+    af: c.approxAfPerYear!,
+  }));
 
   const freshness: {
     source: string;
@@ -115,38 +144,33 @@ export default async function CurrentState() {
         <Link href={"/report" as Route}>the report</Link>.
       </p>
 
-      <section className="hero">
-        <p className="question">How much water is in storage today?</p>
-        {now !== null && pct !== null ? (
-          <>
-            <div className="bignum">
-              {percent(pct, 1)}
-              <small>of combined capacity</small>
-            </div>
-            <div className="subline">
-              {acreFeet(now)} of {acreFeet(COMBINED_CAPACITY_ACRE_FEET)}
-              {deltaPct !== null && (
-                <>
-                  {" · "}
-                  <span className={deltaPct < 0 ? "down" : "up"}>
-                    {signed(deltaPct, (n) => `${n.toFixed(1)} pts`)} in one year
-                  </span>
-                </>
-              )}
-            </div>
-            <div className="capbar">
-              <div
-                className="capbar-fill"
-                style={{ width: `${Math.max(0, Math.min(100, pct))}%` }}
-              />
-            </div>
-          </>
-        ) : (
-          <p className="err">
-            Live storage unavailable. Showing no value rather than a stale one.
-          </p>
-        )}
-      </section>
+      <h2 className="section-title">Combined storage, past 13 months</h2>
+      {now !== null && pct !== null ? (
+        <p className="body-text">
+          Lakes Powell and Mead hold <strong>{acreFeet(now)}</strong> —{" "}
+          {percent(pct, 1)} of combined capacity
+          {deltaPct !== null && (
+            <>
+              ,{" "}
+              <span className={deltaPct < 0 ? "down" : "up"}>
+                {signed(deltaPct, (n) => `${n.toFixed(1)} points`)}
+              </span>{" "}
+              in one year
+            </>
+          )}
+          . The line is the daily record:
+        </p>
+      ) : (
+        <p className="err">
+          Live storage unavailable. Showing no value rather than a stale one.
+        </p>
+      )}
+      <StorageTopline points={combined} />
+      <div className="chain-caveat" style={{ marginTop: 8 }}>
+        Days where either reservoir&rsquo;s record is missing render as gaps.
+        For the 26-year drawdown, read the{" "}
+        <Link href={"/report/reservoirs" as Route}>Reservoirs chapter</Link>.
+      </div>
 
       <div className="grid">
         <ReservoirCard
@@ -163,6 +187,28 @@ export default async function CurrentState() {
           meadElevation={meadElev.latest.value}
         />
       )}
+
+      <h2 className="section-title">
+        Who took the accounted deliveries in 2025?
+      </h2>
+      <p className="body-text">
+        The six largest delivery systems in Reclamation&rsquo;s CY2025 decree
+        accounting, largest first. Two systems move over half of it.
+      </p>
+      <DeliveryPareto items={paretoItems} />
+      <div className="chain-caveat" style={{ marginTop: 8 }}>
+        Reclamation CY2025 Colorado River Accounting Report (Article V decree
+        accounting), including the Mexico treaty delivery. Shares are of
+        these six systems&rsquo; subtotal, not of all river use — on-river
+        users below the majors are accounted in the same report but not
+        broken out here. Transbasin diversions are excluded: their volume is
+        operator-reported average, a different accounting. Full roster with
+        context: the{" "}
+        <Link href={"/report/infrastructure" as Route}>
+          Infrastructure chapter
+        </Link>
+        .
+      </div>
 
       <h2 className="section-title">Every source, and how fresh it is</h2>
       <p className="body-text">
