@@ -86,6 +86,29 @@ const STORY_STEPS = STEPS.slice(0, -1);
 
 type ExploreLayer = "storage" | "flows" | "people" | "cities" | "farms" | "et";
 
+/**
+ * The urban anchors drawn as quiet reference ground in explore mode —
+ * the major centers the supply data serves, so every layer reads
+ * against the same geography. Keyed `name|state` into cities_10k.
+ */
+const REF_CITIES = new Map<
+  string,
+  { side: "left" | "right"; narrowSide?: "left"; hideLabelNarrow?: boolean }
+>([
+  ["Los Angeles|CA", { side: "right" }],
+  ["San Diego|CA", { side: "right" }],
+  ["Phoenix|AZ", { side: "right" }],
+  ["Tucson|AZ", { side: "right" }],
+  // Left-anchored: their right sides collide with the Lake Mead disc and
+  // the Flaming Gorge label respectively. On the portrait frame Salt Lake
+  // City still abuts the Flaming Gorge label, so it keeps its dot only;
+  // Denver's label would clip at the crop edge, so it flips inward.
+  ["Las Vegas|NV", { side: "left" }],
+  ["Salt Lake City|UT", { side: "left", hideLabelNarrow: true }],
+  ["Denver|CO", { side: "right", narrowSide: "left" }],
+  ["Albuquerque|NM", { side: "right" }],
+]);
+
 interface NidDam {
   n: string; id: string; st: string;
   lat: number; lon: number; af: number;
@@ -656,6 +679,42 @@ export function BasinStory({
                 );
               })}
             </g>
+
+            {/* major cities — quiet reference ground for the supply data.
+                Explore mode only; hidden on the two layers that already draw
+                cities (served population, all cities) to avoid double marks. */}
+            {exploring && cities && exploreLayer !== "people" && exploreLayer !== "cities" && (
+              <g style={{ pointerEvents: "none" }} className="fade">
+                {cities
+                  .filter((c) => REF_CITIES.has(`${c.n}|${c.st}`))
+                  .map((c) => {
+                    const [x, y] = project(c.lon, c.lat);
+                    if (x < 8 || x > W - 8 || y < 8 || y > H - 8) return null;
+                    const ref = REF_CITIES.get(`${c.n}|${c.st}`)!;
+                    const left =
+                      ref.side === "left" || (narrow && ref.narrowSide === "left");
+                    const showLabel = !(narrow && ref.hideLabelNarrow);
+                    return (
+                      <g key={`ref-${c.n}|${c.st}`}>
+                        <circle cx={x} cy={y} r={1.9 * inv} className="st-cityref" />
+                        {showLabel && (
+                          <text
+                            x={left ? x - 4.5 * inv : x + 4.5 * inv}
+                            y={y + 3 * ts}
+                            className="st-label cityref"
+                            style={{
+                              fontSize: 9 * ts,
+                              ...(left ? { textAnchor: "end" } : undefined),
+                            }}
+                          >
+                            {c.n}
+                          </text>
+                        )}
+                      </g>
+                    );
+                  })}
+              </g>
+            )}
 
             {/* Lees Ferry — step 0 annotation */}
             <g style={{ opacity: opacity.leesFerry }} className="fade">

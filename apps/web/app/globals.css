@@ -1792,3 +1792,7 @@ html { scroll-behavior: smooth; }
 }
 @media (max-width: 960px) { .journey { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .journey { grid-template-columns: 1fr; } }
+
+/* major-city reference ground (explore mode) — quieter than any data mark */
+.st-cityref { fill: color-mix(in srgb, var(--muted) 65%, transparent); }
+.st-label.cityref { fill: var(--muted); text-anchor: start; font-weight: 450; opacity: 0.85; }
