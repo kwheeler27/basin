@@ -10,8 +10,8 @@ export const metadata = { title: "Infrastructure — Basin" };
 
 const TYPOLOGY = [
   { verb: "Capture", what: "Dams and diversion structures raise and hold the river", have: `${(nid as { dams: unknown[] }).dams.length} large dams mapped (federal inventory) plus the 13 live-gauged reservoirs` },
-  { verb: "Lift", what: "Pumping plants push water uphill — the defining machines of this basin", have: "19 plants across the two flagship aqueducts profiled below (5 CRA + 14 CAP)" },
-  { verb: "Move", what: "Canals, pipelines, tunnels and siphons — water's rail network", have: "CAP's 336-mile canal drawn from operator geometry on the Overview; the full network inventory (USGS hydrography) is queued" },
+  { verb: "Lift", what: "Pumping plants push water uphill — the defining machines of this basin", have: "19 plants across the two flagship aqueducts (5 CRA + 14 CAP), profiled in the machine explorer" },
+  { verb: "Move", what: "Canals, pipelines, tunnels and siphons — water's rail network", have: "CAP's 336-mile canal drawn from operator geometry on the basin map; the full network inventory (USGS hydrography) is queued" },
   { verb: "Generate", what: "Hydropower at the dams and recovery turbines in the aqueducts pay part of the pumping bill", have: "16 recovery plants in MWD's system alone (operator-published); the federal generator inventory is queued" },
   { verb: "Bank", what: "Recharge basins store surplus underground", have: "6 CAP recharge sites named on the operator map; Arizona's underground-storage inventory is queued" },
 ] as const;
@@ -55,8 +55,8 @@ export default function Infrastructure() {
         The basin&rsquo;s signature machines are its pumping plants: the river
         is lower than most of the people who drink it, so its water is lifted
         — thousands of vertical feet, at industrial scale, forever. The
-        Colorado River Aqueduct climbs 1,614 feet in five plants; the Central
-        Arizona Project climbs roughly 3,000 in fourteen.
+        Colorado River Aqueduct climbs 1,614 feet in five plants. The Central
+        Arizona Project climbs roughly 3,000 feet in fourteen.
       </p>
       <div className="note">
         <p>
@@ -65,7 +65,8 @@ export default function Infrastructure() {
             open the machine explorer →
           </Link>{" "}
           Each system drawn one at a time — every pumping plant on real
-          terrain, with the lift each one buys, zoomable and tappable.
+          terrain, and how far each one lifts the water. Zoomable and
+          tappable.
         </p>
       </div>
 
@@ -101,7 +102,7 @@ export default function Infrastructure() {
 
       <div className="note" style={{ marginTop: 26 }}>
         <p>
-          <strong>What this page will grow into.</strong> The conveyance
+          <strong>What this chapter will grow into.</strong> The conveyance
           network as a drawn network (from the USGS national hydrography
           dataset&rsquo;s canal and pipeline classes), the hydropower fleet
           (federal generator inventory), treatment and public water systems

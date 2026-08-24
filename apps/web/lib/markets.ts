@@ -146,7 +146,7 @@ export const WATCHLIST: WatchItem[] = [
     place: "Grand Valley, Colorado",
     name: "Water Asset Management",
     status: "NO TRANSFER FILING VERIFIED",
-    body: "A New York private-equity fund is now the largest landowner in the Grand Valley Water Users Association — purchases that prompted Colorado to convene its anti-speculation work group. The decisive fact is whether any change-of-use has been filed for that water. The ledger below answers it: no canal-system change case appears in District 72 since 2017. On paper, the water is still farming.",
+    body: "A New York private-equity fund is now the largest landowner in the Grand Valley Water Users Association — purchases that prompted Colorado to convene its anti-speculation work group. The decisive fact is whether any change-of-use has been filed for that water. Colorado's court-decreed transaction ledger answers it: no canal-system change case appears in District 72 since 2017. On paper, the water is still farming.",
     source: {
       kind: "reported",
       name: "Aspen Journalism",

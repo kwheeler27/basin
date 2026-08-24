@@ -11,8 +11,8 @@ export default function Agriculture() {
       <ChapterKicker slug="agriculture" />
       <h1 className="page-title">Agriculture</h1>
       <p className="page-lede">
-        Most of the river&rsquo;s water grows things. This page shows what,
-        where — starting with the crop composition of the West&rsquo;s
+        Most of the river&rsquo;s water grows things. This chapter shows what,
+        and where — starting with the crop composition of the West&rsquo;s
         sixteen largest irrigation counties, mapped field by field from the
         USDA&rsquo;s satellite crop classification.
       </p>
@@ -58,7 +58,7 @@ export default function Agriculture() {
 
       <div className="note" style={{ marginTop: 26 }}>
         <p>
-          <strong>What this page will grow into.</strong> Next: per-crop
+          <strong>What this chapter will grow into.</strong> Next: per-crop
           water-requirement context (attributed to its modelers, never
           silently joined to acreage), county-level crop trade flows (USDA
           NASS QuickStats and Census of Agriculture — needs API keys), and

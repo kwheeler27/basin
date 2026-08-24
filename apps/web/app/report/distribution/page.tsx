@@ -79,7 +79,7 @@ export default function Distribution() {
 
       <div className="note" style={{ marginTop: 26 }}>
         <p>
-          <strong>Why this page exists.</strong> Colorado is the only basin
+          <strong>Why this chapter exists.</strong> Colorado is the only basin
           state whose water records have a real public API, which makes
           structure-level stories like this one possible today. More field
           notes will follow — other canals, the transbasin tunnels, treatment
