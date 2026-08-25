@@ -125,9 +125,13 @@ export function RulesToday({
           — at those elevations this rulebook reads{" "}
           <em>{determinePowell(OFFICIAL_24MS.powellJan1Ft, OFFICIAL_24MS.meadJan1Ft).tier}</em>{" "}
           and <em>{determineMead(OFFICIAL_24MS.meadJan1Ft).tierLabel}</em>.
-          The August edition is the one that legally sets the CY2027 tiers; it
-          has not been published at the URL of record yet, and this site
-          watches for it weekly.
+          Note what changed on August 21, 2026: the Post-2026 Record of
+          Decision adopted a new Decision Framework, and 2027 operations will
+          be governed by the newly issued 2027&ndash;2028 Operating
+          Guidelines — not by this rulebook, which expires September 30,
+          2026. Reading the new guidelines into this site&rsquo;s verified
+          rules engine is queued; until then, the tier readings above
+          illustrate the expiring rulebook only.
         </p>
         <p>{OFFICIAL_24MS.notes}</p>
       </div>
