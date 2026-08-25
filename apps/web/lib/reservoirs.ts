@@ -169,7 +169,7 @@ export const RULEBOOK = {
   label: "2007 Interim Guidelines + 2019 DCP",
   expires: "2026-09-30",
   successorStatus:
-    "Post-2026 Final EIS published 2026-07-31; no Record of Decision yet.",
+    "Post-2026 Record of Decision issued 2026-08-21 — it adopts the Decision Framework (2027–2036), and the 2027–2028 Operating Guidelines are issued.",
   currentTier: "Tier 1 shortage (CY2026)",
   tierBasis:
     "Declared from the August 2025 24-Month Study on a projected 2026-01-01 Mead elevation of 1,055.88 ft.",

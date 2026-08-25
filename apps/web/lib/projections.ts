@@ -17,6 +17,12 @@ export const OFFICIAL_24MS = {
     "WY2026 Powell release reduced from 7.48 to 6.00 MAF under SEIS ROD " +
     "§6.E; the study reflects 1.00 MAF of Drought Response Operations " +
     "releases from Flaming Gorge to Powell by April 2027.",
-  /** The edition that legally sets next year's tiers. */
-  operativeEdition: "August 2026 (not yet published at the URL of record)",
+  /**
+   * Succession note: the Post-2026 Record of Decision (2026-08-21) adopted
+   * the Decision Framework, and the 2027–2028 Operating Guidelines now
+   * govern 2027 operations. How they use 24-Month Study projections is to
+   * be read from the guidelines themselves — ingestion queued.
+   */
+  operativeEdition:
+    "2027 operations: 2027–2028 Operating Guidelines (issued with the Post-2026 ROD, 2026-08-21)",
 } as const;
