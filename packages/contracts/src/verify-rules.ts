@@ -9,7 +9,13 @@
  * Run: pnpm verify:rules
  */
 
-import { RULE_VECTORS, determineMead, determinePowell } from "./rules";
+import {
+  RULE_VECTORS,
+  SUCCESSOR_VECTORS,
+  determineMead,
+  determinePowell,
+  determinePowellRange,
+} from "./rules";
 
 let failures = 0;
 
@@ -45,12 +51,25 @@ for (const v of RULE_VECTORS.powell) {
   check(`${at} releaseOrMidpoint`, d.releaseOrMidpoint, v.releaseOrMidpoint);
 }
 
-const total = RULE_VECTORS.mead.length + RULE_VECTORS.powell.length;
+for (const v of SUCCESSOR_VECTORS) {
+  const d = determinePowellRange(v.projectedOct1Elevation);
+  const at = `og2027 powell @ projected ${v.projectedOct1Elevation} ft`;
+  check(`${at} rangeName`, d.rangeName, v.rangeName);
+  check(`${at} releaseLadderAf`, d.releaseLadderAf, v.releaseLadderAf);
+  check(`${at} releaseFloorAf`, d.releaseFloorAf, v.releaseFloorAf);
+  check(`${at} protectionTargetFt`, d.protectionTargetFt, v.protectionTargetFt);
+}
+
+const total =
+  RULE_VECTORS.mead.length +
+  RULE_VECTORS.powell.length +
+  SUCCESSOR_VECTORS.length;
 if (failures > 0) {
   console.error(`\n✗ rules drift: ${failures} mismatch(es) across ${total} vectors`);
   process.exit(1);
 }
 console.log(
   `✓ TS evaluator matches Python engine across ${total} vectors ` +
-    `(${RULE_VECTORS.mead.length} mead, ${RULE_VECTORS.powell.length} powell)`,
+    `(${RULE_VECTORS.mead.length} mead, ${RULE_VECTORS.powell.length} powell, ` +
+    `${SUCCESSOR_VECTORS.length} og2027)`,
 );

@@ -14,8 +14,18 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from .rulebook import RULEBOOK_2007_IG_DCP, Party, Rulebook
-from .rules import determine_mead_reductions, determine_powell_release
+from .rulebook import (
+    RULEBOOK_2007_IG_DCP,
+    RULEBOOK_2027_OG,
+    Party,
+    Rulebook,
+    SuccessorRulebook,
+)
+from .rules import (
+    determine_mead_reductions,
+    determine_powell_range,
+    determine_powell_release,
+)
 
 OUT = (
     Path(__file__).resolve().parents[3]
@@ -127,11 +137,89 @@ def vectors(rb: Rulebook) -> dict:
     return {"mead": mead, "powell": powell}
 
 
+#: §5.1 band edges, a hair either side, and the operationally live value
+#: (July 2026 Most Probable study's projected 2026-10-01 elevation).
+PROBE_OCT1_2027 = sorted({
+    3600.0,
+    3565.01, 3565.0, 3564.99,
+    3540.01, 3540.0, 3539.99,
+    3516.16,  # July 2026 Most Probable 24MS, projected Oct 1, 2026
+    3500.0, 3490.0, 3400.0,
+})
+
+
+def successor_to_dict(rb: SuccessorRulebook) -> dict:
+    return {
+        "version": rb.version,
+        "label": rb.label,
+        "authority": rb.authority,
+        "effectiveFrom": rb.effective_from,
+        "effectiveTo": rb.effective_to,
+        "status": rb.status,
+        "trigger": rb.trigger,
+        "criticalElevations": rb.critical_elevations,
+        "notes": list(rb.notes),
+        "powellRanges": [
+            {
+                "name": r.name,
+                "band": _band(r.band),
+                "releaseLadderAf": list(r.release_ladder_af),
+                "note": r.note,
+            }
+            for r in rb.powell_ranges
+        ],
+        "powellReleaseFloorAf": rb.powell_release_floor_af,
+        "powellProtectionTargetFt": rb.powell_protection_target_ft,
+        "powellCriticalFt": rb.powell_critical_ft,
+        "powellUpwardAdjustAboveFt": rb.powell_upward_adjust_above_ft,
+        "powellConsultHighFt": rb.powell_consult_high_ft,
+        "powellContemplatedReleaseRangeAf": list(
+            rb.powell_contemplated_release_range_af
+        ),
+        "meadCondition": rb.mead_condition,
+        "meadTotalApportionmentAf": rb.mead_total_apportionment_af,
+        "meadTotalReductionAf": rb.mead_total_reduction_af,
+        "meadApportionments": [
+            {
+                "party": a.party.value,
+                "apportionmentAf": a.apportionment_af,
+                "reductionAf": a.reduction_af,
+            }
+            for a in rb.mead_apportionments
+        ],
+        "additionalSystemConservationTotalAf": (
+            rb.additional_system_conservation_total_af
+        ),
+        "meadConsultLowProjectedFt": rb.mead_consult_low_projected_ft,
+        "meadConsultRaiseApportionmentsFt": (
+            rb.mead_consult_raise_apportionments_ft
+        ),
+        "icsNoDeliveryBelowJan1Ft": rb.ics_no_delivery_below_jan1_ft,
+        "icsConsultBandFt": list(rb.ics_consult_band_ft),
+    }
+
+
+def successor_vectors(rb: SuccessorRulebook) -> list[dict]:
+    out = []
+    for e in PROBE_OCT1_2027:
+        d = determine_powell_range(rb, e)
+        out.append({
+            "projectedOct1Elevation": e,
+            "rangeName": d.range_name,
+            "releaseLadderAf": list(d.release_ladder_af),
+            "releaseFloorAf": d.release_floor_af,
+            "protectionTargetFt": d.protection_target_ft,
+        })
+    return out
+
+
 def main() -> None:
     rb = RULEBOOK_2007_IG_DCP
     payload = {
         "rulebook": rulebook_to_dict(rb),
         "vectors": vectors(rb),
+        "successor": successor_to_dict(RULEBOOK_2027_OG),
+        "successorVectors": successor_vectors(RULEBOOK_2027_OG),
     }
     body = json.dumps(payload, indent=2, sort_keys=False)
     ts = (

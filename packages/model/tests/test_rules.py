@@ -218,3 +218,70 @@ def test_rulebook_metadata_is_present_for_provenance():
     assert RB.effective_to == "2026-09-30"
     assert "24-month study" in RB.trigger.lower()
     assert any("RECOVERABLE" in n or "recoverable" in n for n in RB.notes)
+
+
+# ---------------------------------------------------------------------------
+# v2027-og — 2027–2028 Operating Guidelines
+# ---------------------------------------------------------------------------
+
+from basin_model.rulebook import RULEBOOK_2027_OG
+from basin_model.rules import determine_powell_range
+
+OG = RULEBOOK_2027_OG
+
+
+def test_og_powell_range_boundaries_match_section_5_1():
+    # "at or above 3,565" → Upper; "below 3,565 and at or above 3,540" → Mid;
+    # "below 3,540" → Low Elevation Infrastructure Protection.
+    assert determine_powell_range(OG, 3565.0).range_name == "Upper Elevation Range"
+    assert determine_powell_range(OG, 3564.99).range_name == "Mid-Elevation Range"
+    assert determine_powell_range(OG, 3540.0).range_name == "Mid-Elevation Range"
+    assert (determine_powell_range(OG, 3539.99).range_name
+            == "Low Elevation Infrastructure Protection Range")
+
+
+def test_og_release_ladders_are_as_written():
+    assert determine_powell_range(OG, 3600.0).release_ladder_af == (
+        8_230_000, 8_000_000, 7_500_000)
+    assert determine_powell_range(OG, 3550.0).release_ladder_af == (
+        8_000_000, 7_500_000, 7_000_000)
+    assert determine_powell_range(OG, 3516.16).release_ladder_af == (7_000_000,)
+
+
+def test_og_live_projection_lands_in_infrastructure_protection_range():
+    # July 2026 Most Probable 24MS projects Oct 1, 2026 at 3,516.16 ft.
+    d = determine_powell_range(OG, 3516.16)
+    assert d.range_name == "Low Elevation Infrastructure Protection Range"
+    assert d.release_floor_af == 6_000_000
+    assert d.protection_target_ft == 3510.0
+    assert d.critical_ft == 3500.0
+
+
+def test_og_mead_apportionments_sum_exactly():
+    # §5.3.A.2: 2.04 + 3.96 + 0.25 = 6.25 MAF; reductions 0.76 + 0.44 + 0.05
+    # = 1.25 MAF. Both totals are stated in §5.3.A.1–2 and must reconcile.
+    total_app = sum(a.apportionment_af for a in OG.mead_apportionments)
+    total_red = sum(a.reduction_af for a in OG.mead_apportionments)
+    assert total_app == OG.mead_total_apportionment_af == 6_250_000
+    assert total_red == OG.mead_total_reduction_af == 1_250_000
+    # Each state's apportionment + reduction reproduces its Normal quantity.
+    normal = {a.party.value: a.apportionment_af + a.reduction_af
+              for a in OG.mead_apportionments}
+    assert normal == {"arizona": 2_800_000, "california": 4_400_000,
+                      "nevada": 300_000}
+
+
+def test_og_metadata_and_succession():
+    assert OG.version == "v2027-og"
+    assert OG.effective_from == "2026-10-01"
+    assert OG.effective_to == "2028-12-31"
+    assert "OCTOBER 1" in OG.trigger
+    assert OG.powell_contemplated_release_range_af == (5_000_000, 12_000_000)
+    assert OG.powell_upward_adjust_above_ft == 3565.0
+    assert OG.powell_consult_high_ft == 3665.0
+    assert OG.ics_no_delivery_below_jan1_ft == 1000.0
+    assert OG.ics_consult_band_ft == (1000.0, 1025.0)
+    # Provenance discipline: the Aug-21 issuance date must carry its source
+    # (the agency page), and conditional effectiveness must be noted.
+    assert "post-2026 operations page" in OG.authority
+    assert any("Effectiveness is conditional" in n for n in OG.notes)

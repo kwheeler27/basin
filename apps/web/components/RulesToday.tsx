@@ -1,6 +1,15 @@
-import { RULEBOOK, determineMead, determinePowell } from "@basin/contracts";
+import {
+  RULEBOOK,
+  SUCCESSOR,
+  determineMead,
+  determinePowell,
+  determinePowellRange,
+} from "@basin/contracts";
 import { acreFeet, feet, formatDate } from "@/lib/format";
 import { OFFICIAL_24MS } from "@/lib/projections";
+
+const MAF = 1_000_000;
+const maf = (af: number) => `${(af / MAF).toFixed(2)} MAF`;
 
 /**
  * What the operating rules say at today's observed elevations.
@@ -125,16 +134,109 @@ export function RulesToday({
           — at those elevations this rulebook reads{" "}
           <em>{determinePowell(OFFICIAL_24MS.powellJan1Ft, OFFICIAL_24MS.meadJan1Ft).tier}</em>{" "}
           and <em>{determineMead(OFFICIAL_24MS.meadJan1Ft).tierLabel}</em>.
-          Note what changed on August 21, 2026: the Post-2026 Record of
-          Decision adopted a new Decision Framework, and 2027 operations will
-          be governed by the newly issued 2027&ndash;2028 Operating
-          Guidelines — not by this rulebook, which expires September 30,
-          2026. Reading the new guidelines into this site&rsquo;s verified
-          rules engine is queued; until then, the tier readings above
-          illustrate the expiring rulebook only.
+          These tier readings illustrate the expiring rulebook only — what
+          replaces it is below.
         </p>
         <p>{OFFICIAL_24MS.notes}</p>
       </div>
+
+      {(() => {
+        const og = determinePowellRange(OFFICIAL_24MS.powellOct1Ft);
+        return (
+          <div className="og-panel">
+            <div className="card-head" style={{ marginTop: 18 }}>
+              <h2 className="card-title" style={{ fontSize: 16 }}>
+                The new rules: Operating Years 2027–2028
+              </h2>
+              <span className="card-sub">{SUCCESSOR.version}</span>
+            </div>
+            <p className="card-sub" style={{ marginBottom: 12 }}>
+              Issued with the Post-2026 Record of Decision on August 21,
+              2026. A different machine from the old tiers: Powell is set by
+              range and a release ladder tested against a protection
+              elevation; Mead is a fixed determination, not an
+              elevation table.
+            </p>
+            <div className="rules-split">
+              <div>
+                <div className="readout-label">
+                  Lake Powell — WY2027 operational range
+                </div>
+                <div className="readout-value" style={{ fontSize: 17, marginTop: 4 }}>
+                  {og.rangeName}
+                </div>
+                <div className="subline" style={{ marginTop: 6, fontSize: 13 }}>
+                  At the study&rsquo;s projected October 1, 2026 elevation of{" "}
+                  {feet(OFFICIAL_24MS.powellOct1Ft)}. Initial release
+                  evaluated from{" "}
+                  {og.releaseLadderAf.map((af) => maf(af)).join(" → ")},
+                  adjustable down to {maf(og.releaseFloorAf)} to hold{" "}
+                  {og.protectionTargetFt.toLocaleString()} ft; consultation
+                  if projected below {og.criticalFt.toLocaleString()} ft.
+                </div>
+                <div className="prov" style={{ borderTop: "none", paddingTop: 8 }}>
+                  {og.note}
+                </div>
+              </div>
+              <div>
+                <div className="readout-label">
+                  Lake Mead — CY2027 &amp; CY2028
+                </div>
+                <div className="readout-value" style={{ fontSize: 17, marginTop: 4 }}>
+                  {SUCCESSOR.meadCondition}
+                </div>
+                <table className="rules-table">
+                  <tbody>
+                    {SUCCESSOR.meadApportionments.map((a) => (
+                      <tr key={a.party}>
+                        <td>
+                          {a.party.charAt(0).toUpperCase() + a.party.slice(1)}
+                          <span className="rules-note">
+                            −{acreFeet(a.reductionAf)} from Normal
+                          </span>
+                        </td>
+                        <td className="num">{acreFeet(a.apportionmentAf)}</td>
+                      </tr>
+                    ))}
+                    <tr className="total">
+                      <td>Lower Division total — fixed, each year</td>
+                      <td className="num">
+                        {acreFeet(SUCCESSOR.meadTotalApportionmentAf)}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div className="subline" style={{ marginTop: 6, fontSize: 13 }}>
+                  Plus {acreFeet(SUCCESSOR.additionalSystemConservationTotalAf)}{" "}
+                  of additional System Conservation in total across
+                  2026&ndash;2028. Mexico&rsquo;s reductions are determined
+                  separately by the IBWC under treaty Minutes; Minute 323
+                  expires December 31, 2026.
+                </div>
+              </div>
+            </div>
+            <div className="prov">
+              <div>
+                {SUCCESSOR.label} — covers Operating Years 2027&ndash;2028
+                (Powell WY2027 begins {SUCCESSOR.effectiveFrom}; Mead CY2028
+                ends {SUCCESSOR.effectiveTo}). Effectiveness is conditional
+                (§3): it requires execution by the Secretary and of the
+                implementing and parallel agreements — absent those, the
+                Secretary proceeds under the guidelines&rsquo; own default
+                paths.
+              </div>
+              <div style={{ marginTop: 4 }}>{SUCCESSOR.authority}</div>
+              <div style={{ marginTop: 4 }}>
+                The state split assumes the Lower Basin implementing
+                agreements execute; absent them, the Secretary apportions the
+                same 6.25 MAF total under applicable law (§5.3.A.3). These
+                guidelines are not a precedent for future operations and can
+                be superseded by consensus guidelines.
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       <div className="prov">
         <div>
