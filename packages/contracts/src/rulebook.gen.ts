@@ -1184,5 +1184,227 @@ export const RULEBOOK_DATA = {
         "releaseOrMidpoint": 10115000.0
       }
     ]
-  }
+  },
+  "successor": {
+    "version": "v2027-og",
+    "label": "2027\u20132028 Operating Guidelines (Post-2026 ROD Decision Framework)",
+    "authority": "Colorado River Guidelines for Coordinated Operations of Lake Powell and Lake Mead, Operating Years 2027 and 2028 (August 2026), issued pursuant to the Record of Decision for the Decision Framework (2027\u20132036) \u00b7 Powell \u00a75.1, Mead \u00a75.3, ICS \u00a75.4, Mexico \u00a75.6. ROD issuance date (2026-08-21) per Reclamation's post-2026 operations page, retrieved 2026-08-25 \u2014 the guidelines PDF itself carries only 'August 2026'.",
+    "effectiveFrom": "2026-10-01",
+    "effectiveTo": "2028-12-31",
+    "status": "issued",
+    "trigger": "Powell: Most Probable AUGUST 24-Month Study projection of the OCTOBER 1 elevation for the coming Water Year (monthly Most Probable projections govern in-year adjustments). Mead: a fixed August determination for the following Calendar Year \u2014 no elevation tiers.",
+    "criticalElevations": {
+      "powell_dead_pool": 3370.0,
+      "powell_min_power_pool": 3490.0,
+      "powell_full_pool": 3700.0,
+      "mead_dead_pool": 895.0,
+      "mead_min_power_pool": 950.0,
+      "mead_full_pool": 1229.0
+    },
+    "notes": [
+      "The state apportionment split (AZ 2.04 / CA 3.96 / NV 0.25 MAF) is 'in accordance with a Lower Basin implementing agreement(s)' (\u00a75.3.A.2); absent executed agreements the Secretary determines the apportionment of the same 6.25 MAF total under applicable law (\u00a75.3.A.3).",
+      "Reductions for Mexico are determined by the IBWC under 1944 Treaty Minutes, separate from and in addition to the \u00a75.3 apportionment (\u00a75.6). Minute 323 is, by its own terms, in effect through 2026-12-31 (source: IBWC Minute 323, not these guidelines); no successor Minute announced as of 2026-08-25.",
+      "Effectiveness is conditional (\u00a73): the guidelines take effect upon (1) execution by the Secretary and (2) execution of the necessary implementing and parallel agreements; absent (2), the Secretary proceeds under the \u00a7\u00a75.2\u20135.4 default paths. The effective_from/effective_to span here is our reading of the Operating Years covered (Powell WY2027 begins 2026-10-01; Mead CY2028 ends 2028-12-31), not a verbatim document range.",
+      "The guidelines confirm in a primary document that 3,490 ft is Lake Powell's minimum power pool (\u00a75.1) and that hydropower cannot be produced below 950 ft at Lake Mead (\u00a75.3) \u2014 both previously held at medium confidence from secondary sources.",
+      "These guidelines are not a precedent for future operations (ROD \u00a710.11) and could be superseded during the Effective Period by consensus guidelines (\u00a73)."
+    ],
+    "powellRanges": [
+      {
+        "name": "Upper Elevation Range",
+        "band": {
+          "upper": null,
+          "lower": 3565.0,
+          "upperInclusive": true,
+          "lowerInclusive": true,
+          "wording": "projected October 1 elevation at or above 3,565 ft"
+        },
+        "releaseLadderAf": [
+          8230000,
+          8000000,
+          7500000
+        ],
+        "note": "Evaluate 8.23, then 8.0, then 7.5 MAF; the initial release is the first projected to maintain 3,510 ft through the Water Year (\u00a75.1.A)."
+      },
+      {
+        "name": "Mid-Elevation Range",
+        "band": {
+          "upper": 3565.0,
+          "lower": 3540.0,
+          "upperInclusive": false,
+          "lowerInclusive": true,
+          "wording": "projected October 1 elevation below 3,565 ft and at or above 3,540 ft"
+        },
+        "releaseLadderAf": [
+          8000000,
+          7500000,
+          7000000
+        ],
+        "note": "Evaluate 8.0, then 7.5, then 7.0 MAF; the initial release is the first projected to maintain 3,510 ft through the Water Year (\u00a75.1.B)."
+      },
+      {
+        "name": "Low Elevation Infrastructure Protection Range",
+        "band": {
+          "upper": 3540.0,
+          "lower": null,
+          "upperInclusive": false,
+          "lowerInclusive": false,
+          "wording": "projected October 1 elevation below 3,540 ft"
+        },
+        "releaseLadderAf": [
+          7000000
+        ],
+        "note": "Assume 7.0 MAF; if that holds 3,510 ft, begin the year at 7.0. If not, defer the Water Year release determination to April and set it between 6.0 and 7.0 MAF per the \u00a75.1.C Table 1 process, coordinated with CRSP Upper Initial Unit drought releases."
+      }
+    ],
+    "powellReleaseFloorAf": 6000000,
+    "powellProtectionTargetFt": 3510.0,
+    "powellCriticalFt": 3500.0,
+    "powellUpwardAdjustAboveFt": 3565.0,
+    "powellConsultHighFt": 3665.0,
+    "powellContemplatedReleaseRangeAf": [
+      5000000,
+      12000000
+    ],
+    "meadCondition": "Shortage Condition (both Operating Years)",
+    "meadTotalApportionmentAf": 6250000,
+    "meadTotalReductionAf": 1250000,
+    "meadApportionments": [
+      {
+        "party": "arizona",
+        "apportionmentAf": 2040000,
+        "reductionAf": 760000
+      },
+      {
+        "party": "california",
+        "apportionmentAf": 3960000,
+        "reductionAf": 440000
+      },
+      {
+        "party": "nevada",
+        "apportionmentAf": 250000,
+        "reductionAf": 50000
+      }
+    ],
+    "additionalSystemConservationTotalAf": 700000,
+    "meadConsultLowProjectedFt": 1010.0,
+    "meadConsultRaiseApportionmentsFt": 1125.0,
+    "icsNoDeliveryBelowJan1Ft": 1000.0,
+    "icsConsultBandFt": [
+      1000.0,
+      1025.0
+    ]
+  },
+  "successorVectors": [
+    {
+      "projectedOct1Elevation": 3400.0,
+      "rangeName": "Low Elevation Infrastructure Protection Range",
+      "releaseLadderAf": [
+        7000000
+      ],
+      "releaseFloorAf": 6000000,
+      "protectionTargetFt": 3510.0
+    },
+    {
+      "projectedOct1Elevation": 3490.0,
+      "rangeName": "Low Elevation Infrastructure Protection Range",
+      "releaseLadderAf": [
+        7000000
+      ],
+      "releaseFloorAf": 6000000,
+      "protectionTargetFt": 3510.0
+    },
+    {
+      "projectedOct1Elevation": 3500.0,
+      "rangeName": "Low Elevation Infrastructure Protection Range",
+      "releaseLadderAf": [
+        7000000
+      ],
+      "releaseFloorAf": 6000000,
+      "protectionTargetFt": 3510.0
+    },
+    {
+      "projectedOct1Elevation": 3516.16,
+      "rangeName": "Low Elevation Infrastructure Protection Range",
+      "releaseLadderAf": [
+        7000000
+      ],
+      "releaseFloorAf": 6000000,
+      "protectionTargetFt": 3510.0
+    },
+    {
+      "projectedOct1Elevation": 3539.99,
+      "rangeName": "Low Elevation Infrastructure Protection Range",
+      "releaseLadderAf": [
+        7000000
+      ],
+      "releaseFloorAf": 6000000,
+      "protectionTargetFt": 3510.0
+    },
+    {
+      "projectedOct1Elevation": 3540.0,
+      "rangeName": "Mid-Elevation Range",
+      "releaseLadderAf": [
+        8000000,
+        7500000,
+        7000000
+      ],
+      "releaseFloorAf": 6000000,
+      "protectionTargetFt": 3510.0
+    },
+    {
+      "projectedOct1Elevation": 3540.01,
+      "rangeName": "Mid-Elevation Range",
+      "releaseLadderAf": [
+        8000000,
+        7500000,
+        7000000
+      ],
+      "releaseFloorAf": 6000000,
+      "protectionTargetFt": 3510.0
+    },
+    {
+      "projectedOct1Elevation": 3564.99,
+      "rangeName": "Mid-Elevation Range",
+      "releaseLadderAf": [
+        8000000,
+        7500000,
+        7000000
+      ],
+      "releaseFloorAf": 6000000,
+      "protectionTargetFt": 3510.0
+    },
+    {
+      "projectedOct1Elevation": 3565.0,
+      "rangeName": "Upper Elevation Range",
+      "releaseLadderAf": [
+        8230000,
+        8000000,
+        7500000
+      ],
+      "releaseFloorAf": 6000000,
+      "protectionTargetFt": 3510.0
+    },
+    {
+      "projectedOct1Elevation": 3565.01,
+      "rangeName": "Upper Elevation Range",
+      "releaseLadderAf": [
+        8230000,
+        8000000,
+        7500000
+      ],
+      "releaseFloorAf": 6000000,
+      "protectionTargetFt": 3510.0
+    },
+    {
+      "projectedOct1Elevation": 3600.0,
+      "rangeName": "Upper Elevation Range",
+      "releaseLadderAf": [
+        8230000,
+        8000000,
+        7500000
+      ],
+      "releaseFloorAf": 6000000,
+      "protectionTargetFt": 3510.0
+    }
+  ]
 } as const;

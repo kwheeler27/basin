@@ -11,10 +11,12 @@ from dataclasses import dataclass, field
 
 from .rulebook import (
     Party,
+    PowellRange,
     PowellTier,
     ReductionKind,
     Rulebook,
     Reduction,
+    SuccessorRulebook,
 )
 
 
@@ -161,6 +163,61 @@ def _first_matching_tier(
     for tier in tiers:
         if tier.band.contains(elevation):
             return tier
+    return None
+
+
+@dataclass(frozen=True)
+class PowellRangeDetermination:
+    """OY2027–28 Powell determination: the RANGE and its release ladder.
+
+    Deliberately not a single release number — under the 2027–2028 Operating
+    Guidelines the initial release is the first ladder candidate that Exhibit
+    Run modeling projects to hold the protection target, and in-year
+    adjustments can lower it to the floor. Reporting anything more precise
+    than (range, ladder, floor, target) would claim authority the engine
+    does not have.
+    """
+
+    range_name: str
+    release_ladder_af: tuple[float, ...]
+    release_floor_af: float
+    protection_target_ft: float
+    critical_ft: float
+    rulebook_version: str
+    note: str
+
+
+def determine_powell_range(
+    rulebook: SuccessorRulebook, projected_oct1_elevation: float
+) -> PowellRangeDetermination:
+    """§5.1: locate the operational range for a projected October 1 elevation.
+
+    The input is the Most Probable AUGUST 24-Month Study projection of the
+    October 1 elevation for the coming Water Year — never a current reading.
+    """
+    rng = _first_matching_range(rulebook.powell_ranges, projected_oct1_elevation)
+    if rng is None:
+        raise ValueError(
+            f"no Powell range matches projected elevation "
+            f"{projected_oct1_elevation} in rulebook {rulebook.version}"
+        )
+    return PowellRangeDetermination(
+        range_name=rng.name,
+        release_ladder_af=rng.release_ladder_af,
+        release_floor_af=rulebook.powell_release_floor_af,
+        protection_target_ft=rulebook.powell_protection_target_ft,
+        critical_ft=rulebook.powell_critical_ft,
+        rulebook_version=rulebook.version,
+        note=rng.note,
+    )
+
+
+def _first_matching_range(
+    ranges: tuple[PowellRange, ...], elevation: float
+) -> PowellRange | None:
+    for rng in ranges:
+        if rng.band.contains(elevation):
+            return rng
     return None
 
 

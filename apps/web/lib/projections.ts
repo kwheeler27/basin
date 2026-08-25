@@ -13,6 +13,9 @@ export const OFFICIAL_24MS = {
   /** Projected end-of-December 2026 elevations (≈ January 1, 2027). */
   powellJan1Ft: 3507.68,
   meadJan1Ft: 1037.31,
+  /** Projected end-of-September 2026 elevation (≈ October 1) — the value
+   * the 2027–2028 Operating Guidelines key Powell's WY2027 range on. */
+  powellOct1Ft: 3516.16,
   notes:
     "WY2026 Powell release reduced from 7.48 to 6.00 MAF under SEIS ROD " +
     "§6.E; the study reflects 1.00 MAF of Drought Response Operations " +

@@ -26,6 +26,10 @@ export interface BandData {
 
 export const RULEBOOK = RULEBOOK_DATA.rulebook;
 export const RULE_VECTORS = RULEBOOK_DATA.vectors;
+/** The 2027–2028 Operating Guidelines (v2027-og) — a structurally different
+ * regime; see determinePowellRange and the fixed Mead apportionments. */
+export const SUCCESSOR = RULEBOOK_DATA.successor;
+export const SUCCESSOR_VECTORS = RULEBOOK_DATA.successorVectors;
 
 export function bandContains(band: BandData, elevation: number): boolean {
   if (band.upper !== null) {
@@ -155,5 +159,43 @@ export function determinePowell(
     // explicit modeling assumption, matching the Python engine.
     releaseOrMidpoint: releaseAf ?? (range![0] + range![1]) / 2,
     note: tier.note,
+  };
+}
+
+export interface PowellRangeDetermination {
+  readonly rangeName: string;
+  readonly releaseLadderAf: readonly number[];
+  readonly releaseFloorAf: number;
+  readonly protectionTargetFt: number;
+  readonly criticalFt: number;
+  readonly note: string;
+}
+
+/**
+ * OY2027–28 Powell determination (2027–2028 Operating Guidelines §5.1).
+ * Input is the Most Probable AUGUST 24-Month Study projection of the
+ * OCTOBER 1 elevation for the coming Water Year — never a current reading.
+ * Returns the range and its release ladder; the initial release itself is
+ * set by Reclamation's Exhibit Run modeling, which this engine does not
+ * claim to reproduce.
+ */
+export function determinePowellRange(
+  projectedOct1Elevation: number,
+): PowellRangeDetermination {
+  const rng = SUCCESSOR.powellRanges.find((r) =>
+    bandContains(r.band, projectedOct1Elevation),
+  );
+  if (!rng) {
+    throw new Error(
+      `no Powell range matches projected elevation ${projectedOct1Elevation} in ${SUCCESSOR.version}`,
+    );
+  }
+  return {
+    rangeName: rng.name,
+    releaseLadderAf: rng.releaseLadderAf,
+    releaseFloorAf: SUCCESSOR.powellReleaseFloorAf,
+    protectionTargetFt: SUCCESSOR.powellProtectionTargetFt,
+    criticalFt: SUCCESSOR.powellCriticalFt,
+    note: rng.note,
   };
 }
