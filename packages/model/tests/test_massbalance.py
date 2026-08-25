@@ -90,12 +90,69 @@ def test_bigger_cut_always_helps_mead():
 
 
 def test_rules_react_to_recovery():
-    """With big inflows and a big cut, Mead should climb out of shortage."""
-    res = simulate(6 * MAF, 7 * MAF, [11 * MAF] * 6, CURVES, extra_lb_cut_af=1.5 * MAF)
+    """With big inflows and a big cut, Mead climbs out of shortage — under
+    the 2007 rules, which have elevation tiers to climb out of. Runs in
+    pre-2027 water years; the og era has no tiers by design (see below)."""
+    res = simulate(6 * MAF, 7 * MAF, [11 * MAF] * 6, CURVES,
+                   extra_lb_cut_af=1.5 * MAF, start_wy=2021)
     tiers = [r.tier for r in res]
     assert "shortage" in tiers[0].lower()
     assert any("Normal" in t or "Tier 0" in t for t in tiers[3:])
 
 
+def test_og_demand_still_reacts_to_recovery():
+    """Under v2027-og the US cut is fixed, but the assumed Minute-323-
+    equivalent Mexico layers still relax as Mead recovers — so delivered
+    water must rise with elevation even though the tier label never moves."""
+    res = simulate(6 * MAF, 7 * MAF, [11 * MAF] * 6, CURVES,
+                   extra_lb_cut_af=1.5 * MAF, start_wy=2027)
+    assert all(r.tier == "Shortage Condition (fixed)" for r in res)
+    assert res[-1].mead_af > res[0].mead_af          # recovery happened
+    assert res[-1].lb_delivered_af > res[0].lb_delivered_af
+
+
 def test_quantiles():
     assert quantiles([1, 2, 3, 4, 5]) == [1.4, 3.0, 4.6]
+
+
+# ---------------------------------------------------------------------------
+# v2027-og in the simulator
+# ---------------------------------------------------------------------------
+
+def test_og_years_carry_the_successor_rulebook():
+    sp0 = next(v for v in reversed(INPUTS["powellStorage"]) if v)
+    sm0 = next(v for v in reversed(INPUTS["meadStorage"]) if v)
+    res = simulate(sp0, sm0, [8_000_000.0] * 3, CURVES, start_wy=2027)
+    assert all(r.rulebook == "v2027-og" for r in res)
+    assert all(r.tier == "Shortage Condition (fixed)" for r in res)
+
+
+def test_wy2024_validation_still_runs_the_2007_rules():
+    months = INPUTS["months"]
+    i0 = months.index("2023-09")
+    sp0 = INPUTS["powellStorage"][i0]
+    sm0 = INPUTS["meadStorage"][i0]
+    res = simulate(sp0, sm0, [INPUTS["inflowWY"]["2024"]], CURVES, start_wy=2024)[0]
+    assert res.rulebook == "v2007-ig-dcp"
+
+
+def test_og_release_respects_floor_and_ladder_bounds():
+    sp0 = next(v for v in reversed(INPUTS["powellStorage"]) if v)
+    sm0 = next(v for v in reversed(INPUTS["meadStorage"]) if v)
+    # Dry sequence: releases must never fall below the 6.0 MAF floor before
+    # physical curtailment, and never exceed ladder max + upward adjustment
+    # in a dry year (no upward adjustment possible when storage is falling).
+    res = simulate(sp0, sm0, [5_000_000.0] * 3, CURVES, start_wy=2027)
+    assert res[0].release_af >= 6_000_000.0 - 1e-6
+    assert res[0].release_af <= 8_230_000.0 + 1e-6
+
+
+def test_og_wet_year_upward_adjustment_can_exceed_ladder():
+    # A cartoonishly wet sequence should trigger the above-3,565 upward
+    # adjustment (half the excess volume added to the release).
+    sp0 = CURVES["powell"].inverse(3560.0)
+    sm0 = next(v for v in reversed(INPUTS["meadStorage"]) if v)
+    res = simulate(sp0, sm0, [16_000_000.0], CURVES, start_wy=2027)
+    assert res[0].release_af > 8_230_000.0
+    # And the year still ends above the adjustment elevation's storage floor.
+    assert res[0].powell_elev > 3540.0

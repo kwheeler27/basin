@@ -46,15 +46,18 @@ const W = 440;
 const H = 240;
 const M = { t: 18, r: 74, b: 24, l: 40 };
 
+// Decision elevations under the 2027–2028 Operating Guidelines: Mead has no
+// shortage tiers anymore — its lines are the consultation and ICS
+// thresholds; Powell's are the protection target and critical elevation.
 const MEAD_LINES = [
-  { elev: 1075, label: "Tier 1 · 1,075" },
-  { elev: 1050, label: "Tier 2 · 1,050" },
-  { elev: 1025, label: "Tier 3 · 1,025" },
-  { elev: 950, label: "power pool · 950" },
+  { elev: 1010, label: "consult · 1,010" },
+  { elev: 1000, label: "no ICS · 1,000" },
+  { elev: 950, label: "power · 950" },
 ];
 const POWELL_LINES = [
-  { elev: 3525, label: "balancing · 3,525" },
-  { elev: 3490, label: "power pool · 3,490" },
+  { elev: 3510, label: "protect · 3,510" },
+  { elev: 3500, label: "critical · 3,500" },
+  { elev: 3490, label: "power · 3,490" },
 ];
 
 function Panel({
@@ -158,12 +161,17 @@ export function WhatIf() {
   if (!surface) return <div className="drawdown loading">Loading the model surface…</div>;
 
   const sc = surface.surface[ci]!;
-  const meadCross = sc.crossings.filter((c) => c.res === "mead");
+  const allCross = sc.crossings;
   const headline =
-    meadCross.length === 0
-      ? "the median trajectory crosses no new shortage tier within five years."
+    allCross.length === 0
+      ? "the median trajectory crosses none of the guidelines' decision elevations within five years."
       : "the median trajectory crosses " +
-        meadCross.map((c) => `${c.label} (${c.elev.toLocaleString()} ft) in WY${c.wy}`).join(", then ") +
+        allCross
+          .map(
+            (c) =>
+              `${c.res === "powell" ? "Powell " : "Mead "}${c.label} (${c.elev.toLocaleString()} ft) in WY${c.wy}`,
+          )
+          .join(", then ") +
         ".";
 
   return (

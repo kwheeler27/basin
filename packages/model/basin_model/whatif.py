@@ -23,8 +23,9 @@ OUT = Path(__file__).resolve().parents[3] / "apps" / "web" / "public" / "geo" / 
 HORIZON = 5
 CUTS = [round(0.25 * i, 2) for i in range(13)]  # 0 .. 3.0 MAF
 
-MEAD_MARKS = [(1075, "Tier 1"), (1050, "Tier 2"), (1025, "Tier 3"), (950, "power pool")]
-POWELL_MARKS = [(3525, "balancing tier"), (3490, "power pool")]
+# Decision elevations under v2027-og: the old IG shortage tiers are gone.
+MEAD_MARKS = [(1010, "consultation trigger"), (1000, "no ICS delivery"), (950, "power pool")]
+POWELL_MARKS = [(3510, "protection target"), (3500, "critical"), (3490, "power pool")]
 
 
 def main() -> None:
@@ -70,21 +71,25 @@ def main() -> None:
     tail_from = months.index("2019-10")
     payload = {
         "source": (
-            "Basin reduced-form annual mass balance over the verified 2007 IG/DCP "
-            "rules engine; hydrology = all rolling 5-year sequences of observed "
-            "WY2001-2025 unregulated inflow (Reclamation RISE). MODELED."
+            "Basin reduced-form annual mass balance over the verified rules "
+            "engine — v2027-og (2027-2028 Operating Guidelines) from WY2027; "
+            "hydrology = all rolling 5-year sequences of observed WY2001-2025 "
+            "unregulated inflow (Reclamation RISE). MODELED."
         ),
-        "modelVersion": "whatif-0.1",
-        "rulebook": "v2007-ig-dcp",
+        "modelVersion": "whatif-0.2",
+        "rulebook": "v2027-og",
         "baked": inputs["fetched"],
         "assumptions": [
-            f"Mead base outflow {BASE_OUTFLOW_AF/MAF:.2f} MAF/yr — calibrated to the observed 2023-25 conservation era; assumes current-era use continues",
+            "Rules: the 2027-2028 Operating Guidelines govern every simulated year (continuation beyond OY2028 assumed, as Reclamation itself assumes in simulated years)",
+            "Powell: the §5.1 release ladder is emulated annually — the first candidate whose YEAR-END elevation holds 3,510 ft (an annual proxy for Reclamation's Exhibit Runs), reduced as needed to a 6.0 MAF floor, with the above-3,565 upward adjustment; discretionary CRSP Upper Initial Unit drought releases are EXCLUDED (conservative for Powell)",
+            "Mead: fixed Shortage Condition — US Lower Division cuts of 1.25 MAF from Normal in every year; Mexico assumed to continue Minute-323-equivalent tiers (successor Minute unknown)",
+            "The guidelines' 700 kAF of additional System Conservation (2026-28 total) is NOT baked in — it is what the conservation slider represents (≈0.23 MAF/yr if spread evenly)",
+            f"Mead base outflow {BASE_OUTFLOW_AF/MAF:.2f} MAF/yr — calibrated to the observed 2023-25 conservation era; rule changes apply as increments to that base",
             f"Powell-to-Mead tributary gains {GAINS_AF/MAF:.1f} MAF/yr (constant)",
             "Evaporation as linear fractions of storage (Powell 2%, Mead 5% per year)",
-            "Tier determinations use prior year-end elevations (proxy for the August 24-Month Study)",
-            "Rules held at 2007 IG + DCP; the post-2026 rulebook is not yet final",
+            "Determinations use prior year-end elevations (proxy for the 24-Month Study projections the guidelines key on)",
             "Storage-elevation curves fit to 26 years of paired RISE observations",
-            "Reproduces observed WY2024 within 0.2 MAF (Powell) and 0.1 MAF (Mead); release decision matches exactly",
+            "Validation: reproduces observed WY2024 within 0.2 MAF (Powell) and 0.1 MAF (Mead) under the 2007 rules then in force; release decision matches exactly",
         ],
         "startWy": start_wy,
         "traceCount": len(traces),
