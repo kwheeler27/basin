@@ -54,6 +54,28 @@ class Curve:
         y0, y1 = ys[i], ys[i + 1]
         return y0 + (y1 - y0) * (x - x0) / (x1 - x0)
 
+    def inverse(self, y: float) -> float:
+        """x at a given y (storage at a given elevation). Valid because the
+        curve is strictly monotone; linear extrapolation outside the range,
+        mirroring __call__."""
+        xs, ys = self.xs, self.ys
+        if y <= ys[0]:
+            i = 0
+        elif y >= ys[-1]:
+            i = len(ys) - 2
+        else:
+            lo, hi = 0, len(ys) - 1
+            while hi - lo > 1:
+                mid = (lo + hi) // 2
+                if ys[mid] <= y:
+                    lo = mid
+                else:
+                    hi = mid
+            i = lo
+        x0, x1 = xs[i], xs[i + 1]
+        y0, y1 = ys[i], ys[i + 1]
+        return x0 + (x1 - x0) * (y - y0) / (y1 - y0)
+
     @property
     def observed_range(self) -> tuple[float, float]:
         return self.xs[0], self.xs[-1]
