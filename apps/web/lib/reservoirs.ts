@@ -163,6 +163,14 @@ export const COMBINED_CAPACITY_ACRE_FEET =
 export const MODERN_ANNUAL_FLOW_ACRE_FEET = 12_400_000;
 export const MODERN_FLOW_BASIS = "≈2000–2025 average natural flow at Lees Ferry";
 
+/** Lake Powell unregulated inflow — RISE item 4301 (registry:
+ * colorado.reservoir.powell.inflow_unregulated). Daily acre-feet; a
+ * computed residual, so single days can be negative. */
+export const POWELL_UNREG_INFLOW_ITEM = 4301;
+/** Mean of WY2001–2025 full-year totals of the same series (computed in the
+ * model-inputs bake from RISE item 4301; packages/model/data). */
+export const POWELL_UNREG_INFLOW_RECENT_MEAN_AF = 8_390_000;
+
 /** Operating rules currently in force. See docs/OPERATING_RULES.md. */
 export const RULEBOOK = {
   version: "v2007-ig-dcp",
