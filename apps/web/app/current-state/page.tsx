@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Route } from "next";
 import { DeliveryPareto, type ParetoItem } from "@/components/DeliveryPareto";
+import { DroughtPanel } from "@/components/DroughtPanel";
 import { InflowTopline, type InflowPoint } from "@/components/InflowTopline";
 import { ReservoirCard } from "@/components/ReservoirCard";
 import { RulesToday } from "@/components/RulesToday";
@@ -14,6 +15,7 @@ import {
   POWELL_UNREG_INFLOW_RECENT_MEAN_AF,
   RULEBOOK,
 } from "@/lib/reservoirs";
+import { fetchDroughtSeries } from "@/lib/drought";
 import { fetchSeries, REVALIDATE_SECONDS } from "@/lib/rise";
 import {
   acreFeet,
@@ -43,6 +45,10 @@ export default async function CurrentState() {
       fetchSeries(MEAD.riseStorageItem),
       fetchSeries(POWELL_UNREG_INFLOW_ITEM),
     ]);
+  const [droughtUpper, droughtLower] = await Promise.all([
+    fetchDroughtSeries("14"),
+    fetchDroughtSeries("15"),
+  ]);
 
   // Current water year starts on the most recent October 1.
   const today = new Date().toISOString().slice(0, 10);
@@ -110,6 +116,15 @@ export default async function CurrentState() {
       what: "Reservoir storage, elevation & Powell unregulated inflow",
       cadence: "daily · provisional",
       asOfLabel: asOf ? formatDate(asOf) : "unavailable",
+      live: true,
+    },
+    {
+      source: "U.S. Drought Monitor (NDMC · USDA · NOAA)",
+      what: "Basin drought coverage by severity",
+      cadence: "weekly (Tuesday map)",
+      asOfLabel: droughtUpper.weeks.length
+        ? formatDate(droughtUpper.weeks[droughtUpper.weeks.length - 1]!.mapDate)
+        : "unavailable",
       live: true,
     },
     {
@@ -214,6 +229,31 @@ export default async function CurrentState() {
         remove upstream reservoir operations; estimated, provisional, and
         revised without announcement. Single days can be negative: the series
         is a computed residual.
+      </div>
+
+      <h2 className="section-title">How deep is the drought?</h2>
+      {droughtUpper.weeks.length > 0 && (
+        <p className="body-text">
+          <strong>
+            {Math.round(droughtUpper.weeks[droughtUpper.weeks.length - 1]!.d2)}%
+          </strong>{" "}
+          of the Upper Colorado watershed — where the river&rsquo;s water
+          comes from — is in severe drought or worse (D2+), with{" "}
+          {Math.round(droughtUpper.weeks[droughtUpper.weeks.length - 1]!.d4)}%
+          in exceptional drought. Each band is the share of the watershed at
+          that severity <em>or worse</em>, week by week:
+        </p>
+      )}
+      <div className="grid">
+        <DroughtPanel series={droughtUpper} />
+        <DroughtPanel series={droughtLower} />
+      </div>
+      <div className="chain-caveat" style={{ marginTop: 10 }}>
+        U.S. Drought Monitor — the drought product of record, produced
+        jointly by the National Drought Mitigation Center, USDA, and NOAA;
+        a weekly expert synthesis of many indicators, not a single
+        instrument. New map every Tuesday. Categories are cumulative: D2+
+        includes D3 and D4.
       </div>
 
       <div className="grid">
