@@ -4,6 +4,8 @@ A public **digital twin** of a river system. It continuously ingests authoritati
 
 The **Colorado River** is the first basin.
 
+**Mission:** make the Colorado River system legible — what state it's in, why, and what happens next — built from the primary record, readable by anyone, and auditable down to every number. The full mission, vision, values, and operating principles: [`docs/MISSION.md`](docs/MISSION.md).
+
 A dashboard answers *what is happening*. A digital twin also answers *why*, *what happens next*, and *what if we change something*:
 
 - **Continuous ingestion** — reservoir storage and elevation read live from Reclamation RISE on every page; state rights registries, decree ledgers, canal diversions, and crop layers re-baked on a schedule and committed as dated, shape-checked artifacts. Each measure is a versioned, typed registry entry with explicit units, lineage, cadence, and provenance.
