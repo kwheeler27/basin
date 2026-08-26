@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Route } from "next";
 import { DeliveryPareto, type ParetoItem } from "@/components/DeliveryPareto";
+import { InflowTopline, type InflowPoint } from "@/components/InflowTopline";
 import { ReservoirCard } from "@/components/ReservoirCard";
 import { RulesToday } from "@/components/RulesToday";
 import { StorageTopline, type ToplinePoint } from "@/components/StorageTopline";
@@ -9,6 +10,8 @@ import {
   COMBINED_CAPACITY_ACRE_FEET,
   MEAD,
   POWELL,
+  POWELL_UNREG_INFLOW_ITEM,
+  POWELL_UNREG_INFLOW_RECENT_MEAN_AF,
   RULEBOOK,
 } from "@/lib/reservoirs";
 import { fetchSeries, REVALIDATE_SECONDS } from "@/lib/rise";
@@ -32,12 +35,27 @@ export const dynamic = "force-static";
 export const metadata = { title: "Current State — Basin" };
 
 export default async function CurrentState() {
-  const [powellElev, powellStor, meadElev, meadStor] = await Promise.all([
-    fetchSeries(POWELL.riseElevationItem),
-    fetchSeries(POWELL.riseStorageItem),
-    fetchSeries(MEAD.riseElevationItem),
-    fetchSeries(MEAD.riseStorageItem),
-  ]);
+  const [powellElev, powellStor, meadElev, meadStor, inflow] =
+    await Promise.all([
+      fetchSeries(POWELL.riseElevationItem),
+      fetchSeries(POWELL.riseStorageItem),
+      fetchSeries(MEAD.riseElevationItem),
+      fetchSeries(MEAD.riseStorageItem),
+      fetchSeries(POWELL_UNREG_INFLOW_ITEM),
+    ]);
+
+  // Current water year starts on the most recent October 1.
+  const today = new Date().toISOString().slice(0, 10);
+  const wyStartYear =
+    Number(today.slice(5, 7)) >= 10
+      ? Number(today.slice(0, 4))
+      : Number(today.slice(0, 4)) - 1;
+  const wyStart = `${wyStartYear}-10-01`;
+  const wyLabel = `WY${wyStartYear + 1}`;
+  const inflowWy: InflowPoint[] = inflow.points
+    .filter((p) => p.date >= wyStart)
+    .map((p) => ({ date: p.date, value: p.value }));
+  const inflowTotal = inflowWy.reduce((s, p) => s + p.value, 0);
 
   const now =
     powellStor.latest && meadStor.latest
@@ -89,7 +107,7 @@ export default async function CurrentState() {
   }[] = [
     {
       source: "Reclamation RISE",
-      what: "Reservoir storage & elevation",
+      what: "Reservoir storage, elevation & Powell unregulated inflow",
       cadence: "daily · provisional",
       asOfLabel: asOf ? formatDate(asOf) : "unavailable",
       live: true,
@@ -170,6 +188,32 @@ export default async function CurrentState() {
         Days where either reservoir&rsquo;s record is missing render as gaps.
         For the 26-year drawdown, read the{" "}
         <Link href={"/report/reservoirs" as Route}>Reservoirs chapter</Link>.
+      </div>
+
+      <h2 className="section-title">
+        How much water arrived this year ({wyLabel})?
+      </h2>
+      {inflowWy.length >= 14 ? (
+        <p className="body-text">
+          Unregulated inflow above Lake Powell — the standard measure of what
+          the Upper Basin produced, and the leading indicator the storage
+          numbers lag — totals{" "}
+          <strong>{acreFeet(inflowTotal)}</strong> since October 1. The
+          recent-era <em>full-year</em> mean is{" "}
+          {acreFeet(POWELL_UNREG_INFLOW_RECENT_MEAN_AF)}; the water year runs
+          through September 30.
+        </p>
+      ) : null}
+      <InflowTopline
+        points={inflowWy}
+        fullYearMeanAf={POWELL_UNREG_INFLOW_RECENT_MEAN_AF}
+        meanLabel="full-year mean · 8.4M"
+      />
+      <div className="chain-caveat" style={{ marginTop: 8 }}>
+        Reclamation RISE item {POWELL_UNREG_INFLOW_ITEM} — inflow adjusted to
+        remove upstream reservoir operations; estimated, provisional, and
+        revised without announcement. Single days can be negative: the series
+        is a computed residual.
       </div>
 
       <div className="grid">
