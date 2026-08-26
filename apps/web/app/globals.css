@@ -1817,3 +1817,17 @@ html { scroll-behavior: smooth; }
 .es-ref.power, .es-ref.dead { stroke: var(--danger); }
 .es-reflabel { font-size: 9px; fill: var(--warn); }
 .es-reflabel.power, .es-reflabel.dead { fill: var(--danger); }
+
+/* drought panels — nested USDM severity fills, lightest (D0+) at the back */
+.dr-area { stroke: none; }
+.dr-area.dr0 { fill: #f2d989; }
+.dr-area.dr1 { fill: #e5ae4f; }
+.dr-area.dr2 { fill: #d47f3a; }
+.dr-area.dr3 { fill: #b04a2e; }
+.dr-area.dr4 { fill: #7c231d; }
+.dr-label { font-size: 10.5px; font-weight: 600; }
+.dr-label.dr0 { fill: #a8871f; }
+.dr-label.dr1 { fill: #a06a1e; }
+.dr-label.dr2 { fill: #a35a24; }
+.dr-label.dr3 { fill: #b04a2e; }
+.dr-label.dr4 { fill: #7c231d; }
