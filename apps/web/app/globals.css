@@ -1831,3 +1831,6 @@ html { scroll-behavior: smooth; }
 .dr-label.dr2 { fill: #a35a24; }
 .dr-label.dr3 { fill: #b04a2e; }
 .dr-label.dr4 { fill: #7c231d; }
+
+/* landing executive summary — the argument gets a touch more presence */
+.exec-summary .body-text { font-size: 16.5px; line-height: 1.7; max-width: 760px; }
