@@ -1834,3 +1834,24 @@ html { scroll-behavior: smooth; }
 
 /* landing executive summary — the argument gets a touch more presence */
 .exec-summary .body-text { font-size: 16.5px; line-height: 1.7; max-width: 760px; }
+
+/* landing takeaways + supply/demand visuals */
+.takeaways { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0 8px; }
+.tk-item {
+  display: block; text-decoration: none; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px;
+}
+.tk-item:hover { border-color: var(--accent); }
+.tk-hed { font-size: 17px; font-weight: 700; color: var(--text); }
+.tk-item:hover .tk-hed { color: var(--accent); }
+.tk-body { margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--muted); }
+@media (max-width: 760px) { .takeaways { grid-template-columns: 1fr; } }
+.sf-annual { fill: none; stroke: color-mix(in srgb, var(--water) 45%, transparent); stroke-width: 1.2; }
+.sf-mean { fill: none; stroke: var(--water); stroke-width: 2.4; }
+.demand-breakdown { margin-top: 14px; max-width: 760px; }
+.db-row { margin-bottom: 10px; }
+.db-label { font-size: 13.5px; color: var(--text); margin-bottom: 3px; display: flex; align-items: center; gap: 8px; }
+.db-track { position: relative; height: 20px; background: var(--surface-2); border-radius: 4px; }
+.db-fill { height: 100%; border-radius: 4px; background: color-mix(in srgb, var(--water) 80%, transparent); box-shadow: inset -2px 0 0 var(--surface); }
+.db-num { position: absolute; right: 8px; top: 2px; font-size: 12px; font-weight: 600; color: var(--text); }
+.db-total { margin-top: 10px; font-size: 13.5px; color: var(--muted); }
