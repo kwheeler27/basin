@@ -10,7 +10,11 @@ import {
 } from "@/lib/reservoirs";
 import { fetchSeries } from "@/lib/rise";
 import { acreFeet, formatDate, percent } from "@/lib/format";
-import { SUPPLY, TOTAL_APPORTIONED } from "@/lib/system";
+import {
+  DEMAND_RECLAMATION_TOTAL,
+  SUPPLY,
+  TOTAL_APPORTIONED,
+} from "@/lib/system";
 import flow from "@/public/geo/natural_flow_wy.json";
 
 export const revalidate = 3600;
@@ -38,55 +42,6 @@ export default async function Landing() {
   const pct =
     stored !== null ? (stored / COMBINED_CAPACITY_ACRE_FEET) * 100 : null;
 
-  const takeaways: {
-    hed: string;
-    body: React.ReactNode;
-    href: Route;
-  }[] = [
-    {
-      hed: `Promised: ${acreFeet(TOTAL_APPORTIONED)} a year.`,
-      body: (
-        <>
-          7.5 million acre-feet to the Upper Basin, 7.5 to the Lower Basin,
-          1.5 to Mexico — written a century ago, when the river was believed
-          to carry {acreFeet(SUPPLY.compactAssumption.acreFeet)}.
-        </>
-      ),
-      href: "/report/demand" as Route,
-    },
-    {
-      hed: `Produced: about ${acreFeet(SUPPLY.modernMean.acreFeet)}.`,
-      body: (
-        <>
-          The modern average — and warming cuts flow roughly 9% more per
-          degree Celsius.
-        </>
-      ),
-      href: "/report/supply" as Route,
-    },
-    {
-      hed: "The difference came out of savings.",
-      body: (
-        <>
-          Lakes Powell and Mead: nearly full in 2000,{" "}
-          {pct !== null ? <strong>{percent(pct, 0)}</strong> : "about a quarter"}{" "}
-          today — about one year of river left in storage.
-        </>
-      ),
-      href: "/report/reservoirs" as Route,
-    },
-    {
-      hed: "So the rules keep changing.",
-      body: (
-        <>
-          The Post-2026 Record of Decision was signed August 21, 2026; new
-          operating guidelines govern 2027.
-        </>
-      ),
-      href: "/current-state" as Route,
-    },
-  ];
-
   return (
     <main>
       <div className="rulebook">
@@ -106,13 +61,48 @@ export default async function Landing() {
         produces.
       </h1>
 
-      <div className="takeaways">
-        {takeaways.map((t) => (
-          <Link key={t.hed} className="tk-item" href={t.href}>
-            <div className="tk-hed">{t.hed}</div>
-            <p className="tk-body">{t.body}</p>
+      <div className="exec-summary">
+        <p className="body-text">
+          On paper, the river owes{" "}
+          <Link href={"/report/demand" as Route}>
+            {acreFeet(TOTAL_APPORTIONED)} a year
+          </Link>{" "}
+          — 7.5 million acre-feet to the Upper Basin states, 7.5 to the Lower
+          Basin states, 1.5 to Mexico — commitments written a century ago,
+          when the river was believed to carry{" "}
+          {acreFeet(SUPPLY.compactAssumption.acreFeet)}. Much of the Upper
+          Basin&rsquo;s share was never developed, so the system actually
+          consumes about{" "}
+          <strong>{acreFeet(DEMAND_RECLAMATION_TOTAL)}</strong> a year. The river now
+          produces about{" "}
+          <Link href={"/report/supply" as Route}>
+            {acreFeet(SUPPLY.modernMean.acreFeet)}
           </Link>
-        ))}
+          . That smaller gap — consumption over production — has been paid
+          out of savings:{" "}
+          <Link href={"/report/reservoirs" as Route}>
+            Lakes Powell and Mead
+          </Link>{" "}
+          were nearly full at the millennium and hold{" "}
+          {pct !== null ? <strong>{percent(pct, 0)}</strong> : "about a quarter"}{" "}
+          of their capacity today
+          {stored !== null && (
+            <>
+              {" "}
+              — {acreFeet(stored)},{" "}
+              {(() => {
+                const years = stored / SUPPLY.modernMean.acreFeet;
+                return years > 0.85 && years < 1.15
+                  ? "about one year"
+                  : `about ${years.toFixed(1)} years`;
+              })()}{" "}
+              of what the river now produces
+            </>
+          )}
+          . That arithmetic is why the operating rules keep changing — most
+          recently on{" "}
+          <Link href={"/current-state" as Route}>August 21, 2026</Link>.
+        </p>
       </div>
 
       <h2 className="section-title">
