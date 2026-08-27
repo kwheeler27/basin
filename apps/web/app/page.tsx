@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Route } from "next";
-import { DemandBreakdown } from "@/components/DemandBreakdown";
 import { SupplySeries } from "@/components/SupplySeries";
+import { UseVsEntitlement } from "@/components/UseVsEntitlement";
 import {
   COMBINED_CAPACITY_ACRE_FEET,
   MEAD,
@@ -115,13 +115,19 @@ export default async function Landing() {
         full story: the <Link href={"/report/supply" as Route}>Supply chapter</Link>.
       </div>
 
-      <h2 className="section-title">Where the commitments go</h2>
-      <DemandBreakdown />
+      <h2 className="section-title">Use vs. entitlement</h2>
+      <p className="body-text" style={{ maxWidth: 760 }}>
+        The apportionments are ceilings on use, not deliveries — no one ships
+        a state its share. Whether a basin can actually take its ceiling
+        depends on where its tap is.
+      </p>
+      <UseVsEntitlement />
       <div className="chain-caveat" style={{ marginTop: 8 }}>
-        Reclamation accounting basis, 2020&ndash;2024 averages (Post-2026
-        Final EIS). Sector and crop breakdowns — a different accounting,
-        never summed with this one — are in the{" "}
-        <Link href={"/report/demand" as Route}>Demand chapter</Link>.
+        Entitlements: Boulder Canyon Project Act, the 1948 Upper Basin
+        Compact, and the 1944 Treaty. Use: Reclamation accounting basis,
+        2020&ndash;2024 averages (Post-2026 Final EIS). Sector and crop
+        breakdowns — a different accounting, never summed with this one —
+        are in the <Link href={"/report/demand" as Route}>Demand chapter</Link>.
       </div>
 
       <Link href={"/current-state" as Route} className="state-strip">
