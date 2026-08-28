@@ -3,26 +3,39 @@
 /**
  * The supply story as a time-series: 115 years of annual natural flow at
  * Lees Ferry, with the 1922 Compact assumption and the modern mean drawn
- * as reference lines — the structural problem in one image. Light annual
- * line, bold 10-year mean, crosshair + readout.
+ * as reference lines — the structural problem in one image.
+ *
+ * Renders at TRUE pixel size (measured container width), so mobile gets a
+ * taller layout with in-plot reference labels and real font sizes instead
+ * of a scaled-down postage stamp.
  */
 
 import { useRef, useState } from "react";
 import flow from "@/public/geo/natural_flow_wy.json";
 import { SUPPLY } from "@/lib/system";
+import { useMeasuredWidth } from "@/lib/useMeasuredWidth";
 
-const W = 920;
-const H = 260;
-const M = { t: 22, r: 130, b: 26, l: 40 };
 const MAF = 1_000_000;
 
 export function SupplySeries() {
   const [hover, setHover] = useState<number | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const { ref, width } = useMeasuredWidth<HTMLDivElement>();
 
   const years = Object.keys(flow.wy).map(Number).sort((a, b) => a - b);
   const vals = years.map((y) => (flow.wy as Record<string, number>)[String(y)]!);
   const n = years.length;
+
+  if (width === 0) {
+    return <div ref={ref} className="topline" style={{ minHeight: 220 }} />;
+  }
+
+  const narrow = width < 600;
+  const W = width;
+  const H = narrow ? Math.round(W * 0.78) : Math.round(W * 0.3);
+  const M = narrow
+    ? { t: 26, r: 12, b: 26, l: 36 }
+    : { t: 22, r: 128, b: 26, l: 42 };
 
   const hi = Math.max(...vals, SUPPLY.compactAssumption.acreFeet) * 1.05;
   const x = (i: number) => M.l + (i / (n - 1)) * (W - M.l - M.r);
@@ -33,7 +46,6 @@ export function SupplySeries() {
     d += `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(v).toFixed(1)} `;
   });
 
-  // Trailing 10-year mean — the trend without the noise.
   let dm = "";
   vals.forEach((_, i) => {
     if (i < 9) return;
@@ -42,9 +54,11 @@ export function SupplySeries() {
   });
 
   const refs = [
-    { v: SUPPLY.compactAssumption.acreFeet, label: "1922 assumption", cls: "warn" },
-    { v: SUPPLY.modernMean.acreFeet, label: "modern mean", cls: "danger" },
+    { v: SUPPLY.compactAssumption.acreFeet, label: "1922 assumption", cls: "" },
+    { v: SUPPLY.modernMean.acreFeet, label: "modern mean", cls: "power" },
   ];
+
+  const tickEvery = narrow ? 40 : 20;
 
   const onMove = (e: React.MouseEvent) => {
     const rect = svgRef.current?.getBoundingClientRect();
@@ -55,8 +69,8 @@ export function SupplySeries() {
   };
 
   return (
-    <div className="topline">
-      <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} role="img"
+    <div ref={ref} className="topline">
+      <svg ref={svgRef} width={W} height={H} viewBox={`0 0 ${W} ${H}`} role="img"
         aria-label="Annual natural flow at Lees Ferry, 1906 to 2020, against the 1922 Compact assumption"
         onMouseMove={onMove} onMouseLeave={() => setHover(null)}>
         {[5, 10, 15, 20].map((m) => (
@@ -66,9 +80,9 @@ export function SupplySeries() {
           </g>
         ))}
         <text x={M.l - 4} y={M.t - 8} className="cc-tick unit" style={{ textAnchor: "start" }}>
-          acre-feet per water year · natural flow at Lees Ferry
+          {narrow ? "acre-feet per water year" : "acre-feet per water year · natural flow at Lees Ferry"}
         </text>
-        {years.filter((yy) => yy % 20 === 0).map((yy) => (
+        {years.filter((yy) => yy % tickEvery === 0).map((yy) => (
           <text key={yy} x={x(years.indexOf(yy))} y={H - 8} className="cc-tick x">
             {yy}
           </text>
@@ -76,15 +90,22 @@ export function SupplySeries() {
 
         {refs.map((r) => (
           <g key={r.label}>
-            <line x1={M.l} x2={W - M.r} y1={y(r.v)} y2={y(r.v)} className={`es-ref ${r.cls === "danger" ? "power" : ""}`} />
-            <text x={W - M.r + 4} y={y(r.v) + 3} className={`es-reflabel ${r.cls === "danger" ? "power" : ""}`}>
-              {(r.v / MAF).toFixed(1)}M · {r.label}
-            </text>
+            <line x1={M.l} x2={W - M.r} y1={y(r.v)} y2={y(r.v)} className={`es-ref ${r.cls}`} />
+            {narrow ? (
+              <text x={M.l + 6} y={y(r.v) - 5}
+                className={`es-reflabel ${r.cls}`} style={{ fontSize: 11 }}>
+                {(r.v / MAF).toFixed(1)}M · {r.label}
+              </text>
+            ) : (
+              <text x={W - M.r + 4} y={y(r.v) + 3} className={`es-reflabel ${r.cls}`}>
+                {(r.v / MAF).toFixed(1)}M · {r.label}
+              </text>
+            )}
           </g>
         ))}
 
-        <path d={d} className="sf-annual" />
-        <path d={dm} className="sf-mean" />
+        <path d={d} className="sf-annual" style={narrow ? { strokeWidth: 1 } : undefined} />
+        <path d={dm} className="sf-mean" style={narrow ? { strokeWidth: 2.6 } : undefined} />
 
         {hover !== null && (
           <g>
