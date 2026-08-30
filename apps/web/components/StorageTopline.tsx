@@ -7,20 +7,19 @@
  */
 
 import { useRef, useState } from "react";
+import { useMeasuredWidth } from "@/lib/useMeasuredWidth";
 
 export interface ToplinePoint {
   readonly date: string; // YYYY-MM-DD
   readonly value: number | null; // acre-feet; null renders as a gap
 }
 
-const W = 920;
-const H = 240;
-const M = { t: 20, r: 110, b: 26, l: 44 };
 const MAF = 1_000_000;
 
 export function StorageTopline({ points }: { points: readonly ToplinePoint[] }) {
   const [hover, setHover] = useState<number | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const { ref, width } = useMeasuredWidth<HTMLDivElement>();
 
   const vals = points.map((p) => p.value).filter((v): v is number => v !== null);
   if (vals.length < 2) {
@@ -31,6 +30,16 @@ export function StorageTopline({ points }: { points: readonly ToplinePoint[] }) 
       </p>
     );
   }
+  if (width === 0) {
+    return <div ref={ref} className="topline" style={{ minHeight: 200 }} />;
+  }
+
+  const narrow = width < 600;
+  const W = width;
+  const H = narrow ? Math.round(W * 0.62) : Math.round(W * 0.26);
+  const M = narrow
+    ? { t: 20, r: 14, b: 26, l: 42 }
+    : { t: 20, r: 110, b: 26, l: 44 };
 
   const lo = Math.min(...vals) * 0.985;
   const hi = Math.max(...vals) * 1.015;
@@ -54,13 +63,14 @@ export function StorageTopline({ points }: { points: readonly ToplinePoint[] }) 
   const ticks: number[] = [];
   for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) ticks.push(v);
 
-  // X ticks: first of every other month.
+  // X ticks: first of every other month (every third when narrow).
+  const tickMod = narrow ? 3 : 2;
   const monthTicks = points
     .map((p, i) => ({ p, i }))
     .filter(({ p }, idx, arr) => {
       const m = p.date.slice(0, 7);
       const prev = idx > 0 ? arr[idx - 1]!.p.date.slice(0, 7) : "";
-      return m !== prev && Number(p.date.slice(5, 7)) % 2 === 1;
+      return m !== prev && Number(p.date.slice(5, 7)) % tickMod === 1;
     });
 
   const onMove = (e: React.MouseEvent) => {
@@ -79,8 +89,8 @@ export function StorageTopline({ points }: { points: readonly ToplinePoint[] }) 
     v === null ? "—" : `${(v / MAF).toFixed(2)} MAF`;
 
   return (
-    <div className="topline">
-      <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} role="img"
+    <div ref={ref} className="topline">
+      <svg ref={svgRef} width={W} height={H} viewBox={`0 0 ${W} ${H}`} role="img"
         aria-label="Combined Powell and Mead storage, past 13 months"
         onMouseMove={onMove} onMouseLeave={() => setHover(null)}>
         {ticks.map((v) => (
@@ -102,7 +112,12 @@ export function StorageTopline({ points }: { points: readonly ToplinePoint[] }) 
 
         <path d={d} className="tl-line" />
         <circle cx={x(lastI)} cy={y(last.value!)} r={3.5} className="tl-now" />
-        <text x={x(lastI) + 8} y={y(last.value!) + 4} className="tl-endlabel">
+        <text
+          x={narrow ? x(lastI) - 8 : x(lastI) + 8}
+          y={y(last.value!) - (narrow ? 8 : -4)}
+          className="tl-endlabel"
+          style={narrow ? { textAnchor: "end" } : undefined}
+        >
           {fmt(last.value)}
         </text>
 

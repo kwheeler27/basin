@@ -8,16 +8,13 @@
  */
 
 import { useState } from "react";
+import { useMeasuredWidth } from "@/lib/useMeasuredWidth";
 
 export interface ParetoItem {
   readonly short: string;
   readonly name: string;
   readonly af: number;
 }
-
-const W = 920;
-const H = 300;
-const M = { t: 30, r: 16, b: 40, l: 44 };
 
 const fmtAf = (af: number) =>
   af >= 1_000_000
@@ -26,6 +23,18 @@ const fmtAf = (af: number) =>
 
 export function DeliveryPareto({ items }: { items: readonly ParetoItem[] }) {
   const [hover, setHover] = useState<number | null>(null);
+  const { ref, width } = useMeasuredWidth<HTMLDivElement>();
+
+  if (width === 0) {
+    return <div ref={ref} className="pareto" style={{ minHeight: 240 }} />;
+  }
+
+  const narrow = width < 600;
+  const W = width;
+  const H = narrow ? Math.round(W * 0.74) : Math.round(W * 0.33);
+  const M = narrow
+    ? { t: 26, r: 10, b: 54, l: 38 }
+    : { t: 30, r: 16, b: 40, l: 44 };
 
   const sorted = [...items].sort((a, b) => b.af - a.af);
   const total = sorted.reduce((s, it) => s + it.af, 0);
@@ -55,8 +64,8 @@ export function DeliveryPareto({ items }: { items: readonly ParetoItem[] }) {
     .join(" ");
 
   return (
-    <div className="pareto">
-      <svg viewBox={`0 0 ${W} ${H}`} role="img"
+    <div ref={ref} className="pareto">
+      <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} role="img"
         aria-label="CY2025 accounted deliveries by system, largest first, with cumulative share"
         onMouseLeave={() => setHover(null)}>
         {[25, 50, 75, 100].map((p) => (
@@ -76,12 +85,21 @@ export function DeliveryPareto({ items }: { items: readonly ParetoItem[] }) {
             <rect x={cx(i) - slot / 2} y={M.t} width={slot} height={H - M.t - M.b}
               fill="transparent" />
             <path d={bar(i, r.share)} className={`pt-bar${hover === i ? " on" : ""}`} />
-            <text x={cx(i)} y={y(r.share) - 6} className="pt-val">
+            <text x={cx(i)} y={y(r.share) - 6} className="pt-val"
+              style={narrow ? { fontSize: 10 } : undefined}>
               {fmtAf(r.af)}
             </text>
-            <text x={cx(i)} y={H - M.b + 16} className="pt-name">
-              {r.short}
-            </text>
+            {narrow ? (
+              <text x={cx(i)} y={H - M.b + 14} className="pt-name"
+                style={{ fontSize: 10.5, textAnchor: "end" }}
+                transform={`rotate(-32 ${cx(i)} ${H - M.b + 14})`}>
+                {r.short}
+              </text>
+            ) : (
+              <text x={cx(i)} y={H - M.b + 16} className="pt-name">
+                {r.short}
+              </text>
+            )}
           </g>
         ))}
 

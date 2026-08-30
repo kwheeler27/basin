@@ -9,10 +9,7 @@
 
 import { useRef, useState } from "react";
 import type { DroughtSeries } from "@/lib/drought";
-
-const W = 460;
-const H = 210;
-const M = { t: 16, r: 96, b: 22, l: 36 };
+import { useMeasuredWidth } from "@/lib/useMeasuredWidth";
 
 const BANDS = [
   { key: "d0", label: "D0+ abnormally dry", cls: "dr0" },
@@ -25,6 +22,7 @@ const BANDS = [
 export function DroughtPanel({ series }: { series: DroughtSeries }) {
   const [hover, setHover] = useState<number | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const { ref, width } = useMeasuredWidth<HTMLDivElement>();
 
   const weeks = series.weeks;
   if (weeks.length < 8) {
@@ -40,6 +38,21 @@ export function DroughtPanel({ series }: { series: DroughtSeries }) {
       </section>
     );
   }
+
+  if (width === 0) {
+    return (
+      <section className="card">
+        <div ref={ref} style={{ minHeight: 200 }} />
+      </section>
+    );
+  }
+
+  const narrow = width < 430;
+  const W = width;
+  const H = narrow ? Math.round(W * 0.66) : Math.round(W * 0.46);
+  const M = narrow
+    ? { t: 16, r: 78, b: 22, l: 34 }
+    : { t: 16, r: 96, b: 22, l: 36 };
 
   const n = weeks.length;
   const latest = weeks[n - 1]!;
@@ -78,12 +91,12 @@ export function DroughtPanel({ series }: { series: DroughtSeries }) {
     });
 
   return (
-    <section className="card">
+    <section className="card" ref={ref}>
       <div className="card-head">
         <h2 className="card-title">{series.name}</h2>
         <span className="card-sub">HUC-{series.huc} watershed</span>
       </div>
-      <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} role="img"
+      <svg ref={svgRef} width={W} height={H} viewBox={`0 0 ${W} ${H}`} role="img"
         aria-label={`${series.name} percent area by drought severity, past two years`}
         onMouseMove={onMove} onMouseLeave={() => setHover(null)}>
         {[50, 100].map((p) => (
