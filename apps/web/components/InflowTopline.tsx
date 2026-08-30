@@ -9,15 +9,13 @@
  */
 
 import { useRef, useState } from "react";
+import { useMeasuredWidth } from "@/lib/useMeasuredWidth";
 
 export interface InflowPoint {
   readonly date: string; // YYYY-MM-DD
   readonly value: number; // daily acre-feet (can be negative)
 }
 
-const W = 920;
-const H = 240;
-const M = { t: 20, r: 116, b: 26, l: 44 };
 const MAF = 1_000_000;
 
 export function InflowTopline({
@@ -31,6 +29,7 @@ export function InflowTopline({
 }) {
   const [hover, setHover] = useState<number | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const { ref, width } = useMeasuredWidth<HTMLDivElement>();
 
   if (points.length < 14) {
     return (
@@ -40,6 +39,16 @@ export function InflowTopline({
       </p>
     );
   }
+  if (width === 0) {
+    return <div ref={ref} className="topline" style={{ minHeight: 200 }} />;
+  }
+
+  const narrow = width < 600;
+  const W = width;
+  const H = narrow ? Math.round(W * 0.62) : Math.round(W * 0.26);
+  const M = narrow
+    ? { t: 24, r: 14, b: 26, l: 42 }
+    : { t: 20, r: 116, b: 26, l: 44 };
 
   // Cumulative from the first point (the water-year start).
   let run = 0;
@@ -84,8 +93,8 @@ export function InflowTopline({
     });
 
   return (
-    <div className="topline">
-      <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} role="img"
+    <div ref={ref} className="topline">
+      <svg ref={svgRef} width={W} height={H} viewBox={`0 0 ${W} ${H}`} role="img"
         aria-label="Cumulative water-year unregulated inflow to Lake Powell"
         onMouseMove={onMove} onMouseLeave={() => setHover(null)}>
         {ticks.map((v) => (
@@ -107,13 +116,25 @@ export function InflowTopline({
 
         <line x1={M.l} x2={W - M.r} y1={y(fullYearMeanAf)} y2={y(fullYearMeanAf)}
           className="es-ref" />
-        <text x={W - M.r + 4} y={y(fullYearMeanAf) + 3} className="es-reflabel">
-          {meanLabel}
-        </text>
+        {narrow ? (
+          <text x={M.l + 6} y={y(fullYearMeanAf) - 5} className="es-reflabel"
+            style={{ fontSize: 11 }}>
+            {meanLabel}
+          </text>
+        ) : (
+          <text x={W - M.r + 4} y={y(fullYearMeanAf) + 3} className="es-reflabel">
+            {meanLabel}
+          </text>
+        )}
 
         <path d={d} className="tl-line" />
         <circle cx={x(n - 1)} cy={y(last.value)} r={3.5} className="tl-now" />
-        <text x={x(n - 1) + 8} y={y(last.value) + 4} className="tl-endlabel">
+        <text
+          x={narrow ? x(n - 1) - 8 : x(n - 1) + 8}
+          y={y(last.value) - (narrow ? 8 : -4)}
+          className="tl-endlabel"
+          style={narrow ? { textAnchor: "end" } : undefined}
+        >
           {(last.value / MAF).toFixed(2)} MAF
         </text>
 

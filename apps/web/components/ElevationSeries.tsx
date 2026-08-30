@@ -8,6 +8,7 @@
  */
 
 import { useRef, useState } from "react";
+import { useMeasuredWidth } from "@/lib/useMeasuredWidth";
 
 export interface ElevPoint {
   readonly date: string;
@@ -19,9 +20,6 @@ export interface ElevRef {
   readonly kind: string;
 }
 
-const W = 460;
-const H = 200;
-const M = { t: 16, r: 122, b: 22, l: 40 };
 /** A threshold merits a drawn line when within this many feet of the data. */
 const NEAR_FT = 40;
 
@@ -36,9 +34,20 @@ export function ElevationSeries({
 }) {
   const [hover, setHover] = useState<number | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const { ref, width } = useMeasuredWidth<HTMLDivElement>();
 
   const vals = points.map((p) => p.value).filter((v): v is number => v !== null);
   if (vals.length < 2) return null;
+  if (width === 0) {
+    return <div ref={ref} className="elevseries" style={{ minHeight: 180 }} />;
+  }
+
+  const narrow = width < 430;
+  const W = width;
+  const H = narrow ? Math.round(W * 0.6) : Math.round(W * 0.44);
+  const M = narrow
+    ? { t: 18, r: 12, b: 22, l: 38 }
+    : { t: 16, r: 124, b: 22, l: 40 };
 
   const dataLo = Math.min(...vals);
   const dataHi = Math.max(...vals);
@@ -85,15 +94,20 @@ export function ElevationSeries({
     });
 
   return (
-    <div className="elevseries">
-      <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} role="img"
+    <div ref={ref} className="elevseries">
+      <svg ref={svgRef} width={W} height={H} viewBox={`0 0 ${W} ${H}`} role="img"
         aria-label={`${name} elevation, past 13 months, with nearby operating thresholds`}
         onMouseMove={onMove} onMouseLeave={() => setHover(null)}>
         {near.map((t) => (
           <g key={t.elevation}>
             <line x1={M.l} x2={W - M.r} y1={y(t.elevation)} y2={y(t.elevation)}
               className={`es-ref ${t.kind}`} />
-            <text x={W - M.r + 4} y={y(t.elevation) + 3} className={`es-reflabel ${t.kind}`}>
+            <text
+              x={narrow ? M.l + 6 : W - M.r + 4}
+              y={narrow ? y(t.elevation) - 4 : y(t.elevation) + 3}
+              className={`es-reflabel ${t.kind}`}
+              style={narrow ? { fontSize: 10.5 } : undefined}
+            >
               {t.elevation.toLocaleString()} ·{" "}
               {t.short
                 .replace(/^[\d,]+\s*—\s*/, "")
