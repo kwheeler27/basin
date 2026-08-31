@@ -36,6 +36,7 @@ export default function RootLayout({
               peer-reviewed figures are cited to their DOI.
             </div>
             <div>
+              Every source: <a href="/references">References</a>.{" "}
               Definitions, units, and provenance come from the measure registry
               (<code>packages/registry</code>). Source at{" "}
               <a href="https://github.com/kwheeler27/basin">
