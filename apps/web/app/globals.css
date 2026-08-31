@@ -1862,3 +1862,10 @@ html { scroll-behavior: smooth; }
 .uve-line { display: flex; align-items: center; gap: 10px; }
 .uve-line .db-track { flex-shrink: 0; }
 .uve-num { font-size: 12.5px; font-weight: 600; color: var(--text); white-space: nowrap; }
+
+/* landing mini-map — reservoirs as live-storage circles on the watershed */
+.minimap { margin: 14px auto 4px; max-width: 720px; }
+.mm-basin { fill: color-mix(in srgb, var(--water) 9%, transparent); stroke: color-mix(in srgb, var(--water) 35%, transparent); stroke-width: 1; }
+.mm-river { fill: none; stroke: color-mix(in srgb, var(--water) 45%, transparent); stroke-width: 1; }
+.mm-res { fill: color-mix(in srgb, var(--water) 75%, transparent); stroke: var(--surface); stroke-width: 1; }
+.mm-label { font-size: 12px; font-weight: 600; fill: var(--text); }

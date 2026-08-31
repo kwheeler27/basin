@@ -14,6 +14,8 @@ export interface ParetoItem {
   readonly short: string;
   readonly name: string;
   readonly af: number;
+  /** Optional caveat shown in the table (e.g. a disputed figure). */
+  readonly flag?: string;
 }
 
 const fmtAf = (af: number) =>
@@ -21,7 +23,16 @@ const fmtAf = (af: number) =>
     ? `${(af / 1_000_000).toFixed(2)} MAF`
     : `${Math.round(af / 1000)} kAF`;
 
-export function DeliveryPareto({ items }: { items: readonly ParetoItem[] }) {
+export function DeliveryPareto({
+  items,
+  axisContext = "share of the accounted subtotal",
+  valueHeader = "CY2025 delivery",
+}: {
+  items: readonly ParetoItem[];
+  /** Axis note prefix; the subtotal is appended. */
+  axisContext?: string;
+  valueHeader?: string;
+}) {
   const [hover, setHover] = useState<number | null>(null);
   const { ref, width } = useMeasuredWidth<HTMLDivElement>();
 
@@ -75,7 +86,7 @@ export function DeliveryPareto({ items }: { items: readonly ParetoItem[] }) {
           </g>
         ))}
         <text x={M.l - 4} y={M.t - 12} className="cc-tick unit" style={{ textAnchor: "start" }}>
-          share of the accounted subtotal ({fmtAf(total)})
+          {axisContext} ({fmtAf(total)})
         </text>
 
         {rows.map((r, i) => (
@@ -127,7 +138,7 @@ export function DeliveryPareto({ items }: { items: readonly ParetoItem[] }) {
             <thead>
               <tr>
                 <th>System</th>
-                <th>CY2025 delivery</th>
+                <th>{valueHeader}</th>
                 <th>Share</th>
                 <th>Cumulative</th>
               </tr>
@@ -135,7 +146,14 @@ export function DeliveryPareto({ items }: { items: readonly ParetoItem[] }) {
             <tbody>
               {rows.map((r) => (
                 <tr key={r.short}>
-                  <td>{r.name}</td>
+                  <td>
+                    {r.name}
+                    {r.flag && (
+                      <span className="badge badge-med" style={{ marginLeft: 8 }}>
+                        {r.flag}
+                      </span>
+                    )}
+                  </td>
                   <td>{r.af.toLocaleString()} AF</td>
                   <td>{r.share.toFixed(1)}%</td>
                   <td>{r.cum.toFixed(1)}%</td>
