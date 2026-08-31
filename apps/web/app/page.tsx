@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import { DeliveryPareto, type ParetoItem } from "@/components/DeliveryPareto";
 import { BasinStory } from "@/components/BasinStory";
+import { Cite } from "@/components/Cite";
 import { StorageHistoryLine } from "@/components/StorageHistoryLine";
 import { SupplySeries } from "@/components/SupplySeries";
 import { UseVsEntitlement } from "@/components/UseVsEntitlement";
@@ -112,7 +113,7 @@ export default async function Landing() {
         valueHeader="2020–24 average use"
       />
       <div className="chain-caveat" style={{ marginTop: 8 }}>
-        2020&ndash;2024 averages (Post-2026 Final EIS). The Upper Basin
+        2020&ndash;2024 averages (Post-2026 Final EIS)<Cite id="feis2026" />. The Upper Basin
         figure is disputed between two federal sources (3.8 vs 4.3 MAF) —
         both are shown in the table view. Who uses it, by sector and crop:
         the{" "}
@@ -127,7 +128,7 @@ export default async function Landing() {
       </p>
       <SupplySeries />
       <div className="chain-caveat" style={{ marginTop: 8 }}>
-        Reclamation&rsquo;s natural-flow record at Lees Ferry, WY1906&ndash;2020
+        Reclamation&rsquo;s natural-flow record<Cite id="naturalflow" /> at Lees Ferry, WY1906&ndash;2020
         (vintage stated); a computed, revisable series. The full story: the{" "}
         <Link href={"/report/supply" as Route}>Supply chapter</Link>.
       </div>
@@ -176,7 +177,7 @@ export default async function Landing() {
         capacityAf={COMBINED_CAPACITY_ACRE_FEET}
       />
       <div className="chain-caveat" style={{ marginTop: 8 }}>
-        Reclamation RISE, monthly since 2000, live endpoint, provisional
+        Reclamation RISE<Cite id="rise" />, monthly since 2000, live endpoint, provisional
         {asOf && <> as of {formatDate(asOf)}</>}. Elevations, thresholds, and
         trajectories: the{" "}
         <Link href={"/report/reservoirs" as Route}>Reservoirs chapter</Link>{" "}
@@ -193,14 +194,15 @@ export default async function Landing() {
         entitlements are ceilings on use, not deliveries, and as the reserves
         fall, the rules keep ratcheting actual use down toward what the river
         provides. The rules in force today ({RULEBOOK.label}) expire{" "}
-        {formatDate(RULEBOOK.expires)}; their replacement was signed August
-        21, 2026, and fixes a Shortage Condition for 2027 and 2028. Who may
+        {formatDate(RULEBOOK.expires)}; their replacement<Cite id="og2728" /> was signed
+        August 21, 2026, and fixes a Shortage Condition for 2027 and 2028. Who may
         take what, versus who actually does:
       </p>
       <UseVsEntitlement />
       <div className="chain-caveat" style={{ marginTop: 8 }}>
-        Entitlements: Boulder Canyon Project Act, the 1948 Upper Basin
-        Compact, and the 1944 Treaty. What the rules say at today&rsquo;s
+        Entitlements: Boulder Canyon Project Act<Cite id="bcpa1928" />, the
+        1948 Upper Basin Compact<Cite id="ubcompact1948" />, and the 1944
+        Treaty<Cite id="treaty1944" />. What the rules say at today&rsquo;s
         elevations, old and new: the{" "}
         <Link href={"/current-state" as Route}>rules panel</Link>. The full
         legal story: the{" "}

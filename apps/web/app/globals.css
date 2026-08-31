@@ -1869,3 +1869,15 @@ html { scroll-behavior: smooth; }
 .mm-river { fill: none; stroke: color-mix(in srgb, var(--water) 45%, transparent); stroke-width: 1; }
 .mm-res { fill: color-mix(in srgb, var(--water) 75%, transparent); stroke: var(--surface); stroke-width: 1; }
 .mm-label { font-size: 12px; font-weight: 600; fill: var(--text); }
+
+/* references page + inline citations */
+.ref-list { list-style: none; margin: 14px 0 26px; padding: 0; }
+.ref-item { margin-bottom: 14px; padding-left: 14px; border-left: 2px solid var(--border); }
+.ref-item:target { border-left-color: var(--accent); background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.ref-cite { font-size: 14.5px; line-height: 1.55; color: var(--text); }
+.ref-cite a { color: var(--text); }
+.ref-cite a:hover { color: var(--accent); }
+.ref-used { margin-top: 3px; font-size: 12.5px; color: var(--muted); }
+.ref-note { color: var(--faint); font-style: italic; }
+.cite-sup { font-size: 10px; line-height: 0; }
+.cite-sup a { color: var(--accent); text-decoration: none; }
