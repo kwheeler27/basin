@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Route } from "next";
 import { DeliveryPareto, type ParetoItem } from "@/components/DeliveryPareto";
-import { ReservoirMiniMap } from "@/components/ReservoirMiniMap";
+import { BasinStory } from "@/components/BasinStory";
 import { StorageHistoryLine } from "@/components/StorageHistoryLine";
 import { SupplySeries } from "@/components/SupplySeries";
 import { UseVsEntitlement } from "@/components/UseVsEntitlement";
@@ -14,6 +14,7 @@ import {
 import { MAP_RESERVOIRS } from "@/lib/mapdata";
 import { fetchSeries } from "@/lib/rise";
 import { acreFeet, formatDate, percent } from "@/lib/format";
+import hist from "@/public/geo/storage_history.json";
 import {
   DEMAND_RECLAMATION,
   DEMAND_RECLAMATION_TOTAL,
@@ -57,10 +58,11 @@ export default async function Landing() {
   const series = await Promise.all(
     withItems.map((r) => fetchSeries(r.riseStorageItem!, 45)),
   );
-  const liveStorage: Record<string, { af: number } | undefined> = {};
+  const liveStorage: Record<string, { af: number; asOf: string } | undefined> =
+    {};
   withItems.forEach((r, i) => {
     const latest = series[i]!.latest;
-    if (latest) liveStorage[r.id] = { af: latest.value };
+    if (latest) liveStorage[r.id] = { af: latest.value, asOf: latest.date };
   });
   const powellStor = series[withItems.findIndex((r) => r.id === "powell")]!;
   const meadStor = series[withItems.findIndex((r) => r.id === "mead")]!;
@@ -71,6 +73,19 @@ export default async function Landing() {
   const asOf = powellStor.latest?.date ?? null;
   const pct =
     stored !== null ? (stored / COMBINED_CAPACITY_ACRE_FEET) * 100 : null;
+
+  // Section 4's computed claim: combined storage at the start of the
+  // record (January 2000) vs today.
+  const histSeries = (hist as { series: Record<string, (number | null)[]> })
+    .series;
+  const start2000 =
+    histSeries.powell?.[0] != null && histSeries.mead?.[0] != null
+      ? histSeries.powell[0]! + histSeries.mead[0]!
+      : null;
+  const dropPct =
+    stored !== null && start2000 !== null
+      ? ((start2000 - stored) / start2000) * 100
+      : null;
 
   return (
     <main>
@@ -127,15 +142,22 @@ export default async function Landing() {
         year. Storage is what lets use exceed supply. These are the accounts
         — Powell and Mead dwarf everything else:
       </p>
-      <ReservoirMiniMap storage={liveStorage} />
+      <BasinStory storage={liveStorage} variant="explore" />
       <div className="chain-caveat" style={{ marginTop: 8 }}>
-        The 11 live-gauged major reservoirs (Reclamation RISE). Two others
-        (Roosevelt, Dillon) have non-federal operators and no live feed.
-        Downstream pools stay full on purpose — regulating basins for the
-        aqueducts, not savings.
+        Live — circle area is water in storage now (Reclamation RISE,
+        provisional). Switch layers, pan, zoom, tap anything for its numbers
+        and sources; Powell and Mead dwarf everything else, and the small
+        downstream pools stay full on purpose (regulating basins for the
+        aqueducts, not savings). Full-page version:{" "}
+        <Link href={"/explore/map" as Route}>the basin map</Link>.
       </div>
 
-      <h2 className="section-title">4 · What that has done to the reserves</h2>
+      <h2 className="section-title">
+        4 · The two largest reservoirs are down{" "}
+        {dropPct !== null ? `${Math.round(dropPct)}%` : "about three-quarters"}{" "}
+        since 2000 — now at{" "}
+        {pct !== null ? `${Math.round(pct)}%` : "about a quarter"} of capacity
+      </h2>
       <p className="body-text">
         The reservoirs were nearly full in 2000. Today they hold{" "}
         {pct !== null ? <strong>{percent(pct, 0)}</strong> : "about a quarter"}{" "}
