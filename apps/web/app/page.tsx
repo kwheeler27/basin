@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { Route } from "next";
+import { ConsumptionBreakdown } from "@/components/ConsumptionBreakdown";
+import { StorageHistoryLine } from "@/components/StorageHistoryLine";
 import { SupplySeries } from "@/components/SupplySeries";
 import { UseVsEntitlement } from "@/components/UseVsEntitlement";
 import {
@@ -12,10 +14,10 @@ import { fetchSeries } from "@/lib/rise";
 import { acreFeet, formatDate, percent } from "@/lib/format";
 import {
   DEMAND_RECLAMATION_TOTAL,
+  STRUCTURAL_DEFICIT,
   SUPPLY,
   TOTAL_APPORTIONED,
 } from "@/lib/system";
-import flow from "@/public/geo/natural_flow_wy.json";
 
 export const revalidate = 3600;
 // Pin static despite the no-store RISE fetches (see lib/rise.ts) — data
@@ -23,11 +25,10 @@ export const revalidate = 3600;
 export const dynamic = "force-static";
 
 /**
- * The landing page IS the executive summary (Kevin, 2026-08-27): the
- * thesis, four headline takeaways, the supply story as a century-long
- * time-series, the demand side as a labeled breakdown, live proof, and
- * three doors. Chapter lists, instrument indexes, and the free-roam map
- * live on their own surfaces.
+ * The landing IS the executive summary, told in Kevin's five-beat order
+ * (2026-08-30): consumption → production → how the gap is covered → what
+ * that did to the reserves → what it's doing to the law. The old rulebook
+ * banner is absorbed into beat 5 in plain language.
  */
 export default async function Landing() {
   const [powellStor, meadStor] = await Promise.all([
@@ -44,15 +45,6 @@ export default async function Landing() {
 
   return (
     <main>
-      <div className="rulebook">
-        <span>⚠</span>
-        <div>
-          <strong>Operating rules in force:</strong> {RULEBOOK.label} — expires{" "}
-          {formatDate(RULEBOOK.expires)}.{" "}
-          <span className="muted">{RULEBOOK.successorStatus}</span>
-        </div>
-      </div>
-
       <div className="landing-kicker">
         A live public picture of the Colorado River
       </div>
@@ -60,74 +52,93 @@ export default async function Landing() {
         The Colorado River is committed to delivering more water than it
         produces.
       </h1>
+      <p className="page-lede">The arithmetic, in five steps.</p>
 
-      <div className="exec-summary">
-        <p className="body-text">
-          On paper, the river owes{" "}
-          <Link href={"/report/demand" as Route}>
-            {acreFeet(TOTAL_APPORTIONED)} a year
-          </Link>{" "}
-          — 7.5 million acre-feet to the Upper Basin states, 7.5 to the Lower
-          Basin states, 1.5 to Mexico — commitments written a century ago,
-          when the river was believed to carry{" "}
-          {acreFeet(SUPPLY.compactAssumption.acreFeet)}. Much of the Upper
-          Basin&rsquo;s share was never developed, so the system actually
-          consumes about{" "}
-          <strong>{acreFeet(DEMAND_RECLAMATION_TOTAL)}</strong> a year. The river now
-          produces about{" "}
-          <Link href={"/report/supply" as Route}>
-            {acreFeet(SUPPLY.modernMean.acreFeet)}
-          </Link>
-          . That smaller gap — consumption over production — has been paid
-          out of savings:{" "}
-          <Link href={"/report/reservoirs" as Route}>
-            Lakes Powell and Mead
-          </Link>{" "}
-          were nearly full at the millennium and hold{" "}
-          {pct !== null ? <strong>{percent(pct, 0)}</strong> : "about a quarter"}{" "}
-          of their capacity today
-          {stored !== null && (
-            <>
-              {" "}
-              — {acreFeet(stored)},{" "}
-              {(() => {
-                const years = stored / SUPPLY.modernMean.acreFeet;
-                return years > 0.85 && years < 1.15
-                  ? "about one year"
-                  : `about ${years.toFixed(1)} years`;
-              })()}{" "}
-              of what the river now produces
-            </>
-          )}
-          . That arithmetic is why the operating rules keep changing — most
-          recently on{" "}
-          <Link href={"/current-state" as Route}>August 21, 2026</Link>.
-        </p>
+      <h2 className="section-title">1 · What the basin consumes</h2>
+      <p className="body-text">
+        The states and Mexico consume about{" "}
+        <strong>{acreFeet(DEMAND_RECLAMATION_TOTAL)}</strong>{" "}of Colorado
+        River water a year, on Reclamation&rsquo;s accounting — most of it in
+        the Lower Basin, plus what evaporates off the reservoirs before
+        anyone uses it.
+      </p>
+      <ConsumptionBreakdown />
+      <div className="chain-caveat" style={{ marginTop: 8 }}>
+        2020&ndash;2024 averages (Post-2026 Final EIS). Who uses it, by
+        sector and crop: the{" "}
+        <Link href={"/report/demand" as Route}>Demand chapter</Link>.
+      </div>
+
+      <h2 className="section-title">2 · What the river produces</h2>
+      <p className="body-text">
+        About <strong>{acreFeet(SUPPLY.modernMean.acreFeet)}</strong>{" "}a year
+        in the modern era — well below the century&rsquo;s average, and
+        falling as warming takes roughly 9% of flow per degree Celsius.
+      </p>
+      <SupplySeries />
+      <div className="chain-caveat" style={{ marginTop: 8 }}>
+        Reclamation&rsquo;s natural-flow record at Lees Ferry, WY1906&ndash;2020
+        (vintage stated); a computed, revisable series. The full story: the{" "}
+        <Link href={"/report/supply" as Route}>Supply chapter</Link>.
+      </div>
+
+      <h2 className="section-title">3 · How the gap gets covered</h2>
+      <p className="body-text">
+        Consumption has run about{" "}
+        <strong>{acreFeet(STRUCTURAL_DEFICIT)}</strong>{" "}a year ahead of what
+        the river produces. That difference doesn&rsquo;t come from nowhere —
+        it comes out of the two great reservoirs, Lakes Powell and Mead,
+        which can keep deliveries flowing no matter what fell as snow that
+        year. Storage is what lets use exceed supply.
+      </p>
+
+      <h2 className="section-title">4 · What that has done to the reserves</h2>
+      <p className="body-text">
+        The reservoirs were nearly full in 2000. Today they hold{" "}
+        {pct !== null ? <strong>{percent(pct, 0)}</strong> : "about a quarter"}{" "}
+        of their capacity
+        {stored !== null && (
+          <>
+            {" "}
+            — {acreFeet(stored)}, about one year of what the river now
+            produces
+          </>
+        )}
+        .
+      </p>
+      <StorageHistoryLine
+        liveAf={stored}
+        capacityAf={COMBINED_CAPACITY_ACRE_FEET}
+      />
+      <div className="chain-caveat" style={{ marginTop: 8 }}>
+        Reclamation RISE, monthly since 2000, live endpoint, provisional
+        {asOf && <> as of {formatDate(asOf)}</>}. Elevations, thresholds, and
+        trajectories: the{" "}
+        <Link href={"/report/reservoirs" as Route}>Reservoirs chapter</Link>{" "}
+        and the <Link href={"/current-state" as Route}>current state</Link>.
       </div>
 
       <h2 className="section-title">
-        What the river produces — {Object.keys(flow.wy).length} years, one line
+        5 · What it&rsquo;s doing to the law
       </h2>
-      <SupplySeries />
-      <div className="chain-caveat" style={{ marginTop: 8 }}>
-        {flow.source}. Vintage: {flow.vintage} — a computed, revisable series
-        (natural flow adds back upstream use and reservoir operations). The
-        full story: the <Link href={"/report/supply" as Route}>Supply chapter</Link>.
-      </div>
-
-      <h2 className="section-title">Use vs. entitlement</h2>
-      <p className="body-text" style={{ maxWidth: 760 }}>
-        The apportionments are ceilings on use, not deliveries — no one ships
-        a state its share. Whether a basin can actually take its ceiling
-        depends on where its tap is.
+      <p className="body-text">
+        On paper the basin is entitled to{" "}
+        <strong>{acreFeet(TOTAL_APPORTIONED)}</strong> a year — but
+        entitlements are ceilings on use, not deliveries, and as the reserves
+        fall, the rules keep ratcheting actual use down toward what the river
+        provides. The rules in force today ({RULEBOOK.label}) expire{" "}
+        {formatDate(RULEBOOK.expires)}; their replacement was signed August
+        21, 2026, and fixes a Shortage Condition for 2027 and 2028. Who may
+        take what, versus who actually does:
       </p>
       <UseVsEntitlement />
       <div className="chain-caveat" style={{ marginTop: 8 }}>
         Entitlements: Boulder Canyon Project Act, the 1948 Upper Basin
-        Compact, and the 1944 Treaty. Use: Reclamation accounting basis,
-        2020&ndash;2024 averages (Post-2026 Final EIS). Sector and crop
-        breakdowns — a different accounting, never summed with this one —
-        are in the <Link href={"/report/demand" as Route}>Demand chapter</Link>.
+        Compact, and the 1944 Treaty. What the rules say at today&rsquo;s
+        elevations, old and new: the{" "}
+        <Link href={"/current-state" as Route}>rules panel</Link>. The full
+        legal story: the{" "}
+        <Link href={"/report/water-rights" as Route}>Water Rights chapter</Link>.
       </div>
 
       <Link href={"/current-state" as Route} className="state-strip">
@@ -176,10 +187,11 @@ export default async function Landing() {
       </div>
 
       <div className="chain-caveat" style={{ marginTop: 26 }}>
-        Every takeaway links to the chapter that defends it, and every number
-        on this site carries its source. Reservoir storage is live from
-        Reclamation RISE, provisional. A reduced-form, independent portrait —
-        not affiliated with, nor equivalent to, Reclamation&rsquo;s models.
+        Every figure above links to the chapter that defends it, and every
+        number on this site carries its source. Reservoir storage is live
+        from Reclamation RISE, provisional. A reduced-form, independent
+        portrait — not affiliated with, nor equivalent to,
+        Reclamation&rsquo;s models.
       </div>
     </main>
   );
