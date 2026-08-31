@@ -39,8 +39,8 @@ export function StorageHistoryLine({
   const W = width;
   const H = narrow ? Math.round(W * 0.62) : Math.round(W * 0.28);
   const M = narrow
-    ? { t: 24, r: 14, b: 24, l: 40 }
-    : { t: 22, r: 96, b: 24, l: 44 };
+    ? { t: 24, r: 44, b: 24, l: 40 }
+    : { t: 22, r: 118, b: 24, l: 44 };
 
   const n = months.length;
   const hi = capacityAf * 1.04;
@@ -88,15 +88,23 @@ export function StorageHistoryLine({
         ))}
         <line x1={M.l} x2={W - M.r} y1={y(capacityAf)} y2={y(capacityAf)} className="es-ref" />
         <text
-          x={narrow ? M.l + 6 : W - M.r + 4}
-          y={narrow ? y(capacityAf) + 12 : y(capacityAf) + 3}
+          x={M.l + 6}
+          y={y(capacityAf) + 14}
           className="es-reflabel"
           style={narrow ? { fontSize: 10.5 } : undefined}
         >
-          full capacity · {(capacityAf / MAF).toFixed(0)}M
+          full combined capacity · {(capacityAf / MAF).toFixed(0)}M (100%)
         </text>
+        {[25, 50, 75, 100].map((p) => (
+          <text key={p} x={W - M.r + 6} y={y((p / 100) * capacityAf) + 3.5}
+            className="cc-tick" style={{ textAnchor: "start" }}>
+            {p}%
+          </text>
+        ))}
         <text x={M.l - 4} y={M.t - 8} className="cc-tick unit" style={{ textAnchor: "start" }}>
-          acre-feet, Powell + Mead combined
+          {narrow
+            ? "acre-feet (left) · % of capacity (right)"
+            : "acre-feet (left) · % of combined capacity (right) — Powell + Mead, the two largest reservoirs in the US"}
         </text>
         {yearTicks.map(({ m, i }) => (
           <text key={m} x={x(i)} y={H - 8} className="cc-tick x">
@@ -112,7 +120,9 @@ export function StorageHistoryLine({
           className="tl-endlabel"
           style={{ textAnchor: "end" }}
         >
-          {(endVal / MAF).toFixed(1)}M today
+          {narrow
+            ? `${(endVal / MAF).toFixed(1)}M today`
+            : `Powell + Mead · ${(endVal / MAF).toFixed(1)}M today`}
         </text>
 
         {hover !== null && combined[hover] !== null && (
