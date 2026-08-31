@@ -162,7 +162,8 @@ export default async function Landing() {
       </div>
 
       <h2 className="section-title">
-        5 · What it&rsquo;s doing to the law
+        5 · The result: downward pressure on what the states and Mexico may
+        legally take
       </h2>
       <p className="body-text">
         On paper the basin is entitled to{" "}
