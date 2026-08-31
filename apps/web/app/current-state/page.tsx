@@ -17,6 +17,7 @@ import {
 } from "@/lib/reservoirs";
 import { fetchDroughtSeries } from "@/lib/drought";
 import { fetchSeries, REVALIDATE_SECONDS } from "@/lib/rise";
+import { fetchSnowpack } from "@/lib/snowpack";
 import {
   acreFeet,
   formatDate,
@@ -25,6 +26,7 @@ import {
   signed,
 } from "@/lib/format";
 import canal from "@/public/geo/canal_gvc_2025.json";
+import snotelRoster from "@/public/geo/snotel_huc14.json";
 import crops from "@/public/geo/crops_counties.json";
 import ledger from "@/public/geo/transactions_gv.json";
 import owners from "@/public/geo/rights_owner_agg.json";
@@ -45,9 +47,10 @@ export default async function CurrentState() {
       fetchSeries(MEAD.riseStorageItem),
       fetchSeries(POWELL_UNREG_INFLOW_ITEM),
     ]);
-  const [droughtUpper, droughtLower] = await Promise.all([
+  const [droughtUpper, droughtLower, snowpack] = await Promise.all([
     fetchDroughtSeries("14"),
     fetchDroughtSeries("15"),
+    fetchSnowpack(),
   ]);
 
   // Current water year starts on the most recent October 1.
@@ -117,6 +120,15 @@ export default async function CurrentState() {
       cadence: "daily · provisional",
       asOfLabel: asOf ? formatDate(asOf) : "unavailable",
       live: true,
+    },
+    {
+      source: "USDA NRCS AWDB (SNOTEL)",
+      what: "Upper Colorado snowpack, % of median SWE",
+      cadence: "daily · in season",
+      asOfLabel: snowpack.today.inSeason
+        ? formatDate(snowpack.today.date)
+        : "off season — resumes October",
+      live: snowpack.today.inSeason,
     },
     {
       source: "U.S. Drought Monitor (NDMC · USDA · NOAA)",
@@ -231,6 +243,45 @@ export default async function CurrentState() {
         is a computed residual.
       </div>
 
+      <h2 className="section-title">How is the snowpack tracking?</h2>
+      {snowpack.today.inSeason && snowpack.today.pctOfMedian !== null ? (
+        <p className="body-text">
+          The Upper Colorado&rsquo;s snowpack holds{" "}
+          <strong>{Math.round(snowpack.today.pctOfMedian)}%</strong> of its
+          median snow-water equivalent for this date —{" "}
+          {snowpack.today.stationsUsed} of {snowpack.today.stationsTotal}{" "}
+          SNOTEL stations reporting, as of {formatDate(snowpack.today.date)}.
+          The basin index is the sum of station readings over the sum of
+          station medians, per NRCS convention — never an average of
+          percentages.
+        </p>
+      ) : (
+        <p className="body-text">
+          <strong>The snow season runs October through late spring</strong>
+          {" — "}off season, station medians are near zero and a percent-of-median
+          would be arithmetic noise, so none is shown. The plumbing is live:
+          the Upper Colorado&rsquo;s {snowpack.today.stationsTotal} SNOTEL
+          stations report snow-water equivalent daily, and this tile becomes
+          a number when the median base returns.
+          {snowpack.lastApril.pctOfMedian !== null && (
+            <>
+              {" "}
+              Last season&rsquo;s peak reading: April 1 stood at{" "}
+              <strong>
+                {Math.round(snowpack.lastApril.pctOfMedian)}% of median
+              </strong>{" "}
+              ({snowpack.lastApril.stationsUsed}{" "}stations) — the collapse
+              that produced this year&rsquo;s inflow.
+            </>
+          )}
+        </p>
+      )}
+      <div className="chain-caveat" style={{ marginTop: 8 }}>
+        USDA NRCS AWDB, SNOTEL network, HUC-14 stations (roster baked{" "}
+        {snotelRoster.fetched}); daily, no revision stamps. Registry:
+        colorado.snow.upper_basin.swe_pct_median.
+      </div>
+
       <h2 className="section-title">How deep is the drought?</h2>
       {droughtUpper.weeks.length > 0 && (
         <p className="body-text">
@@ -337,12 +388,11 @@ export default async function CurrentState() {
 
       <div className="note" style={{ marginTop: 26 }}>
         <p>
-          <strong>What this page will grow into.</strong> Snowpack against
-          median, the CBRFC runoff forecast, drought extent, and water-year
-          precipitation — each tile live from its agency of record (NRCS,
-          CBRFC, the U.S. Drought Monitor), each with percentile-of-record
-          context. Missing tiles stay missing until the feed is real: no
-          placeholder numbers, ever.
+          <strong>What this page will grow into.</strong> The CBRFC runoff
+          forecast and water-year precipitation — each tile live from its
+          agency of record, each with percentile-of-record context. Missing
+          tiles stay missing until the feed is real: no placeholder numbers,
+          ever.
         </p>
       </div>
 
