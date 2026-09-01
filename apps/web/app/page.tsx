@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Route } from "next";
+import { ConsumptionMiniMap } from "@/components/ConsumptionMiniMap";
 import { RankedBars, type RankedBarItem } from "@/components/RankedBars";
 import { BasinStory } from "@/components/BasinStory";
 import { Cite } from "@/components/Cite";
@@ -19,6 +20,7 @@ import hist from "@/public/geo/storage_history.json";
 import {
   DEMAND_RECLAMATION,
   DEMAND_RECLAMATION_TOTAL,
+  RICHTER,
   STRUCTURAL_DEFICIT,
   SUPPLY,
   TOTAL_APPORTIONED,
@@ -35,6 +37,22 @@ export const dynamic = "force-static";
  * that did to the reserves → what it's doing to the law. The old rulebook
  * banner is absorbed into beat 5 in plain language.
  */
+// Section 1's by-type rows — Richter et al. 2024, a BROADER accounting
+// than Reclamation's (includes natural riparian vegetation); the two are
+// shown with an explicit warning and never summed.
+const SECTOR_SHORT: Record<string, string> = {
+  "sector.agriculture": "Agriculture",
+  "sector.natural_vegetation": "Natural vegetation",
+  "sector.municipal": "Cities & industry",
+  "sector.reservoir_evaporation": "Reservoir evaporation",
+};
+const SECTOR_ITEMS: RankedBarItem[] = RICHTER.sectors.map((s) => ({
+  short: SECTOR_SHORT[s.id] ?? s.label,
+  name: s.label,
+  af: (s.percent / 100) * RICHTER.totalAcreFeet,
+  flag: s.id === "sector.natural_vegetation" ? "not a human use" : undefined,
+}));
+
 // Section 1's Pareto rows, derived from the sourced DEMAND_RECLAMATION
 // components — no landing-local numbers.
 const CONSUMPTION_SHORT: Record<string, string> = {
@@ -109,12 +127,35 @@ export default async function Landing() {
       </p>
       <RankedBars items={CONSUMPTION_ITEMS} />
       <div className="chain-caveat" style={{ marginTop: 8 }}>
-        2020&ndash;2024 averages (Post-2026 Final EIS)<Cite id="feis2026" />. The Upper Basin
-        figure is disputed between two federal sources (3.8 vs 4.3 MAF) —
-        both are shown in the table view. Who uses it, by sector and crop:
-        the{" "}
-        <Link href={"/report/demand" as Route}>Demand chapter</Link>.
+        2020&ndash;2024 averages (Post-2026 Final EIS)<Cite id="feis2026" />.
+        The Upper Basin figure is disputed between two federal sources (3.8
+        vs 4.3 MAF).
       </div>
+
+      <p className="body-text" style={{ marginTop: 22 }}>
+        <strong>By type of use.</strong> A separate peer-reviewed
+        accounting<Cite id="richter2024" /> breaks consumption down by what
+        the water does — and agriculture dominates:
+      </p>
+      <RankedBars items={SECTOR_ITEMS} />
+      <div className="warn-box" style={{ marginTop: 8 }}>
+        <strong>
+          These do not add to the {acreFeet(DEMAND_RECLAMATION_TOTAL)} above.
+        </strong>{" "}
+        This study counts all basin consumption including natural riparian
+        vegetation ({acreFeet(RICHTER.totalAcreFeet)} total), which
+        Compact-style accounting excludes. Both are correct — they answer
+        different questions, and they are never summed here. The crop-level
+        story: the <Link href={"/report/demand" as Route}>Demand chapter</Link>{" "}
+        and <Link href={"/report/agriculture" as Route}>Agriculture chapter</Link>.
+      </div>
+
+      <p className="body-text" style={{ marginTop: 22 }}>
+        <strong>Where it happens.</strong> Consumption concentrates where
+        the canals reach — the irrigation districts of the lower river and
+        the cities the aqueducts serve:
+      </p>
+      <ConsumptionMiniMap />
 
       <h2 className="section-title">2 · What the river produces</h2>
       <p className="body-text">
