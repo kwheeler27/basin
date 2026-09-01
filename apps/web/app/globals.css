@@ -1884,3 +1884,10 @@ html { scroll-behavior: smooth; }
 @media (max-width: 560px) { .uve-line .db-track { max-width: 56%; } }
 .mm-farm { fill: color-mix(in srgb, #0f766e 55%, transparent); stroke: var(--surface); stroke-width: 0.6; }
 .mm-farm-out { fill: color-mix(in srgb, #0f766e 16%, transparent); }
+
+/* mini-map boundaries + tappable bars */
+.mm-state { fill: none; stroke: color-mix(in srgb, var(--text) 22%, transparent); stroke-width: 1; }
+.mm-countyline { fill: none; stroke: color-mix(in srgb, var(--text) 8%, transparent); stroke-width: 0.6; }
+.db-tappable { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 0; margin: 0 0 10px; font: inherit; color: inherit; cursor: pointer; }
+.db-tappable:hover .db-label, .db-tappable:focus-visible .db-label { color: var(--accent); }
+.db-tappable:hover .db-fill { background: var(--water); }

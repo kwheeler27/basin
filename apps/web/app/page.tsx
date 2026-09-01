@@ -51,6 +51,16 @@ const SECTOR_ITEMS: RankedBarItem[] = RICHTER.sectors.map((s) => ({
   name: s.label,
   af: (s.percent / 100) * RICHTER.totalAcreFeet,
   flag: s.id === "sector.natural_vegetation" ? "not a human use" : undefined,
+  sheet: {
+    kicker: "Use by type",
+    title: s.label,
+    fact: `About ${acreFeet((s.percent / 100) * RICHTER.totalAcreFeet)} a year — ${s.percent}% of all basin consumption on this broader accounting.`,
+    detail: `${s.note ?? ""} A single-study period average (2000–2019); no year-by-year series exists for this breakdown.`,
+    chips: ["acre_foot", "consumptive_use"],
+    source: `${RICHTER.source} · ${RICHTER.period}`,
+    clock: "annual",
+    clockLabel: "2000–19 STUDY AVERAGE",
+  },
 }));
 
 // Section 1's Pareto rows, derived from the sourced DEMAND_RECLAMATION
@@ -61,6 +71,19 @@ const CONSUMPTION_SHORT: Record<string, string> = {
   "demand.mexico": "Mexico",
   "demand.evaporation": "Evaporation",
 };
+const SERIES_STATUS =
+  "Year-by-year history lives in annual PDF accounting reports; a machine-readable series is queued.";
+const CONSUMPTION_MECHANISM: Record<string, string> = {
+  "demand.lower_basin":
+    "Supplied on demand from Lake Mead, so use can track entitlement even in dry years; shortage rules and paid conservation currently hold it below the 7.5 MAF ceiling.",
+  "demand.upper_basin":
+    "Drawn from the river itself — the full 7.5 MAF share was never developed.",
+};
+const CONSUMPTION_COMPARE: Record<string, string> = {
+  "demand.lower_basin": "87% of the Lower Basin's 7.5 MAF ceiling",
+  "demand.upper_basin": "51% of the Upper Basin's 7.5 MAF apportionment",
+  "demand.mexico": "97% of the 1.5 MAF treaty delivery",
+};
 const CONSUMPTION_ITEMS: RankedBarItem[] = DEMAND_RECLAMATION.map((d) => ({
   short: CONSUMPTION_SHORT[d.id] ?? d.label,
   name: d.label,
@@ -68,6 +91,19 @@ const CONSUMPTION_ITEMS: RankedBarItem[] = DEMAND_RECLAMATION.map((d) => ({
   flag: d.note?.startsWith("DISPUTED")
     ? "disputed · 3.8 vs 4.3 MAF"
     : undefined,
+  sheet: {
+    kicker: "Consumption component",
+    title: d.label,
+    fact: `About ${acreFeet(d.acreFeet)} a year — ${Math.round((d.acreFeet / DEMAND_RECLAMATION_TOTAL) * 100)}% of the accounted total.`,
+    detail: [CONSUMPTION_MECHANISM[d.id], d.note, SERIES_STATUS]
+      .filter(Boolean)
+      .join(" "),
+    chips: ["acre_foot", "consumptive_use"],
+    compare: CONSUMPTION_COMPARE[d.id] ? [CONSUMPTION_COMPARE[d.id]!] : undefined,
+    source: `${d.source} · ${d.period}`,
+    clock: "annual",
+    clockLabel: "2020–24 AVERAGE",
+  },
 }));
 
 export default async function Landing() {
