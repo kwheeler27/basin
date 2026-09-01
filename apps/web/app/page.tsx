@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Route } from "next";
-import { DeliveryPareto, type ParetoItem } from "@/components/DeliveryPareto";
+import { RankedBars, type RankedBarItem } from "@/components/RankedBars";
 import { BasinStory } from "@/components/BasinStory";
 import { Cite } from "@/components/Cite";
 import { StorageHistoryLine } from "@/components/StorageHistoryLine";
@@ -43,7 +43,7 @@ const CONSUMPTION_SHORT: Record<string, string> = {
   "demand.mexico": "Mexico",
   "demand.evaporation": "Evaporation",
 };
-const CONSUMPTION_ITEMS: ParetoItem[] = DEMAND_RECLAMATION.map((d) => ({
+const CONSUMPTION_ITEMS: RankedBarItem[] = DEMAND_RECLAMATION.map((d) => ({
   short: CONSUMPTION_SHORT[d.id] ?? d.label,
   name: d.label,
   af: d.acreFeet,
@@ -107,11 +107,7 @@ export default async function Landing() {
         the Lower Basin, plus what evaporates off the reservoirs before
         anyone uses it.
       </p>
-      <DeliveryPareto
-        items={CONSUMPTION_ITEMS}
-        axisContext="share of total consumption"
-        valueHeader="2020–24 average use"
-      />
+      <RankedBars items={CONSUMPTION_ITEMS} />
       <div className="chain-caveat" style={{ marginTop: 8 }}>
         2020&ndash;2024 averages (Post-2026 Final EIS)<Cite id="feis2026" />. The Upper Basin
         figure is disputed between two federal sources (3.8 vs 4.3 MAF) —

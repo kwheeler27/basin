@@ -1881,3 +1881,4 @@ html { scroll-behavior: smooth; }
 .ref-note { color: var(--faint); font-style: italic; }
 .cite-sup { font-size: 10px; line-height: 0; }
 .cite-sup a { color: var(--accent); text-decoration: none; }
+@media (max-width: 560px) { .uve-line .db-track { max-width: 56%; } }
