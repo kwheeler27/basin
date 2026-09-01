@@ -1882,3 +1882,5 @@ html { scroll-behavior: smooth; }
 .cite-sup { font-size: 10px; line-height: 0; }
 .cite-sup a { color: var(--accent); text-decoration: none; }
 @media (max-width: 560px) { .uve-line .db-track { max-width: 56%; } }
+.mm-farm { fill: color-mix(in srgb, #0f766e 55%, transparent); stroke: var(--surface); stroke-width: 0.6; }
+.mm-farm-out { fill: color-mix(in srgb, #0f766e 16%, transparent); }
