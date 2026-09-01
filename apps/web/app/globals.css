@@ -1891,3 +1891,22 @@ html { scroll-behavior: smooth; }
 .db-tappable { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 0; margin: 0 0 10px; font: inherit; color: inherit; cursor: pointer; }
 .db-tappable:hover .db-label, .db-tappable:focus-visible .db-label { color: var(--accent); }
 .db-tappable:hover .db-fill { background: var(--water); }
+
+/* WY2026 story — sticky stage + scrolling beats */
+.ws { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 28px; margin: 26px 0; }
+.ws-stage { position: sticky; top: 18px; align-self: start; }
+.ws-stagecard { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 14px 8px; }
+.ws-cards { display: flex; flex-direction: column; gap: 42vh; padding: 12vh 0 30vh; }
+.ws-card { opacity: 0.35; transition: opacity 0.3s; }
+.ws-card.on { opacity: 1; }
+.ws-kicker { font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.ws-hed { margin: 4px 0 8px; font-size: 18px; line-height: 1.3; }
+.ws-body { margin: 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
+.ws-pin { stroke: var(--text); stroke-width: 1; stroke-dasharray: 2 3; opacity: 0.55; }
+.ws-pindot { fill: var(--text); }
+.ws-pinlabel { font-size: 10px; fill: var(--text); text-anchor: middle; font-weight: 600; }
+@media (max-width: 860px) {
+  .ws { display: block; }
+  .ws-stage { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 6px 0; }
+  .ws-cards { gap: 34vh; padding: 8vh 0 24vh; }
+}

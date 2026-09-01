@@ -28,6 +28,20 @@ export default function ReportIndex() {
         ))}
       </ol>
 
+      <h2 className="section-title">Field investigations</h2>
+      <ol className="toc">
+        <li>
+          <Link className="toc-item" href={"/report/wy2026" as Route}>
+            <span className="toc-num">№</span>
+            <span className="toc-title">WY2026: the year the river nearly broke its rules</span>
+            <span className="toc-q">
+              The driest season of the era, told through the lines it bent —
+              scroll-driven, from the live record.
+            </span>
+          </Link>
+        </li>
+      </ol>
+
       <div className="note" style={{ marginTop: 26 }}>
         <p>
           <strong>How to read it.</strong> The chapters build on each other —
