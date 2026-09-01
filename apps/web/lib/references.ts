@@ -146,7 +146,7 @@ export const REFERENCES: readonly Reference[] = [
     kind: "federal",
     cite: "U.S. Bureau of Reclamation, Colorado River Accounting and Water Use Report: Arizona, California, and Nevada, CY2025 (Article V decree accounting).",
     url: "https://www.usbr.gov/lc/region/g4000/4200Rpts/DecreeRpt/2025/2025.pdf",
-    used: "Delivery volumes by system (the Pareto on Current state; the infrastructure roster).",
+    used: "Delivery volumes by system (the Pareto on Current state; the infrastructure roster) — and, via the annual report series 2003–2025, the Lower Basin consumptive-use history on the landing.",
   },
   {
     id: "feis2026",
