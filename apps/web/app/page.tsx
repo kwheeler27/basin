@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Route } from "next";
+import { ConsumptionLine } from "@/components/ConsumptionLine";
 import { ConsumptionMiniMap } from "@/components/ConsumptionMiniMap";
 import { RankedBars, type RankedBarItem } from "@/components/RankedBars";
 import { BasinStory } from "@/components/BasinStory";
@@ -17,6 +18,7 @@ import { MAP_RESERVOIRS } from "@/lib/mapdata";
 import { fetchSeries } from "@/lib/rise";
 import { acreFeet, formatDate, percent } from "@/lib/format";
 import hist from "@/public/geo/storage_history.json";
+import lbHist from "@/public/geo/lb_consumption_cy.json";
 import {
   DEMAND_RECLAMATION,
   DEMAND_RECLAMATION_TOTAL,
@@ -73,6 +75,26 @@ const CONSUMPTION_SHORT: Record<string, string> = {
 };
 const SERIES_STATUS =
   "Year-by-year history lives in annual PDF accounting reports; a machine-readable series is queued.";
+// Decree-accounting history (2003–2025, parsed from the annual reports;
+// unparsed years are honest gaps) — feeds the LB and Mexico card series.
+const LB_YEARS_MAP = (lbHist as {
+  years: Record<string, { lbTotal: number; mexico?: number }>;
+}).years;
+const LB_FIRST = Math.min(...Object.keys(LB_YEARS_MAP).map(Number));
+const LB_LAST = Math.max(...Object.keys(LB_YEARS_MAP).map(Number));
+function lbSeries(key: "lbTotal" | "mexico") {
+  const points: (readonly [string, number | null])[] = [];
+  for (let y = LB_FIRST; y <= LB_LAST; y++) {
+    const v = LB_YEARS_MAP[String(y)]?.[key];
+    points.push([String(y), v ?? null] as const);
+  }
+  return {
+    points,
+    unit: "acre-feet/yr",
+    startLabel: String(LB_FIRST),
+    endLabel: String(LB_LAST),
+  };
+}
 const CONSUMPTION_MECHANISM: Record<string, string> = {
   "demand.lower_basin":
     "Supplied on demand from Lake Mead, so use can track entitlement even in dry years; shortage rules and paid conservation currently hold it below the 7.5 MAF ceiling.",
@@ -95,9 +117,21 @@ const CONSUMPTION_ITEMS: RankedBarItem[] = DEMAND_RECLAMATION.map((d) => ({
     kicker: "Consumption component",
     title: d.label,
     fact: `About ${acreFeet(d.acreFeet)} a year — ${Math.round((d.acreFeet / DEMAND_RECLAMATION_TOTAL) * 100)}% of the accounted total.`,
-    detail: [CONSUMPTION_MECHANISM[d.id], d.note, SERIES_STATUS]
+    detail: [
+      CONSUMPTION_MECHANISM[d.id],
+      d.note,
+      d.id === "demand.lower_basin" || d.id === "demand.mexico"
+        ? "The chart shows the decree-accounting record since 2003; gaps are unparsed report years, never zeros."
+        : SERIES_STATUS,
+    ]
       .filter(Boolean)
       .join(" "),
+    series:
+      d.id === "demand.lower_basin"
+        ? lbSeries("lbTotal")
+        : d.id === "demand.mexico"
+          ? lbSeries("mexico")
+          : undefined,
     chips: ["acre_foot", "consumptive_use"],
     compare: CONSUMPTION_COMPARE[d.id] ? [CONSUMPTION_COMPARE[d.id]!] : undefined,
     source: `${d.source} · ${d.period}`,
@@ -166,6 +200,20 @@ export default async function Landing() {
         2020&ndash;2024 averages (Post-2026 Final EIS)<Cite id="feis2026" />.
         The Upper Basin figure is disputed between two federal sources (3.8
         vs 4.3 MAF).
+      </div>
+
+      <p className="body-text" style={{ marginTop: 22 }}>
+        <strong>How it&rsquo;s changed.</strong> The Lower Basin — the
+        largest component — across 23 years of decree accounting: near the
+        full 7.5 MAF apportionment through the mid-2010s, then the
+        conservation era&rsquo;s descent.
+      </p>
+      <ConsumptionLine />
+      <div className="chain-caveat" style={{ marginTop: 8 }}>
+        Parsed from the annual accounting reports<Cite id="decree2025" />{" "}
+        (2003&ndash;2025; the {(lbHist as { excludedYears: number[] }).excludedYears.join(", ")}{" "}
+        reports use formats not yet parsed and render as gaps). Fetched{" "}
+        {(lbHist as { fetched: string }).fetched}.
       </div>
 
       <p className="body-text" style={{ marginTop: 22 }}>
