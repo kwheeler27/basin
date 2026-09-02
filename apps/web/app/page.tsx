@@ -181,6 +181,10 @@ export default async function Landing() {
     stored !== null && start2000 !== null
       ? ((start2000 - stored) / start2000) * 100
       : null;
+  // The hero strip's then-vs-now: same Jan-2000 baseline and live pair as
+  // §4, expressed as % of combined capacity.
+  const startPct =
+    start2000 !== null ? (start2000 / COMBINED_CAPACITY_ACRE_FEET) * 100 : null;
 
   return (
     <main>
@@ -192,6 +196,35 @@ export default async function Landing() {
         produces.
       </h1>
       <p className="page-lede">The arithmetic, in five steps.</p>
+      <div className="hero-stats">
+        <div className="hs-tile">
+          <div className="hs-kicker">Consumes</div>
+          <div className="hs-num">{acreFeet(DEMAND_RECLAMATION_TOTAL)}</div>
+          <div className="hs-sub">
+            a year — the states and Mexico, on Reclamation&rsquo;s accounting
+          </div>
+        </div>
+        <div className="hs-tile">
+          <div className="hs-kicker">Produces</div>
+          <div className="hs-num">{acreFeet(SUPPLY.modernMean.acreFeet)}</div>
+          <div className="hs-sub">a year — the modern-era average</div>
+        </div>
+        <div className="hs-tile">
+          <div className="hs-kicker">The gap</div>
+          <div className="hs-num">{acreFeet(STRUCTURAL_DEFICIT)}</div>
+          <div className="hs-sub">
+            a year, paid from the reservoirs —{" "}
+            {pct !== null && startPct !== null ? (
+              <>
+                now <strong>{Math.round(pct)}% full</strong>, down from{" "}
+                {Math.round(startPct)}% in 2000
+              </>
+            ) : (
+              "drawn down since 2000"
+            )}
+          </div>
+        </div>
+      </div>
 
       <h2 className="section-title">1 · What the basin consumes</h2>
       <p className="body-text">

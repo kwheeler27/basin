@@ -1956,3 +1956,22 @@ html { scroll-behavior: smooth; }
 .mm-hc-title { font-size: 13.5px; font-weight: 700; margin-top: 3px; }
 .mm-hc-fact { font-size: 12px; line-height: 1.5; color: var(--muted); margin-top: 4px; }
 .mm-hc-more { font-size: 10.5px; color: var(--faint); margin-top: 6px; }
+
+/* hero stat strip: the arithmetic at a glance, under the lede */
+.hero-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 28px;
+  margin: 20px 0 6px; padding-top: 16px;
+  border-top: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
+}
+.hs-kicker { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.hs-num { font-size: 28px; font-weight: 750; letter-spacing: -0.01em; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.hs-sub { font-size: 12.5px; line-height: 1.5; color: var(--muted); margin-top: 2px; max-width: 30ch; }
+.hs-sub strong { color: var(--text); }
+@media (max-width: 640px) {
+  .hero-stats { grid-template-columns: 1fr; gap: 14px; }
+  .hs-tile { display: grid; grid-template-columns: max-content 1fr; column-gap: 16px; align-items: baseline; }
+  .hs-num { white-space: nowrap; }
+  .hs-tile .hs-kicker { grid-column: 1 / 3; }
+  .hs-num { font-size: 22px; }
+  .hs-sub { max-width: none; }
+}
