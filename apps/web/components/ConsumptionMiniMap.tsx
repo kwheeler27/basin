@@ -30,6 +30,13 @@ interface County {
 
 const AF_PER_MGD_YEAR = 1121;
 
+// The Compact's division: Upper Division states vs Lower Division states
+// (Article II) — administrative membership, tinted whole-state.
+const UB_STATES = new Set(["Colorado", "New Mexico", "Utah", "Wyoming"]);
+const LB_STATES = new Set(["Arizona", "California", "Nevada"]);
+// Lee Ferry, AZ — the point where the basins legally divide.
+const LEE_FERRY: [number, number] = [-111.588, 36.865];
+
 function households(af: number): string {
   const n = af / HOUSEHOLD_ACRE_FEET_PER_YEAR;
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)} million households for a year`;
@@ -40,6 +47,12 @@ function households(af: number): string {
 export function ConsumptionMiniMap() {
   const { ref, width } = useMeasuredWidth<HTMLDivElement>();
   const [sheet, setSheet] = useState<SheetData | null>(null);
+  const [hover, setHover] = useState<{
+    c: County;
+    x: number;
+    y: number;
+    r: number;
+  } | null>(null);
   const [data, setData] = useState<{
     boundary: GeoJson;
     rivers: GeoJson;
@@ -121,6 +134,16 @@ export function ConsumptionMiniMap() {
   const top = ranked.filter((c) => solid.get(c.fips));
   const labeled = new Set(narrow ? [] : top.slice(0, 4).map((c) => c.fips));
 
+  const division = (names: Set<string>): GeoJSON.FeatureCollection => ({
+    type: "FeatureCollection",
+    features: data.states.features.filter((f) =>
+      names.has((f.properties as { name?: string } | null)?.name ?? ""),
+    ),
+  });
+  const lf = projection(LEE_FERRY);
+  const ubLabel = projection([-108.4, 42.6]);
+  const lbLabel = projection([-116.6, 37.6]);
+
   const openCounty = (c: County) => {
     const afy = c.ir * AF_PER_MGD_YEAR;
     const isSolid = solid.get(c.fips);
@@ -148,11 +171,31 @@ export function ConsumptionMiniMap() {
   return (
     <div ref={ref} className="minimap">
       <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} role="img"
-        aria-label="County irrigation withdrawals across the region, circle area showing volume; tap a county for detail">
+        aria-label="County irrigation withdrawals across the region, circle area showing volume; Upper and Lower Basin states tinted; tap or hover a county for detail">
+        <path d={path(division(UB_STATES) as never) ?? undefined} className="mm-ub" />
+        <path d={path(division(LB_STATES) as never) ?? undefined} className="mm-lb" />
         <path d={path(data.states as never) ?? undefined} className="mm-state" />
         <path d={path(data.countyLines as never) ?? undefined} className="mm-countyline" />
         <path d={path(data.boundary as never) ?? undefined} className="mm-basin" />
         <path d={path(data.rivers as never) ?? undefined} className="mm-river" />
+        {ubLabel && (
+          <g className="mm-division ub">
+            <text x={ubLabel[0]} y={ubLabel[1]} className="mm-div-name">UPPER BASIN</text>
+            <text x={ubLabel[0]} y={ubLabel[1] + 13} className="mm-div-states">WY · CO · UT · NM</text>
+          </g>
+        )}
+        {lbLabel && (
+          <g className="mm-division lb">
+            <text x={lbLabel[0]} y={lbLabel[1]} className="mm-div-name">LOWER BASIN</text>
+            <text x={lbLabel[0]} y={lbLabel[1] + 13} className="mm-div-states">AZ · NV · CA</text>
+          </g>
+        )}
+        {lf && !narrow && (
+          <g className="mm-leeferry">
+            <circle cx={lf[0]} cy={lf[1]} r={2.5} />
+            <text x={lf[0] + 6} y={lf[1] + 3.5}>Lee Ferry — the basins divide here</text>
+          </g>
+        )}
         {withIr.map((c) => {
           const p = projection([c.lon, c.lat]);
           if (!p) return null;
@@ -160,7 +203,13 @@ export function ConsumptionMiniMap() {
           if (x < -20 || x > W + 20 || y < -20 || y > H + 20) return null;
           const rad = radius(c.ir);
           return (
-            <g key={c.fips} className="tappable" onClick={() => openCounty(c)}>
+            <g
+              key={c.fips}
+              className="tappable"
+              onClick={() => openCounty(c)}
+              onMouseEnter={() => setHover({ c, x, y, r: rad })}
+              onMouseLeave={() => setHover(null)}
+            >
               <circle cx={x} cy={y} r={Math.max(rad, 7)} fill="transparent" />
               <circle cx={x} cy={y} r={rad}
                 className={solid.get(c.fips) ? "mm-farm" : "mm-farm-out"} />
@@ -178,6 +227,31 @@ export function ConsumptionMiniMap() {
           );
         })}
       </svg>
+      {hover && (
+        <div
+          className="mm-hovercard"
+          style={{
+            left: Math.min(Math.max(hover.x - 125, 6), W - 256),
+            top: hover.y < H * 0.55 ? hover.y + hover.r + 10 : hover.y - hover.r - 10,
+            transform: hover.y < H * 0.55 ? undefined : "translateY(-100%)",
+          }}
+        >
+          <div className="mm-hc-kicker">
+            County irrigation · #{irRank.get(hover.c.fips)} of {irRank.size}
+          </div>
+          <div className="mm-hc-title">
+            {hover.c.name} County, {hover.c.st}
+          </div>
+          <div className="mm-hc-fact">
+            About {acreFeet(hover.c.ir * AF_PER_MGD_YEAR)} withdrawn a year —
+            enough for {households(hover.c.ir * AF_PER_MGD_YEAR)}.
+            {solid.get(hover.c.fips)
+              ? ""
+              : " Outside the watershed — other rivers' water."}
+          </div>
+          <div className="mm-hc-more">Click for context &amp; source</div>
+        </div>
+      )}
       <div className="cc-readout">
         {narrow && (
           <>
@@ -185,11 +259,14 @@ export function ConsumptionMiniMap() {
             {". "}
           </>
         )}
-        Circle area = county irrigation withdrawals, USGS 2015 — where
-        water is taken, which is not the same accounting as consumptive use
-        above. Solid: inside the watershed or served by its canals
-        (Imperial, Coachella). Faded: neighboring counties on other water —
-        the Central Valley among them. Tap any county for detail &amp; source.
+        Tinted states are the Compact&rsquo;s two divisions — Upper Basin
+        (WY, CO, UT, NM) and Lower Basin (AZ, NV, CA) — dividing at Lee
+        Ferry. Circle area = county irrigation withdrawals, USGS 2015 —
+        where water is taken, which is not the same accounting as
+        consumptive use in the bars. Solid: inside the watershed or served
+        by its canals (Imperial, Coachella). Faded: neighboring counties on
+        other water — the Central Valley among them. Tap or hover any
+        county for detail &amp; source.
       </div>
       <DetailSheet data={sheet} onClose={() => setSheet(null)} />
     </div>

@@ -1864,11 +1864,11 @@ html { scroll-behavior: smooth; }
 .uve-num { font-size: 12.5px; font-weight: 600; color: var(--text); white-space: nowrap; }
 
 /* landing mini-map — reservoirs as live-storage circles on the watershed */
-.minimap { margin: 14px auto 4px; max-width: 720px; }
-.mm-basin { fill: color-mix(in srgb, var(--water) 9%, transparent); stroke: color-mix(in srgb, var(--water) 35%, transparent); stroke-width: 1; }
+.minimap { margin: 14px auto 4px; max-width: 720px; position: relative; }
+.mm-basin { fill: color-mix(in srgb, var(--water) 5%, transparent); stroke: color-mix(in srgb, var(--water) 35%, transparent); stroke-width: 1; }
 .mm-river { fill: none; stroke: color-mix(in srgb, var(--water) 45%, transparent); stroke-width: 1; }
 .mm-res { fill: color-mix(in srgb, var(--water) 75%, transparent); stroke: var(--surface); stroke-width: 1; }
-.mm-label { font-size: 12px; font-weight: 600; fill: var(--text); }
+.mm-label { font-size: 12px; font-weight: 600; fill: var(--text); paint-order: stroke; stroke: var(--surface); stroke-width: 3; stroke-linejoin: round; }
 
 /* references page + inline citations */
 .ref-list { list-style: none; margin: 14px 0 26px; padding: 0; }
@@ -1912,7 +1912,7 @@ html { scroll-behavior: smooth; }
 }
 
 /* ranked bars — aligned grid: label | bar | right-aligned value column */
-.rankedbars { margin-top: 14px; max-width: 860px; }
+.rankedbars { margin-top: 14px; max-width: 860px; container-type: inline-size; }
 .rb-row {
   display: grid; grid-template-columns: 172px minmax(0, 1fr) 128px;
   gap: 12px; align-items: center; margin-bottom: 8px;
@@ -1926,9 +1926,33 @@ html { scroll-behavior: smooth; }
 .rb-num { font-size: 13px; font-weight: 600; color: var(--text); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .rb-pct { color: var(--muted); font-weight: 600; margin-left: 4px; }
 .db-tappable.rb-row:hover .rb-name, .db-tappable.rb-row:focus-visible .rb-name { color: var(--accent); }
-@media (max-width: 640px) {
+@container (max-width: 460px) {
   .rb-row { grid-template-columns: 108px minmax(0, 1fr) 104px; gap: 8px; }
   .rb-name { font-size: 12px; }
   .rb-num { font-size: 11.5px; }
   .rb-flag { display: none; }
 }
+
+/* §1 side-by-side: ranked bars | consumption geography */
+.c1-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 40px; align-items: start; margin-top: 2px; }
+.c1-maplead { margin-top: 14px; }
+@media (max-width: 900px) { .c1-grid { grid-template-columns: 1fr; gap: 20px 0; } .c1-maplead { margin-top: 22px; } }
+
+/* mini-map: compact divisions, Lee Ferry, hover card */
+.mm-ub { fill: color-mix(in srgb, #475569 10%, transparent); }
+.mm-lb { fill: color-mix(in srgb, #b45309 10%, transparent); }
+.mm-div-name { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; paint-order: stroke; stroke: var(--surface); stroke-width: 3; stroke-linejoin: round; }
+.mm-div-states { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; paint-order: stroke; stroke: var(--surface); stroke-width: 3; stroke-linejoin: round; }
+.mm-division.ub text { fill: color-mix(in srgb, #475569 72%, transparent); }
+.mm-division.lb text { fill: color-mix(in srgb, #b45309 68%, transparent); }
+.mm-leeferry circle { fill: var(--text); }
+.mm-leeferry text { font-size: 10px; font-style: italic; fill: color-mix(in srgb, var(--text) 62%, transparent); paint-order: stroke; stroke: var(--surface); stroke-width: 3; stroke-linejoin: round; }
+.mm-hovercard {
+  position: absolute; width: 250px; z-index: 4; pointer-events: none;
+  background: var(--surface); border: 1px solid color-mix(in srgb, var(--text) 14%, transparent);
+  border-radius: 8px; padding: 10px 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+.mm-hc-kicker { font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.mm-hc-title { font-size: 13.5px; font-weight: 700; margin-top: 3px; }
+.mm-hc-fact { font-size: 12px; line-height: 1.5; color: var(--muted); margin-top: 4px; }
+.mm-hc-more { font-size: 10.5px; color: var(--faint); margin-top: 6px; }

@@ -16,7 +16,13 @@ import {
 } from "@/lib/reservoirs";
 import { MAP_RESERVOIRS } from "@/lib/mapdata";
 import { fetchSeries } from "@/lib/rise";
-import { acreFeet, formatDate, percent } from "@/lib/format";
+import {
+  acreFeet,
+  formatDate,
+  HOUSEHOLD_ACRE_FEET_PER_YEAR,
+  HOUSEHOLD_GALLONS_PER_YEAR,
+  percent,
+} from "@/lib/format";
 import hist from "@/public/geo/storage_history.json";
 import lbHist from "@/public/geo/lb_consumption_cy.json";
 import {
@@ -193,30 +199,51 @@ export default async function Landing() {
         <strong>{acreFeet(DEMAND_RECLAMATION_TOTAL)}</strong>{" "}of Colorado
         River water a year, on Reclamation&rsquo;s accounting — most of it in
         the Lower Basin, plus what evaporates off the reservoirs before
-        anyone uses it.
+        anyone uses it. For scale: a typical household runs through about{" "}
+        {HOUSEHOLD_GALLONS_PER_YEAR.toLocaleString()} gallons a year — a bit
+        over a third of an acre-foot — so this is roughly{" "}
+        <strong>
+          {Math.round(
+            DEMAND_RECLAMATION_TOTAL / HOUSEHOLD_ACRE_FEET_PER_YEAR / 1_000_000,
+          )}{" "}
+          million households&rsquo;
+        </strong>{" "}
+        worth of water. Most of it goes to farms, not homes.
       </p>
-      <RankedBars items={CONSUMPTION_ITEMS} />
-      <div className="chain-caveat" style={{ marginTop: 8 }}>
-        2020&ndash;2024 averages (Post-2026 Final EIS)<Cite id="feis2026" />.
-        The Upper Basin figure is disputed between two federal sources (3.8
-        vs 4.3 MAF).
+      <div className="c1-grid">
+        <div>
+          <RankedBars items={CONSUMPTION_ITEMS} />
+          <div className="chain-caveat" style={{ marginTop: 8 }}>
+            2020&ndash;2024 averages (Post-2026 Final EIS)
+            <Cite id="feis2026" />. The Upper Basin figure is disputed
+            between two federal sources (3.8 vs 4.3 MAF).
+          </div>
+          <p className="body-text" style={{ marginTop: 22 }}>
+            <strong>How it&rsquo;s changed.</strong>{" "}The Lower Basin — the
+            largest component — across 23 years of decree accounting: near the
+            full 7.5 MAF apportionment through the mid-2010s, then the
+            conservation era&rsquo;s descent.
+          </p>
+          <ConsumptionLine />
+          <div className="chain-caveat" style={{ marginTop: 8 }}>
+            Parsed from the annual accounting reports<Cite id="decree2025" />{" "}
+            (2003&ndash;2025
+            {(lbHist as { excludedYears: number[] }).excludedYears.length > 0
+              ? `; the ${(lbHist as { excludedYears: number[] }).excludedYears.join(", ")} reports use formats not yet parsed and render as gaps`
+              : ", every report year"}
+            ). Fetched {(lbHist as { fetched: string }).fetched}.
+          </div>
+        </div>
+        <div>
+          <p className="body-text c1-maplead">
+            <strong>Where it happens.</strong>{" "}Consumption concentrates
+            where the canals reach — the irrigation districts of the lower
+            river and the cities the aqueducts serve:
+          </p>
+          <ConsumptionMiniMap />
+        </div>
       </div>
 
-      <p className="body-text" style={{ marginTop: 22 }}>
-        <strong>How it&rsquo;s changed.</strong>{" "}The Lower Basin — the
-        largest component — across 23 years of decree accounting: near the
-        full 7.5 MAF apportionment through the mid-2010s, then the
-        conservation era&rsquo;s descent.
-      </p>
-      <ConsumptionLine />
-      <div className="chain-caveat" style={{ marginTop: 8 }}>
-        Parsed from the annual accounting reports<Cite id="decree2025" />{" "}
-        (2003&ndash;2025
-        {(lbHist as { excludedYears: number[] }).excludedYears.length > 0
-          ? `; the ${(lbHist as { excludedYears: number[] }).excludedYears.join(", ")} reports use formats not yet parsed and render as gaps`
-          : ", every report year"}
-        ). Fetched {(lbHist as { fetched: string }).fetched}.
-      </div>
 
       <p className="body-text" style={{ marginTop: 22 }}>
         <strong>By type of use.</strong> A separate peer-reviewed
@@ -235,13 +262,6 @@ export default async function Landing() {
         story: the <Link href={"/report/demand" as Route}>Demand chapter</Link>{" "}
         and <Link href={"/report/agriculture" as Route}>Agriculture chapter</Link>.
       </div>
-
-      <p className="body-text" style={{ marginTop: 22 }}>
-        <strong>Where it happens.</strong> Consumption concentrates where
-        the canals reach — the irrigation districts of the lower river and
-        the cities the aqueducts serve:
-      </p>
-      <ConsumptionMiniMap />
 
       <h2 className="section-title">2 · What the river produces</h2>
       <p className="body-text">
