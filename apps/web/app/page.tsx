@@ -121,7 +121,7 @@ const CONSUMPTION_ITEMS: RankedBarItem[] = DEMAND_RECLAMATION.map((d) => ({
       CONSUMPTION_MECHANISM[d.id],
       d.note,
       d.id === "demand.lower_basin" || d.id === "demand.mexico"
-        ? "The chart shows the decree-accounting record since 2003; gaps are unparsed report years, never zeros."
+        ? "The chart shows the full decree-accounting record since 2003."
         : SERIES_STATUS,
     ]
       .filter(Boolean)
@@ -203,7 +203,7 @@ export default async function Landing() {
       </div>
 
       <p className="body-text" style={{ marginTop: 22 }}>
-        <strong>How it&rsquo;s changed.</strong> The Lower Basin — the
+        <strong>How it&rsquo;s changed.</strong>{" "}The Lower Basin — the
         largest component — across 23 years of decree accounting: near the
         full 7.5 MAF apportionment through the mid-2010s, then the
         conservation era&rsquo;s descent.
@@ -211,9 +211,11 @@ export default async function Landing() {
       <ConsumptionLine />
       <div className="chain-caveat" style={{ marginTop: 8 }}>
         Parsed from the annual accounting reports<Cite id="decree2025" />{" "}
-        (2003&ndash;2025; the {(lbHist as { excludedYears: number[] }).excludedYears.join(", ")}{" "}
-        reports use formats not yet parsed and render as gaps). Fetched{" "}
-        {(lbHist as { fetched: string }).fetched}.
+        (2003&ndash;2025
+        {(lbHist as { excludedYears: number[] }).excludedYears.length > 0
+          ? `; the ${(lbHist as { excludedYears: number[] }).excludedYears.join(", ")} reports use formats not yet parsed and render as gaps`
+          : ", every report year"}
+        ). Fetched {(lbHist as { fetched: string }).fetched}.
       </div>
 
       <p className="body-text" style={{ marginTop: 22 }}>

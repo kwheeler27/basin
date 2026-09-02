@@ -40,43 +40,43 @@ export function RankedBars({ items }: { items: readonly RankedBarItem[] }) {
   const interactive = sorted.some((it) => it.sheet);
 
   return (
-    <div className="demand-breakdown">
+    <div className="rankedbars">
       {sorted.map((it) => {
         const row = (
           <>
-            <div className="db-label" title={it.name}>
-              {it.short}
+            <div className="rb-label" title={it.name}>
+              <span className="rb-name">{it.short}</span>
               {it.flag && (
-                <span className="badge badge-med" title={it.name}>
+                <span className="badge badge-med rb-flag" title={it.name}>
                   {it.flag}
                 </span>
               )}
             </div>
-            <div className="uve-line">
+            <div className="rb-trackarea">
               <div
-                className="db-track"
-                style={{ width: `${(it.af / max) * 70}%` }}
+                className="db-track rb-track"
+                style={{ width: `${(it.af / max) * 100}%` }}
               >
                 <div className="db-fill" style={{ width: "100%" }} />
               </div>
-              <span className="uve-num">
-                {acreFeet(it.af)} · {Math.round((it.af / total) * 100)}%
-              </span>
             </div>
+            <span className="rb-num">
+              {acreFeet(it.af)} <span className="rb-pct">{Math.round((it.af / total) * 100)}%</span>
+            </span>
           </>
         );
         return it.sheet ? (
           <button
             key={it.short}
             type="button"
-            className="db-row db-tappable"
+            className="rb-row db-tappable"
             onClick={() => setSheet(it.sheet!)}
             aria-label={`${it.name} — details and source`}
           >
             {row}
           </button>
         ) : (
-          <div key={it.short} className="db-row">
+          <div key={it.short} className="rb-row">
             {row}
           </div>
         );

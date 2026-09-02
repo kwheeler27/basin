@@ -1910,3 +1910,25 @@ html { scroll-behavior: smooth; }
   .ws-stage { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 6px 0; }
   .ws-cards { gap: 34vh; padding: 8vh 0 24vh; }
 }
+
+/* ranked bars — aligned grid: label | bar | right-aligned value column */
+.rankedbars { margin-top: 14px; max-width: 860px; }
+.rb-row {
+  display: grid; grid-template-columns: 172px minmax(0, 1fr) 128px;
+  gap: 12px; align-items: center; margin-bottom: 8px;
+}
+.db-tappable.rb-row { width: 100%; text-align: left; background: none; border: 0; padding: 4px 0; font: inherit; color: inherit; cursor: pointer; }
+.rb-label { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-width: 0; }
+.rb-name { font-size: 13.5px; color: var(--text); line-height: 1.25; }
+.rb-flag { font-size: 9px; }
+.rb-trackarea { min-width: 0; }
+.rb-track { height: 18px; }
+.rb-num { font-size: 13px; font-weight: 600; color: var(--text); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rb-pct { color: var(--muted); font-weight: 600; margin-left: 4px; }
+.db-tappable.rb-row:hover .rb-name, .db-tappable.rb-row:focus-visible .rb-name { color: var(--accent); }
+@media (max-width: 640px) {
+  .rb-row { grid-template-columns: 108px minmax(0, 1fr) 104px; gap: 8px; }
+  .rb-name { font-size: 12px; }
+  .rb-num { font-size: 11.5px; }
+  .rb-flag { display: none; }
+}

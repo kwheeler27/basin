@@ -79,7 +79,11 @@ def parse(text: str) -> dict[str, int] | None:
             if v:
                 vals["lbTotal"] = v
                 break
-        if re.search(r"TOTAL CONSUMPTIVE USE,\s*LOWER DIVISION STATES", ln):
+        if re.search(
+            r"TOTAL CONSUMPTIVE USE[,\s-]+LOWER (?:DIVISION|BASIN) STATES"
+            r"|TOTAL LOWER DIVISION STATES CONSUMPTIVE USE\b",
+            ln,
+        ):
             v = last_number(ln)
             if v:
                 vals["lbTotal"] = v
@@ -101,7 +105,10 @@ def parse(text: str) -> dict[str, int] | None:
     # "LOWER DIVISION STATES CONSUMPTIVE USE SUMMARY" with one line per
     # state (monthly values, annual total last).
     for i, ln in enumerate(lines):
-        if "LOWER DIVISION STATES CONSUMPTIVE USE SUMMARY" in ln:
+        if (
+            "LOWER DIVISION STATES CONSUMPTIVE USE SUMMARY" in ln
+            or "LOWER BASIN STATES WATER USE SUMMARY" in ln
+        ):
             for follow in lines[i + 1 : i + 12]:
                 m = re.match(r"\s*(ARIZONA|CALIFORNIA|NEVADA)\b", follow)
                 if m:
@@ -176,7 +183,7 @@ def main() -> None:
         print(f"  {y}: az={vals['az']/1e6:.2f} ca={vals['ca']/1e6:.2f} "
               f"nv={vals['nv']/1e6:.2f} lb={vals['lbTotal']/1e6:.2f}{mex}")
 
-    assert len(years) >= 18, f"too few years parsed ({len(years)}) — refusing to bake"
+    assert len(years) >= 20, f"too few years parsed ({len(years)}) — refusing to bake"
     payload = {
         "source": (
             "US Bureau of Reclamation, Colorado River Accounting and Water "

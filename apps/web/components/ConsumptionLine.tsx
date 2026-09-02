@@ -119,7 +119,9 @@ export function ConsumptionLine() {
           ? vals[hover] !== null
             ? `CY${years[hover]} — ${(vals[hover]! / MAF).toFixed(2)} MAF Lower Basin consumptive use`
             : `CY${years[hover]} — report format not yet parsed; shown as a gap`
-          : "Hover for any year. Gaps are unparsed report years, never zeros."}
+          : vals.some((v) => v === null)
+            ? "Hover for any year. Gaps are unparsed report years, never zeros."
+            : "Hover for any year of the record."}
       </div>
     </div>
   );
