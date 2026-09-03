@@ -389,47 +389,42 @@ export default async function Landing() {
         the reservoirs before anyone touches it. Most of the water goes to
         farms, not homes.
       </p>
-      <div className="c1-grid">
-        <div>
-          <p className="body-text c1-maplead">
-            <strong>
-              The Lower Basin takes{" "}
-              {Math.round(
-                (DEMAND_RECLAMATION.find((d) => d.id === "demand.lower_basin")!
-                  .acreFeet /
-                  DEMAND_RECLAMATION_TOTAL) *
-                  100,
-              )}
-              % of it.
-            </strong>{" "}
-            The accounted total, split four ways:
-          </p>
-          <RankedBars items={CONSUMPTION_ITEMS} />
-          <div className="chain-caveat" style={{ marginTop: 8 }}>
-            2020&ndash;2024 averages, from the same July 2026 federal review
-            as the topline numbers<Cite id="feis2026" />. The Upper Basin
-            figure is disputed between two federal sources (3.8 vs 4.3 MAF).
-          </div>
-        </div>
-        <div>
-          <p className="body-text c1-maplead">
-            <strong>
-              Four desert counties take {COUNTY_TOP4_WORD} of the irrigation
-              water.
-            </strong>{" "}
-            Of the {COUNTY_SHARES.countyCount} counties irrigating inside
-            the watershed and its canal lands, the top four —{" "}
-            {COUNTY_TOP4.map((c) => c.name).join(", ")} — draw{" "}
-            <strong>{Math.round(COUNTY_TOP4_SHARE)}%</strong> of everything
-            withdrawn for crops (USGS 2015 census); Imperial alone takes{" "}
-            {COUNTY_SHARES.counties[0]!.sharePct}%, more than any other
-            county. The{" "}
-            <Term id="aqueduct">aqueducts</Term> and canals decide where the
-            water lands:
-          </p>
-          <ConsumptionMiniMap />
-        </div>
+      <p className="body-text" style={{ marginTop: 18 }}>
+        <strong>
+          The Lower Basin takes{" "}
+          {Math.round(
+            (DEMAND_RECLAMATION.find((d) => d.id === "demand.lower_basin")!
+              .acreFeet /
+              DEMAND_RECLAMATION_TOTAL) *
+              100,
+          )}
+          % of it.
+        </strong>{" "}
+        The accounted total, split four ways:
+      </p>
+      <RankedBars items={CONSUMPTION_ITEMS} />
+      <div className="chain-caveat" style={{ marginTop: 8 }}>
+        2020&ndash;2024 averages, from the same July 2026 federal review
+        as the topline numbers<Cite id="feis2026" />. The Upper Basin
+        figure is disputed between two federal sources (3.8 vs 4.3 MAF).
       </div>
+
+      <p className="body-text" style={{ marginTop: 26 }}>
+        <strong>
+          Four desert counties take {COUNTY_TOP4_WORD} of the irrigation
+          water.
+        </strong>{" "}
+        Of the {COUNTY_SHARES.countyCount} counties irrigating inside
+        the watershed and its canal lands, the top four —{" "}
+        {COUNTY_TOP4.map((c) => c.name).join(", ")} — draw{" "}
+        <strong>{Math.round(COUNTY_TOP4_SHARE)}%</strong> of everything
+        withdrawn for crops (USGS 2015 census); Imperial alone takes{" "}
+        {COUNTY_SHARES.counties[0]!.sharePct}%, more than any other
+        county. The{" "}
+        <Term id="aqueduct">aqueducts</Term> and canals decide where the
+        water lands:
+      </p>
+      <ConsumptionMiniMap />
 
 
       <p className="body-text" style={{ marginTop: 22 }}>
