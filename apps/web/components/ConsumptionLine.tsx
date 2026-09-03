@@ -1,11 +1,14 @@
 "use client";
 
 /**
- * Lower Basin consumptive use, year by year, from 23 years of decree
- * accounting reports — the "how did we get here" line for §1. Years whose
- * report format defeated the parser render as GAPS, never interpolations
- * (they are named in the caption). The 7.5 MAF apportionment draws as an
- * administrative reference. True-pixel responsive, crosshair + readout.
+ * Every consumer with an annual series, on one chart: the Lower Basin total
+ * and its three states (decree accounting, 2003–2025) plus Mexico (treaty
+ * accounting in the same reports, 2006–). Upper Basin and reservoir
+ * evaporation have no machine-readable annual series yet — the caption says
+ * so rather than the chart inventing one. Years a report format defeated
+ * the parser render as GAPS, never interpolations. The 7.5 MAF apportionment
+ * draws as an administrative reference for the Lower Basin total. Hovering
+ * shows each series' value beside its line. True-pixel responsive.
  */
 
 import { useRef, useState } from "react";
@@ -15,44 +18,81 @@ import { useMeasuredWidth } from "@/lib/useMeasuredWidth";
 const MAF = 1_000_000;
 const CEILING_AF = 7_500_000;
 
+type YearRow = {
+  lbTotal: number;
+  az?: number;
+  ca?: number;
+  nv?: number;
+  mexico?: number;
+};
+
+interface Series {
+  key: keyof YearRow;
+  label: string;
+  cls: string;
+  bold?: boolean;
+}
+
+// Fixed order and fixed hues — a series keeps its color no matter what
+// renders. The three states sum to the Lower Basin total; Mexico is a
+// separate consumer in the same reports.
+const SERIES: readonly Series[] = [
+  { key: "lbTotal", label: "Lower Basin total", cls: "cl-lb", bold: true },
+  { key: "ca", label: "California", cls: "cl-ca" },
+  { key: "az", label: "Arizona", cls: "cl-az" },
+  { key: "mexico", label: "Mexico", cls: "cl-mx" },
+  { key: "nv", label: "Nevada", cls: "cl-nv" },
+];
+
 export function ConsumptionLine() {
   const [hover, setHover] = useState<number | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const { ref, width } = useMeasuredWidth<HTMLDivElement>();
 
-  const yearsMap = (lb as { years: Record<string, { lbTotal: number }> }).years;
+  const yearsMap = (lb as { years: Record<string, YearRow> }).years;
   const first = Math.min(...Object.keys(yearsMap).map(Number));
   const last = Math.max(...Object.keys(yearsMap).map(Number));
   const years: number[] = [];
   for (let y = first; y <= last; y++) years.push(y);
-  const vals = years.map((y) => yearsMap[String(y)]?.lbTotal ?? null);
+  const valsFor = (key: keyof YearRow) =>
+    years.map((y) => yearsMap[String(y)]?.[key] ?? null);
+  const byKey = new Map(SERIES.map((s) => [s.key, valsFor(s.key)]));
 
   if (width === 0) {
-    return <div ref={ref} className="topline" style={{ minHeight: 200 }} />;
+    return <div ref={ref} className="topline" style={{ minHeight: 260 }} />;
   }
 
-  const narrow = width < 600;
   const W = width;
-  const H = narrow ? Math.round(W * 0.62) : Math.round(W * 0.28);
-  const M = narrow
-    ? { t: 24, r: 14, b: 26, l: 40 }
-    : { t: 22, r: 110, b: 26, l: 44 };
+  const compact = W < 480;
+  const H = Math.round(W * (compact ? 0.85 : 0.72));
+  const M = { t: 20, r: compact ? 14 : 58, b: 26, l: 38 };
 
   const hi = CEILING_AF * 1.06;
-  const lo = 5_200_000;
+  const lo = 0;
   const n = years.length;
   const x = (i: number) => M.l + (i / (n - 1)) * (W - M.l - M.r);
   const y = (v: number) => H - M.b - ((v - lo) / (hi - lo)) * (H - M.t - M.b);
 
-  let d = "";
-  let pen = false;
-  vals.forEach((v, i) => {
-    if (v === null) { pen = false; return; }
-    d += `${pen ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)} `;
-    pen = true;
-  });
+  const pathFor = (vals: (number | null)[]) => {
+    let d = "";
+    let pen = false;
+    vals.forEach((v, i) => {
+      if (v === null) {
+        pen = false;
+        return;
+      }
+      d += `${pen ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)} `;
+      pen = true;
+    });
+    return d;
+  };
 
-  const lastI = vals.length - 1 - [...vals].reverse().findIndex((v) => v !== null);
+  const lastIdxFor = (vals: (number | null)[]) => {
+    for (let i = vals.length - 1; i >= 0; i--) if (vals[i] !== null) return i;
+    return -1;
+  };
+
+  const anyGaps = SERIES.some((s) => byKey.get(s.key)!.some((v) => v === null));
 
   const onMove = (e: React.MouseEvent) => {
     const rect = svgRef.current?.getBoundingClientRect();
@@ -64,64 +104,90 @@ export function ConsumptionLine() {
 
   return (
     <div ref={ref} className="topline">
+      <div className="cl-legend" aria-hidden="true">
+        {SERIES.map((s) => (
+          <span key={s.key} className="cl-chip">
+            <span className={`cl-swatch ${s.cls}`} />
+            {s.label}
+          </span>
+        ))}
+      </div>
       <svg ref={svgRef} width={W} height={H} viewBox={`0 0 ${W} ${H}`} role="img"
-        aria-label="Lower Basin consumptive use by year since 2003, against the 7.5 MAF apportionment"
+        aria-label="Consumptive use by year since 2003: Lower Basin total, California, Arizona, Nevada, and Mexico, against the Lower Basin's 7.5 MAF apportionment"
         onMouseMove={onMove} onMouseLeave={() => setHover(null)}>
-        {[6, 7].map((m) => (
+        {[2, 4, 6].map((m) => (
           <g key={m}>
             <line x1={M.l} x2={W - M.r} y1={y(m * MAF)} y2={y(m * MAF)} className="cc-grid" />
             <text x={M.l - 6} y={y(m * MAF) + 3.5} className="cc-tick">{m}M</text>
           </g>
         ))}
-        <text x={M.l - 4} y={M.t - 8} className="cc-tick unit" style={{ textAnchor: "start" }}>
-          acre-feet per calendar year · y-axis starts at 5.2M, not zero
+        <text x={M.l - 4} y={M.t - 6} className="cc-tick unit" style={{ textAnchor: "start" }}>
+          acre-feet per calendar year
         </text>
-        {years.filter((yy) => yy % (narrow ? 8 : 4) === 0).map((yy) => (
+        {years.filter((yy) => yy % (compact ? 8 : 4) === 0).map((yy) => (
           <text key={yy} x={x(years.indexOf(yy))} y={H - 8} className="cc-tick x">
             {yy}
           </text>
         ))}
 
         <line x1={M.l} x2={W - M.r} y1={y(CEILING_AF)} y2={y(CEILING_AF)} className="es-ref" />
-        <text
-          x={narrow ? M.l + 6 : W - M.r + 4}
-          y={narrow ? y(CEILING_AF) - 5 : y(CEILING_AF) + 3}
-          className="es-reflabel"
-          style={narrow ? { fontSize: 10.5 } : undefined}
-        >
-          7.5M · apportionment
+        <text x={M.l + 6} y={y(CEILING_AF) - 5} className="es-reflabel" style={{ fontSize: 10.5 }}>
+          7.5M · Lower Basin apportionment
         </text>
 
-        <path d={d} className="tl-line" />
-        {vals[lastI] !== null && (
-          <>
-            <circle cx={x(lastI)} cy={y(vals[lastI]!)} r={3.5} className="tl-now" />
-            <text
-              x={x(lastI) - 8}
-              y={y(vals[lastI]!) - 8}
-              className="tl-endlabel"
-              style={{ textAnchor: "end" }}
-            >
-              {(vals[lastI]! / MAF).toFixed(2)}M · {years[lastI]}
-            </text>
-          </>
-        )}
+        {SERIES.map((s) => (
+          <path key={s.key} d={pathFor(byKey.get(s.key)!)}
+            className={`cl-line ${s.cls}${s.bold ? " bold" : ""}`} />
+        ))}
 
-        {hover !== null && vals[hover] !== null && (
+        {/* End labels tie identity to each line without hover (skipped when
+            cramped — the legend still carries identity). */}
+        {!compact &&
+          SERIES.map((s) => {
+            const vals = byKey.get(s.key)!;
+            const li = lastIdxFor(vals);
+            if (li < 0) return null;
+            return (
+              <text key={s.key} x={x(li) + 5} y={y(vals[li]!) + 3.5}
+                className={`cl-endlabel ${s.cls}`}>
+                {(vals[li]! / MAF).toFixed(s.key === "nv" ? 1 : 2)}M
+              </text>
+            );
+          })}
+
+        {hover !== null && (
           <g>
             <line x1={x(hover)} x2={x(hover)} y1={M.t} y2={H - M.b} className="cc-cross" />
-            <circle cx={x(hover)} cy={y(vals[hover]!)} r={3.2} className="tl-now" />
+            <text x={x(hover)} y={M.t + 10} className="cl-hoveryear">
+              CY{years[hover]}
+            </text>
+            {SERIES.map((s) => {
+              const v = byKey.get(s.key)![hover];
+              if (v == null) return null;
+              const onLeft = hover > n * 0.72;
+              return (
+                <g key={s.key}>
+                  <circle cx={x(hover)} cy={y(v)} r={3} className={`cl-dot ${s.cls}`} />
+                  <text
+                    x={x(hover) + (onLeft ? -7 : 7)}
+                    y={y(v) - 6}
+                    className={`cl-hoverval ${s.cls}`}
+                    style={onLeft ? { textAnchor: "end" } : undefined}
+                  >
+                    {(v / MAF).toFixed(2)}M
+                  </text>
+                </g>
+              );
+            })}
           </g>
         )}
       </svg>
       <div className="cc-readout" aria-live="polite">
         {hover !== null
-          ? vals[hover] !== null
-            ? `CY${years[hover]} — ${(vals[hover]! / MAF).toFixed(2)} MAF Lower Basin consumptive use`
-            : `CY${years[hover]} — report format not yet parsed; shown as a gap`
-          : vals.some((v) => v === null)
-            ? "Hover for any year. Gaps are unparsed report years, never zeros."
-            : "Hover for any year of the record."}
+          ? `CY${years[hover]} — hover values are beside each line, in MAF`
+          : anyGaps
+            ? "Hover for any year. Gaps are unparsed report years, never zeros — Mexico's series begins in 2006."
+            : "Hover any year; values appear beside each line."}
       </div>
     </div>
   );

@@ -31,8 +31,10 @@ export function SupplySeries() {
   }
 
   const narrow = width < 600;
-  const W = width;
-  const H = narrow ? Math.round(W * 0.78) : Math.round(W * 0.3);
+  // Capped: at full content width the panorama ratio got so wide the shape
+  // of the record disappeared (Kevin, 2026-09-02).
+  const W = narrow ? width : Math.min(width, 880);
+  const H = narrow ? Math.round(W * 0.78) : Math.round(W * 0.42);
   const M = narrow
     ? { t: 26, r: 12, b: 26, l: 36 }
     : { t: 22, r: 128, b: 26, l: 42 };

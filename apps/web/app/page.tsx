@@ -85,10 +85,30 @@ const SERIES_STATUS =
 // Decree-accounting history (2003–2025, parsed from the annual reports;
 // unparsed years are honest gaps) — feeds the LB and Mexico card series.
 const LB_YEARS_MAP = (lbHist as {
-  years: Record<string, { lbTotal: number; mexico?: number }>;
+  years: Record<
+    string,
+    { lbTotal: number; az?: number; ca?: number; nv?: number; mexico?: number }
+  >;
 }).years;
 const LB_FIRST = Math.min(...Object.keys(LB_YEARS_MAP).map(Number));
 const LB_LAST = Math.max(...Object.keys(LB_YEARS_MAP).map(Number));
+// The chart's takeaway header and its reconciliation to the bars are
+// computed from the same series they describe, so they can never drift.
+const LB_LAST_TOTAL = LB_YEARS_MAP[String(LB_LAST)]?.lbTotal ?? null;
+const LB_RECORD_LOW =
+  LB_LAST_TOTAL !== null &&
+  Object.values(LB_YEARS_MAP).every((v) => v.lbTotal >= LB_LAST_TOTAL);
+const ALL_LINES_DOWN_DECADE = (
+  ["lbTotal", "az", "ca", "nv", "mexico"] as const
+).every((k) => {
+  const now = LB_YEARS_MAP[String(LB_LAST)]?.[k];
+  const then = LB_YEARS_MAP[String(LB_LAST - 10)]?.[k];
+  return now != null && then != null && now < then;
+});
+const FEIS_WINDOW = [2020, 2021, 2022, 2023, 2024];
+const LB_FEIS_MEAN =
+  FEIS_WINDOW.reduce((s, y) => s + (LB_YEARS_MAP[String(y)]?.lbTotal ?? 0), 0) /
+  FEIS_WINDOW.length;
 function lbSeries(key: "lbTotal" | "mexico") {
   const points: (readonly [string, number | null])[] = [];
   for (let y = LB_FIRST; y <= LB_LAST; y++) {
@@ -276,15 +296,37 @@ export default async function Landing() {
             figure is disputed between two federal sources (3.8 vs 4.3 MAF).
           </div>
           <p className="body-text" style={{ marginTop: 22 }}>
-            <strong>How it&rsquo;s changed.</strong>{" "}The Lower Basin — the
-            largest component — across 23 years of decree accounting: near the
-            full 7.5 MAF apportionment through the mid-2010s, then the
-            conservation era&rsquo;s descent.
+            <strong>Use is falling.</strong>{" "}The Lower Basin ran close to
+            its full 7.5 MAF{" "}
+            <Term id="apportionment">apportionment</Term> until the mid-2010s.
+            In {LB_LAST} it used{" "}
+            <strong>
+              {LB_LAST_TOTAL !== null
+                ? `${(LB_LAST_TOTAL / 1_000_000).toFixed(2)} MAF`
+                : "less"}
+            </strong>
+            {LB_RECORD_LOW ? <> — the lowest year in the record</> : null}
+            {ALL_LINES_DOWN_DECADE ? (
+              <>
+                {" "}
+                — and every line on this chart is lower than it was a decade
+                ago.
+              </>
+            ) : (
+              <>.</>
+            )}
           </p>
           <ConsumptionLine />
           <div className="chain-caveat" style={{ marginTop: 8 }}>
-            Parsed from the annual accounting reports<Cite id="decree2025" />{" "}
-            (2003&ndash;2025
+            Same books as the bars above: the Lower Basin bar (
+            {acreFeet(DEMAND_RECLAMATION.find((d) => d.id === "demand.lower_basin")!.acreFeet)}
+            ) is the 2020&ndash;24 average of the total line here —{" "}
+            {(LB_FEIS_MEAN / 1_000_000).toFixed(2)}{" "}MAF; the difference is
+            rounding between reports. The Upper Basin and reservoir
+            evaporation aren&rsquo;t drawn because no year-by-year series
+            exists for them yet — their federal reports come in five-year
+            cycles. Parsed from the annual accounting reports
+            <Cite id="decree2025" /> ({LB_FIRST}&ndash;{LB_LAST}
             {(lbHist as { excludedYears: number[] }).excludedYears.length > 0
               ? `; the ${(lbHist as { excludedYears: number[] }).excludedYears.join(", ")} reports use formats not yet parsed and render as gaps`
               : ", every report year"}
