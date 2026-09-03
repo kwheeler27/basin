@@ -195,13 +195,21 @@ export default async function Landing() {
         The Colorado River is committed to delivering more water than it
         produces.
       </h1>
-      <p className="page-lede">The arithmetic, in five steps.</p>
       <div className="hero-stats">
         <div className="hs-tile">
           <div className="hs-kicker">Consumes</div>
           <div className="hs-num">{acreFeet(DEMAND_RECLAMATION_TOTAL)}</div>
           <div className="hs-sub">
-            a year — the states and Mexico, on Reclamation&rsquo;s accounting
+            a year — roughly{" "}
+            <strong>
+              {Math.round(
+                DEMAND_RECLAMATION_TOTAL /
+                  HOUSEHOLD_ACRE_FEET_PER_YEAR /
+                  1_000_000,
+              )}{" "}
+              million households&rsquo;
+            </strong>{" "}
+            worth of water
           </div>
         </div>
         <div className="hs-tile">
@@ -225,23 +233,26 @@ export default async function Landing() {
           </div>
         </div>
       </div>
+      <div className="chain-caveat hs-note">
+        Consumes: the states and Mexico, on Reclamation&rsquo;s accounting —
+        2020&ndash;24 average, Post-2026 Final EIS<Cite id="feis2026" />.
+        Produces: the modern-era (2000&ndash;2025) average of
+        Reclamation&rsquo;s natural-flow record<Cite id="naturalflow" />.
+        Reservoirs: Powell + Mead combined, Reclamation daily data
+        <Cite id="rise" />
+        {asOf ? <> as of {formatDate(asOf)}</> : null}; the 2000 baseline is
+        January 2000. Household scale: about{" "}
+        {HOUSEHOLD_GALLONS_PER_YEAR.toLocaleString()} gallons — a bit over a
+        third of an acre-foot — per household a year.
+      </div>
 
       <h2 className="section-title">1 · What the basin consumes</h2>
       <p className="body-text">
         The states and Mexico consume about{" "}
         <strong>{acreFeet(DEMAND_RECLAMATION_TOTAL)}</strong>{" "}of Colorado
-        River water a year, on Reclamation&rsquo;s accounting — most of it in
-        the Lower Basin, plus what evaporates off the reservoirs before
-        anyone uses it. For scale: a typical household runs through about{" "}
-        {HOUSEHOLD_GALLONS_PER_YEAR.toLocaleString()} gallons a year — a bit
-        over a third of an acre-foot — so this is roughly{" "}
-        <strong>
-          {Math.round(
-            DEMAND_RECLAMATION_TOTAL / HOUSEHOLD_ACRE_FEET_PER_YEAR / 1_000_000,
-          )}{" "}
-          million households&rsquo;
-        </strong>{" "}
-        worth of water. Most of it goes to farms, not homes.
+        River water a year, on Reclamation&rsquo;s accounting — the bulk of it
+        in the Lower Basin, plus what evaporates off the reservoirs before
+        anyone uses it. Most of it goes to farms, not homes.
       </p>
       <div className="c1-grid">
         <div>
