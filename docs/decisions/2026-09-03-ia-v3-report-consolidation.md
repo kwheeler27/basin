@@ -1,6 +1,6 @@
 # The Report tab is retired; chapters become the landing's evidence appendix
 
-**Date:** 2026-09-03 · **Status:** Proposed · **Scope:** site IA (nav, landing, /report, /current-state) · **Brief:** supersedes the nav portion of docs/IA.md v2; the backbone contract and surfaces are unchanged
+**Date:** 2026-09-03 · **Status:** Accepted (Kevin, 2026-09-03) · **Scope:** site IA (nav, landing, /report, /current-state) · **Brief:** supersedes the nav portion of docs/IA.md v2; the backbone contract and surfaces are unchanged
 
 The landing page grew into the executive report — six data-backed beats
 with computed headings, charts, and a teaching layer — which left the
