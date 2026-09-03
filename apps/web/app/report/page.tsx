@@ -9,8 +9,8 @@ export default function ReportIndex() {
     <main>
       <h1 className="page-title">The report</h1>
       <p className="page-lede">
-        Why the Colorado River system is where it is — eight chapters, in
-        reading order, each answering one question. Every figure carries its
+        The evidence appendix behind the front page — eight chapters, in
+        reading order, each defending one part of the argument. Every figure carries its
         source, and every chart links into the{" "}
         <Link href={"/explore" as Route}>instruments</Link> where you can
         check it yourself.
@@ -48,7 +48,7 @@ export default function ReportIndex() {
           chapter 1 is the whole system in five scenes; the rest take one
           piece at a time. But each stands alone, so start where your
           question is. For the live numbers as of today, see{" "}
-          <Link href={"/current-state" as Route}>Current state</Link>; for definitions, units,
+          <Link href={"/current-state" as Route}>Now</Link>; for definitions, units,
           and provenance of every dataset, see{" "}
           <Link href="/data">Data</Link>.
         </p>

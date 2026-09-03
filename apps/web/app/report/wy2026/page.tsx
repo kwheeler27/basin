@@ -54,7 +54,7 @@ export default async function Wy2026() {
         this will come again. Test that assumption yourself in the{" "}
         <Link href={"/explore/scenarios" as Route}>scenario lab</Link>, or
         read what the new rules say at today&rsquo;s levels on{" "}
-        <Link href={"/current-state" as Route}>Current state</Link>.
+        <Link href={"/current-state" as Route}>Now</Link>.
       </p>
 
       <div className="chain-caveat" style={{ marginTop: 22 }}>

@@ -38,6 +38,7 @@ export default function RootLayout({
             <div>
               Every source: <a href="/references">References</a>.{" "}
               Every term, in plain language: <a href="/glossary">Glossary</a>.{" "}
+              Every chapter of the argument: <a href="/report">the report</a>.{" "}
               Definitions, units, and provenance come from the measure registry
               (<code>packages/registry</code>). Source at{" "}
               <a href="https://github.com/kwheeler27/basin">

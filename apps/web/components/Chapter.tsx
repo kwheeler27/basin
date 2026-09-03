@@ -2,14 +2,32 @@ import Link from "next/link";
 import type { Route } from "next";
 import { CHAPTERS } from "@/lib/report";
 
-/** "Report · Chapter N of 8" kicker above a chapter's title. */
+// The reverse edge of IA v3: every chapter names the front-page claim it
+// defends and offers the way back (decision record 2026-09-03).
+const BEAT_FOR: Record<string, string> = {
+  demand: "§1 · what the basin consumes — and §5, the response",
+  agriculture: "§1 · most of it grows crops",
+  supply: "§2 · what the river produces",
+  reservoirs: "§3 · reservoirs cover the deficit",
+  infrastructure: "§3 · where the accounts sit",
+  "water-rights": "§4 · downward pressure on what may legally be taken",
+  distribution: "the argument on the front page",
+  "the-system": "the whole argument on the front page",
+};
+
+/** Evidence-edge kicker above a chapter's title. */
 export function ChapterKicker({ slug }: { slug: string }) {
   const i = CHAPTERS.findIndex((c) => c.slug === slug);
   if (i < 0) return null;
   return (
     <div className="ch-kicker">
-      <Link href={"/report" as Route}>The report</Link>
-      <span> · chapter {i + 1} of {CHAPTERS.length}</span>
+      <span className="ch-evidence">
+        The evidence behind {BEAT_FOR[slug] ?? "the front page"}
+      </span>
+      <span> · </span>
+      <Link href={"/" as Route}>← back to the argument</Link>
+      <span> · </span>
+      <Link href={"/report" as Route}>chapter {i + 1} of {CHAPTERS.length}</Link>
     </div>
   );
 }
