@@ -164,3 +164,31 @@ alongside §7 and applies to every piece of narrative copy on the site.
 
 Test: read the sentence aloud. If you wouldn't say it to a smart friend
 across a table, rewrite it.
+
+---
+
+## 11. Assume no prior water knowledge (Kevin's standing rule, 2026-09-02)
+
+The reader is smart but new: they don't know what an acre-foot is, who
+"Reclamation" is, or that the basin has an Upper and a Lower half. Every
+page must work for that reader without dumbing anything down (§10's
+"clarity is not simplification" still binds).
+
+- **First use teaches.** The first time a page leans on a term of art, the
+  sentence carries the meaning — inline, in one clause — or the term wears
+  a glossary card (the hover/tap definitions in `lib/glossary.ts`).
+- **The glossary is the shared teaching layer.** One definition per
+  concept, written once, surfaced everywhere (term cards in prose, chips in
+  detail sheets, the /glossary page). Never fork a second wording of the
+  same concept in page copy.
+- **Numbers get human anchors.** Big volumes carry a household-scale or
+  comparable everyday equivalent where the arithmetic is honest (the
+  125,000-gallon household is the standing anchor).
+- **Abbreviations are introduced, not assumed.** "13.15 million acre-feet"
+  before "13.15 MAF" on any page where both appear.
+- **Jargon that carries no precision dies.** If a plain word survives
+  review by §5 (accounting concepts) and §10, use the plain word.
+
+Test: hand the page to someone who has never read about the Colorado
+River. If any sentence requires knowledge the page hasn't given them,
+that sentence is a bug.

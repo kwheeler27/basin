@@ -3,6 +3,7 @@ import type { Route } from "next";
 import { ConsumptionLine } from "@/components/ConsumptionLine";
 import { ConsumptionMiniMap } from "@/components/ConsumptionMiniMap";
 import { RankedBars, type RankedBarItem } from "@/components/RankedBars";
+import { Term } from "@/components/Term";
 import { BasinStory } from "@/components/BasinStory";
 import { Cite } from "@/components/Cite";
 import { StorageHistoryLine } from "@/components/StorageHistoryLine";
@@ -234,33 +235,45 @@ export default async function Landing() {
         </div>
       </div>
       <div className="chain-caveat hs-note">
-        Consumes: the states and Mexico, on Reclamation&rsquo;s accounting —
-        2020&ndash;24 average, Post-2026 Final EIS<Cite id="feis2026" />.
-        Produces: the modern-era (2000&ndash;2025) average of
-        Reclamation&rsquo;s natural-flow record<Cite id="naturalflow" />.
-        Reservoirs: Powell + Mead combined, Reclamation daily data
-        <Cite id="rise" />
-        {asOf ? <> as of {formatDate(asOf)}</> : null}; the 2000 baseline is
-        January 2000. Household scale: about{" "}
-        {HOUSEHOLD_GALLONS_PER_YEAR.toLocaleString()} gallons — a bit over a
-        third of an acre-foot — per household a year.
+        Where these numbers come from — Consumes: the official tally of water
+        use by the seven states and Mexico, kept by{" "}
+        <Term id="reclamation">Reclamation</Term>; a 2020&ndash;24 average
+        from the federal government&rsquo;s July 2026 environmental review
+        (the &ldquo;Post-2026 Final EIS&rdquo;)<Cite id="feis2026" />.
+        Produces: the 2000&ndash;2025 average of the river&rsquo;s{" "}
+        <Term id="natural_flow">natural flow</Term> — what it would carry
+        with no dams or diversions<Cite id="naturalflow" />. Reservoirs:
+        Lakes Powell and Mead combined, from Reclamation&rsquo;s daily
+        readings<Cite id="rise" />
+        {asOf ? <> as of {formatDate(asOf)}</> : null}; the 2000 figure is
+        January 2000. A typical household uses about{" "}
+        {HOUSEHOLD_GALLONS_PER_YEAR.toLocaleString()} gallons a year — a bit
+        over a third of an <Term id="acre_foot">acre-foot</Term>.
       </div>
 
       <h2 className="section-title">1 · What the basin consumes</h2>
       <p className="body-text">
-        The states and Mexico consume about{" "}
-        <strong>{acreFeet(DEMAND_RECLAMATION_TOTAL)}</strong>{" "}of Colorado
-        River water a year, on Reclamation&rsquo;s accounting — the bulk of it
-        in the Lower Basin, plus what evaporates off the reservoirs before
-        anyone uses it. Most of it goes to farms, not homes.
+        Seven states and Mexico take about{" "}
+        <strong>
+          {(DEMAND_RECLAMATION_TOTAL / 1_000_000).toFixed(2)} million{" "}
+          <Term id="acre_foot">acre-feet</Term> (MAF)
+        </strong>{" "}
+        of water out of the Colorado River every year and don&rsquo;t return
+        it — <Term id="consumptive_use">consumptive use</Term>, in the
+        river&rsquo;s bookkeeping, counted by{" "}
+        <Term id="reclamation">Reclamation</Term>, the federal agency that
+        runs the big dams. The bulk of it happens in the{" "}
+        <Term id="lower_basin">Lower Basin</Term>, and a slice evaporates off
+        the reservoirs before anyone touches it. Most of the water goes to
+        farms, not homes.
       </p>
       <div className="c1-grid">
         <div>
           <RankedBars items={CONSUMPTION_ITEMS} />
           <div className="chain-caveat" style={{ marginTop: 8 }}>
-            2020&ndash;2024 averages (Post-2026 Final EIS)
-            <Cite id="feis2026" />. The Upper Basin figure is disputed
-            between two federal sources (3.8 vs 4.3 MAF).
+            2020&ndash;2024 averages, from the same July 2026 federal review
+            as the topline numbers<Cite id="feis2026" />. The Upper Basin
+            figure is disputed between two federal sources (3.8 vs 4.3 MAF).
           </div>
           <p className="body-text" style={{ marginTop: 22 }}>
             <strong>How it&rsquo;s changed.</strong>{" "}The Lower Basin — the
@@ -282,7 +295,8 @@ export default async function Landing() {
           <p className="body-text c1-maplead">
             <strong>Where it happens.</strong>{" "}Consumption concentrates
             where the canals reach — the irrigation districts of the lower
-            river and the cities the aqueducts serve:
+            river and the cities the{" "}
+            <Term id="aqueduct">aqueducts</Term> serve:
           </p>
           <ConsumptionMiniMap />
         </div>
@@ -315,7 +329,8 @@ export default async function Landing() {
       </p>
       <SupplySeries />
       <div className="chain-caveat" style={{ marginTop: 8 }}>
-        Reclamation&rsquo;s natural-flow record<Cite id="naturalflow" /> at Lees Ferry, WY1906&ndash;2020
+        Reclamation&rsquo;s <Term id="natural_flow">natural-flow record</Term>
+        <Cite id="naturalflow" /> at Lees Ferry, WY1906&ndash;2020
         (vintage stated); a computed, revisable series. The full story: the{" "}
         <Link href={"/report/supply" as Route}>Supply chapter</Link>.
       </div>
