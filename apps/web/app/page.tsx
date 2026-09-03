@@ -19,6 +19,7 @@ import {
   RULEBOOK,
 } from "@/lib/reservoirs";
 import { MAP_RESERVOIRS } from "@/lib/mapdata";
+import { CHAPTERS } from "@/lib/report";
 import { fetchSeries } from "@/lib/rise";
 import {
   acreFeet,
@@ -46,11 +47,11 @@ export const revalidate = 3600;
 export const dynamic = "force-static";
 
 /**
- * The landing IS the executive summary, told in Kevin's beat order
- * (2026-08-30, +beat 6 2026-09-03): consumption → production → how the
- * gap is covered → what that did to the reserves → what it's doing to the
- * law → the consumption response. The old rulebook banner is absorbed
- * into beat 5 in plain language.
+ * The landing IS the executive summary and the argument (IA v3, decision
+ * record 2026-09-03): consumption → production → reservoirs cover the gap
+ * (absorbing the old reserves beat) → what it's doing to the law → the
+ * consumption response. Every beat ends with an evidence line into the
+ * chapter that defends it; the chapters carry the reverse edge.
  */
 // Section 1's by-type rows — Richter et al. 2024, a BROADER accounting
 // than Reclamation's (includes natural riparian vegetation); the two are
@@ -456,10 +457,13 @@ export default async function Landing() {
         This study counts all basin consumption including natural riparian
         vegetation ({acreFeet(RICHTER.totalAcreFeet)} total), which
         Compact-style accounting excludes. Both are correct — they answer
-        different questions, and they are never summed here. The crop-level
-        story: the <Link href={"/report/demand" as Route}>Demand chapter</Link>{" "}
-        and <Link href={"/report/agriculture" as Route}>Agriculture chapter</Link>.
+        different questions, and they are never summed here.
       </div>
+      <p className="evidence-line">
+        The full case:{" "}
+        <Link href={"/report/demand" as Route}>the Demand chapter →</Link>{" "}
+        · <Link href={"/report/agriculture" as Route}>the Agriculture chapter →</Link>
+      </p>
 
       <h2 className="section-title">2 · What the river produces</h2>
       <p className="body-text">
@@ -471,8 +475,7 @@ export default async function Landing() {
       <div className="chain-caveat" style={{ marginTop: 8 }}>
         Reclamation&rsquo;s <Term id="natural_flow">natural-flow record</Term>
         <Cite id="naturalflow" /> at Lees Ferry, WY1906&ndash;2020
-        (vintage stated); a computed, revisable series. The full story: the{" "}
-        <Link href={"/report/supply" as Route}>Supply chapter</Link>.
+        (vintage stated); a computed, revisable series.
       </div>
 
       <p className="body-text" style={{ marginTop: 26 }}>
@@ -501,6 +504,10 @@ export default async function Landing() {
           Baked {(snowHist as { baked: string }).baked}.
         </div>
       </div>
+      <p className="evidence-line">
+        The full case:{" "}
+        <Link href={"/report/supply" as Route}>the Supply chapter →</Link>
+      </p>
 
       <h2 className="section-title">3 · Reservoirs cover the deficit</h2>
       <p className="body-text">
@@ -559,25 +566,19 @@ export default async function Landing() {
         The small downstream pools stay full on purpose — they are
         regulating basins for the aqueducts, not savings.
       </div>
-
-      <h2 className="section-title">
-        4 · The two largest reservoirs are down{" "}
-        {dropPct !== null ? `${Math.round(dropPct)}%` : "about three-quarters"}{" "}
-        since 2000 — now at{" "}
-        {pct !== null ? `${Math.round(pct)}%` : "about a quarter"} of capacity
-      </h2>
-      <p className="body-text">
-        The reservoirs were nearly full in 2000. Today they hold{" "}
+      <p className="body-text" style={{ marginTop: 22 }}>
+        <strong>What&rsquo;s left is about one year of river.</strong>{" "}
+        The two big accounts together hold{" "}
         {pct !== null ? <strong>{percent(pct, 0)}</strong> : "about a quarter"}{" "}
         of their capacity
         {stored !== null && (
           <>
             {" "}
-            — {acreFeet(stored)}, about one year of what the river now
+            — {acreFeet(stored)}, roughly one year of what the river now
             produces
           </>
         )}
-        .
+        :
       </p>
       <StorageHistoryLine
         liveAf={stored}
@@ -586,13 +587,16 @@ export default async function Landing() {
       <div className="chain-caveat" style={{ marginTop: 8 }}>
         Reclamation RISE<Cite id="rise" />, monthly since 2000, live endpoint, provisional
         {asOf && <> as of {formatDate(asOf)}</>}. Elevations, thresholds, and
-        trajectories: the{" "}
-        <Link href={"/report/reservoirs" as Route}>Reservoirs chapter</Link>{" "}
-        and the <Link href={"/current-state" as Route}>current state</Link>.
+        trajectories: <Link href={"/current-state" as Route}>Now</Link>.
       </div>
+      <p className="evidence-line">
+        The full case:{" "}
+        <Link href={"/report/reservoirs" as Route}>the Reservoirs chapter →</Link>{" "}
+        · <Link href={"/report/infrastructure" as Route}>the Infrastructure chapter →</Link>
+      </p>
 
       <h2 className="section-title">
-        5 · The result: downward pressure on what the states and Mexico may
+        4 · The result: downward pressure on what the states and Mexico may
         legally take
       </h2>
       <p className="body-text">
@@ -611,12 +615,14 @@ export default async function Landing() {
         1948 Upper Basin Compact<Cite id="ubcompact1948" />, and the 1944
         Treaty<Cite id="treaty1944" />. What the rules say at today&rsquo;s
         elevations, old and new: the{" "}
-        <Link href={"/current-state" as Route}>rules panel</Link>. The full
-        legal story: the{" "}
-        <Link href={"/report/water-rights" as Route}>Water Rights chapter</Link>.
+        <Link href={"/current-state" as Route}>rules panel</Link>.
       </div>
+      <p className="evidence-line">
+        The full case:{" "}
+        <Link href={"/report/water-rights" as Route}>the Water Rights chapter →</Link>
+      </p>
 
-      <h2 className="section-title">6 · The response: use is falling</h2>
+      <h2 className="section-title">5 · The response: use is falling</h2>
       <div className="chart-col">
         <p className="body-text" style={{ marginTop: 26 }}>
           The Lower Basin ran close to its full 7.5 MAF{" "}
@@ -657,6 +663,10 @@ export default async function Landing() {
               : ", every report year"}
             ). Fetched {(lbHist as { fetched: string }).fetched}.
         </div>
+        <p className="evidence-line">
+          The full case:{" "}
+          <Link href={"/report/demand" as Route}>the Demand chapter →</Link>
+        </p>
       </div>
 
       <Link href={"/current-state" as Route} className="state-strip">
@@ -688,19 +698,29 @@ export default async function Landing() {
       </Link>
 
       <p className="body-text" style={{ marginTop: 22 }}>
-        Basin shows the whole system — the live state, an eight-chapter
-        report on why it is the way it is, and instruments for checking
-        every number yourself.
+        Basin shows the whole system — the live state, the argument above
+        with the evidence behind it, and instruments for checking every
+        number yourself.
       </p>
       <div className="cta-row">
-        <Link className="cta primary" href={"/report/the-system" as Route}>
-          Start the report →
-        </Link>
-        <Link className="cta" href={"/current-state" as Route}>
-          See the current state
+        <Link className="cta primary" href={"/current-state" as Route}>
+          See what&rsquo;s happening now →
         </Link>
         <Link className="cta" href={"/explore" as Route}>
           Explore the data
+        </Link>
+      </div>
+      <p className="chain-caveat" style={{ marginTop: 20 }}>
+        Every claim above links its chapter. All of them, in order:
+      </p>
+      <div className="close-toc">
+        {CHAPTERS.map((c) => (
+          <Link key={c.slug} href={`/report/${c.slug}` as Route}>
+            {c.title}
+          </Link>
+        ))}
+        <Link href={"/report/wy2026" as Route}>
+          WY2026 — the year the river nearly broke its rules
         </Link>
       </div>
 

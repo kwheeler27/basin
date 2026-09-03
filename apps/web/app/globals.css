@@ -2071,3 +2071,15 @@ path.sp-prec { stroke: #2e7d32; } text.sp-prec { fill: #2e7d32; } circle.sp-prec
   path.sp-swe { stroke: #4a90c2; } text.sp-swe { fill: #4a90c2; } circle.sp-swe { fill: #4a90c2; } .cl-swatch.sp-swe { background: #4a90c2; }
   path.sp-prec { stroke: #5fae63; } text.sp-prec { fill: #5fae63; } circle.sp-prec { fill: #5fae63; } .cl-swatch.sp-prec { background: #5fae63; }
 }
+
+/* IA v3: evidence edges (decision record 2026-09-03) */
+.evidence-line { margin: 14px 0 0; font-size: 13.5px; font-weight: 650; }
+.evidence-line a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); padding-bottom: 1px; }
+.evidence-line a:hover { border-bottom-color: var(--accent); }
+.close-toc { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; max-width: 720px; }
+.close-toc a {
+  font-size: 12.5px; border: 1px solid var(--border); border-radius: 999px;
+  padding: 4px 12px; color: var(--text); background: var(--surface); text-decoration: none;
+}
+.close-toc a:hover { border-color: var(--accent); color: var(--accent); }
+.ch-evidence { color: var(--accent); font-weight: 700; }

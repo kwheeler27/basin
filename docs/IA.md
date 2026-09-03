@@ -1,5 +1,10 @@
 # Information Architecture v2 — the backbone and its applications
 
+> **Superseded in part (2026-09-03):** the nav and the Report-tab role are
+> superseded by [decision record IA v3](decisions/2026-09-03-ia-v3-report-consolidation.md)
+> — nav is Now · Explore · Data, and the chapters are the landing's
+> evidence appendix. The backbone contract and surfaces below still hold.
+
 **Supersedes the v1 topic-tab IA (Phase 1, 2026-08).** v1 mapped ten topical
 sections; what shipped drifted into nine peer tabs ordered by build history,
 and individual pages mixed monitoring, narrative, and exploration on one
