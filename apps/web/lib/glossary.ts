@@ -92,6 +92,48 @@ export const GLOSSARY: Record<string, Term> = {
     short:
       "Water that leaves as vapor — evaporated from soil plus transpired through plants. For a farm field, it IS consumption: measured in inches of depth, like rainfall in reverse.",
   },
+  reclamation: {
+    id: "reclamation",
+    label: "Reclamation",
+    short:
+      "The Bureau of Reclamation — the federal agency that operates the river's big dams (Hoover, Glen Canyon) and keeps its official books. 'On Reclamation's accounting' means their published numbers.",
+  },
+  lower_basin: {
+    id: "lower_basin",
+    label: "Lower Basin",
+    short:
+      "Arizona, Nevada, and California — the states supplied from Lake Mead. The 1922 Compact split the river at Lee Ferry into an Upper and a Lower Basin and gave each the right to use 7.5 MAF a year.",
+  },
+  upper_basin: {
+    id: "upper_basin",
+    label: "Upper Basin",
+    short:
+      "Wyoming, Colorado, Utah, and New Mexico — the states upstream of Lee Ferry. They draw from the river and its tributaries directly, and have never used their full 7.5 MAF share.",
+  },
+  apportionment: {
+    id: "apportionment",
+    label: "apportionment",
+    short:
+      "The share of the river a state or country is legally entitled to use, fixed by the 1922 Compact, later law, and the 1944 treaty with Mexico. The entitlements add to 16.5 MAF a year — more than the river now produces.",
+  },
+  natural_flow: {
+    id: "natural_flow",
+    label: "natural flow",
+    short:
+      "What the river would carry with no dams or diversions — Reclamation reconstructs it from gauge records by adding back upstream use. It's the honest measure of what the river produces.",
+  },
+  decree_accounting: {
+    id: "decree_accounting",
+    label: "decree accounting",
+    short:
+      "The annual audit of who used how much Lower Basin water, which the Supreme Court's decree in Arizona v. California requires Reclamation to publish every year. This site's year-by-year consumption series comes from those reports.",
+  },
+  water_year: {
+    id: "water_year",
+    label: "water year",
+    short:
+      "The hydrologist's year: October 1 through September 30, named for the year it ends — so a winter's snow and the runoff it becomes stay in the same bucket.",
+  },
   satellite_model: {
     id: "satellite_model",
     label: "satellite model",
