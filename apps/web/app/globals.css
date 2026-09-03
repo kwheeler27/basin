@@ -2005,3 +2005,31 @@ html { scroll-behavior: smooth; }
   .hs-num { font-size: 22px; }
   .hs-sub { max-width: none; }
 }
+
+/* consumption multi-line: legend, series colors, hover labels */
+.cl-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 8px 0 2px; }
+.cl-chip { font-size: 11px; color: var(--muted); display: inline-flex; align-items: center; gap: 5px; }
+.cl-swatch { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+.cl-line { fill: none; stroke-width: 1.5; }
+.cl-line.bold { stroke-width: 2.5; }
+.cl-dot { stroke: var(--surface); stroke-width: 1.2; }
+.cl-endlabel, .cl-hoverval {
+  font-size: 10.5px; font-weight: 650; font-variant-numeric: tabular-nums;
+  paint-order: stroke; stroke: var(--surface); stroke-width: 3; stroke-linejoin: round;
+}
+.cl-hoveryear {
+  font-size: 10.5px; font-weight: 700; text-anchor: middle; fill: var(--muted);
+  paint-order: stroke; stroke: var(--surface); stroke-width: 3; stroke-linejoin: round;
+}
+path.cl-lb { stroke: #2b7fb8; } text.cl-lb { fill: #2b7fb8; } circle.cl-lb { fill: #2b7fb8; } .cl-swatch.cl-lb { background: #2b7fb8; }
+path.cl-ca { stroke: #b45309; } text.cl-ca { fill: #b45309; } circle.cl-ca { fill: #b45309; } .cl-swatch.cl-ca { background: #b45309; }
+path.cl-az { stroke: #7452b8; } text.cl-az { fill: #7452b8; } circle.cl-az { fill: #7452b8; } .cl-swatch.cl-az { background: #7452b8; }
+path.cl-mx { stroke: #2e7d32; } text.cl-mx { fill: #2e7d32; } circle.cl-mx { fill: #2e7d32; } .cl-swatch.cl-mx { background: #2e7d32; }
+path.cl-nv { stroke: #64748b; } text.cl-nv { fill: #64748b; } circle.cl-nv { fill: #64748b; } .cl-swatch.cl-nv { background: #64748b; }
+@media (prefers-color-scheme: dark) {
+  path.cl-lb { stroke: #4a90c2; } text.cl-lb { fill: #4a90c2; } circle.cl-lb { fill: #4a90c2; } .cl-swatch.cl-lb { background: #4a90c2; }
+  path.cl-ca { stroke: #d98a2b; } text.cl-ca { fill: #d98a2b; } circle.cl-ca { fill: #d98a2b; } .cl-swatch.cl-ca { background: #d98a2b; }
+  path.cl-az { stroke: #9a7fd6; } text.cl-az { fill: #9a7fd6; } circle.cl-az { fill: #9a7fd6; } .cl-swatch.cl-az { background: #9a7fd6; }
+  path.cl-mx { stroke: #5fae63; } text.cl-mx { fill: #5fae63; } circle.cl-mx { fill: #5fae63; } .cl-swatch.cl-mx { background: #5fae63; }
+  path.cl-nv { stroke: #94a3b8; } text.cl-nv { fill: #94a3b8; } circle.cl-nv { fill: #94a3b8; } .cl-swatch.cl-nv { background: #94a3b8; }
+}
