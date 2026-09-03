@@ -6,6 +6,7 @@ import { RankedBars, type RankedBarItem } from "@/components/RankedBars";
 import { Term } from "@/components/Term";
 import { BasinStory } from "@/components/BasinStory";
 import { Cite } from "@/components/Cite";
+import { StorageByReservoir } from "@/components/StorageByReservoir";
 import { StorageHistoryLine } from "@/components/StorageHistoryLine";
 import { SupplySeries } from "@/components/SupplySeries";
 import { UseVsEntitlement } from "@/components/UseVsEntitlement";
@@ -166,6 +167,73 @@ const CONSUMPTION_ITEMS: RankedBarItem[] = DEMAND_RECLAMATION.map((d) => ({
     clockLabel: "2020–24 AVERAGE",
   },
 }));
+
+// §3's ledger: what each tracked reservoir has given up since January 2000
+// (monthly RISE history) — the honest measure of who covered the gap. Two
+// small regulating pools have actually gained; they net against the Rest
+// bucket rather than being hidden.
+const HIST_MONTHS = (hist as { months: string[] }).months;
+const HIST_SERIES = (hist as { series: Record<string, (number | null)[]> })
+  .series;
+function drawdownOf(id: string) {
+  const s = HIST_SERIES[id];
+  if (!s) return null;
+  const firstIdx = s.findIndex((v) => v != null);
+  let lastIdx = s.length - 1;
+  while (lastIdx > 0 && s[lastIdx] == null) lastIdx--;
+  if (firstIdx < 0 || s[lastIdx] == null) return null;
+  return { start: s[firstIdx]!, now: s[lastIdx]!, drop: s[firstIdx]! - s[lastIdx]! };
+}
+const TRACKED_IDS = Object.keys(HIST_SERIES);
+const DRAWDOWNS = TRACKED_IDS.flatMap((id) => {
+  const d = drawdownOf(id);
+  const r = MAP_RESERVOIRS.find((m) => m.id === id);
+  return d && r ? [{ id, name: r.name, capacityAf: r.capacityAf, ...d }] : [];
+}).sort((a, b) => b.drop - a.drop);
+const DRAWDOWN_TOTAL = DRAWDOWNS.reduce((s, d) => s + d.drop, 0);
+const DRAWDOWN_TOP = DRAWDOWNS.slice(0, 5);
+const DRAWDOWN_REST = DRAWDOWNS.slice(5);
+const DRAWDOWN_REST_SUM = DRAWDOWN_REST.reduce((s, d) => s + d.drop, 0);
+const PM_SHARE = Math.round(
+  ((DRAWDOWNS.filter((d) => d.id === "powell" || d.id === "mead")
+    .reduce((s, d) => s + d.drop, 0)) /
+    DRAWDOWN_TOTAL) *
+    100,
+);
+const HIST_START_LABEL = HIST_MONTHS[0] ?? "2000-01";
+const STORAGE_ITEMS: RankedBarItem[] = [
+  ...DRAWDOWN_TOP.map((d, i) => ({
+    short: d.name,
+    name: d.name,
+    af: d.drop,
+    sheet: {
+      kicker: "Drawdown since 2000",
+      title: d.name,
+      fact: `Gave up about ${acreFeet(d.drop)} since January 2000 — ${Math.round((d.drop / DRAWDOWN_TOTAL) * 100)}% of everything the tracked system lost.`,
+      detail: `Held ${acreFeet(d.start)} in January 2000 and ${acreFeet(d.now)} at the last monthly reading — ${Math.round((d.now / d.capacityAf) * 100)}% of its ${acreFeet(d.capacityAf)} capacity.`,
+      chips: ["acre_foot", "storage_capacity", "provisional"],
+      compare: [`#${i + 1} of ${DRAWDOWNS.length} tracked reservoirs by drawdown`],
+      source: "Reclamation RISE, monthly-sampled daily storage",
+      clock: "live" as const,
+      clockLabel: "MONTHLY SINCE 2000",
+    },
+  })),
+  {
+    short: `Rest of system (${DRAWDOWN_REST.length})`,
+    name: `The ${DRAWDOWN_REST.length} smaller tracked reservoirs combined`,
+    af: Math.max(DRAWDOWN_REST_SUM, 0),
+    sheet: {
+      kicker: "Drawdown since 2000",
+      title: `Rest of the system — ${DRAWDOWN_REST.length} reservoirs`,
+      fact: `Combined, they gave up about ${acreFeet(Math.abs(DRAWDOWN_REST_SUM))} since January 2000 — ${Math.round((DRAWDOWN_REST_SUM / DRAWDOWN_TOTAL) * 100)}% of the total. The gap was not paid from here.`,
+      detail: `${DRAWDOWN_REST.map((d) => d.name).join(", ")}. ${DRAWDOWN_REST.filter((d) => d.drop < 0).map((d) => d.name).join(" and ") || "None"} actually hold more than in 2000 — the small downstream pools are regulating basins for the aqueducts and are kept full on purpose.`,
+      chips: ["acre_foot", "storage_capacity", "provisional"],
+      source: "Reclamation RISE, monthly-sampled daily storage",
+      clock: "live" as const,
+      clockLabel: "MONTHLY SINCE 2000",
+    },
+  },
+];
 
 export default async function Landing() {
   // Live storage for every reservoir with a RISE item (the mini-map's
@@ -377,24 +445,62 @@ export default async function Landing() {
         <Link href={"/report/supply" as Route}>Supply chapter</Link>.
       </div>
 
-      <h2 className="section-title">3 · How the gap gets covered</h2>
+      <h2 className="section-title">3 · Reservoirs cover the deficit</h2>
       <p className="body-text">
         Consumption has run about{" "}
         <strong>{acreFeet(STRUCTURAL_DEFICIT)}</strong>{" "}a year ahead of what
-        the river produces. That difference doesn&rsquo;t come from nowhere —
-        it comes out of the two great reservoirs, Lakes Powell and Mead,
-        which can keep deliveries flowing no matter what fell as snow that
-        year. Storage is what lets use exceed supply. These are the accounts
-        — Powell and Mead dwarf everything else:
+        the river produces, and the difference comes out of storage. The{" "}
+        {DRAWDOWNS.length} big reservoirs this site tracks have given up
+        about <strong>{acreFeet(DRAWDOWN_TOTAL)}</strong> since January 2000
+        — and the drawdown is extremely skewed:{" "}
+        <strong>{PM_SHARE}%</strong> of it came from just two accounts, Lakes
+        Powell and Mead
+        {pct !== null && startPct !== null ? (
+          <>
+            , which have fallen from {Math.round(startPct)}% full to{" "}
+            {Math.round(pct)}% over those years
+          </>
+        ) : null}
+        . Storage is what lets use exceed supply.
       </p>
-      <BasinStory storage={liveStorage} variant="explore" />
+      <div className="c1-grid">
+        <div>
+          <p className="body-text c1-maplead">
+            <strong>Who paid for the gap.</strong>{" "}Each reservoir&rsquo;s
+            drawdown since January 2000:
+          </p>
+          <RankedBars items={STORAGE_ITEMS} />
+          <div className="chain-caveat" style={{ marginTop: 8 }}>
+            Change in water stored, {HIST_START_LABEL} to the last monthly
+            reading (Reclamation RISE<Cite id="rise" />, provisional).
+            Drawdown exceeds the yearly gap &times; years because dry years,
+            reservoir evaporation, and the early-2000s crash all drew
+            storage down too.
+          </div>
+        </div>
+        <div>
+          <p className="body-text c1-maplead">
+            <strong>Where the accounts sit.</strong>{" "}Circle area is water
+            in storage now — live:
+          </p>
+          <BasinStory storage={liveStorage} variant="explore" />
+          <div className="chain-caveat" style={{ marginTop: 8 }}>
+            Reclamation RISE, provisional. Switch layers, pan, zoom, tap
+            anything for its numbers and sources. Full-page version:{" "}
+            <Link href={"/explore/map" as Route}>the basin map</Link>.
+          </div>
+        </div>
+      </div>
+      <p className="body-text" style={{ marginTop: 22 }}>
+        <strong>The same story, over time.</strong>{" "}Every account drawn
+        down, month by month — Mead and Powell carry the fall; the rest of
+        the system barely moves:
+      </p>
+      <StorageByReservoir />
       <div className="chain-caveat" style={{ marginTop: 8 }}>
-        Live — circle area is water in storage now (Reclamation RISE,
-        provisional). Switch layers, pan, zoom, tap anything for its numbers
-        and sources; Powell and Mead dwarf everything else, and the small
-        downstream pools stay full on purpose (regulating basins for the
-        aqueducts, not savings). Full-page version:{" "}
-        <Link href={"/explore/map" as Route}>the basin map</Link>.
+        Monthly since 2000, Reclamation RISE<Cite id="rise" />, provisional.
+        The small downstream pools stay full on purpose — they are
+        regulating basins for the aqueducts, not savings.
       </div>
 
       <h2 className="section-title">

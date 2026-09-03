@@ -1963,9 +1963,9 @@ html { scroll-behavior: smooth; }
 }
 
 /* §1 side-by-side: ranked bars | consumption geography */
-.c1-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 40px; align-items: start; margin-top: 2px; }
+.c1-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 40px; align-items: start; margin-top: 2px; }
 .c1-maplead { margin-top: 14px; }
-@media (max-width: 900px) { .c1-grid { grid-template-columns: 1fr; gap: 20px 0; } .c1-maplead { margin-top: 22px; } }
+@media (max-width: 900px) { .c1-grid { grid-template-columns: minmax(0, 1fr); gap: 20px 0; } .c1-maplead { margin-top: 22px; } }
 
 /* mini-map: compact divisions, Lee Ferry, hover card */
 .mm-ub { fill: color-mix(in srgb, #475569 10%, transparent); }
@@ -2032,4 +2032,20 @@ path.cl-nv { stroke: #64748b; } text.cl-nv { fill: #64748b; } circle.cl-nv { fil
   path.cl-az { stroke: #9a7fd6; } text.cl-az { fill: #9a7fd6; } circle.cl-az { fill: #9a7fd6; } .cl-swatch.cl-az { background: #9a7fd6; }
   path.cl-mx { stroke: #5fae63; } text.cl-mx { fill: #5fae63; } circle.cl-mx { fill: #5fae63; } .cl-swatch.cl-mx { background: #5fae63; }
   path.cl-nv { stroke: #94a3b8; } text.cl-nv { fill: #94a3b8; } circle.cl-nv { fill: #94a3b8; } .cl-swatch.cl-nv { background: #94a3b8; }
+}
+
+/* storage-by-reservoir series colors (powell/mead match the site's existing conventions) */
+path.sr-powell { stroke: #2b7fb8; } text.sr-powell { fill: #2b7fb8; } circle.sr-powell { fill: #2b7fb8; } .cl-swatch.sr-powell { background: #2b7fb8; }
+path.sr-mead { stroke: #0c8f6b; } text.sr-mead { fill: #0c8f6b; } circle.sr-mead { fill: #0c8f6b; } .cl-swatch.sr-mead { background: #0c8f6b; }
+path.sr-navajo { stroke: #b45309; } text.sr-navajo { fill: #b45309; } circle.sr-navajo { fill: #b45309; } .cl-swatch.sr-navajo { background: #b45309; }
+path.sr-fg { stroke: #7452b8; } text.sr-fg { fill: #7452b8; } circle.sr-fg { fill: #7452b8; } .cl-swatch.sr-fg { background: #7452b8; }
+path.sr-bm { stroke: #9d174d; } text.sr-bm { fill: #9d174d; } circle.sr-bm { fill: #9d174d; } .cl-swatch.sr-bm { background: #9d174d; }
+path.sr-rest { stroke: #64748b; stroke-dasharray: 4 3; } text.sr-rest { fill: #64748b; } circle.sr-rest { fill: #64748b; } .cl-swatch.sr-rest { background: #64748b; }
+@media (prefers-color-scheme: dark) {
+  path.sr-powell { stroke: #4a90c2; } text.sr-powell { fill: #4a90c2; } circle.sr-powell { fill: #4a90c2; } .cl-swatch.sr-powell { background: #4a90c2; }
+  path.sr-mead { stroke: #2e9d85; } text.sr-mead { fill: #2e9d85; } circle.sr-mead { fill: #2e9d85; } .cl-swatch.sr-mead { background: #2e9d85; }
+  path.sr-navajo { stroke: #d98a2b; } text.sr-navajo { fill: #d98a2b; } circle.sr-navajo { fill: #d98a2b; } .cl-swatch.sr-navajo { background: #d98a2b; }
+  path.sr-fg { stroke: #9a7fd6; } text.sr-fg { fill: #9a7fd6; } circle.sr-fg { fill: #9a7fd6; } .cl-swatch.sr-fg { background: #9a7fd6; }
+  path.sr-bm { stroke: #d16087; } text.sr-bm { fill: #d16087; } circle.sr-bm { fill: #d16087; } .cl-swatch.sr-bm { background: #d16087; }
+  path.sr-rest { stroke: #94a3b8; } text.sr-rest { fill: #94a3b8; } circle.sr-rest { fill: #94a3b8; } .cl-swatch.sr-rest { background: #94a3b8; }
 }
