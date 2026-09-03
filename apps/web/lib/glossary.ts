@@ -92,6 +92,12 @@ export const GLOSSARY: Record<string, Term> = {
     short:
       "Water that leaves as vapor — evaporated from soil plus transpired through plants. For a farm field, it IS consumption: measured in inches of depth, like rainfall in reverse.",
   },
+  basin: {
+    id: "basin",
+    label: "the basin",
+    short:
+      "The Colorado River and all the land that drains into it — parts of seven US states and two Mexican states, about 246,000 square miles. The 1922 Compact splits it at Lee Ferry, Arizona into an Upper Basin (WY, CO, UT, NM) and a Lower Basin (AZ, NV, CA), each entitled to 7.5 MAF a year.",
+  },
   reclamation: {
     id: "reclamation",
     label: "Reclamation",

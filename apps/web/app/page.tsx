@@ -6,6 +6,7 @@ import { RankedBars, type RankedBarItem } from "@/components/RankedBars";
 import { Term } from "@/components/Term";
 import { BasinStory } from "@/components/BasinStory";
 import { Cite } from "@/components/Cite";
+import { KickerNote } from "@/components/KickerNote";
 import { StorageByReservoir } from "@/components/StorageByReservoir";
 import { StorageHistoryLine } from "@/components/StorageHistoryLine";
 import { SupplySeries } from "@/components/SupplySeries";
@@ -286,7 +287,17 @@ export default async function Landing() {
       </h1>
       <div className="hero-stats">
         <div className="hs-tile">
-          <div className="hs-kicker">Consumes</div>
+          <div className="hs-kicker">
+            <KickerNote label="Consumes">
+              The official tally of water use by the seven states and Mexico,
+              kept by Reclamation — a 2020&ndash;24 average from the federal
+              government&rsquo;s July 2026 environmental review (the
+              &ldquo;Post-2026 Final EIS&rdquo;)<Cite id="feis2026" />. A
+              typical household uses about{" "}
+              {HOUSEHOLD_GALLONS_PER_YEAR.toLocaleString()} gallons a year —
+              a bit over a third of an acre-foot.
+            </KickerNote>
+          </div>
           <div className="hs-num">{acreFeet(DEMAND_RECLAMATION_TOTAL)}</div>
           <div className="hs-sub">
             a year — roughly{" "}
@@ -302,12 +313,29 @@ export default async function Landing() {
           </div>
         </div>
         <div className="hs-tile">
-          <div className="hs-kicker">Produces</div>
+          <div className="hs-kicker">
+            <KickerNote label="Produces">
+              The {SUPPLY.modernMean.period.replace("≈", "")} average of the
+              river&rsquo;s natural flow — what it would carry with no dams
+              or diversions, reconstructed by Reclamation from gauge
+              records<Cite id="naturalflow" />.
+            </KickerNote>
+          </div>
           <div className="hs-num">{acreFeet(SUPPLY.modernMean.acreFeet)}</div>
-          <div className="hs-sub">a year — the modern-era average</div>
+          <div className="hs-sub">
+            a year — the {SUPPLY.modernMean.period.replace("≈", "")} average
+          </div>
         </div>
         <div className="hs-tile">
-          <div className="hs-kicker">The gap</div>
+          <div className="hs-kicker">
+            <KickerNote label="The gap">
+              Consumes minus produces. It is paid from storage: the reservoir
+              figure is Lakes Powell and Mead combined, from
+              Reclamation&rsquo;s daily readings<Cite id="rise" />
+              {asOf ? <> as of {formatDate(asOf)}</> : null}, provisional;
+              the 2000 baseline is January 2000.
+            </KickerNote>
+          </div>
           <div className="hs-num">{acreFeet(STRUCTURAL_DEFICIT)}</div>
           <div className="hs-sub">
             a year, paid from the reservoirs —{" "}
@@ -322,24 +350,9 @@ export default async function Landing() {
           </div>
         </div>
       </div>
-      <div className="chain-caveat hs-note">
-        Where these numbers come from — Consumes: the official tally of water
-        use by the seven states and Mexico, kept by{" "}
-        <Term id="reclamation">Reclamation</Term>; a 2020&ndash;24 average
-        from the federal government&rsquo;s July 2026 environmental review
-        (the &ldquo;Post-2026 Final EIS&rdquo;)<Cite id="feis2026" />.
-        Produces: the 2000&ndash;2025 average of the river&rsquo;s{" "}
-        <Term id="natural_flow">natural flow</Term> — what it would carry
-        with no dams or diversions<Cite id="naturalflow" />. Reservoirs:
-        Lakes Powell and Mead combined, from Reclamation&rsquo;s daily
-        readings<Cite id="rise" />
-        {asOf ? <> as of {formatDate(asOf)}</> : null}; the 2000 figure is
-        January 2000. A typical household uses about{" "}
-        {HOUSEHOLD_GALLONS_PER_YEAR.toLocaleString()} gallons a year — a bit
-        over a third of an <Term id="acre_foot">acre-foot</Term>.
-      </div>
-
-      <h2 className="section-title">1 · What the basin consumes</h2>
+      <h2 className="section-title">
+        1 · What the <Term id="basin">basin</Term> consumes
+      </h2>
       <p className="body-text">
         Seven states and Mexico take about{" "}
         <strong>

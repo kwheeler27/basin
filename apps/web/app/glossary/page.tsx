@@ -30,6 +30,7 @@ const GROUPS: readonly { title: string; ids: readonly string[] }[] = [
   {
     title: "Geography & law",
     ids: [
+      "basin",
       "watershed",
       "upper_basin",
       "lower_basin",
