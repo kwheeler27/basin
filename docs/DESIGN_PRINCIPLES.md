@@ -2,6 +2,13 @@
 
 Two failure modes to design against. **Distortion**: making a number intuitive by making it wrong. **Paralysis**: hedging so thoroughly the reader learns nothing. Both are avoidable.
 
+Contents: §1 charts answer questions · §2 epistemic encoding · §3
+uncertainty shown · §4 scale anchors · §5 accounting concepts stay
+separate · §6 overview to detail · §7 non-partisan framing · §8 visible
+provenance · §9 bounded authority · §10 plain language · §11 no prior
+knowledge assumed · §12 findings-first headings · §13 chart mechanics ·
+§14 information architecture · §15 one visual language.
+
 ---
 
 ## 1. Every chart answers a question
@@ -217,3 +224,108 @@ into the supporting sentence.
 
 Test: cover the figure and read only the headings — they should retell the
 page's argument on their own.
+
+---
+
+## 13. Chart mechanics (formalized 2026-09-03, from the landing-v8 practice)
+
+§1 says what a chart is for, §2 how it encodes what we know, §12 what its
+heading says. This section is the rest of the contract — the mechanics
+that made PRs #87–#97 consistent, now binding.
+
+- **An entity keeps its hue everywhere.** Powell is `#2b7fb8` and Mead is
+  `#0c8f6b` on every chart on the site; a series never changes color
+  because the view changed or a filter removed its neighbors. New entities
+  claim a hue once, in CSS, with a dark-mode variant.
+- **Identity never rides on color alone.** Two or more series get a
+  legend AND direct labels at the line ends; a single series is named by
+  the heading. Dark-mode variants are chosen, not inverted.
+- **One accounting concept per chart** (§5's rule, restated where it
+  bites): withdrawals, consumptive use, storage, and indexes never share
+  an axis. Two views of the same books must *compute* their
+  reconciliation in the caption ("the 6.50 MAF bar is the 2020–24 average
+  of this line — 6.48 MAF here; the difference is rounding"), not assert
+  it.
+- **Gaps render as gaps.** A missing year breaks the line. The caption
+  names why the gap exists and never lets an interpolation, a zero, or a
+  partial sum stand in (a summed series with one missing member is a gap,
+  not a smaller number).
+- **Axes are honest by construction.** Multi-series charts start at zero.
+  A single-series chart may truncate its axis only if the axis label says
+  so in words ("y-axis starts at 5.2M, not zero"). Comparisons are
+  same-span: a year-to-date is compared to the same span of the prior
+  year, never to its full year.
+- **Hover is a contract, not a decoration.** Hovering shows the value
+  beside the mark it belongs to — never only in a remote readout. Hover
+  and tap open the same detail; touch users lose nothing. Every detail
+  surface carries source, vintage, unit, and accounting concept (§8).
+- **Aspect serves the shape of the data.** Cap chart width before a
+  panorama flattens the record; a chart's height is chosen from its
+  domain, not from whatever the container allows.
+
+Test: recolor-proof (cover the legend — end labels still identify every
+line), gap-proof (delete one year from the data — the chart shows a hole
+and the caption explains it), and reconciliation-proof (every number that
+also appears in another chart can be recomputed from this one's caption).
+
+---
+
+## 14. Information architecture (formalized 2026-09-03; IA v3 record)
+
+The standing rules that survive IA versions — docs/IA.md and the
+decision records say what the current structure *is*; this says what any
+structure must obey.
+
+- **The landing is the argument.** One surface owns the narrative; no
+  second surface may claim that job. Everything else is one of four
+  kinds: evidence (chapters), operations (Now), instruments (Explore),
+  or audit (Data). A new feature names its kind before it gets a home.
+- **Edges are bidirectional and uniform.** Every landing claim links the
+  chapter that defends it, with one wording and one style; every chapter
+  names the claim it defends and offers the way back. An unlinked chapter
+  is a scope conversation, not a nav entry.
+- **URLs are commitments.** Restructures relabel and rewire; they never
+  break a link. Retired routes redirect (308) or stay as-is — external
+  citations must keep resolving.
+- **Nav mirrors the reader's journey, not the org chart of the code.**
+  Depth is reached through content (the evidence lines), not chrome
+  (more tabs). Adding a tab requires showing the journey has a new stage.
+- **After any move, sweep for positional copy.** "Below," "above," "this
+  page," and old surface names go stale silently — grep for them in the
+  same PR (the lesson has bitten twice).
+
+Test: read the nav aloud as a journey ("what's happening → let me look →
+show me the raw material") — if a tab doesn't fit the sentence, it
+doesn't belong. And: every page answers "what kind of surface am I?" in
+its first screenful.
+
+---
+
+## 15. One visual language (formalized 2026-09-03)
+
+The site's style is a small grammar, applied everywhere — not a theme
+per page.
+
+- **Meaning owns the line style** (§2 is the authority): solid = observed;
+  dashed = administrative reference, modeled, or a summed "rest" bucket —
+  never a decorative choice. Warm accent (`#b45309` family) marks
+  administrative references; status and series hues stay separate.
+- **Text wears text colors.** Values, labels, and captions render in the
+  ink/muted/faint scale; a colored mark beside them carries identity.
+  Series color appears in text only for direct labels and hover values,
+  always with a surface halo (`paint-order: stroke`) over busy ground.
+- **The teaching layer has one look**: dashed underline = a term with a
+  glossary card; superscript `[ref]` = a citation; a dashed-underlined
+  kicker = a number with a source card. Three affordances, never mixed.
+- **Badges are a closed set**: DISPUTED (two federal sources), data-clock
+  (LIVE / ANNUAL / CENSUS / MODEL), and scope flags ("not a human use").
+  A new badge kind needs a principle, not just a style.
+- **Uppercase + letterspacing is structure** (kickers, section numbers,
+  map layer labels) and never emphasis; emphasis is bold ink, used for
+  the numbers and findings the beat exists to deliver.
+- **Both themes are designed.** Colors live as tokens with explicit dark
+  values; nothing is defined only for one theme; charts pick dark-mode
+  hues deliberately (§13).
+
+Test: screenshot any two pages side by side — a reader should be unable
+to tell which shipped first.
