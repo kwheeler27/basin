@@ -44,10 +44,11 @@ export const revalidate = 3600;
 export const dynamic = "force-static";
 
 /**
- * The landing IS the executive summary, told in Kevin's five-beat order
- * (2026-08-30): consumption → production → how the gap is covered → what
- * that did to the reserves → what it's doing to the law. The old rulebook
- * banner is absorbed into beat 5 in plain language.
+ * The landing IS the executive summary, told in Kevin's beat order
+ * (2026-08-30, +beat 6 2026-09-03): consumption → production → how the
+ * gap is covered → what that did to the reserves → what it's doing to the
+ * law → the consumption response. The old rulebook banner is absorbed
+ * into beat 5 in plain language.
  */
 // Section 1's by-type rows — Richter et al. 2024, a BROADER accounting
 // than Reclamation's (includes natural riparian vegetation); the two are
@@ -390,48 +391,24 @@ export default async function Landing() {
       </p>
       <div className="c1-grid">
         <div>
+          <p className="body-text c1-maplead">
+            <strong>
+              The Lower Basin takes{" "}
+              {Math.round(
+                (DEMAND_RECLAMATION.find((d) => d.id === "demand.lower_basin")!
+                  .acreFeet /
+                  DEMAND_RECLAMATION_TOTAL) *
+                  100,
+              )}
+              % of it.
+            </strong>{" "}
+            The accounted total, split four ways:
+          </p>
           <RankedBars items={CONSUMPTION_ITEMS} />
           <div className="chain-caveat" style={{ marginTop: 8 }}>
             2020&ndash;2024 averages, from the same July 2026 federal review
             as the topline numbers<Cite id="feis2026" />. The Upper Basin
             figure is disputed between two federal sources (3.8 vs 4.3 MAF).
-          </div>
-          <p className="body-text" style={{ marginTop: 22 }}>
-            <strong>Use is falling.</strong>{" "}The Lower Basin ran close to
-            its full 7.5 MAF{" "}
-            <Term id="apportionment">apportionment</Term> until the mid-2010s.
-            In {LB_LAST} it used{" "}
-            <strong>
-              {LB_LAST_TOTAL !== null
-                ? `${(LB_LAST_TOTAL / 1_000_000).toFixed(2)} MAF`
-                : "less"}
-            </strong>
-            {LB_RECORD_LOW ? <> — the lowest year in the record</> : null}
-            {ALL_LINES_DOWN_DECADE ? (
-              <>
-                {" "}
-                — and every line on this chart is lower than it was a decade
-                ago.
-              </>
-            ) : (
-              <>.</>
-            )}
-          </p>
-          <ConsumptionLine />
-          <div className="chain-caveat" style={{ marginTop: 8 }}>
-            Same books as the bars above: the Lower Basin bar (
-            {acreFeet(DEMAND_RECLAMATION.find((d) => d.id === "demand.lower_basin")!.acreFeet)}
-            ) is the 2020&ndash;24 average of the total line here —{" "}
-            {(LB_FEIS_MEAN / 1_000_000).toFixed(2)}{" "}MAF; the difference is
-            rounding between reports. The Upper Basin and reservoir
-            evaporation aren&rsquo;t drawn because no year-by-year series
-            exists for them yet — their federal reports come in five-year
-            cycles. Parsed from the annual accounting reports
-            <Cite id="decree2025" /> ({LB_FIRST}&ndash;{LB_LAST}
-            {(lbHist as { excludedYears: number[] }).excludedYears.length > 0
-              ? `; the ${(lbHist as { excludedYears: number[] }).excludedYears.join(", ")} reports use formats not yet parsed and render as gaps`
-              : ", every report year"}
-            ). Fetched {(lbHist as { fetched: string }).fetched}.
           </div>
         </div>
         <div>
@@ -600,6 +577,49 @@ export default async function Landing() {
         <Link href={"/current-state" as Route}>rules panel</Link>. The full
         legal story: the{" "}
         <Link href={"/report/water-rights" as Route}>Water Rights chapter</Link>.
+      </div>
+
+      <h2 className="section-title">6 · The response: use is falling</h2>
+      <div className="chart-col">
+        <p className="body-text" style={{ marginTop: 26 }}>
+          The Lower Basin ran close to its full 7.5 MAF{" "}
+          <Term id="apportionment">apportionment</Term> until the mid-2010s.
+          In {LB_LAST} it used{" "}
+          <strong>
+            {LB_LAST_TOTAL !== null
+              ? `${(LB_LAST_TOTAL / 1_000_000).toFixed(2)} MAF`
+              : "less"}
+          </strong>
+          {LB_RECORD_LOW ? <> — the lowest year in the record</> : null}
+          {ALL_LINES_DOWN_DECADE ? (
+            <>
+              {" "}
+              — and every line on this chart is lower than it was a decade
+              ago.
+            </>
+          ) : (
+            <>.</>
+          )}{" "}
+          Some of the decline is voluntary — conservation programs and paid
+          fallowing — and some is the shortage rules binding. Either way,
+          the response shows up in the accounting:
+        </p>
+        <ConsumptionLine />
+        <div className="chain-caveat" style={{ marginTop: 8 }}>
+          Same books as the §1 bars: the Lower Basin bar (
+            {acreFeet(DEMAND_RECLAMATION.find((d) => d.id === "demand.lower_basin")!.acreFeet)}
+            ) is the 2020&ndash;24 average of the total line here —{" "}
+            {(LB_FEIS_MEAN / 1_000_000).toFixed(2)}{" "}MAF; the difference is
+            rounding between reports. The Upper Basin and reservoir
+            evaporation aren&rsquo;t drawn because no year-by-year series
+            exists for them yet — their federal reports come in five-year
+            cycles. Parsed from the annual accounting reports
+            <Cite id="decree2025" /> ({LB_FIRST}&ndash;{LB_LAST}
+            {(lbHist as { excludedYears: number[] }).excludedYears.length > 0
+              ? `; the ${(lbHist as { excludedYears: number[] }).excludedYears.join(", ")} reports use formats not yet parsed and render as gaps`
+              : ", every report year"}
+            ). Fetched {(lbHist as { fetched: string }).fetched}.
+        </div>
       </div>
 
       <Link href={"/current-state" as Route} className="state-strip">

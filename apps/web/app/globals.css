@@ -2057,3 +2057,6 @@ path.sr-rest { stroke: #64748b; stroke-dasharray: 4 3; } text.sr-rest { fill: #6
   path.sr-bm { stroke: #d16087; } text.sr-bm { fill: #d16087; } circle.sr-bm { fill: #d16087; } .cl-swatch.sr-bm { background: #d16087; }
   path.sr-rest { stroke: #94a3b8; } text.sr-rest { fill: #94a3b8; } circle.sr-rest { fill: #94a3b8; } .cl-swatch.sr-rest { background: #94a3b8; }
 }
+
+/* §6 follow-chart column: keeps wide-viewport charts at a readable aspect */
+.chart-col { max-width: 760px; }
