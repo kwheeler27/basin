@@ -1,0 +1,456 @@
+{
+ "source": "USGS county water-use census 2015 (Dieter et al. 2018) — irrigation withdrawals, all sources; in-basin = inside the HUC-14/15 watershed boundary or canal-served (Imperial, Coachella)",
+ "baked": "2026-09-03",
+ "countyCount": 56,
+ "totalMgd": 14108,
+ "counties": [
+  {
+   "fips": "06025",
+   "name": "Imperial",
+   "st": "CA",
+   "irMgd": 1850.3,
+   "sharePct": 13.1,
+   "rank": 1
+  },
+  {
+   "fips": "04013",
+   "name": "Maricopa",
+   "st": "AZ",
+   "irMgd": 1232.8,
+   "sharePct": 8.7,
+   "rank": 2
+  },
+  {
+   "fips": "04027",
+   "name": "Yuma",
+   "st": "AZ",
+   "irMgd": 1079.7,
+   "sharePct": 7.7,
+   "rank": 3
+  },
+  {
+   "fips": "04021",
+   "name": "Pinal",
+   "st": "AZ",
+   "irMgd": 935.1,
+   "sharePct": 6.6,
+   "rank": 4
+  },
+  {
+   "fips": "08077",
+   "name": "Mesa",
+   "st": "CO",
+   "irMgd": 757,
+   "sharePct": 5.4,
+   "rank": 5
+  },
+  {
+   "fips": "06065",
+   "name": "Riverside",
+   "st": "CA",
+   "irMgd": 741.8,
+   "sharePct": 5.3,
+   "rank": 6
+  },
+  {
+   "fips": "08085",
+   "name": "Montrose",
+   "st": "CO",
+   "irMgd": 671.6,
+   "sharePct": 4.8,
+   "rank": 7
+  },
+  {
+   "fips": "56035",
+   "name": "Sublette",
+   "st": "WY",
+   "irMgd": 651,
+   "sharePct": 4.6,
+   "rank": 8
+  },
+  {
+   "fips": "04012",
+   "name": "La Paz",
+   "st": "AZ",
+   "irMgd": 612.9,
+   "sharePct": 4.3,
+   "rank": 9
+  },
+  {
+   "fips": "08051",
+   "name": "Gunnison",
+   "st": "CO",
+   "irMgd": 520.5,
+   "sharePct": 3.7,
+   "rank": 10
+  },
+  {
+   "fips": "56023",
+   "name": "Lincoln",
+   "st": "WY",
+   "irMgd": 480.7,
+   "sharePct": 3.4,
+   "rank": 11
+  },
+  {
+   "fips": "56041",
+   "name": "Uinta",
+   "st": "WY",
+   "irMgd": 383,
+   "sharePct": 2.7,
+   "rank": 12
+  },
+  {
+   "fips": "08029",
+   "name": "Delta",
+   "st": "CO",
+   "irMgd": 341.5,
+   "sharePct": 2.4,
+   "rank": 13
+  },
+  {
+   "fips": "08067",
+   "name": "La Plata",
+   "st": "CO",
+   "irMgd": 322.1,
+   "sharePct": 2.3,
+   "rank": 14
+  },
+  {
+   "fips": "49013",
+   "name": "Duchesne",
+   "st": "UT",
+   "irMgd": 307.1,
+   "sharePct": 2.2,
+   "rank": 15
+  },
+  {
+   "fips": "08045",
+   "name": "Garfield",
+   "st": "CO",
+   "irMgd": 234.5,
+   "sharePct": 1.7,
+   "rank": 16
+  },
+  {
+   "fips": "04003",
+   "name": "Cochise",
+   "st": "AZ",
+   "irMgd": 217.6,
+   "sharePct": 1.5,
+   "rank": 17
+  },
+  {
+   "fips": "35045",
+   "name": "San Juan",
+   "st": "NM",
+   "irMgd": 199.8,
+   "sharePct": 1.4,
+   "rank": 18
+  },
+  {
+   "fips": "49047",
+   "name": "Uintah",
+   "st": "UT",
+   "irMgd": 194.2,
+   "sharePct": 1.4,
+   "rank": 19
+  },
+  {
+   "fips": "08083",
+   "name": "Montezuma",
+   "st": "CO",
+   "irMgd": 185.1,
+   "sharePct": 1.3,
+   "rank": 20
+  },
+  {
+   "fips": "04009",
+   "name": "Graham",
+   "st": "AZ",
+   "irMgd": 183.5,
+   "sharePct": 1.3,
+   "rank": 21
+  },
+  {
+   "fips": "08049",
+   "name": "Grand",
+   "st": "CO",
+   "irMgd": 183.3,
+   "sharePct": 1.3,
+   "rank": 22
+  },
+  {
+   "fips": "08107",
+   "name": "Routt",
+   "st": "CO",
+   "irMgd": 171.6,
+   "sharePct": 1.2,
+   "rank": 23
+  },
+  {
+   "fips": "08103",
+   "name": "Rio Blanco",
+   "st": "CO",
+   "irMgd": 135.8,
+   "sharePct": 1,
+   "rank": 24
+  },
+  {
+   "fips": "08037",
+   "name": "Eagle",
+   "st": "CO",
+   "irMgd": 132.1,
+   "sharePct": 0.9,
+   "rank": 25
+  },
+  {
+   "fips": "49015",
+   "name": "Emery",
+   "st": "UT",
+   "irMgd": 127.1,
+   "sharePct": 0.9,
+   "rank": 26
+  },
+  {
+   "fips": "08081",
+   "name": "Moffat",
+   "st": "CO",
+   "irMgd": 121.2,
+   "sharePct": 0.9,
+   "rank": 27
+  },
+  {
+   "fips": "08097",
+   "name": "Pitkin",
+   "st": "CO",
+   "irMgd": 117.3,
+   "sharePct": 0.8,
+   "rank": 28
+  },
+  {
+   "fips": "56037",
+   "name": "Sweetwater",
+   "st": "WY",
+   "irMgd": 112.7,
+   "sharePct": 0.8,
+   "rank": 29
+  },
+  {
+   "fips": "04015",
+   "name": "Mohave",
+   "st": "AZ",
+   "irMgd": 111.9,
+   "sharePct": 0.8,
+   "rank": 30
+  },
+  {
+   "fips": "08091",
+   "name": "Ouray",
+   "st": "CO",
+   "irMgd": 94.3,
+   "sharePct": 0.7,
+   "rank": 31
+  },
+  {
+   "fips": "04019",
+   "name": "Pima",
+   "st": "AZ",
+   "irMgd": 92.3,
+   "sharePct": 0.7,
+   "rank": 32
+  },
+  {
+   "fips": "49017",
+   "name": "Garfield",
+   "st": "UT",
+   "irMgd": 53.7,
+   "sharePct": 0.4,
+   "rank": 33
+  },
+  {
+   "fips": "08117",
+   "name": "Summit",
+   "st": "CO",
+   "irMgd": 50.1,
+   "sharePct": 0.4,
+   "rank": 34
+  },
+  {
+   "fips": "49053",
+   "name": "Washington",
+   "st": "UT",
+   "irMgd": 48.9,
+   "sharePct": 0.3,
+   "rank": 35
+  },
+  {
+   "fips": "08113",
+   "name": "San Miguel",
+   "st": "CO",
+   "irMgd": 47.1,
+   "sharePct": 0.3,
+   "rank": 36
+  },
+  {
+   "fips": "49055",
+   "name": "Wayne",
+   "st": "UT",
+   "irMgd": 46.9,
+   "sharePct": 0.3,
+   "rank": 37
+  },
+  {
+   "fips": "35023",
+   "name": "Hidalgo",
+   "st": "NM",
+   "irMgd": 46.3,
+   "sharePct": 0.3,
+   "rank": 38
+  },
+  {
+   "fips": "08007",
+   "name": "Archuleta",
+   "st": "CO",
+   "irMgd": 42,
+   "sharePct": 0.3,
+   "rank": 39
+  },
+  {
+   "fips": "49007",
+   "name": "Carbon",
+   "st": "UT",
+   "irMgd": 37.7,
+   "sharePct": 0.3,
+   "rank": 40
+  },
+  {
+   "fips": "32003",
+   "name": "Clark",
+   "st": "NV",
+   "irMgd": 34.5,
+   "sharePct": 0.2,
+   "rank": 41
+  },
+  {
+   "fips": "49051",
+   "name": "Wasatch",
+   "st": "UT",
+   "irMgd": 33.5,
+   "sharePct": 0.2,
+   "rank": 42
+  },
+  {
+   "fips": "35017",
+   "name": "Grant",
+   "st": "NM",
+   "irMgd": 31.7,
+   "sharePct": 0.2,
+   "rank": 43
+  },
+  {
+   "fips": "04025",
+   "name": "Yavapai",
+   "st": "AZ",
+   "irMgd": 31.1,
+   "sharePct": 0.2,
+   "rank": 44
+  },
+  {
+   "fips": "49009",
+   "name": "Daggett",
+   "st": "UT",
+   "irMgd": 19.5,
+   "sharePct": 0.1,
+   "rank": 45
+  },
+  {
+   "fips": "49019",
+   "name": "Grand",
+   "st": "UT",
+   "irMgd": 19,
+   "sharePct": 0.1,
+   "rank": 46
+  },
+  {
+   "fips": "49037",
+   "name": "San Juan",
+   "st": "UT",
+   "irMgd": 14.3,
+   "sharePct": 0.1,
+   "rank": 47
+  },
+  {
+   "fips": "49025",
+   "name": "Kane",
+   "st": "UT",
+   "irMgd": 13.1,
+   "sharePct": 0.1,
+   "rank": 48
+  },
+  {
+   "fips": "04017",
+   "name": "Navajo",
+   "st": "AZ",
+   "irMgd": 10.4,
+   "sharePct": 0.1,
+   "rank": 49
+  },
+  {
+   "fips": "04011",
+   "name": "Greenlee",
+   "st": "AZ",
+   "irMgd": 9.4,
+   "sharePct": 0.1,
+   "rank": 50
+  },
+  {
+   "fips": "04023",
+   "name": "Santa Cruz",
+   "st": "AZ",
+   "irMgd": 7,
+   "sharePct": 0,
+   "rank": 51
+  },
+  {
+   "fips": "08033",
+   "name": "Dolores",
+   "st": "CO",
+   "irMgd": 4.2,
+   "sharePct": 0,
+   "rank": 52
+  },
+  {
+   "fips": "04007",
+   "name": "Gila",
+   "st": "AZ",
+   "irMgd": 3.1,
+   "sharePct": 0,
+   "rank": 53
+  },
+  {
+   "fips": "04001",
+   "name": "Apache",
+   "st": "AZ",
+   "irMgd": 2,
+   "sharePct": 0,
+   "rank": 54
+  },
+  {
+   "fips": "35031",
+   "name": "McKinley",
+   "st": "NM",
+   "irMgd": 1,
+   "sharePct": 0,
+   "rank": 55
+  },
+  {
+   "fips": "04005",
+   "name": "Coconino",
+   "st": "AZ",
+   "irMgd": 0.3,
+   "sharePct": 0,
+   "rank": 56
+  }
+ ]
+}

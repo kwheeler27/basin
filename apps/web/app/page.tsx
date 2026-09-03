@@ -28,6 +28,7 @@ import {
 } from "@/lib/format";
 import hist from "@/public/geo/storage_history.json";
 import lbHist from "@/public/geo/lb_consumption_cy.json";
+import countyShares from "@/public/geo/county_irrigation_shares.json";
 import {
   DEMAND_RECLAMATION,
   DEMAND_RECLAMATION_TOTAL,
@@ -236,6 +237,25 @@ const STORAGE_ITEMS: RankedBarItem[] = [
   },
 ];
 
+// §1 map lead's corroboration: shares of in-watershed irrigation
+// withdrawals, baked by scripts/build-county-shares.mjs from the same
+// classification the mini-map draws. The heading's quantifier is derived
+// from the number, so it can never overclaim what the data shows.
+const COUNTY_SHARES = countyShares as {
+  countyCount: number;
+  counties: { name: string; st: string; sharePct: number; rank: number }[];
+};
+const COUNTY_TOP4 = COUNTY_SHARES.counties.slice(0, 4);
+const COUNTY_TOP4_SHARE = COUNTY_TOP4.reduce((s, c) => s + c.sharePct, 0);
+const COUNTY_TOP4_WORD =
+  COUNTY_TOP4_SHARE >= 50
+    ? "most"
+    : COUNTY_TOP4_SHARE >= 33.3
+      ? "over a third"
+      : COUNTY_TOP4_SHARE >= 25
+        ? "over a quarter"
+        : `${Math.round(COUNTY_TOP4_SHARE)}%`;
+
 export default async function Landing() {
   // Live storage for every reservoir with a RISE item (the mini-map's
   // circles); Powell + Mead drive the headline numbers.
@@ -416,11 +436,19 @@ export default async function Landing() {
         </div>
         <div>
           <p className="body-text c1-maplead">
-            <strong>A few desert counties take most of it.</strong>{" "}
-            Irrigation crowds where the canals reach — Imperial and Yuma on
-            the lower river, Maricopa and Pinal where the{" "}
-            <Term id="aqueduct">aqueducts</Term> deliver — while most of the
-            watershed uses far less:
+            <strong>
+              Four desert counties take {COUNTY_TOP4_WORD} of the irrigation
+              water.
+            </strong>{" "}
+            Of the {COUNTY_SHARES.countyCount} counties irrigating inside
+            the watershed and its canal lands, the top four —{" "}
+            {COUNTY_TOP4.map((c) => c.name).join(", ")} — draw{" "}
+            <strong>{Math.round(COUNTY_TOP4_SHARE)}%</strong> of everything
+            withdrawn for crops (USGS 2015 census); Imperial alone takes{" "}
+            {COUNTY_SHARES.counties[0]!.sharePct}%, more than any other
+            county. The{" "}
+            <Term id="aqueduct">aqueducts</Term> and canals decide where the
+            water lands:
           </p>
           <ConsumptionMiniMap />
         </div>
