@@ -2063,3 +2063,11 @@ path.sr-rest { stroke: #64748b; stroke-dasharray: 4 3; } text.sr-rest { fill: #6
 
 /* §6 follow-chart column: keeps wide-viewport charts at a readable aspect */
 .chart-col { max-width: 760px; }
+
+/* snow & precip source indexes */
+path.sp-swe { stroke: #2b7fb8; } text.sp-swe { fill: #2b7fb8; } circle.sp-swe { fill: #2b7fb8; } .cl-swatch.sp-swe { background: #2b7fb8; }
+path.sp-prec { stroke: #2e7d32; } text.sp-prec { fill: #2e7d32; } circle.sp-prec { fill: #2e7d32; } .cl-swatch.sp-prec { background: #2e7d32; }
+@media (prefers-color-scheme: dark) {
+  path.sp-swe { stroke: #4a90c2; } text.sp-swe { fill: #4a90c2; } circle.sp-swe { fill: #4a90c2; } .cl-swatch.sp-swe { background: #4a90c2; }
+  path.sp-prec { stroke: #5fae63; } text.sp-prec { fill: #5fae63; } circle.sp-prec { fill: #5fae63; } .cl-swatch.sp-prec { background: #5fae63; }
+}
