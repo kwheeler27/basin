@@ -132,6 +132,9 @@ export function ConsumptionMiniMap() {
 
   const narrow = W < 520;
   const top = ranked.filter((c) => solid.get(c.fips));
+  // The four counties §1's claim names — drawn darker with a ring so the
+  // finding is visible in the figure, labeled when there's room.
+  const topFour = new Set(top.slice(0, 4).map((c) => c.fips));
   const labeled = new Set(narrow ? [] : top.slice(0, 4).map((c) => c.fips));
 
   const division = (names: Set<string>): GeoJSON.FeatureCollection => ({
@@ -212,12 +215,18 @@ export function ConsumptionMiniMap() {
             >
               <circle cx={x} cy={y} r={Math.max(rad, 7)} fill="transparent" />
               <circle cx={x} cy={y} r={rad}
-                className={solid.get(c.fips) ? "mm-farm" : "mm-farm-out"} />
+                className={
+                  topFour.has(c.fips)
+                    ? "mm-farm mm-farm-top"
+                    : solid.get(c.fips)
+                      ? "mm-farm"
+                      : "mm-farm-out"
+                } />
               {labeled.has(c.fips) && (
                 <text
                   x={c.st === "CA" ? x - rad - 4 : x + rad + 4}
                   y={y + 3.5}
-                  className="mm-label"
+                  className={`mm-label${topFour.has(c.fips) ? " top" : ""}`}
                   style={c.st === "CA" ? { textAnchor: "end" } : undefined}
                 >
                   {c.name}
@@ -263,8 +272,10 @@ export function ConsumptionMiniMap() {
         (WY, CO, UT, NM) and Lower Basin (AZ, NV, CA) — dividing at Lee
         Ferry. Circle area = county irrigation withdrawals, USGS 2015 —
         where water is taken, which is not the same accounting as
-        consumptive use in the bars. Solid: inside the watershed or served
-        by its canals (Imperial, Coachella). Faded: neighboring counties on
+        consumptive use in the bars. The ringed, darkest circles are the
+        top four counties from the claim above. Solid: inside the watershed
+        or served by its canals (Imperial, Coachella). Faded: neighboring
+        counties on
         other water — the Central Valley among them. Tap or hover any
         county for detail &amp; source.
       </div>
