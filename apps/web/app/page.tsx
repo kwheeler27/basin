@@ -7,6 +7,7 @@ import { Term } from "@/components/Term";
 import { BasinStory } from "@/components/BasinStory";
 import { Cite } from "@/components/Cite";
 import { KickerNote } from "@/components/KickerNote";
+import { SnowPrecipHistory } from "@/components/SnowPrecipHistory";
 import { StorageByReservoir } from "@/components/StorageByReservoir";
 import { StorageHistoryLine } from "@/components/StorageHistoryLine";
 import { SupplySeries } from "@/components/SupplySeries";
@@ -29,6 +30,7 @@ import {
 import hist from "@/public/geo/storage_history.json";
 import lbHist from "@/public/geo/lb_consumption_cy.json";
 import countyShares from "@/public/geo/county_irrigation_shares.json";
+import snowHist from "@/public/geo/snow_precip_history.json";
 import {
   DEMAND_RECLAMATION,
   DEMAND_RECLAMATION_TOTAL,
@@ -257,6 +259,19 @@ const COUNTY_TOP4_WORD =
         ? "over a quarter"
         : `${Math.round(COUNTY_TOP4_SHARE)}%`;
 
+// §2's source-of-the-water lead: computed from the baked NRCS indexes so
+// the below-median count can never drift from the chart it sits above.
+const SWE_HIST = (snowHist as {
+  aprilSwePctMedian: Record<string, { pct: number | null; used: number }>;
+}).aprilSwePctMedian;
+const SWE_LAST15 = Object.keys(SWE_HIST)
+  .map(Number)
+  .sort((a, b) => a - b)
+  .slice(-15)
+  .map((y) => SWE_HIST[String(y)]?.pct)
+  .filter((v): v is number => v != null);
+const SWE_BELOW_15 = SWE_LAST15.filter((v) => v < 100).length;
+
 export default async function Landing() {
   // Live storage for every reservoir with a RISE item (the mini-map's
   // circles); Powell + Mead drive the headline numbers.
@@ -458,6 +473,33 @@ export default async function Landing() {
         <Cite id="naturalflow" /> at Lees Ferry, WY1906&ndash;2020
         (vintage stated); a computed, revisable series. The full story: the{" "}
         <Link href={"/report/supply" as Route}>Supply chapter</Link>.
+      </div>
+
+      <p className="body-text" style={{ marginTop: 26 }}>
+        <strong>
+          {SWE_BELOW_15} of the last {SWE_LAST15.length} years started with
+          below-median snow.
+        </strong>{" "}
+        The river&rsquo;s water begins in the Upper Basin&rsquo;s mountains,
+        mostly as snow. Two NRCS station indexes — where the snowpack stood
+        each April 1, and how much rain and snow the{" "}
+        <Term id="water_year">water year</Term> delivered — against 100%,
+        the typical year:
+      </p>
+      <div className="chart-col">
+        <SnowPrecipHistory />
+        <div className="chain-caveat" style={{ marginTop: 8 }}>
+          NRCS SNOTEL stations in the Upper Colorado watershed
+          <Cite id="awdb" /> — the same{" "}
+          {(snowHist as { stationsInRoster: number }).stationsInRoster}
+          -station roster as the live snowpack tile; the basin index is the
+          sum of station readings over the sum of station medians (NRCS
+          convention), never an average of percentages. Station coverage
+          grows through the record — years with too few reporting stations
+          are gaps. Percent-of-median is a different accounting from
+          acre-feet of flow and is never summed with the record above.
+          Baked {(snowHist as { baked: string }).baked}.
+        </div>
       </div>
 
       <h2 className="section-title">3 · Reservoirs cover the deficit</h2>
