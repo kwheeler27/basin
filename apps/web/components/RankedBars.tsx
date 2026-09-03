@@ -9,7 +9,7 @@
  * instead of inventing one.
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { acreFeet } from "@/lib/format";
 import { DetailSheet, type SheetAnchor, type SheetData } from "./DetailSheet";
 
@@ -27,6 +27,28 @@ export function RankedBars({ items }: { items: readonly RankedBarItem[] }) {
   // The bars sit in normal page flow (no position:relative ancestor), so the
   // sheet must anchor to the tapped row or it lands at the document corner.
   const [anchor, setAnchor] = useState<SheetAnchor | null>(null);
+  // Hover opens the same card as a tap (Kevin, 2026-09-02). The close is
+  // delayed so the pointer can travel from row to sheet without a flicker;
+  // entering the sheet cancels it.
+  const closeTimer = useRef<number | null>(null);
+  const cancelClose = () => {
+    if (closeTimer.current !== null) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+  const scheduleClose = () => {
+    cancelClose();
+    closeTimer.current = window.setTimeout(() => setSheet(null), 200);
+  };
+  const openFor = (it: RankedBarItem, el: HTMLElement) => {
+    cancelClose();
+    const r = el.getBoundingClientRect();
+    setAnchor({ top: r.top, bottom: r.bottom, left: r.left });
+    setSheet(it.sheet!);
+  };
+
+  useEffect(() => cancelClose, []);
 
   useEffect(() => {
     if (!sheet) return;
@@ -73,11 +95,9 @@ export function RankedBars({ items }: { items: readonly RankedBarItem[] }) {
             key={it.short}
             type="button"
             className="rb-row db-tappable"
-            onClick={(e) => {
-              const r = e.currentTarget.getBoundingClientRect();
-              setAnchor({ top: r.top, bottom: r.bottom, left: r.left });
-              setSheet(it.sheet!);
-            }}
+            onClick={(e) => openFor(it, e.currentTarget)}
+            onMouseEnter={(e) => openFor(it, e.currentTarget)}
+            onMouseLeave={scheduleClose}
             aria-label={`${it.name} — details and source`}
           >
             {row}
@@ -90,10 +110,17 @@ export function RankedBars({ items }: { items: readonly RankedBarItem[] }) {
       })}
       {interactive && (
         <div className="cc-readout" style={{ marginTop: 6 }}>
-          Tap a bar for the plain-English story, comparisons, and source.
+          Tap or hover any bar for the plain-English story, comparisons, and
+          source.
         </div>
       )}
-      <DetailSheet data={sheet} anchor={anchor} onClose={() => setSheet(null)} />
+      <DetailSheet
+        data={sheet}
+        anchor={anchor}
+        onClose={() => setSheet(null)}
+        onPointerEnter={cancelClose}
+        onPointerLeave={scheduleClose}
+      />
     </div>
   );
 }

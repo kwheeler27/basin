@@ -85,10 +85,15 @@ export function DetailSheet({
   data,
   onClose,
   anchor,
+  onPointerEnter,
+  onPointerLeave,
 }: {
   data: SheetData | null;
   onClose: () => void;
   anchor?: SheetAnchor | null;
+  /** Hover-opened callers keep the sheet alive while the pointer is on it. */
+  onPointerEnter?: () => void;
+  onPointerLeave?: () => void;
 }) {
   const [openTerm, setOpenTerm] = useState<string | null>(null);
   if (!data) return null;
@@ -99,6 +104,8 @@ export function DetailSheet({
       style={anchor ? anchoredStyle(anchor) : undefined}
       role="dialog"
       aria-label={data.title}
+      onPointerEnter={onPointerEnter}
+      onPointerLeave={onPointerLeave}
     >
       <div className="sheet-head">
         <div>
