@@ -416,10 +416,11 @@ export default async function Landing() {
         </div>
         <div>
           <p className="body-text c1-maplead">
-            <strong>Where it happens.</strong>{" "}Consumption concentrates
-            where the canals reach — the irrigation districts of the lower
-            river and the cities the{" "}
-            <Term id="aqueduct">aqueducts</Term> serve:
+            <strong>A few desert counties take most of it.</strong>{" "}
+            Irrigation crowds where the canals reach — Imperial and Yuma on
+            the lower river, Maricopa and Pinal where the{" "}
+            <Term id="aqueduct">aqueducts</Term> deliver — while most of the
+            watershed uses far less:
           </p>
           <ConsumptionMiniMap />
         </div>
@@ -427,9 +428,10 @@ export default async function Landing() {
 
 
       <p className="body-text" style={{ marginTop: 22 }}>
-        <strong>By type of use.</strong> A separate peer-reviewed
+        <strong>Most of it grows crops.</strong> A separate peer-reviewed
         accounting<Cite id="richter2024" /> breaks consumption down by what
-        the water does — and agriculture dominates:
+        the water does — agriculture takes about half of everything the
+        basin consumes:
       </p>
       <RankedBars items={SECTOR_ITEMS} />
       <div className="warn-box" style={{ marginTop: 8 }}>
@@ -479,8 +481,8 @@ export default async function Landing() {
       <div className="c1-grid">
         <div>
           <p className="body-text c1-maplead">
-            <strong>Who paid for the gap.</strong>{" "}Each reservoir&rsquo;s
-            drawdown since January 2000:
+            <strong>Two accounts paid {PM_SHARE}% of it.</strong>{" "}Each
+            reservoir&rsquo;s drawdown since January 2000:
           </p>
           <RankedBars items={STORAGE_ITEMS} />
           <div className="chain-caveat" style={{ marginTop: 8 }}>
@@ -493,8 +495,8 @@ export default async function Landing() {
         </div>
         <div>
           <p className="body-text c1-maplead">
-            <strong>Where the accounts sit.</strong>{" "}Circle area is water
-            in storage now — live:
+            <strong>Powell and Mead dwarf everything else.</strong>{" "}
+            Circle area is water in storage now — live:
           </p>
           <BasinStory storage={liveStorage} variant="explore" />
           <div className="chain-caveat" style={{ marginTop: 8 }}>
@@ -505,7 +507,7 @@ export default async function Landing() {
         </div>
       </div>
       <p className="body-text" style={{ marginTop: 22 }}>
-        <strong>The same story, over time.</strong>{" "}Every account drawn
+        <strong>Only two lines fall.</strong>{" "}Every account drawn
         down, month by month — Mead and Powell carry the fall; the rest of
         the system barely moves:
       </p>

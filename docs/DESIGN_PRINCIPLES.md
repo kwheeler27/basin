@@ -192,3 +192,28 @@ page must work for that reader without dumbing anything down (§10's
 Test: hand the page to someone who has never read about the Colorado
 River. If any sentence requires knowledge the page hasn't given them,
 that sentence is a bug.
+
+---
+
+## 12. Lead with the finding, not the label (Kevin's standing rule, 2026-09-02)
+
+Every heading over a chart, map, table, or section states the observation
+the reader should walk away with — never the category of content. "Use is
+falling," not "How it's changed." "A few desert counties take most of it,"
+not "Where it happens." The label's job (what kind of thing this is) moves
+into the supporting sentence.
+
+- **Compute the claim from the data it sits above wherever possible**, and
+  write conditional clauses to drop out when the data stops supporting
+  them ("the lowest year in the record" must self-retract in a year that
+  isn't). A heading that could silently go stale is a bug.
+- **The finding is an observation, not a judgment.** §7 neutrality binds:
+  "Two accounts paid 95% of it" passes; "reckless overdrawing" does not.
+- **One finding per heading.** If the data shows two things, that's two
+  sections or a subordinate clause — not a compound headline.
+- **The finding must be visible in the figure beneath it.** If the reader
+  can't confirm the claim by looking down, either the chart or the heading
+  is wrong.
+
+Test: cover the figure and read only the headings — they should retell the
+page's argument on their own.
