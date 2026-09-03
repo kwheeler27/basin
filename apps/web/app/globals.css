@@ -1169,6 +1169,7 @@ td.mono { font-family: var(--mono); font-size: 11px; }
 .term-trigger {
   background: none; border: none; padding: 0; margin: 0;
   font: inherit; color: inherit; cursor: help;
+  letter-spacing: inherit; text-transform: inherit;
   border-bottom: 1px dashed var(--faint);
 }
 .term-trigger:hover { border-bottom-color: var(--accent); color: var(--accent); }
@@ -1992,7 +1993,14 @@ html { scroll-behavior: smooth; }
   margin: 20px 0 6px; padding-top: 16px;
   border-top: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
 }
-.hs-note { margin-top: 2px; max-width: none; }
+.hs-kicker-btn {
+  background: none; border: none; padding: 0; margin: 0;
+  font: inherit; letter-spacing: inherit; text-transform: inherit;
+  color: inherit; cursor: help;
+  border-bottom: 1px dashed var(--faint);
+}
+.hs-kicker-btn:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.term-card.wide { width: min(340px, calc(100vw - 24px)); }
 .hs-kicker { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 .hs-num { font-size: 28px; font-weight: 750; letter-spacing: -0.01em; margin-top: 2px; font-variant-numeric: tabular-nums; }
 .hs-sub { font-size: 12.5px; line-height: 1.5; color: var(--muted); margin-top: 2px; max-width: 30ch; }
