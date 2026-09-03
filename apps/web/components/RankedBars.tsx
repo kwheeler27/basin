@@ -11,7 +11,7 @@
 
 import { useEffect, useState } from "react";
 import { acreFeet } from "@/lib/format";
-import { DetailSheet, type SheetData } from "./DetailSheet";
+import { DetailSheet, type SheetAnchor, type SheetData } from "./DetailSheet";
 
 export interface RankedBarItem {
   readonly short: string;
@@ -24,6 +24,9 @@ export interface RankedBarItem {
 
 export function RankedBars({ items }: { items: readonly RankedBarItem[] }) {
   const [sheet, setSheet] = useState<SheetData | null>(null);
+  // The bars sit in normal page flow (no position:relative ancestor), so the
+  // sheet must anchor to the tapped row or it lands at the document corner.
+  const [anchor, setAnchor] = useState<SheetAnchor | null>(null);
 
   useEffect(() => {
     if (!sheet) return;
@@ -70,7 +73,11 @@ export function RankedBars({ items }: { items: readonly RankedBarItem[] }) {
             key={it.short}
             type="button"
             className="rb-row db-tappable"
-            onClick={() => setSheet(it.sheet!)}
+            onClick={(e) => {
+              const r = e.currentTarget.getBoundingClientRect();
+              setAnchor({ top: r.top, bottom: r.bottom, left: r.left });
+              setSheet(it.sheet!);
+            }}
             aria-label={`${it.name} — details and source`}
           >
             {row}
@@ -86,7 +93,7 @@ export function RankedBars({ items }: { items: readonly RankedBarItem[] }) {
           Tap a bar for the plain-English story, comparisons, and source.
         </div>
       )}
-      <DetailSheet data={sheet} onClose={() => setSheet(null)} />
+      <DetailSheet data={sheet} anchor={anchor} onClose={() => setSheet(null)} />
     </div>
   );
 }

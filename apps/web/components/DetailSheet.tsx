@@ -16,6 +16,50 @@ import { MiniSeries, type MiniSeriesData } from "./MiniSeries";
 
 export type DataClock = "live" | "annual" | "census" | "model";
 
+/**
+ * Viewport rect of the tapped element (from getBoundingClientRect at click
+ * time). When given, the sheet renders fixed next to that element instead of
+ * the default corner-of-container placement — callers whose container isn't
+ * position:relative (e.g. ranked bars in page flow) must pass it, or the
+ * sheet resolves against the initial containing block and lands at the
+ * top-right of the document.
+ */
+export interface SheetAnchor {
+  readonly top: number;
+  readonly bottom: number;
+  readonly left: number;
+}
+
+function anchoredStyle(anchor: SheetAnchor): React.CSSProperties | undefined {
+  if (typeof window === "undefined" || window.innerWidth <= 720) {
+    return undefined; // phones keep the bottom-sheet CSS
+  }
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const width = Math.min(400, vw - 24);
+  const left = Math.min(Math.max(anchor.left, 12), vw - width - 12);
+  const below = vh - anchor.bottom;
+  return below >= 300 || below >= anchor.top
+    ? {
+        position: "fixed",
+        top: anchor.bottom + 8,
+        bottom: "auto",
+        left,
+        right: "auto",
+        width,
+        maxHeight: Math.max(below - 20, 180),
+      }
+    : {
+        position: "fixed",
+        top: "auto",
+        bottom: vh - anchor.top + 8,
+        left,
+        right: "auto",
+        width,
+        maxHeight: Math.max(anchor.top - 20, 180),
+      };
+}
+
 export interface SheetData {
   readonly kicker: string;
   readonly title: string;
@@ -40,15 +84,22 @@ const CLOCK_STYLE: Record<DataClock, string> = {
 export function DetailSheet({
   data,
   onClose,
+  anchor,
 }: {
   data: SheetData | null;
   onClose: () => void;
+  anchor?: SheetAnchor | null;
 }) {
   const [openTerm, setOpenTerm] = useState<string | null>(null);
   if (!data) return null;
 
   return (
-    <div className="sheet" role="dialog" aria-label={data.title}>
+    <div
+      className="sheet"
+      style={anchor ? anchoredStyle(anchor) : undefined}
+      role="dialog"
+      aria-label={data.title}
+    >
       <div className="sheet-head">
         <div>
           <div className="sheet-kicker">{data.kicker}</div>
