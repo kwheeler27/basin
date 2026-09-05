@@ -30,6 +30,7 @@ import {
 } from "@/lib/format";
 import hist from "@/public/geo/storage_history.json";
 import lbHist from "@/public/geo/lb_consumption_cy.json";
+import ubHist from "@/public/geo/ub_consumption_cy.json";
 import countyShares from "@/public/geo/county_irrigation_shares.json";
 import snowHist from "@/public/geo/snow_precip_history.json";
 import {
@@ -116,6 +117,35 @@ const FEIS_WINDOW = [2020, 2021, 2022, 2023, 2024];
 const LB_FEIS_MEAN =
   FEIS_WINDOW.reduce((s, y) => s + (LB_YEARS_MAP[String(y)]?.lbTotal ?? 0), 0) /
   FEIS_WINDOW.length;
+// The Upper Basin line keeps different books (CU&L modeled estimates), so
+// its clauses are computed separately and the two are never summed.
+const UB_YEARS_MAP = (ubHist as {
+  years: Record<string, { ubTotal: number; resEvap: number }>;
+}).years;
+const UB_LAST = Math.max(...Object.keys(UB_YEARS_MAP).map(Number));
+// Highest Upper Basin year inside the chart's window, as a share of its
+// own 7.5 MAF apportionment — the "never developed" claim, computed.
+const UB_WINDOW_MAX = Math.max(
+  ...Object.entries(UB_YEARS_MAP)
+    .filter(([y]) => Number(y) >= LB_FIRST)
+    .map(([, v]) => v.ubTotal),
+);
+const UB_MAX_PCT = Math.round((UB_WINDOW_MAX / 7_500_000) * 100);
+// Reconciles the §1 bar's larger disputed figure (the CU&L one): the mean
+// of this line over the years both it and the dispute window cover.
+const UB_RECON_YEARS = [2021, 2022, 2023, 2024].filter(
+  (y) => UB_YEARS_MAP[String(y)],
+);
+const UB_RECON_MEAN =
+  UB_RECON_YEARS.reduce(
+    (s, y) => s + (UB_YEARS_MAP[String(y)]?.ubTotal ?? 0),
+    0,
+  ) / UB_RECON_YEARS.length;
+const UB_EVAP_MEAN =
+  FEIS_WINDOW.reduce(
+    (s, y) => s + (UB_YEARS_MAP[String(y)]?.resEvap ?? 0),
+    0,
+  ) / FEIS_WINDOW.filter((y) => UB_YEARS_MAP[String(y)]).length;
 function lbSeries(key: "lbTotal" | "mexico") {
   const points: (readonly [string, number | null])[] = [];
   for (let y = LB_FIRST; y <= LB_LAST; y++) {
@@ -637,31 +667,45 @@ export default async function Landing() {
           {ALL_LINES_DOWN_DECADE ? (
             <>
               {" "}
-              — and every line on this chart is lower than it was a decade
-              ago.
+              — and California, Arizona, Nevada, and Mexico all take less
+              than they did a decade ago.
             </>
           ) : (
             <>.</>
           )}{" "}
           Some of the decline is voluntary — conservation programs and paid
-          fallowing — and some is the shortage rules binding. Either way,
-          the response shows up in the accounting:
+          fallowing — and some is the shortage rules binding. The{" "}
+          <Term id="upper_basin">Upper Basin</Term>&rsquo;s dashed line
+          tells the other half of the story: not falling so much as never
+          grown — in no year shown has it used more than{" "}
+          <strong>{UB_MAX_PCT}%</strong> of its own 7.5 MAF{" "}
+          <Term id="apportionment">apportionment</Term>. Either way, the
+          response shows up in the accounting:
         </p>
         <ConsumptionLine />
         <div className="chain-caveat" style={{ marginTop: 8 }}>
-          Same books as the §1 bars: the Lower Basin bar (
+          The solid lines are the same books as the §1 bars: the Lower
+          Basin bar (
             {acreFeet(DEMAND_RECLAMATION.find((d) => d.id === "demand.lower_basin")!.acreFeet)}
             ) is the 2020&ndash;24 average of the total line here —{" "}
             {(LB_FEIS_MEAN / 1_000_000).toFixed(2)}{" "}MAF; the difference is
-            rounding between reports. The Upper Basin and reservoir
-            evaporation aren&rsquo;t drawn because no year-by-year series
-            exists for them yet — their federal reports come in five-year
-            cycles. Parsed from the annual accounting reports
-            <Cite id="decree2025" /> ({LB_FIRST}&ndash;{LB_LAST}
+            rounding between reports. Parsed from the annual accounting
+            reports<Cite id="decree2025" /> ({LB_FIRST}&ndash;{LB_LAST}
             {(lbHist as { excludedYears: number[] }).excludedYears.length > 0
               ? `; the ${(lbHist as { excludedYears: number[] }).excludedYears.join(", ")} reports use formats not yet parsed and render as gaps`
               : ", every report year"}
-            ). Fetched {(lbHist as { fetched: string }).fetched}.
+            ). The dashed Upper Basin line keeps different books:
+            Reclamation&rsquo;s consumptive uses and losses estimates
+            <Cite id="culub" /> — modeled, not metered, revised in batches,
+            and a year behind (through {UB_LAST}). Its 2021&ndash;24 average
+            computes to {(UB_RECON_MEAN / 1_000_000).toFixed(1)}{" "}MAF — the
+            larger of the two disputed Upper Basin figures in §1 — and it
+            includes evaporation off the Upper Basin&rsquo;s own reservoirs
+            (about {Math.round(UB_EVAP_MEAN / 1_000)}{" "}thousand acre-feet a
+            year, 2020&ndash;24). The two accountings share a chart here,
+            never a sum. Fetched{" "}
+            {(lbHist as { fetched: string }).fetched} and{" "}
+            {(ubHist as { fetched: string }).fetched}.
         </div>
         <p className="evidence-line">
           The full case:{" "}
