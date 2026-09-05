@@ -2,17 +2,21 @@
 
 /**
  * Every consumer with an annual series, on one chart: the Lower Basin total
- * and its three states (decree accounting, 2003–2025) plus Mexico (treaty
- * accounting in the same reports, 2006–). Upper Basin and reservoir
- * evaporation have no machine-readable annual series yet — the caption says
- * so rather than the chart inventing one. Years a report format defeated
- * the parser render as GAPS, never interpolations. The 7.5 MAF apportionment
- * draws as an administrative reference for the Lower Basin total. Hovering
- * shows each series' value beside its line. True-pixel responsive.
+ * and its three states (decree accounting, 2003–2025), Mexico (treaty
+ * accounting in the same reports, 2006–), and the Upper Basin (Reclamation's
+ * CU&L workbook — a MODELED estimate on different books, so it draws dashed
+ * per the house line grammar and the caption declares the bridge; it runs a
+ * year behind the decree series and includes the Upper Basin's own reservoir
+ * evaporation). The two accountings are never summed. Years a source
+ * defeated the parser render as GAPS, never interpolations. The 7.5 MAF
+ * apportionment draws as an administrative reference — each basin's number
+ * happens to be the same 7.5. Hovering shows each series' value beside its
+ * line. True-pixel responsive.
  */
 
 import { useRef, useState } from "react";
 import lb from "@/public/geo/lb_consumption_cy.json";
+import ub from "@/public/geo/ub_consumption_cy.json";
 import { useMeasuredWidth } from "@/lib/useMeasuredWidth";
 
 const MAF = 1_000_000;
@@ -26,8 +30,10 @@ type YearRow = {
   mexico?: number;
 };
 
+type SeriesKey = keyof YearRow | "ubTotal";
+
 interface Series {
-  key: keyof YearRow;
+  key: SeriesKey;
   label: string;
   cls: string;
   bold?: boolean;
@@ -35,9 +41,11 @@ interface Series {
 
 // Fixed order and fixed hues — a series keeps its color no matter what
 // renders. The three states sum to the Lower Basin total; Mexico is a
-// separate consumer in the same reports.
+// separate consumer in the same reports. The Upper Basin is a modeled
+// estimate on different books (dashed via CSS), never summed with these.
 const SERIES: readonly Series[] = [
   { key: "lbTotal", label: "Lower Basin total", cls: "cl-lb", bold: true },
+  { key: "ubTotal", label: "Upper Basin (modeled)", cls: "cl-ub" },
   { key: "ca", label: "California", cls: "cl-ca" },
   { key: "az", label: "Arizona", cls: "cl-az" },
   { key: "mexico", label: "Mexico", cls: "cl-mx" },
@@ -50,12 +58,20 @@ export function ConsumptionLine() {
   const { ref, width } = useMeasuredWidth<HTMLDivElement>();
 
   const yearsMap = (lb as { years: Record<string, YearRow> }).years;
+  const ubYearsMap = (ub as { years: Record<string, { ubTotal: number }> })
+    .years;
+  // The x-domain is the decree-accounting window; the Upper Basin series
+  // (1971–) is clipped to it and simply ends where its estimates do.
   const first = Math.min(...Object.keys(yearsMap).map(Number));
   const last = Math.max(...Object.keys(yearsMap).map(Number));
   const years: number[] = [];
   for (let y = first; y <= last; y++) years.push(y);
-  const valsFor = (key: keyof YearRow) =>
-    years.map((y) => yearsMap[String(y)]?.[key] ?? null);
+  const valsFor = (key: SeriesKey) =>
+    years.map((y) =>
+      key === "ubTotal"
+        ? (ubYearsMap[String(y)]?.ubTotal ?? null)
+        : (yearsMap[String(y)]?.[key] ?? null),
+    );
   const byKey = new Map(SERIES.map((s) => [s.key, valsFor(s.key)]));
 
   if (width === 0) {
@@ -113,7 +129,7 @@ export function ConsumptionLine() {
         ))}
       </div>
       <svg ref={svgRef} width={W} height={H} viewBox={`0 0 ${W} ${H}`} role="img"
-        aria-label="Consumptive use by year since 2003: Lower Basin total, California, Arizona, Nevada, and Mexico, against the Lower Basin's 7.5 MAF apportionment"
+        aria-label="Consumptive use by year since 2003: Lower Basin total, California, Arizona, Nevada, and Mexico from decree accounting, plus the Upper Basin as a dashed modeled estimate, against the 7.5 MAF apportionment each basin holds"
         onMouseMove={onMove} onMouseLeave={() => setHover(null)}>
         {[2, 4, 6].map((m) => (
           <g key={m}>
@@ -132,7 +148,7 @@ export function ConsumptionLine() {
 
         <line x1={M.l} x2={W - M.r} y1={y(CEILING_AF)} y2={y(CEILING_AF)} className="es-ref" />
         <text x={M.l + 6} y={y(CEILING_AF) - 5} className="es-reflabel" style={{ fontSize: 10.5 }}>
-          7.5M · Lower Basin apportionment
+          7.5M · each basin&rsquo;s apportionment
         </text>
 
         {SERIES.map((s) => (
@@ -186,7 +202,7 @@ export function ConsumptionLine() {
         {hover !== null
           ? `CY${years[hover]} — hover values are beside each line, in MAF`
           : anyGaps
-            ? "Hover for any year. Gaps are unparsed report years, never zeros — Mexico's series begins in 2006."
+            ? "Hover for any year. Lines start and stop where their sources do — Mexico's series begins in 2006; the Upper Basin estimate runs a year behind."
             : "Hover any year; values appear beside each line."}
       </div>
     </div>

@@ -149,6 +149,14 @@ export const REFERENCES: readonly Reference[] = [
     used: "Delivery volumes by system (the Pareto on Current state; the infrastructure roster) — and, via the annual report series 2003–2025, the Lower Basin consumptive-use history on the landing.",
   },
   {
+    id: "culub",
+    kind: "federal",
+    cite: "U.S. Bureau of Reclamation, Upper Colorado River System Consumptive Uses and Losses — data-summary workbook, release v24.5 (CY1971–2024).",
+    url: "https://www.usbr.gov/uc/DocLibrary/Reports/ConsumptiveUsesLosses/20251201-UpperColoradoCUL1971-2025_v24.5_MajorTribSummary-DataSummariesFigures.xlsx",
+    used: "The Upper Basin consumptive-use history on the landing — the dashed line in §5.",
+    note: "Modeled estimates, not metered accounting, revised in versioned workbook releases; the URL embeds the release. The workbook carries a placeholder column for a year its own title excludes — the bake's validation gate drops it.",
+  },
+  {
     id: "feis2026",
     kind: "federal",
     cite: "U.S. Bureau of Reclamation, Final Environmental Impact Statement, Post-2026 Colorado River Operations (published July 31, 2026).",

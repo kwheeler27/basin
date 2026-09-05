@@ -1,0 +1,553 @@
+{
+ "source": "US Bureau of Reclamation, Upper Colorado River System Consumptive Uses and Losses (CU&L) data-summary workbook, release v24.5 \u2014 modeled estimates, one per calendar year: Upper Basin total consumptive use with and without undistributed mainstem-reservoir evaporation, and each state's total",
+ "workbookTitle": "Upper Colorado River System, Consumptive Uses and Losses 1971-2024",
+ "url": "https://www.usbr.gov/uc/DocLibrary/Reports/ConsumptiveUsesLosses/20251201-UpperColoradoCUL1971-2025_v24.5_MajorTribSummary-DataSummariesFigures.xlsx",
+ "accountingConcept": "consumptive_use (UB states, distributed) \u00b7 evaporation (undistributed mainstem reservoirs) \u00b7 their stated sum (ubTotal)",
+ "measurementClass": "estimated",
+ "excludedYears": [
+  2025
+ ],
+ "fetched": "2026-09-04",
+ "years": {
+  "1971": {
+   "ubTotal": 3658567,
+   "statesTotal": 3190249,
+   "resEvap": 468318,
+   "az": 11100,
+   "co": 1849613,
+   "nm": 192626,
+   "ut": 768433,
+   "wy": 368477
+  },
+  "1972": {
+   "ubTotal": 3739700,
+   "statesTotal": 3266198,
+   "resEvap": 473502,
+   "az": 12200,
+   "co": 1906067,
+   "nm": 203724,
+   "ut": 788636,
+   "wy": 355571
+  },
+  "1973": {
+   "ubTotal": 3636568,
+   "statesTotal": 3101239,
+   "resEvap": 535329,
+   "az": 11400,
+   "co": 1661791,
+   "nm": 311832,
+   "ut": 767516,
+   "wy": 348701
+  },
+  "1974": {
+   "ubTotal": 4061138,
+   "statesTotal": 3445771,
+   "resEvap": 615367,
+   "az": 19125,
+   "co": 2001006,
+   "nm": 202714,
+   "ut": 806646,
+   "wy": 416280
+  },
+  "1975": {
+   "ubTotal": 3887173,
+   "statesTotal": 3244335,
+   "resEvap": 642838,
+   "az": 23674,
+   "co": 1926749,
+   "nm": 293751,
+   "ut": 670246,
+   "wy": 329916
+  },
+  "1976": {
+   "ubTotal": 3753170,
+   "statesTotal": 3103380,
+   "resEvap": 649790,
+   "az": 30507,
+   "co": 1792738,
+   "nm": 291666,
+   "ut": 663932,
+   "wy": 324538
+  },
+  "1977": {
+   "ubTotal": 3120955,
+   "statesTotal": 2562934,
+   "resEvap": 558021,
+   "az": 33871,
+   "co": 1667944,
+   "nm": 219156,
+   "ut": 410466,
+   "wy": 231497
+  },
+  "1978": {
+   "ubTotal": 4001077,
+   "statesTotal": 3456110,
+   "resEvap": 544966,
+   "az": 32875,
+   "co": 2038995,
+   "nm": 324496,
+   "ut": 702050,
+   "wy": 357695
+  },
+  "1979": {
+   "ubTotal": 4070013,
+   "statesTotal": 3421235,
+   "resEvap": 648778,
+   "az": 33913,
+   "co": 1866412,
+   "nm": 415824,
+   "ut": 745729,
+   "wy": 359358
+  },
+  "1980": {
+   "ubTotal": 4097732,
+   "statesTotal": 3375616,
+   "resEvap": 722117,
+   "az": 36872,
+   "co": 1850654,
+   "nm": 423805,
+   "ut": 706734,
+   "wy": 357551
+  },
+  "1981": {
+   "ubTotal": 4115152,
+   "statesTotal": 3440368,
+   "resEvap": 674783,
+   "az": 41393,
+   "co": 2119645,
+   "nm": 278861,
+   "ut": 654920,
+   "wy": 345548
+  },
+  "1982": {
+   "ubTotal": 4161712,
+   "statesTotal": 3461280,
+   "resEvap": 700432,
+   "az": 39334,
+   "co": 2056138,
+   "nm": 407577,
+   "ut": 622436,
+   "wy": 335795
+  },
+  "1983": {
+   "ubTotal": 4086068,
+   "statesTotal": 3315069,
+   "resEvap": 770999,
+   "az": 41203,
+   "co": 1921089,
+   "nm": 412720,
+   "ut": 588305,
+   "wy": 351752
+  },
+  "1984": {
+   "ubTotal": 3987616,
+   "statesTotal": 3238450,
+   "resEvap": 749166,
+   "az": 43600,
+   "co": 1869335,
+   "nm": 378113,
+   "ut": 629481,
+   "wy": 317922
+  },
+  "1985": {
+   "ubTotal": 4264431,
+   "statesTotal": 3527616,
+   "resEvap": 736816,
+   "az": 45671,
+   "co": 2001026,
+   "nm": 383345,
+   "ut": 752414,
+   "wy": 345159
+  },
+  "1986": {
+   "ubTotal": 4226619,
+   "statesTotal": 3487012,
+   "resEvap": 739607,
+   "az": 37141,
+   "co": 1808612,
+   "nm": 441607,
+   "ut": 729463,
+   "wy": 470188
+  },
+  "1987": {
+   "ubTotal": 4293844,
+   "statesTotal": 3554629,
+   "resEvap": 739215,
+   "az": 38088,
+   "co": 1894460,
+   "nm": 378328,
+   "ut": 769152,
+   "wy": 474601
+  },
+  "1988": {
+   "ubTotal": 4697624,
+   "statesTotal": 3977325,
+   "resEvap": 720298,
+   "az": 41341,
+   "co": 2277486,
+   "nm": 350331,
+   "ut": 751153,
+   "wy": 557014
+  },
+  "1989": {
+   "ubTotal": 4712412,
+   "statesTotal": 4053555,
+   "resEvap": 658856,
+   "az": 39532,
+   "co": 2402282,
+   "nm": 382273,
+   "ut": 755018,
+   "wy": 474450
+  },
+  "1990": {
+   "ubTotal": 4409088,
+   "statesTotal": 3839193,
+   "resEvap": 569895,
+   "az": 35880,
+   "co": 2100657,
+   "nm": 390070,
+   "ut": 796997,
+   "wy": 515588
+  },
+  "1991": {
+   "ubTotal": 4171588,
+   "statesTotal": 3638153,
+   "resEvap": 533436,
+   "az": 34499,
+   "co": 1867946,
+   "nm": 328658,
+   "ut": 856616,
+   "wy": 550433
+  },
+  "1992": {
+   "ubTotal": 3860521,
+   "statesTotal": 3346802,
+   "resEvap": 513718,
+   "az": 36943,
+   "co": 1661152,
+   "nm": 289518,
+   "ut": 816299,
+   "wy": 542890
+  },
+  "1993": {
+   "ubTotal": 4120825,
+   "statesTotal": 3514562,
+   "resEvap": 606263,
+   "az": 35991,
+   "co": 1786100,
+   "nm": 333378,
+   "ut": 859468,
+   "wy": 499625
+  },
+  "1994": {
+   "ubTotal": 4446529,
+   "statesTotal": 3834281,
+   "resEvap": 612248,
+   "az": 36387,
+   "co": 1999189,
+   "nm": 314722,
+   "ut": 870979,
+   "wy": 613003
+  },
+  "1995": {
+   "ubTotal": 3962240,
+   "statesTotal": 3276604,
+   "resEvap": 685636,
+   "az": 36272,
+   "co": 1645011,
+   "nm": 327633,
+   "ut": 840934,
+   "wy": 426754
+  },
+  "1996": {
+   "ubTotal": 4480418,
+   "statesTotal": 3779763,
+   "resEvap": 700655,
+   "az": 34192,
+   "co": 1865031,
+   "nm": 311144,
+   "ut": 918787,
+   "wy": 650609
+  },
+  "1997": {
+   "ubTotal": 4045901,
+   "statesTotal": 3326587,
+   "resEvap": 719314,
+   "az": 34319,
+   "co": 1596736,
+   "nm": 368195,
+   "ut": 781203,
+   "wy": 546134
+  },
+  "1998": {
+   "ubTotal": 4214217,
+   "statesTotal": 3483011,
+   "resEvap": 731206,
+   "az": 37106,
+   "co": 1769526,
+   "nm": 356141,
+   "ut": 822160,
+   "wy": 498078
+  },
+  "1999": {
+   "ubTotal": 4492860,
+   "statesTotal": 3762736,
+   "resEvap": 730124,
+   "az": 38357,
+   "co": 1787598,
+   "nm": 361949,
+   "ut": 925522,
+   "wy": 649310
+  },
+  "2000": {
+   "ubTotal": 4779726,
+   "statesTotal": 4089904,
+   "resEvap": 689822,
+   "az": 39865,
+   "co": 2182388,
+   "nm": 302588,
+   "ut": 965054,
+   "wy": 600009
+  },
+  "2001": {
+   "ubTotal": 4940381,
+   "statesTotal": 4299610,
+   "resEvap": 640771,
+   "az": 38478,
+   "co": 2207688,
+   "nm": 367808,
+   "ut": 1037871,
+   "wy": 647765
+  },
+  "2002": {
+   "ubTotal": 3991405,
+   "statesTotal": 3459003,
+   "resEvap": 532402,
+   "az": 38172,
+   "co": 1816053,
+   "nm": 280791,
+   "ut": 799007,
+   "wy": 524979
+  },
+  "2003": {
+   "ubTotal": 4267451,
+   "statesTotal": 3815412,
+   "resEvap": 452040,
+   "az": 36603,
+   "co": 1966020,
+   "nm": 354579,
+   "ut": 888203,
+   "wy": 570006
+  },
+  "2004": {
+   "ubTotal": 3940336,
+   "statesTotal": 3557794,
+   "resEvap": 382542,
+   "az": 37157,
+   "co": 1808912,
+   "nm": 367521,
+   "ut": 852510,
+   "wy": 491694
+  },
+  "2005": {
+   "ubTotal": 4335023,
+   "statesTotal": 3907501,
+   "resEvap": 427521,
+   "az": 36821,
+   "co": 1818557,
+   "nm": 443187,
+   "ut": 1001231,
+   "wy": 607706
+  },
+  "2006": {
+   "ubTotal": 4233799,
+   "statesTotal": 3781950,
+   "resEvap": 451849,
+   "az": 36288,
+   "co": 1939502,
+   "nm": 368749,
+   "ut": 841733,
+   "wy": 595678
+  },
+  "2007": {
+   "ubTotal": 4469490,
+   "statesTotal": 4016486,
+   "resEvap": 453004,
+   "az": 36400,
+   "co": 2025288,
+   "nm": 400255,
+   "ut": 953117,
+   "wy": 601425
+  },
+  "2008": {
+   "ubTotal": 4485805,
+   "statesTotal": 3990958,
+   "resEvap": 494846,
+   "az": 34866,
+   "co": 2093456,
+   "nm": 427233,
+   "ut": 847785,
+   "wy": 587619
+  },
+  "2009": {
+   "ubTotal": 4465003,
+   "statesTotal": 3931877,
+   "resEvap": 533126,
+   "az": 35301,
+   "co": 2058527,
+   "nm": 419939,
+   "ut": 891448,
+   "wy": 526661
+  },
+  "2010": {
+   "ubTotal": 4400446,
+   "statesTotal": 3869394,
+   "resEvap": 531052,
+   "az": 34278,
+   "co": 1834925,
+   "nm": 374792,
+   "ut": 947254,
+   "wy": 678145
+  },
+  "2011": {
+   "ubTotal": 4441872,
+   "statesTotal": 3871979,
+   "resEvap": 569893,
+   "az": 34066,
+   "co": 2032494,
+   "nm": 392410,
+   "ut": 854992,
+   "wy": 558017
+  },
+  "2012": {
+   "ubTotal": 4624963,
+   "statesTotal": 4107485,
+   "resEvap": 517478,
+   "az": 32990,
+   "co": 2155507,
+   "nm": 392180,
+   "ut": 917788,
+   "wy": 609019
+  },
+  "2013": {
+   "ubTotal": 3563178,
+   "statesTotal": 3139338,
+   "resEvap": 423840,
+   "az": 34099,
+   "co": 1508844,
+   "nm": 298183,
+   "ut": 768571,
+   "wy": 529641
+  },
+  "2014": {
+   "ubTotal": 4012007,
+   "statesTotal": 3569359,
+   "resEvap": 442648,
+   "az": 34708,
+   "co": 1737075,
+   "nm": 348971,
+   "ut": 866597,
+   "wy": 582008
+  },
+  "2015": {
+   "ubTotal": 3976450,
+   "statesTotal": 3515679,
+   "resEvap": 460771,
+   "az": 28708,
+   "co": 1578059,
+   "nm": 343895,
+   "ut": 931278,
+   "wy": 633737
+  },
+  "2016": {
+   "ubTotal": 4308611,
+   "statesTotal": 3839960,
+   "resEvap": 468651,
+   "az": 28461,
+   "co": 1933417,
+   "nm": 344958,
+   "ut": 934281,
+   "wy": 598842
+  },
+  "2017": {
+   "ubTotal": 4709288,
+   "statesTotal": 4196901,
+   "resEvap": 512387,
+   "az": 28859,
+   "co": 2044902,
+   "nm": 456076,
+   "ut": 1014582,
+   "wy": 652482
+  },
+  "2018": {
+   "ubTotal": 4540771,
+   "statesTotal": 4088545,
+   "resEvap": 452227,
+   "az": 29175,
+   "co": 2069402,
+   "nm": 346425,
+   "ut": 931346,
+   "wy": 712196
+  },
+  "2019": {
+   "ubTotal": 4623573,
+   "statesTotal": 4163249,
+   "resEvap": 460323,
+   "az": 29538,
+   "co": 2083523,
+   "nm": 430218,
+   "ut": 969279,
+   "wy": 650692
+  },
+  "2020": {
+   "ubTotal": 4851257,
+   "statesTotal": 4404824,
+   "resEvap": 446433,
+   "az": 10160,
+   "co": 2162487,
+   "nm": 385091,
+   "ut": 1119833,
+   "wy": 727253
+  },
+  "2021": {
+   "ubTotal": 3928805,
+   "statesTotal": 3594598,
+   "resEvap": 334206,
+   "az": 10907,
+   "co": 1804285,
+   "nm": 354600,
+   "ut": 834521,
+   "wy": 590286
+  },
+  "2022": {
+   "ubTotal": 4051607,
+   "statesTotal": 3783803,
+   "resEvap": 267804,
+   "az": 10676,
+   "co": 1846994,
+   "nm": 347348,
+   "ut": 912415,
+   "wy": 666370
+  },
+  "2023": {
+   "ubTotal": 4712049,
+   "statesTotal": 4377142,
+   "resEvap": 334908,
+   "az": 12329,
+   "co": 2301726,
+   "nm": 424347,
+   "ut": 1049098,
+   "wy": 589642
+  },
+  "2024": {
+   "ubTotal": 4472497,
+   "statesTotal": 4115921,
+   "resEvap": 356577,
+   "az": 12436,
+   "co": 1917325,
+   "nm": 345359,
+   "ut": 1154042,
+   "wy": 686759
+  }
+ }
+}

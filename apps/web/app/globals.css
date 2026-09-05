@@ -2037,12 +2037,16 @@ path.cl-ca { stroke: #b45309; } text.cl-ca { fill: #b45309; } circle.cl-ca { fil
 path.cl-az { stroke: #7452b8; } text.cl-az { fill: #7452b8; } circle.cl-az { fill: #7452b8; } .cl-swatch.cl-az { background: #7452b8; }
 path.cl-mx { stroke: #2e7d32; } text.cl-mx { fill: #2e7d32; } circle.cl-mx { fill: #2e7d32; } .cl-swatch.cl-mx { background: #2e7d32; }
 path.cl-nv { stroke: #64748b; } text.cl-nv { fill: #64748b; } circle.cl-nv { fill: #64748b; } .cl-swatch.cl-nv { background: #64748b; }
+/* Upper Basin: the site's UB slate (the mini-map division tint), dashed —
+   a modeled estimate on different books than the solid decree lines. */
+path.cl-ub { stroke: #475569; stroke-dasharray: 5 3; } text.cl-ub { fill: #475569; } circle.cl-ub { fill: #475569; } .cl-swatch.cl-ub { background: repeating-linear-gradient(90deg, #475569 0 4px, transparent 4px 7px); }
 @media (prefers-color-scheme: dark) {
   path.cl-lb { stroke: #4a90c2; } text.cl-lb { fill: #4a90c2; } circle.cl-lb { fill: #4a90c2; } .cl-swatch.cl-lb { background: #4a90c2; }
   path.cl-ca { stroke: #d98a2b; } text.cl-ca { fill: #d98a2b; } circle.cl-ca { fill: #d98a2b; } .cl-swatch.cl-ca { background: #d98a2b; }
   path.cl-az { stroke: #9a7fd6; } text.cl-az { fill: #9a7fd6; } circle.cl-az { fill: #9a7fd6; } .cl-swatch.cl-az { background: #9a7fd6; }
   path.cl-mx { stroke: #5fae63; } text.cl-mx { fill: #5fae63; } circle.cl-mx { fill: #5fae63; } .cl-swatch.cl-mx { background: #5fae63; }
   path.cl-nv { stroke: #94a3b8; } text.cl-nv { fill: #94a3b8; } circle.cl-nv { fill: #94a3b8; } .cl-swatch.cl-nv { background: #94a3b8; }
+  path.cl-ub { stroke: #cbd5e1; } text.cl-ub { fill: #cbd5e1; } circle.cl-ub { fill: #cbd5e1; } .cl-swatch.cl-ub { background: repeating-linear-gradient(90deg, #cbd5e1 0 4px, transparent 4px 7px); }
 }
 
 /* storage-by-reservoir series colors (powell/mead match the site's existing conventions) */
