@@ -2071,9 +2071,47 @@ path.sr-rest { stroke: #64748b; stroke-dasharray: 4 3; } text.sr-rest { fill: #6
 /* snow & precip source indexes */
 path.sp-swe { stroke: #2b7fb8; } text.sp-swe { fill: #2b7fb8; } circle.sp-swe { fill: #2b7fb8; } .cl-swatch.sp-swe { background: #2b7fb8; }
 path.sp-prec { stroke: #2e7d32; } text.sp-prec { fill: #2e7d32; } circle.sp-prec { fill: #2e7d32; } .cl-swatch.sp-prec { background: #2e7d32; }
+
+/* Snow→flow scatter (runoff efficiency): era carries the argument —
+   quiet slate before 2000, warm since; hollow = provisional flow;
+   dashed per-era straight-line fits are reading aids, not a model. */
+circle.sf-dot { stroke: none; }
+circle.sf-dot.sf-pre { fill: #64748b; }
+circle.sf-dot.sf-post { fill: #b45309; }
+circle.sf-dot.sf-prov { fill: var(--bg); stroke-width: 1.8; }
+circle.sf-dot.sf-prov.sf-pre { stroke: #64748b; }
+circle.sf-dot.sf-prov.sf-post { stroke: #b45309; }
+circle.sf-dot.picked { stroke: var(--text); stroke-width: 1.5; }
+path.sf-fit { fill: none; stroke-width: 1.3; stroke-dasharray: 5 4; }
+path.sf-fit.sf-pre { stroke: #94a3b8; }
+path.sf-fit.sf-post { stroke: #b45309; }
+.sf-fitlabel, .sf-yearlabel, .sf-pick {
+  font-size: 10.5px;
+  paint-order: stroke; stroke: var(--bg); stroke-width: 3px;
+}
+.sf-pick { font-size: 12px; font-weight: 600; }
+.sf-yearlabel { text-anchor: middle; }
+text.sf-pre { fill: #64748b; }
+text.sf-post { fill: #b45309; }
+.cl-swatch.sf-dotchip { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid transparent; }
+.cl-swatch.sf-dotchip.sf-pre { background: #64748b; }
+.cl-swatch.sf-dotchip.sf-post { background: #b45309; }
+.cl-swatch.sf-provchip { background: transparent; border-color: #b45309; }
 @media (prefers-color-scheme: dark) {
   path.sp-swe { stroke: #4a90c2; } text.sp-swe { fill: #4a90c2; } circle.sp-swe { fill: #4a90c2; } .cl-swatch.sp-swe { background: #4a90c2; }
   path.sp-prec { stroke: #5fae63; } text.sp-prec { fill: #5fae63; } circle.sp-prec { fill: #5fae63; } .cl-swatch.sp-prec { background: #5fae63; }
+  circle.sf-dot.sf-pre { fill: #94a3b8; }
+  circle.sf-dot.sf-post { fill: #d98a2b; }
+  circle.sf-dot.sf-prov { fill: var(--bg); }
+  circle.sf-dot.sf-prov.sf-pre { stroke: #94a3b8; }
+  circle.sf-dot.sf-prov.sf-post { stroke: #d98a2b; }
+  path.sf-fit.sf-pre { stroke: #94a3b8; }
+  path.sf-fit.sf-post { stroke: #d98a2b; }
+  text.sf-pre { fill: #94a3b8; }
+  text.sf-post { fill: #d98a2b; }
+  .cl-swatch.sf-dotchip.sf-pre { background: #94a3b8; }
+  .cl-swatch.sf-dotchip.sf-post { background: #d98a2b; }
+  .cl-swatch.sf-provchip { background: transparent; border-color: #d98a2b; }
 }
 
 /* IA v3: evidence edges (decision record 2026-09-03) */

@@ -1,5 +1,7 @@
 import { Figure } from "@/components/Figure";
 import { ChapterKicker, ChapterPager } from "@/components/Chapter";
+import { Cite } from "@/components/Cite";
+import { SnowFlowScatter } from "@/components/SnowFlowScatter";
 import {
   COLORADO_TRANSBASIN,
   COLORADO_TRANSBASIN_TOTAL,
@@ -8,6 +10,16 @@ import {
   TEMPERATURE_SENSITIVITY,
   TRANSBASIN_NOTE,
 } from "@/lib/system";
+import {
+  AWAITING_FLOW,
+  ERA_SPLIT,
+  FLOW_PROV_META,
+  GAP_AT_MEDIAN_AF,
+  POST_BELOW_PRE,
+  POST_FIT,
+  PRE_FIT,
+  SAME_SNOW_LESS_RIVER,
+} from "@/lib/snowflow";
 import { acreFeet } from "@/lib/format";
 
 export const metadata = { title: "Supply — Basin" };
@@ -78,12 +90,59 @@ export default function Supply() {
           <p className="cite">{MEGADROUGHT.source}</p>
         </div>
       </div>
+      <h2 className="section-title">
+        {SAME_SNOW_LESS_RIVER
+          ? "The same snow now buys less river"
+          : "Snow in, river out, year by year"}
+      </h2>
       <p className="body-text">
-        The practical consequence is that snowpack no longer predicts runoff the
-        way it once did. A normal snow year can still produce a below-normal
-        river, because warmer soil and air take their share first. Quantifying
-        that relationship is the hardest part of the model still to be built.
+        Each point is one water year: how much snow the mountains held on
+        April 1 (as a share of the typical year), against how much river that
+        snow became. The trade has worsened.{" "}
+        {POST_BELOW_PRE && PRE_FIT && (
+          <>
+            In <strong>{POST_BELOW_PRE.count}</strong>
+            {" "}of the {POST_BELOW_PRE.total} water years since {ERA_SPLIT},
+            the river produced less water than the same snowpack yielded
+            before {ERA_SPLIT} (the slate dashed line).
+          </>
+        )}{" "}
+        {GAP_AT_MEDIAN_AF !== null && PRE_FIT && POST_FIT && (
+          <>
+            At a median snowpack, the two straight-line fits are about{" "}
+            <strong>
+              {(GAP_AT_MEDIAN_AF / 1_000_000).toFixed(1)}
+              {" "}million acre-feet
+            </strong>
+            {" "}apart —{" "}
+            {(PRE_FIT.atMedianAf / 1_000_000).toFixed(1)}
+            {" "}MAF then, {(POST_FIT.atMedianAf / 1_000_000).toFixed(1)}
+            {" "}MAF now. Warmer soil and air take their share before the
+            gauge does.
+          </>
+        )}
       </p>
+      <SnowFlowScatter />
+      <div className="chain-caveat">
+        Two accountings meet here and are only ever paired, never summed:
+        the horizontal axis is the NRCS basin snowpack index (% of station
+        median, the same 137-station roster as the chart above)
+        <Cite id="awdb" />; the vertical axis is Reclamation&rsquo;s
+        naturalized flow at Lees Ferry — computed, not gauged, and
+        revisable<Cite id="naturalflow" />. Flow for WY2021&ndash;2024 is
+        from Reclamation&rsquo;s provisional workbook
+        <Cite id="nfprov" /> ({FLOW_PROV_META.vintage ?? "provisional"})
+        and draws hollow until the final record catches up.
+        {AWAITING_FLOW.length > 0 && (
+          <>
+            {" "}WY{AWAITING_FLOW.join(" and WY")} have snow readings but no
+            published flow yet, so they appear nowhere.
+          </>
+        )}{" "}
+        The dashed lines are least-squares fits drawn as reading aids, not
+        a hydrology model; using this relationship predictively inside the
+        scenario model remains future work.
+      </div>
 
       <h2 className="section-title">Water that leaves the basin entirely</h2>
       <p className="body-text">{TRANSBASIN_NOTE}</p>
