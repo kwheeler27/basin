@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(vercel deploy --prod*)",
+      "Bash(vercel --prod*)",
+      "Bash(npx vercel deploy --prod*)",
+      "Bash(npx vercel --prod*)",
+      "Bash(pnpm vercel deploy --prod*)",
+      "Bash(pnpm dlx vercel deploy --prod*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in *packages/registry/*.yaml|*packages/registry/*.yml) cd \"${CLAUDE_PROJECT_DIR:-.}\" && pnpm gen:check >/dev/null 2>&1 || { echo 'Registry changed and generated artifacts drifted: run pnpm gen before committing (CI fails on drift).' >&2; exit 2; };; esac",
+            "timeout": 120,
+            "statusMessage": "Checking registry codegen drift"
+          }
+        ]
+      }
+    ]
+  }
+}
