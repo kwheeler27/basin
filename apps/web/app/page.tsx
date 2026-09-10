@@ -31,6 +31,7 @@ import {
 import hist from "@/public/geo/storage_history.json";
 import lbHist from "@/public/geo/lb_consumption_cy.json";
 import ubHist from "@/public/geo/ub_consumption_cy.json";
+import { GAP_AT_MEDIAN_AF, SAME_SNOW_LESS_RIVER } from "@/lib/snowflow";
 import countyShares from "@/public/geo/county_irrigation_shares.json";
 import snowHist from "@/public/geo/snow_precip_history.json";
 import {
@@ -534,6 +535,18 @@ export default async function Landing() {
           Baked {(snowHist as { baked: string }).baked}.
         </div>
       </div>
+      {SAME_SNOW_LESS_RIVER && GAP_AT_MEDIAN_AF !== null && (
+        <p className="body-text" style={{ marginTop: 18 }}>
+          And the snow that does fall goes less far: since 2000, a
+          median-snow year has produced about{" "}
+          <strong>
+            {(GAP_AT_MEDIAN_AF / 1_000_000).toFixed(1)}
+            {" "}MAF less river
+          </strong>
+          {" "}than the same snow yielded before — the Supply chapter draws
+          that trade, year by year.
+        </p>
+      )}
       <p className="evidence-line">
         The full case:{" "}
         <Link href={"/report/supply" as Route}>the Supply chapter →</Link>

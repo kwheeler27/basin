@@ -138,8 +138,16 @@ export const REFERENCES: readonly Reference[] = [
     kind: "federal",
     cite: "U.S. Bureau of Reclamation, Colorado River Basin Natural Flow and Salt database (WY1906–2020 release of 2022-12-15).",
     url: "https://www.usbr.gov/lc/region/g4000/NaturalFlow/",
-    used: "The century supply series at Lees Ferry; the long-term and modern means.",
+    used: "The century supply series at Lees Ferry; the long-term and modern means; the flow axis of the snow-to-flow chart in the Supply chapter.",
     note: "Natural flow is computed (observed flow plus upstream use added back) and revisable.",
+  },
+  {
+    id: "nfprov",
+    kind: "federal",
+    cite: "U.S. Bureau of Reclamation, provisional Lees Ferry natural flow workbook, WY1906–2024 (posted on the Natural Flow provisional page).",
+    url: "https://www.usbr.gov/lc/region/g4000/NaturalFlow/LFnatFlow1906-2024.2024.9.12.xlsx",
+    used: "The provisional WY2021–2024 flow points (drawn hollow) on the snow-to-flow chart.",
+    note: "Provisional and subject to revision; kept apart from the final record in the baked artifact, never merged.",
   },
   {
     id: "decree2025",
