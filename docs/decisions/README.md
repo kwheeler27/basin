@@ -8,6 +8,7 @@ supersedes the old one.
 | Date | Decision | Status |
 |---|---|---|
 | 2026-09-03 | [The Report tab is retired; chapters become the landing's evidence appendix](2026-09-03-ia-v3-report-consolidation.md) | Accepted |
+| 2026-09-10 | [Figma is Basin's design tool of record; its library is generated from the code's tokens](2026-09-10-figma-design-tool-of-record.md) | Accepted |
 
 Earlier design documents predate this practice and remain where they are:
 docs/IA.md (v2), docs/WATER_RIGHTS_DESIGN.md, docs/MAP_DESIGN.md,
