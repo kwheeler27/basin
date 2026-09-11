@@ -5,7 +5,7 @@
   --border: #dfe3e1;
   --text: #14201c;
   --muted: #5d6b66;
-  --faint: #8a9691;
+  --faint: #7a8782;
   --accent: #0d6e63;
   --water: #2b7fb8;
   --warn: #b4560f;
@@ -189,7 +189,7 @@ a { color: inherit; }
   margin-bottom: 4px;
 }
 .card-title { font-size: 17px; font-weight: 650; margin: 0; }
-.card-sub { font-size: 12px; color: var(--faint); }
+.card-sub { font-size: 12px; color: var(--muted); }
 
 .readout {
   display: flex;
@@ -439,7 +439,7 @@ footer code { font-family: var(--mono); font-size: 11.5px; }
   line-height: 1.7;
   max-width: 72ch;
 }
-.cite { font-size: 12px; color: var(--faint); line-height: 1.5; }
+.cite { font-size: 12px; color: var(--muted); line-height: 1.5; }
 
 /* =================================================================== chain */
 
@@ -468,7 +468,7 @@ footer code { font-family: var(--mono); font-size: 11.5px; }
   font-variant-numeric: tabular-nums; line-height: 1.1; margin-top: 4px;
 }
 .chain-unit { font-size: 14px; font-weight: 500; color: var(--muted); margin-left: 7px; }
-.chain-sub { font-size: 12px; color: var(--faint); margin-top: 2px; }
+.chain-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
 .chain-bar {
   display: flex; height: 22px; margin-top: 12px;
   background: var(--surface-2); border: 1px solid var(--border);
@@ -503,7 +503,7 @@ footer code { font-family: var(--mono); font-size: 11.5px; }
 .chain-gap-text { margin-top: 9px; font-size: 14px; color: var(--muted); line-height: 1.6; }
 .chain-gap-text strong { color: var(--danger); }
 .chain-caveat {
-  margin-top: 16px; font-size: 12px; color: var(--faint); line-height: 1.6; max-width: 76ch;
+  margin-top: 16px; font-size: 12px; color: var(--muted); line-height: 1.6; max-width: 76ch;
 }
 
 /* =================================================================== triad */
@@ -558,7 +558,7 @@ footer code { font-family: var(--mono); font-size: 11.5px; }
   font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; margin: 5px 0 0;
 }
 .figure-note { font-size: 12px; color: var(--muted); line-height: 1.55; margin: 7px 0 0; }
-.figure-prov { font-size: 10.5px; color: var(--faint); margin-top: 8px; line-height: 1.45; }
+.figure-prov { font-size: 10.5px; color: var(--muted); margin-top: 8px; line-height: 1.45; }
 .figure-sm .figure-value { font-size: 19px; }
 
 /* ================================================================ compare */
@@ -594,7 +594,7 @@ footer code { font-family: var(--mono); font-size: 11.5px; }
 .sector-fill.natural_vegetation { background: var(--accent); }
 .sector-fill.municipal { background: var(--water); }
 .sector-fill.reservoir_evaporation { background: var(--faint); }
-.sector-note { font-size: 11.5px; color: var(--faint); margin-top: 4px; line-height: 1.5; }
+.sector-note { font-size: 11.5px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
 
 /* ================================================================== misc */
 
@@ -618,11 +618,11 @@ footer code { font-family: var(--mono); font-size: 11.5px; }
 .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 760px; }
 .data-table th {
   text-align: left; padding: 8px 10px; border-bottom: 2px solid var(--border);
-  font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--faint);
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted);
 }
 .data-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
 .data-table .mono {
-  display: block; font-family: var(--mono); font-size: 10.5px; color: var(--faint); margin-top: 2px;
+  display: block; font-family: var(--mono); font-size: 10.5px; color: var(--muted); margin-top: 2px;
 }
 td.mono { font-family: var(--mono); font-size: 11px; }
 
@@ -1672,7 +1672,7 @@ html { scroll-behavior: smooth; }
   background: var(--surface); border: 1px solid var(--border);
   border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.14); padding: 12px 14px;
 }
-.pm-popup .pm-src { font: 10.5px var(--mono); color: var(--faint); }
+.pm-popup .pm-src { font: 10.5px var(--mono); color: var(--muted); }
 
 /* ---------- Overview: tappable rivers ---------- */
 .st-river.tappable-river { cursor: pointer; pointer-events: stroke; }
@@ -1988,7 +1988,7 @@ html { scroll-behavior: smooth; }
 .mm-hc-kicker { font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 .mm-hc-title { font-size: 13.5px; font-weight: 700; margin-top: 3px; }
 .mm-hc-fact { font-size: 12px; line-height: 1.5; color: var(--muted); margin-top: 4px; }
-.mm-hc-more { font-size: 10.5px; color: var(--faint); margin-top: 6px; }
+.mm-hc-more { font-size: 10.5px; color: var(--muted); margin-top: 6px; }
 
 /* hero stat strip: the arithmetic at a glance, under the lede */
 .hero-stats {
